@@ -1,0 +1,441 @@
+﻿@model Millionlights.Models.Course
+@using Newtonsoft.Json
+
+@{
+    ViewBag.Title = "Details";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    var courseDetails = ViewBag.courseInfo;
+    var userId = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var WalletAmount ="0";
+    if (ViewBag.WalletAmount != null)
+    {
+        WalletAmount = ViewBag.WalletAmount;
+    }
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+@using (Html.BeginForm("PostProcessPayment", "Order", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", @class = "form-horizontal",id="PostProcess" }))
+{ 
+    <section id="main_content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 studentView">
+                    <div class="panel panel-info filterable add_bottom_45">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Order Details</h3>
+                        </div>
+                        <table id="orderTable" class="table table-responsive table-striped gridPadding">
+                            <thead class="theadColor">
+                                <tr>
+                                    <th class="removeChk">Remove</th>
+                                    <th class="courseImg">Course Image</th>
+                                    <th class="CoursDetails">Course(s)</th>
+                                    <th class="coursePrice">Price (Rs.)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div class="col-md-10" style="display:inline-flex; width: 100% !important;background-color: turquoise;margin-left: -1px;padding-top: 10px;padding-bottom: 10px;">
+                            <div style="width: 60%;"><input id="WalletCheckbox" type="checkbox" />
+                            <span>Apply my wallet Rs. @WalletAmount</span> 
+                            <span id="WalletBalance"></span></div>
+                            <div style="width: 40%;"><b><span class="pull-right">Total amount to pay is: Rs. <span id="calcDiv"></span><span id="finalAmt"></span></span></b></div>
+                        </div>
+                        <div class="pull-right">
+                            <input type="button" value="Remove All" class="btnSignin" onclick="return clearCart();" />
+                            <input type="button" value="Add More" class="actCoupon" onclick="location.href = '/Course/AllCourses'" />
+                            <input type="submit" class="btnsignUp" value="Order" onclick="return PlaceOrder();" />
+                            <input type="hidden" id="CheckCourse" name="CheckCourse" />
+                            <input type="hidden" id="UserId" name="UserId" />
+                            <input type="hidden" id="TotalAmount" name="TotalAmount" />
+                            <input type="hidden" id="WalletUpdatedAmount" name="WalletUpdatedAmount" />
+                            <input type="hidden" id="UpdateMyWallet" name="UpdateMyWallet" />
+                        </div>
+                    </div>
+                 
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+}
+ 
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/ProgressBar/jquery.blockUI.js"></script>
+<script type="text/javascript">
+
+    var cartName = "CourseDetails";
+    var currentCourses = '';
+    Array.prototype.containsCourse = function (v) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i].CourseId === v) return true;
+        }
+        return false;
+    };
+
+    Array.prototype.uniqueCourse = function () {
+        var arr = [];
+        for (var i = 0; i < this.length; i++) {
+            if (!arr.containsCourse(this[i].CourseId)) {
+                arr.push(this[i]);
+            }
+        }
+        return arr;
+    };
+
+    $(document).ready(function () {
+        if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
+            currentCourses = JSON.parse(window.localStorage[cartName]);
+        }
+        if (currentCourses == "") {
+            location.href = '/Home/Index';
+            return false;
+        }
+        currentCourses = currentCourses.uniqueCourse();
+        var tempUserId = false;
+        var model = "[";
+        for (var i = 0; i < currentCourses.length; i++) {
+            var orderAmt = '';
+            if (currentCourses[i].CoursePrice != undefined) {
+                if (currentCourses[i].CoursePrice == "Free") {
+                    orderAmt = currentCourses[i].CoursePrice;
+                }
+                else {
+                    if (currentCourses[i].CoursePrice.indexOf('Base Price:') == 0) {
+                        if (currentCourses[i].CoursePrice.indexOf('Rs.') == 0) {
+                            var price = currentCourses[i].CoursePrice.split('Rs.');
+                            if (price[1] != undefined) {
+                                orderAmt = price[1];
+                            }
+                            else {
+                                orderAmt = "Free";
+                            }
+                        }
+                        else {
+                            orderAmt = currentCourses[i].CoursePrice;
+                        }
+                    }
+                    else {
+
+                        orderAmt = currentCourses[i].CoursePrice;
+                    }
+                }
+            }
+            else {
+                orderAmt = "Free";
+            }
+            if (currentCourses[i].CourseUserId == '') {
+                tempUserId = true;
+                var courseContents = {
+                    CourseId: currentCourses[i].CourseId,
+                    CourseImage: currentCourses[i].CourseImage,
+                    CourseName: currentCourses[i].CourseName,
+                    CourseDescription: currentCourses[i].CourseDescription,
+                    CoursePrice: orderAmt,
+                    CourseUserId: '@userId'
+                };
+
+            }
+            else {
+                var courseContents = {
+                    CourseId: currentCourses[i].CourseId,
+                    CourseImage: currentCourses[i].CourseImage,
+                    CourseName: currentCourses[i].CourseName,
+                    CourseDescription: currentCourses[i].CourseDescription,
+                    CoursePrice: orderAmt,
+                    CourseUserId: currentCourses[i].CourseUserId
+                };
+            }
+            model = model + JSON.stringify(courseContents) + ",";
+        }
+        model = model.substring(0, model.length - 1);
+        if (model == "") {
+            model = "[]";
+        }
+        else {
+            model = model + "]";
+        }
+        window.localStorage[cartName] = model;
+
+
+        bindTable(JSON.parse(model));
+        $('.icon-minus-circled').click(function () {
+            var courseId = $(this)[0].id;
+            currentCourses = removeItem(currentCourses, courseId);
+            bindTable(currentCourses);
+            window.localStorage[cartName] = JSON.stringify(currentCourses);
+            if (currentCourses.length == 0) {
+                window.location.href = '@Url.Action("AllCourses", "Course")';
+                return false;
+            }
+        });
+        SettlementWithWallet();
+
+    });
+    function removeItem(tempCourse, courseId) {
+        for (var i = 0; i < tempCourse.length; i++) {
+            if (courseId === tempCourse[i].CourseId) {
+                tempCourse.splice(i, 1);
+            }
+        }
+        return tempCourse;
+    }
+    function bindTable(currentCourses) {
+        $("#orderTable tbody").empty();
+        var uId = '@userId';
+        var cartCount = 0;
+        for (var i = 0; i < currentCourses.length; i++) {
+            if (currentCourses[i].CourseUserId == uId) {
+                var orderAmt = '';
+                if (currentCourses[i].CoursePrice != undefined) {
+                    if (currentCourses[i].CoursePrice == "Free") {
+                        orderAmt = currentCourses[i].CoursePrice;
+                    }
+                    else {
+                        if (currentCourses[i].CoursePrice.indexOf('After Discount:') == 0) {
+                            if (currentCourses[i].CoursePrice.indexOf('Rs.') == 0) {
+                                var price = currentCourses[i].CoursePrice.split('Rs.');
+                                if (price[1] != undefined) {
+                                    orderAmt = price[1];
+                                }
+                                else {
+                                    orderAmt = "Free";
+                                }
+                            }
+                            else {
+                                orderAmt = currentCourses[i].CoursePrice;
+                            }
+                        }
+                        else {
+                            if (currentCourses[i].CoursePrice.indexOf('Rs.') == 0) {
+                                var price = currentCourses[i].CoursePrice.split('Rs.');
+                                if (price[1] != undefined) {
+                                    orderAmt = price[1];
+                                }
+                                else {
+                                    orderAmt = "Free";
+                                }
+                            }
+                            else {
+                                orderAmt = currentCourses[i].CoursePrice;
+                            }
+                        }
+                    }
+                }
+                else {
+                    orderAmt = "Free";
+                }
+                cartCount = cartCount + 1;
+                if (cartCount == "Nan") {
+                    cartCount = 0;
+                }
+                if ($('#cartItemCount')[0] != undefined) {
+                    $('#cartItemCount')[0].innerHTML = "My Cart (" + cartCount + ")";
+                }
+                var courseIdTD = "<td style='vertical-align:middle;'><a href='' class='icon-minus-circled' id='" + currentCourses[i].CourseId + "'></a></td>";
+                var courseImageTD = "<td class='courseVal'><img src='" + currentCourses[i].CourseImage + "' class='imgOrderDetails' alt=''></td>";
+                var titleDescriptionTD = "<td class='courseVal'><label>" + currentCourses[i].CourseName + "</label> <br />" + currentCourses[i].CourseDescription + "</td>";
+                var basePriceTD = "<td class='prceValueTD'><label id='lblPrice'>" + orderAmt + "</label></td>";
+                var courseDetailsRowTD = "<tr class='orderTableData'>" + courseIdTD + courseImageTD + titleDescriptionTD + basePriceTD + "</tr>";
+                $("#orderTable tbody").append(courseDetailsRowTD)
+            }
+
+        }
+
+    }
+
+
+    function PlaceOrder() {
+        var amount = 0;
+        var process = false;
+        var flag = false;
+        var ordAmount = 0;
+        if (confirm("Please confirm the order?") == true) {
+            //Block the background to prevent the duplicate orders
+            $.blockUI();
+            setTimeout($.unblockUI, 50000);
+            //
+            var courseVal = '';
+            process = true;
+            courseRow = $('#orderTable').find('.icon-minus-circled').map(function () {
+                courseVal = $(this)[0].id + ',' + courseVal;
+                if ($(this).parent().parent().find('#lblPrice').length > 0) {
+                    if ($(this).parent().parent().find('#lblPrice')[0].innerHTML == "Free") {
+                        amount = amount + parseFloat(0);
+                    }
+                    else {
+                        amount = amount + parseFloat($(this).parent().parent().find('#lblPrice')[0].innerHTML);
+                    }
+
+                }
+
+            });
+            $('#CheckCourse').val(courseVal);
+            $('#UserId').val(@userId);
+            var ordAmount = $('#calcDiv')[0].innerHTML;
+            amount = ordAmount;
+            $('#TotalAmount').val(parseFloat(ordAmount));
+        }
+        else {
+            return false;
+        }
+        if ((amount == 0 || amount == "0") && process == true) {
+            var url = "/Order/Success";
+            var formData = $("#PostProcess").serializeArray();
+            $.post(url, formData).done(function (data) {
+                location.href = "/Order/FreeCourseSuccess";
+            });
+        }
+        else {
+            flag = true;
+        }
+        return flag;
+    }
+    function clearCart() {
+        if (confirm("Clear all items?") == true) {
+            window.localStorage.removeItem(cartName);
+            location.href = '/Course/AllCourses';
+        }
+
+        return false;
+    }
+    function getCurrentCartItems() {
+        var itemsCart = window.localStorage[cartName];
+        if (itemsCart === undefined) {
+            return null;
+        }
+
+        var currentItems;
+        try {
+            currentItems = JSON.parse(itemsCart);
+        }
+        catch (e) {
+            currentItems = null;
+        }
+
+        return currentItems;
+    }
+    function SettlementWithWallet() {
+        $('#WalletCheckbox').attr('checked', true);
+        var amount = CalculateOrderAmount();
+        var walletChk = $('#WalletCheckbox');
+        var walletAmount = '@WalletAmount';
+        var amt = parseFloat(walletAmount);
+        var finalAmt = parseFloat(amount) - parseFloat(amt);
+        var balance = 0;
+        if (amt > amount) {
+            $('#calcDiv')[0].innerHTML = "0";
+        }
+        else {
+            if (isNaN(finalAmt)) {
+                $('#calcDiv')[0].innerHTML = "0";
+            }
+            else {
+                $('#calcDiv')[0].innerHTML = finalAmt.toFixed(2);
+            }
+        }
+        if (amt > amount) {
+            balance = parseFloat(amt) - parseFloat(amount);
+        }
+        if (amount > amt) {
+            balance = parseFloat(amount) - parseFloat(amt);
+        }
+        if ($("#WalletCheckbox").is(":checked")) {
+            $('#UpdateMyWallet').val("true");
+            if (amt > amount) {
+                $('#WalletBalance')[0].innerHTML = " (Wallet balance would be Rs. " + balance.toFixed(2) + ")";
+                $('#WalletUpdatedAmount').val(parseFloat(balance).toFixed(2));
+            }
+            else {
+                $('#WalletBalance')[0].innerHTML = " (Wallet balance would be Rs. " + 0 + ")";
+                $('#WalletUpdatedAmount').val(parseFloat(0).toFixed(2));
+            }
+        }
+        else {
+            $('#UpdateMyWallet').val("false");
+            $('#WalletBalance')[0].innerHTML = " (Wallet balance would be Rs. " + walletAmount.toFixed(2) + ")";
+        }
+    }
+    $('#WalletCheckbox').change(function () {
+        var isChecked = $(this).is(':checked');
+        var amount = CalculateOrderAmount();
+        var walletAmount = '@WalletAmount';
+        var amt = parseFloat(walletAmount);
+        var finalAmt = parseFloat(amount) - parseFloat(amt);
+        var balance = 0;
+        if (amt > amount) {
+            balance = parseFloat(amt) - parseFloat(amount);
+        }
+        if (amount > amt) {
+            balance = parseFloat(amount) - parseFloat(amt);
+        }
+        if (isChecked == true) {
+            $('#UpdateMyWallet').val("true");
+
+            if (amt > amount) {
+                $('#WalletBalance')[0].innerHTML = " (Wallet balance would be Rs. " + balance.toFixed(2) + ")";
+                $('#calcDiv')[0].innerHTML = "0";
+                $('#WalletUpdatedAmount').val(parseFloat(balance).toFixed(2));
+            }
+            else {
+                $('#WalletBalance')[0].innerHTML = " (Wallet balance would be Rs. " + 0 + ")";
+                if (isNaN(finalAmt)) {
+                    $('#calcDiv')[0].innerHTML = "0";
+                }
+                else {
+                    $('#calcDiv')[0].innerHTML = finalAmt.toFixed(2);
+                }
+                $('#WalletUpdatedAmount').val(parseFloat(0).toFixed(2));
+            }
+        }
+        else {
+            $('#UpdateMyWallet').val("false");
+
+            if (isNaN(amount)) {
+                $('#calcDiv')[0].innerHTML = "0";
+            }
+            else {
+                $('#calcDiv')[0].innerHTML = amount.toFixed(2);
+            }
+            $('#WalletBalance')[0].innerHTML = " (Wallet balance would be Rs. " + walletAmount.toFixed(2) + ")";
+        }
+    });
+    function CalculateOrderAmount() {
+        var amount = 0;
+        for (i = 0; i < $("tr.orderTableData td").length; i++) {
+            if ($("tr.orderTableData td")[i].className == "prceValueTD") {
+                if ($("tr.orderTableData td")[i].innerText != "Free") {
+                    amount = parseFloat(amount) + parseFloat($("tr.orderTableData td")[i].innerText);
+                }
+                else {
+                    amount = parseFloat(amount) + parseFloat(0);
+                }
+            }
+
+        }
+        return amount;
+    }
+</script>

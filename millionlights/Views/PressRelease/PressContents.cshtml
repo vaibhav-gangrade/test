@@ -1,0 +1,1039 @@
+﻿@model Millionlights.Models.PressContents
+@{
+    var userId = Session["UserID"];
+    var userName = Session["UserName"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+
+        if (roleID == 1 || roleID == 3)
+        {
+
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+
+            <script src="~/Content/assets/js/jquery.js"></script>
+
+        }
+
+        else
+        {
+
+            Layout = "~/Views/Shared/_Layout.cshtml";
+
+        }
+
+    }
+
+    else
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+
+    var msg = ViewBag.message;
+
+    var pressData = ViewBag.PressData;
+
+    var PressHeading = ViewBag.PressPageHeading;
+
+    int i = 0;
+
+}
+
+<style>
+    #imagePreview {
+        width: 180px;
+        height: 180px;
+        background-position: center center;
+        background-size: cover;
+        -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+        display: inline-block;
+    }
+</style>
+
+
+
+
+<script type="text/javascript">
+
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+
+</script>
+
+<div class="breadcrumbs breadCrumbAlign" id="breadcrumbs">
+
+    <script type="text/javascript">
+
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+
+    </script>
+
+    <ul class="breadcrumb">
+
+        <li>
+
+            <i class="ace-icon fa fa-home home-icon"></i>
+
+            <a href="/Home/Dashboard">Home</a>
+
+        </li>
+
+        <li> <a href="/Partner/Index">Press Release</a></li>
+
+        <li class="active">Manage</li>
+
+    </ul>
+
+</div>
+
+@using (Html.BeginForm("UploadPressPic", "PressRelease", FormMethod.Post, new { onsubmit = "return Validationform()", role = "form", enctype = "multipart/form-data" }))
+{
+
+    <form class="form-horizontal" id="validation-form5" method="get">
+
+
+
+
+        <div class="page-header">
+
+            <h1>
+
+                <small>
+
+                    Press Page Contents
+
+                </small>
+
+            </h1>
+
+        </div>
+
+        <div id="PressPageHeaderDiv">
+
+            @if (PressHeading != null)
+            {
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.PressPageHeading, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressPageHeadinglbl", name = "PressPageHeadinglbl" })
+
+                    <div class="col-xs-12 col-sm-9">
+
+                        <div class="clearfix">
+
+                            @Html.TextBoxFor(model => model.PressPageHeading, new { @class = "col-xs-12 col-sm-5 PressPageHeadingTxt", id = "PressPageHeadingTxt", @placeholder = "Press Page Heading", name = "PressPageHeading", Value = PressHeading })
+
+                            @Html.ValidationMessageFor(model => model.PressPageHeading, "", new { @class = "text-danger PressPageHeadingError" })
+
+                            <label class="text-danger" id='lblcontentheading'></label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+
+            else
+            {
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.PressPageHeading, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressPageHeadinglbl", name = "PressPageHeadinglbl" })
+
+                    <div class="col-xs-12 col-sm-9">
+
+                        <div class="clearfix">
+
+                            @Html.TextBoxFor(model => model.PressPageHeading, new { @class = "col-xs-12 col-sm-5 PressPageHeadingTxt", id = "PressPageHeadingTxt", @placeholder = "Press Page Heading", name = "PressPageHeading" })
+
+                            @Html.ValidationMessageFor(model => model.PressPageHeading, "", new { @class = "text-danger PressPageHeadingError" })
+
+                            <label class="text-danger" id='lblcontentheading'></label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+        <br />
+
+        <br />
+
+
+
+
+        <div class="page-header">
+
+            <h1>
+
+                <small>
+
+                    Press Page Release(s)
+
+                </small>
+
+            </h1>
+
+        </div>
+
+        <input type="hidden" id="ValidImage" name="ValidImage" />
+
+        <input type="hidden" id="ImageNameHidden" name="ImageNameHidden" />
+
+        <input type="hidden" id="PressImage_1" name="PressImage_1" />
+
+        <input type="hidden" id="PressImage_2" name="PressImage_2" />
+
+        <input type="hidden" id="PressImage_3" name="PressImage_3" />
+
+        <input type="hidden" id="PressImage_4" name="PressImage_4" />
+
+        <input type="hidden" id="PressImage_5" name="PressImage_5" />
+
+        <input type="hidden" id="PressImage_6" name="PressImage_6" />
+
+        <input type="hidden" id="StageCountHidden" name="StageCountHidden" />
+
+        @*<div id="entry1" class="clonedInput">*@
+
+
+
+
+        @if (pressData.Count > 0)
+        {
+
+            foreach (var data in pressData)
+            {
+
+                i = i + 1;
+
+
+
+                string entry = "entry" + i;
+
+                string stage = "Stage #" + i;
+
+
+
+
+                <div id="@entry" class="clonedInput">
+
+                    <h2 id="reference" name="reference" class="heading-reference">@stage</h2>
+
+                    <input type="hidden" value="@data.Id" id="contentIdHidden_@i" name="contentIdHidden_@i" />
+
+                    <input type="hidden" value="@data.Id" id="contentLengthHidden" name="contentLengthHidden" />
+
+                    <div class="form-group">
+
+
+
+
+                        <input type="hidden" value=@data.Id name="pressIdHidden" id="PressID" />
+
+                        @Html.LabelFor(model => model.PressShortDescription, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressShortDescriptionlbl", name = "PressShortDescriptionlbl" })
+
+                        <div class="col-xs-12 col-sm-9">
+
+                            <div class="clearfix">
+
+                                @if (i == 1)
+                                {
+
+                                    var id = "shortdescriptionlbl" + i;
+
+                                    @Html.TextBoxFor(model => model.PressShortDescription, new { @class = "col-xs-12 col-sm-5 PressShortDescriptionTxt", id = "PressShortDescriptionTxt", @placeholder = "Press Short Description", @Name = "PressShortDescriptionC_" + i, Value = data.PressShortDescription })
+
+                                    @Html.ValidationMessageFor(model => model.PressShortDescription, "", new { @class = "text-danger PressShortDescriptionError" })
+
+                                    <label class="text-danger shortdescriptionlblS" id='@id'></label>
+
+
+
+
+                                }
+
+                                else
+                                {
+
+                                    var id = "shortdescriptionlbl" + i;
+
+                                    @Html.TextBoxFor(model => model.PressShortDescription, new { @class = "col-xs-12 col-sm-5 PressShortDescriptionTxt", id = "PressShortDescription" + i + "_input", @placeholder = "Press Short Description", @Name = "PressShortDescriptionS" + i + "_input", Value = data.PressShortDescription })
+
+                                    @Html.ValidationMessageFor(model => model.PressShortDescription, "", new { @class = "text-danger PressShortDescriptionError" })
+
+                                    <label class="text-danger shortdescriptionlblS" id='@id'></label>
+
+                                }
+
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.PressLongDescription, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressLongDescriptionlbl", name = "PressLongDescriptionlbl" })
+
+                        <div class="col-xs-12 col-sm-9">
+
+                            <div class="clearfix">
+
+                                @if (i == 1)
+                                {
+
+                                    var id = "longdescriptionlbl" + i;
+
+                                    @Html.TextBoxFor(model => model.PressLongDescription, new { @class = "col-xs-12 col-sm-5 PressLongDescriptionTxt", id = "PressLongDescriptionTxt", @placeholder = "Press Long Description", @Name = "PressLongDescriptionC_" + i, Value = data.PressLongDescription })
+
+                                    @Html.ValidationMessageFor(model => model.PressLongDescription, "", new { @class = "text-danger PressLongDescriptionError" })
+
+                                    <label class="text-danger longdescriptionlblS" id='@id'></label>
+
+
+
+
+                                }
+
+                                else
+                                {
+
+                                    var id = "longdescriptionlbl" + i;
+
+                                    @Html.TextBoxFor(model => model.PressLongDescription, new { @class = "col-xs-12 col-sm-5 PressLongDescriptionTxt", id = "PressLongDescription" + i + "_input", @placeholder = "Press Long Description", @Name = "PressLongDescriptionS" + i + "_input", Value = data.PressLongDescription })
+
+                                    @Html.ValidationMessageFor(model => model.PressLongDescription, "", new { @class = "text-danger PressLongDescriptionError" })
+
+                                    <label class="text-danger longdescriptionlblS" id='@id'></label>
+
+
+
+
+                                }
+
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.PressImage, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressImagelbl", name = "PressImagelbl" })
+
+                        <div class="col-xs-12 col-sm-9">
+
+                            <div class="clearfix">
+
+                                @if (i == 1)
+                                {
+
+                                    var name = "PressImage_" + i;
+
+                                    var id = "PressImageTxt";
+
+                                    //var count = i;
+
+                                    var divImg = "DivImg_" + i;
+
+                                    <div>
+
+                                        @if (!string.IsNullOrEmpty(data.PressImage))
+                                        {
+
+                                            <img id='@divImg' class="DivImageTxt" src="@String.Format("/Images/PressContentsImg/{0}",data.PressImage)" style="width: 250px; height: 180px;" alt="">
+
+                                        }
+
+                                        else
+                                        {
+
+                                            <img id='@divImg' class="DivImageTxt" src="~/Images/noimage378X225.png" id="blah" style="width: 250px; height: 180px; " alt="" />
+
+                                        }
+
+                                    </div>
+
+
+
+                                    <input id='@id' type="file" name='@name' class="img PressImageTxt" onchange="return ValidateFileUpload(this)" />
+
+                                    @*<img src="~/Images/noimage378X225.png" id="blah" />
+
+                                        <br>*@
+
+                                    @* <span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 378 X 225.</span><br />
+
+                                        @Html.ValidationMessageFor(model => model.PressImage, "", new { @class = "text-danger errorImglink" })*@
+
+                                }
+
+                                else
+                                {
+
+                                    var name = "PressImage_" + i;
+
+                                    var id = "PressImage" + i + "_input";
+
+                                    //var count = i;
+
+                                    var divImg = "DivImg_" + i;
+
+                                    <div id="defaultimage">
+
+                                        @if (!string.IsNullOrEmpty(data.PressImage))
+                                        {
+
+                                            <img id='@divImg' class="DivImageTxt" src="@String.Format("/Images/PressContentsImg/{0}",data.PressImage)" style="width: 250px; height: 180px; " alt="">
+
+                                        }
+
+                                        else
+                                        {
+
+                                            <img id='@divImg' class="DivImageTxt" src="~/Images/noimage378X225.png" id="blah" style="width: 250px; height: 180px; " alt="" />
+
+                                        }
+
+                                    </div>
+
+
+
+                                    <input id='@id' type="file" name='@name' class="img PressImageTxt " onchange="return ValidateFileUpload(this)" />
+
+                                    @*<img src="~/Images/noimage378X225.png" id="blah"/>
+
+                                        <br>*@
+
+                                    @*@Html.ValidationMessageFor(model => model.PressImage, "", new { @class = "text-danger errorImglink" })*@
+
+
+
+                                }
+
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+
+        }
+
+        else
+        {
+
+            i = i + 1;
+
+            string entry = "entry" + i;
+
+            string stage = "Stage #" + i;
+
+            <div id="@entry" class="clonedInput">
+
+                <h2 id="reference" name="reference" class="heading-reference">@stage</h2>
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.PressShortDescription, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressShortDescriptionlbl", name = "PressShortDescriptionlbl" })
+
+                    <div class="col-xs-12 col-sm-9">
+
+                        <div class="clearfix">
+
+                            @if (i == 1)
+                            {
+
+                                var id = "shortdescriptionlbl" + i;
+
+                                @Html.TextBoxFor(model => model.PressShortDescription, new { @class = "col-xs-12 col-sm-5 PressShortDescriptionTxt", id = "PressShortDescriptionTxt", @placeholder = "Press Short Description", @Name = "PressShortDescriptionC_" + i })
+
+
+
+
+                                <label class="shortdescriptionlblS" id='@id'></label>
+
+                            }
+
+                            else
+                            {
+
+                                var id = "shortdescriptionlbl" + i;
+
+                                @Html.TextBoxFor(model => model.PressShortDescription, new { @class = "col-xs-12 col-sm-5 PressShortDescriptionTxt", id = "PressShortDescription" + i + "_input", @placeholder = "Press Short Description", @Name = "PressShortDescriptionS" + i + "_input" })
+
+                                <label class="shortdescriptionlblS" id='@id'></label>
+
+                            }
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.PressLongDescription, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressLongDescriptionlbl", name = "PressLongDescriptionlbl" })
+
+                    <div class="col-xs-12 col-sm-9">
+
+                        <div class="clearfix">
+
+                            @if (i == 1)
+                            {
+
+                                var id = "longdescriptionlbl" + i;
+
+                                @Html.TextBoxFor(model => model.PressLongDescription, new { @class = "col-xs-12 col-sm-5 PressLongDescriptionTxt", id = "PressLongDescriptionTxt", @placeholder = "Press Long Description", @Name = "PressLongDescriptionC_" + i })
+
+                                <label class="longdescriptionlblS" id='@id'></label>
+
+                            }
+
+                            else
+                            {
+
+                                var id = "longdescriptionlbl" + i;
+
+                                @Html.TextBoxFor(model => model.PressLongDescription, new { @class = "col-xs-12 col-sm-5 PressLongDescriptionTxt", id = "PressLongDescription" + i + "_input", @placeholder = "Press Long Description", @Name = "PressLongDescriptionS" + i + "_input" })
+
+                                <label class="longdescriptionlblS" id='@id'></label>
+
+                            }
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.PressImage, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "PressImagelbl", name = "PressImagelbl" })
+
+                    <div class="col-xs-12 col-sm-9">
+
+                        <div class="clearfix">
+
+                            @if (i == 1)
+                            {
+
+                                var name = "PressImage_" + i;
+
+                                var id = "PressImageTxt";
+
+                                //var count=i;
+
+                                <input id='@id' type="file" name='@name' class="img PressImageTxt" onchange="return ValidateFileUpload(this)" />
+
+                                <img src="~/Images/noimage378X225.png" id="blah" style="width: 250px; height: 180px; " alt="" />
+
+                                @*<br>*@
+
+                                @*<span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 378 X 225.</span><br />
+
+                                    @Html.ValidationMessageFor(model => model.PressImage, "", new { @class = "text-danger errorImglink" })*@
+
+                            }
+
+                            else
+                            {
+
+                                var name = "PressImage_" + i;
+
+                                var id = "PressImage" + i + "_input";
+
+                                //var count = i;
+
+
+
+
+                                <input id='@id' type="file" name='@name' class="img PressImageTxt" onchange="return ValidateFileUpload(this)" />
+
+
+
+                                @*@Html.TextBoxFor(model => model.PressImage, new { @class = "col-xs-12 col-sm-5 PressImageTxt", id = "PressImageTxt", @placeholder = "Press Image", @Name = "PressImage_" + i + "_input"})*@
+
+
+
+
+                                <img src="~/Images/noimage378X225.png" id="blah" style="width: 250px; height: 180px; " alt="" />
+
+                                @*<br>*@
+
+                                @*<span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 378 X 225.</span><br />
+
+                                    @Html.ValidationMessageFor(model => model.PressImage, "", new { @class = "text-danger errorImglink" })*@
+
+
+
+                            }
+
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        }
+
+        @*</div>*@
+
+        <div id="addDelButtons">
+
+            <input type="button" id="btnAdd" value="add section"> <input type="button" id="btnDel" value="remove section above">
+
+        </div>
+
+        <div class="row well" style="margin-top:10%;">
+
+            <div class="col-md-12 Partner-btn-div">
+
+
+
+                <input type="submit" value="Submit" class="btn btn-success" id="submit-config" />
+
+            </div>
+
+        </div>
+
+    </form>
+
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var num = $('.clonedInput').length;
+        if (num == 6) {
+
+            $('#btnAdd').attr('disabled', true).prop('value', "You've reached the limit");
+
+        }
+
+        if (num - 1 == 1) {
+
+            $('#btnDel').attr('disabled', true);
+
+        }
+
+    });
+    function assignNullValue() {
+        var cloneList = $('#validation-form5').find('div.clonedInput');
+
+        var lastCloneElement = $(cloneList[cloneList.length - 1]);
+    }
+
+    $(function () {
+
+        $('#btnAdd').click(function () {
+            var num = $('.clonedInput').length, // how many "duplicatable" input fields we currently have
+
+                newNum = new Number(num + 1),      // the numeric ID of the new input field being added
+
+                newElem = $('#entry' + num).clone().attr('id', 'entry' + newNum).fadeIn('slow'); // create the new element via clone(), and manipulate it's ID using newNum value
+
+            newElem.find('.heading-reference').attr('id', 'Stage' + newNum + '_reference').attr('name', 'Stage' + newNum + '_reference').html('Stage #' + newNum);
+
+
+
+
+            // Title - select
+
+            newElem.find('#PressShortDescriptionlbl').attr('for', 'PressShortDescription' + newNum + '_label');
+
+            newElem.find('.PressShortDescriptionTxt').attr('id', 'PressShortDescription' + newNum + '_input').attr('name', 'PressShortDescriptionS' + newNum + '_input').val('');
+
+            newElem.find('#shortdescriptionlbl').attr('for', 'PressShortDescriptionS' + newNum + '_label');
+
+            newElem.find('.shortdescriptionlblS').attr('id', 'shortdescriptionlbl' + newNum).attr('name', 'shortdescriptionlblS' + newNum + '_input').val('');
+
+            // First name - text
+
+            newElem.find('#PressLongDescriptionlbl').attr('for', 'PressLongDescription' + newNum + '_label');
+
+            newElem.find('.PressLongDescriptionTxt').attr('id', 'PressLongDescription' + newNum + '_input').attr('name', 'PressLongDescriptionS' + newNum + '_input').val('');
+
+            newElem.find('#longdescriptionlbl').attr('for', 'PressLongDescriptionS' + newNum + '_label');
+
+            newElem.find('.longdescriptionlblS').attr('id', 'longdescriptionlbl' + newNum).attr('name', 'longdescriptionlblS' + newNum + '_input').val('');
+
+            // Last name - text
+
+            newElem.find('#PressImagelbl').attr('for', 'PressImage' + newNum + '_label');
+
+            newElem.find('.PressImageTxt').attr('id', 'PressImage' + newNum + '_input').attr('name', 'PressImage_' + newNum).val('');
+
+            newElem.find('.DivImageTxt').attr('id', 'DivImage_' + newNum).attr('src', '');
+
+            $('#entry' + num).after(newElem);
+
+            $('#Stage' + newNum + '_input').focus();
+
+            //stage count.
+
+            var stageCount = $('.clonedInput').length;
+
+            $('#StageCountHidden').val(stageCount);
+
+            // enable the "remove" button
+
+            $('#btnDel').attr('disabled', false);
+
+
+
+
+            // right now you can only add 5 sections. change '5' below to the max number of times the form can be duplicated
+
+            if (newNum == 6)
+
+                $('#btnAdd').attr('disabled', true).prop('value', "You've reached the limit");
+
+            assignNullValue();
+
+        });
+
+
+
+
+        $('#btnDel').click(function () {
+
+            // confirmation
+
+            if (confirm("Are you sure you wish to remove this section? This cannot be undone.")) {
+
+                var num = $('.clonedInput').length;
+
+                $('#entry' + num).slideUp('slow', function () {
+
+                    $(this).remove();
+
+                    var stageCount = $('.clonedInput').length;
+
+                    $('#StageCountHidden').val(stageCount);
+
+                    // if only one element remains, disable the "remove" button
+
+                    if (num - 1 === 1)
+
+                        $('#btnDel').attr('disabled', true);
+
+                    // enable the "add" button
+
+                    $('#btnAdd').attr('disabled', false).prop('value', "add section");
+
+                });
+
+            }
+
+            return false;
+
+            // remove the last element
+
+
+
+
+            // enable the "add" button
+
+            $('#btnAdd').attr('disabled', false);
+
+        });
+
+        var stages = $('.clonedInput').length;
+
+        if (stages == 1) {
+
+            $('#btnDel').attr('disabled', true);
+
+        }
+
+        else {
+
+            $('#btnDel').attr('enabled', true);
+
+        }
+
+    });
+
+    function ValidateFileUpload(ctrl) {
+
+        var ids = ctrl.id;
+
+        var ctrlName = ctrl.name;
+
+        var fuData = document.getElementById(ids);
+
+        var FileUploadPath = fuData.value;
+
+        var imgError = '';
+
+        var isValid = true;
+
+        $('#' + ctrlName).val(fuData.files[0].name);
+
+        if (FileUploadPath == '') {
+            $('.errorImglink')[0].innerHTML = "Please upload an image";
+
+            imgError = "Please upload an image";
+
+            $('#ValidImage').val(imgError);
+
+        } else {
+
+            var Extension = FileUploadPath.substring(
+
+                    FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                // To Display
+
+                if (fuData.files && fuData.files[0]) {
+
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+
+                        $('#blah').attr('src', e.target.result);
+
+                        $('#ImageNameHidden').val(fuData.files[0].name);
+
+                        if (blah.width != 378 && blah.height != 225) {
+                            $('.errorImglink')[0].innerHTML = "Please Select Image 378 X 225 Dimensions Only.";
+
+                            imgError = "Please Select Image 378 X 225 Dimensions Only.";
+
+                            $('#ValidImage').val(imgError);
+
+                        }
+
+                    }
+
+                    reader.readAsDataURL(fuData.files[0]);
+
+                }
+
+            }
+            else {
+
+                $('.errorImglink')[0].innerHTML = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+
+                imgError = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+
+                $('#ValidImage').val(imgError);
+
+            }
+
+        }
+
+        if (imgError == '') {
+
+            $('.errorImglink')[0].innerHTML = "";
+
+            $('#ValidImage').val(imgError);
+
+        }
+
+    }
+
+    function Validationform() {
+        var stageCount = $('.clonedInput').length;
+
+        $('#StageCountHidden').val(stageCount);
+
+        isValid = true;
+
+        var PressLongDescriptions = [];
+
+        var PressShortDescriptions = [];
+
+        var PressPageHeading = $('#PressPageHeadingTxt')[0].value;
+
+        var stagecountlength = +$('#StageCountHidden')[0].value;
+
+        for (var i = 0; i < stagecountlength; i++) {
+
+            if (i == 0) {
+
+                var PressLongDescription = null;
+
+
+
+
+                if ($('#PressLongDescriptionTxt')[0] != undefined) {
+
+                    PressLongDescription = $('#PressLongDescriptionTxt')[0].value;
+
+                    PressLongDescriptions.push(PressLongDescription);
+
+                }
+
+                else {
+
+                    PressLongDescriptions.push(null);
+
+                }
+
+                var PressShortDescription = null;
+
+                if ($('#PressShortDescriptionTxt')[0] != undefined) {
+
+                    PressShortDescription = $('#PressShortDescriptionTxt')[0].value;
+
+                    PressShortDescriptions.push(PressShortDescription);
+
+                }
+
+                else {
+
+                    PressShortDescriptions.push(null);
+
+                }
+
+
+
+            }
+
+            else {
+
+                var j = +(i + 1);
+
+                var PressLongDescription = null;
+
+                if ($('#PressLongDescription' + j + '_input')[0] != undefined) {
+
+                    PressLongDescription = $('#PressLongDescription' + j + '_input')[0].value;
+
+                    PressLongDescriptions.push(PressLongDescription);
+
+                }
+
+                else {
+
+                    //PressLongDescription4_input
+
+                    PressLongDescriptions.push(null);
+
+                }
+
+                var PressShortDescription = null;
+
+                if ($('#PressShortDescription' + j + '_input')[0] != undefined) {
+
+                    PressShortDescription = $('#PressShortDescription' + j + '_input')[0].value;
+
+                    PressShortDescriptions.push(PressShortDescription);
+
+                }
+
+                else {
+
+                    PressShortDescriptions.push(null);
+
+                }
+
+            }
+
+
+
+        }
+
+        if (PressPageHeading.length == 0) {
+
+            $('#lblcontentheading')[0].innerHTML = "Please enter Page header.";
+
+            isValid = false;
+
+        }
+
+        else {
+
+            $('#lblcontentheading')[0].innerHTML = "";
+
+        }
+
+        for (var i = 0; i < stagecountlength; i++) {
+
+            var j = +(i + 1);
+
+            if (PressLongDescriptions[i] == "" || PressLongDescriptions[i] == "null" || PressLongDescriptions[i] == null) {
+
+
+
+                $('#longdescriptionlbl' + j)[0].innerHTML = "Please enter long Description.";
+
+                isValid = false;
+
+
+
+
+            }
+
+            else {
+
+                $('#longdescriptionlbl' + j)[0].innerHTML = "";
+
+            }
+
+        }
+
+        for (var i = 0; i < stagecountlength; i++) {
+
+            var k = +(i + 1);
+
+            if (PressShortDescriptions[i] == "" || PressShortDescriptions[i] == "null" || PressShortDescriptions[i] == null) {
+
+                $('#shortdescriptionlbl' + k)[0].innerHTML = "Please enter short Description.";
+
+                isValid = false;
+
+            }
+
+            else {
+
+                $('#shortdescriptionlbl' + k)[0].innerHTML = "";
+
+            }
+
+        }
+        return isValid;
+
+    }
+</script>

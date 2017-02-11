@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Millionlights", "millionlights\Millionlights.csproj", "{B0197FF3-0694-485C-B640-76F1C056CC4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Millionlights.EmailService", "MandrillEmailService\Millionlights.EmailService.csproj", "{32796866-106D-4B69-8546-BBB8B16F2892}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Millionlights.Services", "MillionLightsServices\Millionlights.Services.csproj", "{B6350679-2EEF-45E0-9500-99862D6A6991}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Millionlights.Models", "MillionLights.Models\Millionlights.Models.csproj", "{6F89757F-4B25-4466-BFF4-EE014F949D85}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0197FF3-0694-485C-B640-76F1C056CC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0197FF3-0694-485C-B640-76F1C056CC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0197FF3-0694-485C-B640-76F1C056CC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0197FF3-0694-485C-B640-76F1C056CC4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32796866-106D-4B69-8546-BBB8B16F2892}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32796866-106D-4B69-8546-BBB8B16F2892}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32796866-106D-4B69-8546-BBB8B16F2892}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32796866-106D-4B69-8546-BBB8B16F2892}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6350679-2EEF-45E0-9500-99862D6A6991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6350679-2EEF-45E0-9500-99862D6A6991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6350679-2EEF-45E0-9500-99862D6A6991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6350679-2EEF-45E0-9500-99862D6A6991}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F89757F-4B25-4466-BFF4-EE014F949D85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F89757F-4B25-4466-BFF4-EE014F949D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F89757F-4B25-4466-BFF4-EE014F949D85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F89757F-4B25-4466-BFF4-EE014F949D85}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://mytfsnctpl.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = millionlights\\Millionlights.csproj
+		SccProjectName1 = millionlights
+		SccLocalPath1 = millionlights
+		SccProjectUniqueName2 = MillionLights.Models\\Millionlights.Models.csproj
+		SccProjectName2 = MillionLights.Models
+		SccLocalPath2 = MillionLights.Models
+		SccProjectUniqueName3 = MillionLightsServices\\Millionlights.Services.csproj
+		SccProjectName3 = MillionLightsServices
+		SccLocalPath3 = MillionLightsServices
+		SccProjectUniqueName4 = MandrillEmailService\\Millionlights.EmailService.csproj
+		SccProjectName4 = MandrillEmailService
+		SccLocalPath4 = MandrillEmailService
+	EndGlobalSection
+EndGlobal

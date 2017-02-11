@@ -1,0 +1,99 @@
+﻿@*@model IEnumerable<Millionlights.Models.VoucherCode>*@
+@*@model PagedList.IPagedList<Millionlights.Models.VoucherCode>*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var voucherCodeList = ViewBag.voucherDetails;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#VoucherGridview').DataTable();
+    });
+</script>
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="~/Scripts/Online/1.10.7-js-jquery.dataTables.min.js"></script>
+<script src="~/Scripts/Online/responsive-1.0.6-js-dataTables.responsive.min.js"></script>
+<script src="~/Scripts/Online/plug-ins-1.10.7-integration-bootstrap-3-dataTables.bootstrap.js"></script>
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/learn/css/jquery.switch.css">
+<link href="~/Content/learn/css/style.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
+
+
+
+                                <section id="main_content">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-xs-12 tableContent">
+                                                <div class="table-header">
+                                                    <b>Voucher Management</b>
+                                                    @Html.ActionLink("Generate Voucher Code", "Create", "VoucherCode", null, new { @class = "btnDataTable btnFocus" })
+                                                </div>
+                                                <div class="table-responsive">
+                                                    <table id="VoucherGridview" class="table table-striped table-bordered table-hover fullWidth">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="aligntextcenter">Voucher Code</th>
+                                                                <th class="aligntextcenter">Voucher Type</th>
+                                                                <th class="aligntextcenter">Expiry Date</th>
+                                                                <th class="aligntextcenter">Activated Course</th>
+                                                                <th class="aligntextcenter">Partner</th>
+                                                                <th class="aligntextcenter">Voucher Status</th>
+                                                                <th class="aligntextcenter">Activated By</th>
+                                                                <th class="aligntextcenter">Created On</th>
+                                                                <th class="aligntextcenter">Discount</th>
+                                                                <th class="actionColWidth aligntextcenter">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in voucherCodeList)
+                                                            {
+                                                                <tr>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.VouchCode
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.VoucherType
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.ExpiryDate
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.ActivatedCourse
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.PartnerName
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.VoucherStatus
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.ActivatedBy
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.CreatedOn
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @item.Discount
+                                                                    </td>
+                                                                    <td class="aligntextcenter">
+                                                                        @if (@item.VoucherStatus == "Pending")
+                                                                        {
+                                                                            @Html.ActionLink("Delete", "Disabled", new { id = item.Id }, new { @class = "btnDelete btnFocus" })
+                                                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btnEdit btnFocus" })
+                                                                        }
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>

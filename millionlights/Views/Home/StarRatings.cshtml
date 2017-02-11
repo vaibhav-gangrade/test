@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="~/StarRatingsPlugin/star-rating.css" rel="stylesheet" />
+    <script src="~/StarRatingsPlugin/star-rating.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#rating-input').on('rating.change', function () {
+                alert($('#rating-input').val());
+            });
+        });
+        
+    </script>
+</head>
+
+<body>
+    <div>
+        <input id="rating-input" value="0" type="number" class="rating" min=0 max=5 step=0.5 data-size="xs" data-stars="5">
+        <hr>
+    </div>
+</body>
+</html>

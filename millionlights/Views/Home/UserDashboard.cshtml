@@ -1,0 +1,329 @@
+﻿@using System.Linq;
+@using Millionlights.Models;
+@model Millionlights.Models.UserRegister
+@{
+    var notification = ViewBag.Notification;
+    var alert = (List<Millionlights.Models.UserNotitification>)ViewBag.Alert;
+    ViewBag.Title = "UserDashboard";
+    var videoSource = ViewBag.Video;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = Session["UserID"];
+    var studentName = Model.FullName == " " ? Model.EmailId : Model.FullName;
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ui.jqgrid.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<script src="~/Content/assets/js/jquery-ui.js"></script>
+<div id="MainDiv" class="col-sm-12">
+    @Html.Partial("HeaderDashboard")
+    <div class="row">
+        <div class="col-md-3 col-sm-3 padding0px pamentHistory" style="height:250px;" id="myprofile">
+            <p class="text-center" style="cursor:pointer;">
+                <span class="profile-pictures1">
+                    @if (Model.ImageURL != null)
+                    {
+                        <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
+                    }
+                    else
+                    {
+                        <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
+                    }
+                </span>
+            </p>
+            <label style=" padding-left: 20%; font-size:14px;font-weight:bold;cursor:pointer;">Signed in as @studentName</label>
+        </div>
+
+        <div class="col-md-9 col-sm-9 padding0px" style="height:250px;">
+            <div id="accordion" class="accordion-style1 panel-group">
+                <div id="alert" class="panel panel-default ">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a id="alert" class="firstAccordionDiv accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                <img class="img-responsive" src="~/Content/assets/img/slider/Alerts.png" style="width:1.5%; float:left" /><p style="color:white; display:inline-flex; margin-left:1%;">ALERTS</p>
+                                <i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down" data-icon-show="icon-angle-up" style="color:white;"></i>
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse" id="collapseOne">
+                        <div class="panel-body form-horizontal accordion-body-timepicker-margin">
+                            @if(alert.Count == 0)
+                            {
+                              <div class="col-md-12 col-sm-12 notificationAccordion">
+                                <div class="col-md-2 col-sm-2">
+                                    @*alert  12/8/2015*@
+                                </div>
+                                <div class="col-md-8 col-sm-8">
+                                   No Alerts
+                                </div>
+                            </div>
+                            }
+                            else
+                            {
+                                int j = 0;
+                                foreach (var item in alert)
+                                {
+                                    if (j > 3)
+                                    {
+                                        break;
+                                    }
+                                    <a style="cursor:pointer;" id="mynotification" onclick="MyNotification()">
+                                        <div class="col-md-12 col-sm-12" style="height:40px;">
+
+                                            <div class="col-md-2 col-sm-2">
+                                                @item.DateSent.ToShortDateString()
+                                            </div>
+                                            <div class="col-md-8 col-sm-8">
+                                                @item.Subject
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                    <hr />
+                                    j = j + 1;
+                                }
+                            }
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <div id="notification" class="panel panel-default " style="margin-top:-2px;">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a id="note" class="firstAccordionDiv accordion-toggle  back" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                <img class="img-responsive" src="~/Content/assets/img/slider/Notifications.png" style="width:2%; float:left" /><p style="color:white; display:inline-flex; margin-left:1%;">NOTIFICATIONS</p>
+                                <i class="icon-angle-down bigger-110" data-icon-hide="icon-angle-down" data-icon-show="icon-angle-up" style="color:white;"></i>
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse collapse in" id="collapseTwo">
+                        <div class="panel-body form-horizontal accordion-body-timepicker-margin">
+                            @{
+                                int i = 0;
+                            }
+                            @foreach (var item in notification)
+                            {
+                                if (i > 3)
+                                {
+                                    break;
+                                }
+                                <a style="cursor:pointer;" id="mynotification" onclick="MyNotification()">
+                                    <div class="col-md-12 col-sm-12" style="height:40px;">
+
+                                        <div class="col-md-2 col-sm-2">
+                                            @item.DateSent.ToShortDateString()
+                                        </div>
+                                        <div class="col-md-8 col-sm-8">
+                                            @item.Subject
+                                        </div>
+
+                                    </div>
+                                </a>
+                                <hr />
+                                i = i + 1;
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div></div>
+    <div class="row">
+        <div class="col-md-3 col-sm-3  DsCourse" style="line-height:200px; height:250px; padding:20px;" id="mycourses">
+            <label class="vertalign" style="cursor: pointer">
+            <img src="~/Content/assets/img/slider/Courses.png" style="width: 50%; " />
+            <br />
+            <p style="font-size: 25px; width: 103px; font-weight: bold;">My Courses</p></label>
+        </div>
+        <div class="col-md-3 col-sm-3  DsOrder" style="text-align: center; line-height: 200px; height: 250px; padding: 20px;" id="myorders">
+            <label class="vertalign" style="color: grey; cursor: pointer">
+            <img src="~/Content/assets/img/slider/Orders.png" style="width: 50%; " />
+            <br />
+            <p style="font-size: 25px; width: 103px; font-weight: bold;">My Orders</p></label>
+        </div>
+        <div class="col-md-6 col-sm-6 padding0px DsVideo" style="height:250px;">
+            @if (videoSource != null && videoSource.IsActive == true && videoSource.VideoUrl != null)
+            {
+                <iframe width="675" height="250"
+                        src=@videoSource.VideoUrl frameborder="0" allowfullscreen></iframe>
+            }
+            else
+            {
+                <iframe width="675" height="250"
+                        src="https://www.youtube.com/embed/4pE28sjX4r4" frameborder="0" allowfullscreen></iframe>
+            }
+          
+        </div>
+
+    </div>
+    <div class="row ">
+        <div class="col-md-3 col-sm-3  DsOrder" style="text-align: center; line-height: 200px; height: 250px; padding: 20px;" id="mycoupons">
+            <label class="vertalign" style=" color: grey; cursor: pointer">
+            <img src="~/Content/assets/img/slider/Coupons.png" style="width: 50%;"  />
+            <br />
+            <p style="font-size: 25px; width: 103px; font-weight: bold;">My Coupons</p></label>
+        </div>
+        <div class="col-md-3 col-sm-3  pamentHistory" style="text-align: center; line-height: 200px; height: 250px; padding: 20px;">
+            <label class="vertalign" style="cursor: pointer">
+            <img src="~/Content/assets/img/slider/PaymentHistory.png" style="width: 50%;" />
+            <br />
+            <p style="font-size: 25px; width: 157px; font-weight: bold;">Payment History</p></label>
+        </div>
+        <div class="col-md-3 col-sm-3  DsOrder" style="text-align: center; line-height: 200px; height: 250px; padding: 20px;" id="myrefcodes">
+            <label class="vertalign" style="color: grey; cursor: pointer">
+            <img src="~/Content/assets/img/slider/PaymentReminders.png" style="width: 35%;" />
+            <br />
+            <p style="font-size: 25px; width: 138px; font-weight: bold;">My Referral Codes</p></label>
+        </div>
+        <div class="col-md-3 col-sm-3  DsCert" style="text-align: center; line-height: 200px; height: 250px; padding: 20px;" id="mycertification">
+            <label class="vertalign" style="width:50%; color: black; cursor: pointer" id="lablcertification">
+            <img src="~/Content/assets/img/slider/Certifications.png" style="width: 35%; " />
+            <br />
+            <p style="font-size: 25px; width: 144px; font-weight: bold;">My Certifications</p></label>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var hideNotf = "false";
+    $(document).ready(function () {
+        
+        var ud = '@userId'
+        if (ud == '') {
+            
+            var url = "/Account/Login";
+            window.location.href = url;
+        }
+
+        $('.HSNotifications').addClass('hide');
+        hideNotf = "false";
+        $("#MainHeaderId").hide();
+    });
+    function showNotifecation() {
+        
+        if (hideNotf == "false") {
+            $('.HSNotifications').removeClass('hide');
+            hideNotf = "true";
+        }
+        else {
+            $('.HSNotifications').addClass('hide');
+            hideNotf = "false";
+        }
+    }
+    $(document).on('settings.ace.chosen', function (e, event_name, event_val) {
+        if (event_name != 'sidebar_collapsed') return;
+        $('.chosen-select').each(function () {
+            var $this = $(this);
+            $this.next().css({ 'width': $this.parent().width() });
+        })
+    });
+
+    $("#mycourses").click(function () {
+        
+        localStorage.value = "MyCourses";
+        var userid = '@userId'
+        window.location.href = "/UserRegister/Profile/" + userid;
+
+    });
+
+    $("#myorders").click(function () {
+        
+        localStorage.value = "MyOrders";
+        var userid = '@userId'
+        window.location.href = "/UserRegister/Profile/" + userid;
+
+    });
+
+    $("#mycoupons").click(function () {
+        
+        localStorage.value = "MyCoupons";
+        var userid = '@userId'
+        window.location.href = "/UserRegister/Profile/" + userid;
+
+    });
+
+    $("#myprofile").click(function () {
+
+        localStorage.value = "MyProfile";
+        var userid = '@userId'
+        window.location.href = "/UserRegister/Profile/" + userid;
+
+    });
+
+    $("#mycertification").click(function () {
+        localStorage.value = "MyCertification";
+        var userid = '@userId'
+        window.location.href = "/UserRegister/Profile/" + userid;
+    });
+    $("#myrefcodes").click(function () {
+        localStorage.value = "MyRefCodes";
+        var userid = '@userId'
+        window.location.href = "/UserRegister/Profile/" + userid;
+    });
+
+    function MyNotification() {
+
+        localStorage.value = "MyNotification";
+        var userid = '@userId'
+        window.location.href = "/UserRegister/Profile/" + userid;
+    }
+</script>
+
+<style type="text/css">
+    .accordion-style1.panel-group .panel-heading .accordion-toggle.collapsed {
+        background-color: black;
+    }
+
+    .accordion-style1.panel-group .panel-heading .accordion-toggle {
+        background-color: black;
+    }
+
+        .accordion-style1.panel-group .panel-heading .accordion-toggle:hover {
+            background-color: black;
+        }
+
+    .back {
+        background-color: rgba(62, 73, 84, 0.96) !important;
+    }
+
+    #anchartag:hover {
+        text-decoration: none !important;
+    }
+
+    .accordion-style1.panel-group .panel {
+        border-radius: 0;
+        border-color: black;
+        background-color: #fff;
+        box-shadow: none;
+    }
+
+    .panel-group {
+        margin-bottom: 0px !important;
+    }
+
+    /*.panel-body {
+        padding: 24.5px !important;
+    }*/
+
+    .out {
+        visibility: hidden !important;
+        display: none !important;
+    }
+
+    .outin {
+        visibility: visible !important;
+        display: block !important;
+        height: auto !important;
+    }
+
+    div#collapseTwo.panel-collapse.collapse.in {
+        height: 160px !important;
+    }
+    div#collapseOne.panel-collapse.collapse.in {
+        height: 160px !important;
+    }
+</style>

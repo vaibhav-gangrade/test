@@ -1,0 +1,45 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.UserNotitification>
+@using PagedList.Mvc;
+
+<div id="MyCourseTab">
+    @foreach (var note in Model)
+    {
+        if (note != null)
+        {
+            <div class="strip_single_course">
+                <div class="row">
+                    <div class="col-md-8" style="margin-top:2%;">
+                        <h4><a href="#">Subject : @note.Subject </a></h4>
+                        <ul style="margin-left:48px">
+                            <li> Message : @Html.Raw(note.Message)</li><br />
+                            <li><i class="icon-clock"></i>Received On : @note.DateSentString</li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- end strip single course -->
+        }
+    }
+    <div id='CoursePaging' style="text-align:center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("AllNotification", new { page }))
+    </div>
+
+</div>
+<script>
+    $(function () {
+        $('#CoursePaging').on('click', 'a', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#MyCourseTab').html(result);
+                }
+            });
+            return false;
+        });
+    });
+
+</script>

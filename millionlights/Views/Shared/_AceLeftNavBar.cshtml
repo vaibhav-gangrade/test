@@ -1,0 +1,399 @@
+﻿@using Millionlights.Controllers
+@{
+    ViewBag.Title = "_LeftNavBar";
+}
+<div id="sidebar" class="sidebar responsive">
+    <script type="text/javascript">
+        try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+    </script>
+
+    <ul id="sidebar" class="nav nav-list menusubmenu">
+        <li class="active">
+            <a href="/Home/Dashboard">
+                <i class="menu-icon fa fa-tachometer"></i>
+                <span class="menu-text"> Dashboard </span>
+            </a>
+
+            <b class="arrow"></b>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">Masters</span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+
+                        Partners
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="Inactive">
+                            <a href="/Partner/Create">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                Add Partner
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="Inactive">
+                            <a href="/Partner/Index">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                View Partner
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+
+                        Users
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="Inactive">
+                            <a href="/Users/Create">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                Add User
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="Inactive">
+                            <a href="/Users/Index">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                View User
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+
+                        Coupons
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="Inactive">
+                            <a href="/CouponCode/CreateCoupon">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                Generate Coupon(s)
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="Inactive">
+                            <a href="/CouponCode/AllCoupons">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                View Coupons
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+
+                        Course Categories
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="Inactive">
+                            <a href="/CourseCategories/Create">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                Add Category
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="Inactive">
+                            <a href="/CourseCategories/Index">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                View Categories
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+
+                        Certifications
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="Inactive">
+                            <a href="/Certification/Create">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                Add Certification
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="Inactive">
+                            <a href="/Certification/Index">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                View Certifications
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+
+                        Course
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        
+                        <li class="Inactive">
+                            <a href="/Course/CreateCourse">
+                                <i class="menu-icon fa fa-plus purple"></i>
+                                Add Course
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                        <li class="Inactive">
+                            <a href="/Course/Index">
+                                <i class="menu-icon fa fa-eye pink"></i>
+                                View Course
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil orange"></i>
+                        Press Release
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li class="Inactive">
+                            <a href="/PressRelease/PressContents">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Manage Press Release
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-shopping-cart"></i>
+                <span class="menu-text"> Order Management </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="Inactive">
+                    <a href="/Order/Index">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        View Orders
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-tag"></i>
+                <span class="menu-text"style="padding-right:10px !important;"> Marketing Campaign </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="Inactive">
+                    <a href="/MarketingCampaign/ImportUsers">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Import Users
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="Inactive">
+                    <a href="/MarketingCampaign/EmailCampaign">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Email Campaign
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="Inactive">
+                    <a href="/MarketingCampaign/SMSCampaign">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        SMS Campaign
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="Inactive">
+                    <a href="/MarketingCampaign/ReferralCode">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Referral Code(s)
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-table"></i>
+                <span class="menu-text" style="padding-right:10px !important;"> Reports </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="Inactive">
+                    <a href="/Notification/EmailReports">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Email
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                <li class="Inactive">
+                    <a href="/Notification/SmsReports">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        SMS
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-file-o"></i>
+
+                <span class="menu-text">
+                    Other Pages
+
+                    <!-- #section:basics/sidebar.layout.badge -->
+                    <span class="badge badge-primary">3</span>
+
+                    <!-- /section:basics/sidebar.layout.badge -->
+                </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="">
+                    <a href="http://blog.Millionlights.org/" target="_blank">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        BLOG
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Home/Contact">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        CONTACT US
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="">
+                    <a href="/Career/Create">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                       CAREER
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>
+        <li id="ViewCertificate" class="">
+            <a href="/Certification/ViewCertificate">
+                <i class="menu-icon fa fa-file-o"></i>
+
+                <span class="menu-text">
+                    Certificates
+                </span>
+            </a>
+            </li>
+</ul>
+    <!-- /.nav-list -->
+    <!-- #section:basics/sidebar.layout.minimize -->
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+        <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div>
+
+    <!-- /section:basics/sidebar.layout.minimize -->
+    <script type="text/javascript">
+        try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+    </script>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+    </script>
+</div>
+

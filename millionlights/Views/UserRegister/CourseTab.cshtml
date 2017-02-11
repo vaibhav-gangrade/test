@@ -1,0 +1,114 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.CurrentCourse>
+@using PagedList.Mvc;
+
+  <div id="MyCourseTab">
+    @foreach (var course in Model)
+{
+    if (course != null)
+    {
+        <div class="strip_single_course">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="photo mrgBottom">
+                        @if (course.CourseImageLink != null)
+                        {
+                            var physicalPath = Request.MapPath("/Images/CourseImg/" + course.Id + "/" + course.CourseImageLink + "");
+
+
+                            if (System.IO.File.Exists(physicalPath))
+                            {
+                                <a href="/Course/AboutCourse?id=@course.Id"><img src="@String.Format("/Images/CourseImg/{0}/{1}", course.Id, course.CourseImageLink)" alt="" class="testLogo-about"></a>
+
+                            }
+                            else
+                            {
+                                <a href="/Course/AboutCourse?id=@course.Id"><img src="~/Images/noimage378X225.png" alt="" class="testLogo-about"></a>
+                            }
+
+                        }
+                        else
+                        {
+                            <a href="/Course/AboutCourse?id=@course.Id"><img src="~/Images/noimage378X225.png" alt="" class="testLogo-about"></a>
+                        }
+                        @*<a href="#">
+                            <img alt="Logo" src="~/Content/learn/img/Test.jpg" class="testLogo-about">
+                        </a>*@
+                    </div>
+                </div>
+                <div class="col-md-8" style="margin-top:2%;">
+                    <h4><a href="#">@course.CourseName : @course.ShortDescription </a></h4>
+                    <ul style="margin-left:48px">
+                        <li><i class="icon-clock"></i> @course.StartDate - @course.EndDate</li>
+                        <br />
+                        <li> &nbsp;&nbsp;Duration: @course.Duration Days (@course.Hours hours)</li>
+                    </ul>
+                    <div class="floatRight">
+                        <input type="button" class="btn btn-danger" value="Rate This Course" onclick="CourseRatings(@course.Id,@course.CourseName);" />
+                        <input type="submit" class="btn btn-success" value="View Course" />
+                    </div>
+                </div>
+            </div>
+        </div><!-- end strip single course -->
+    }
+}
+    <div id='CoursePaging' style="text-align:center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("CurrentCourseTab", new { page }))
+    </div>
+
+</div>
+
+<div id="CourseRatingsModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                        <div id="login" class="col-sm-7">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Submit Course Ratings</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div>
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <label>Course Name</label>
+                                        <input id="CourseNameTxt" name="CourseNameTxt" type="text" class="form-control disabled" />
+                                    </div>
+                                    <div class="row">
+                                        <label>Ratings</label>
+                                        <input id="rating-input" value="0" type="number" class="rating" min=0 max=5 step=0.5 data-size="xs" data-stars="5">
+                                        <label class="text-danger errorRatings"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Comments</label>
+                                        <textarea id="rating-comments" rows="4" cols="50"></textarea>
+                                        <label class="text-danger errorRatingsComments"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 rightAlign">
+                                    <input type="hidden" name="CourseIdHidden" id="CourseIdHidden" />
+                                    <input type="button" value="Cancel" id="CancelRatingsBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelRatingsButton()" />
+                                    <input type="button" value="Save" id="SaveRatingsBtn" class="btnRegister btnForword" style="padding: 9px 35px 6px 35px !important;" onclick="SubmitRatingsButton()" />
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('#CoursePaging').on('click', 'a', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#MyCourseTab').html(result);
+                }
+            });
+            return false;
+        });
+    });
+</script>

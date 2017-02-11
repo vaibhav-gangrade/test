@@ -1,0 +1,16 @@
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Millionlights.EmailService.dll.config
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Millionlights.EmailService.dll
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Millionlights.EmailService.pdb
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Millionights.Models.dll
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\EntityFramework.dll
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\System.Web.Mvc.dll
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Microsoft.AspNet.Identity.Core.dll
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Millionights.Models.pdb
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\EntityFramework.xml
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\System.Web.Mvc.xml
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\bin\Release\Microsoft.AspNet.Identity.Core.xml
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\obj\Release\Millionlights.EmailService.csprojResolveAssemblyReference.cache
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\obj\Release\Millionlights.EmailService.dll
+C:\NCTPL\MillionLights\ML\millionlights\MandrillEmailService\obj\Release\Millionlights.EmailService.pdb

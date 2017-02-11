@@ -1,0 +1,1718 @@
+﻿@model Millionlights.Models.CoursesDetails
+@{
+    var AvailabilityList = (List<SelectListItem>)ViewBag.CourseAvailability;
+    var CategoryList = (List<SelectListItem>)ViewBag.CourseCategory;
+    var CertficateProviderList = (List<SelectListItem>)ViewBag.CourseCertiProvider;
+    var CourseDeliversyList = (List<SelectListItem>)ViewBag.CourseDelivery;
+    var CourseLevelsList = (List<SelectListItem>)ViewBag.CourseLevels;
+    var CourseLanguagesList = (List<SelectListItem>)ViewBag.CourseLanguages;
+    var CourseProviderList = (List<SelectListItem>)ViewBag.CourseProvider;
+    var ExamManagerList = (List<SelectListItem>)ViewBag.ExamManager;
+    var CourseTypeList = (List<SelectListItem>)ViewBag.CourseTypes;
+    var CertificationList = (List<SelectListItem>)ViewBag.Certification;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = Session["UserID"];
+    var userName = Session["UserName"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var ImageFileName = "ImageFileName";
+}
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+         {
+             Text = "Urgent",
+             Value = "1"
+         });
+    listItems.Add(new SelectListItem
+         {
+             Text = "High",
+             Value = "2"
+         });
+    listItems.Add(new SelectListItem
+         {
+             Text = "Medium",
+             Value = "3"
+         });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Low",
+        Value = "4"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "None",
+        Value = "5"
+    });
+}
+<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+<script src="~/Scripts/JS/NewCourseStage.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>Form Wizard - Ace Admin</title>
+
+    <meta name="description" content="and Validation" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="~/Content/assets/css/select2.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+</head>
+
+<body class="no-skin">
+    <div @*class="main-container"*@ id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+        </script>
+        <div class="breadcrumbs breadCrumbAlign" id="breadcrumbs">
+            <script type="text/javascript">
+                try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+            </script>
+
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="/Home/Dashboard">Home</a>
+                </li>
+                <li> <a href="/Course/CreateCourse">Course</a></li>
+                <li class="active">Create</li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="page-content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="widget-box">
+                                <div class="widget-header widget-header-blue widget-header-flat">
+                                    <h4 class="widget-title lighter">Create New Course</h4>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <!-- #section:plugins/fuelux.wizard -->
+                                        <div id="fuelux-wizard-container">
+                                            <div>
+                                                <!-- #section:plugins/fuelux.wizard.steps -->
+                                                <ul class="steps">
+                                                    <li data-step="1" class="active">
+                                                        <span class="step">1</span>
+                                                        <span class="title">Course Information</span>
+                                                    </li>
+
+                                                    <li data-step="2">
+                                                        <span class="step">2</span>
+                                                        <span class="title">Course Validity and Durations</span>
+                                                    </li>
+
+                                                    <li data-step="3">
+                                                        <span class="step">3</span>
+                                                        <span class="title">Course Categories and Links</span>
+                                                    </li>
+
+                                                    <li data-step="4">
+                                                        <span class="step">4</span>
+                                                        <span class="title">Price and LMS Details</span>
+                                                    </li>
+                                                    <li data-step="5">
+                                                        <span class="step">5</span>
+                                                        <span class="title">Contents and Chapters</span>
+                                                    </li>
+                                                    <li data-step="6">
+                                                        <span class="step">6</span>
+                                                        <span class="title">Course Status</span>
+                                                    </li>
+                                                </ul>
+
+                                                <!-- /section:plugins/fuelux.wizard.steps -->
+                                            </div>
+
+                                            <hr />
+                                            <!-- #section:plugins/fuelux.wizard.container -->
+
+                                            <div class="step-content pos-rel">
+                                                <div class="step-pane active" data-step="1">
+                                                    <form class="form-horizontal" id="validation-form" method="get">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseCode, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "courseCodelbl" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.CourseCode, new { @class = "col-xs-12 col-sm-5", id = "courseCode", @placeholder = "Enter Course Code", @name = "courseCode" })
+                                                                </div>
+                                                                @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger errorCourseCode" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="space-2"></div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseName, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "courseNamelbl" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.CourseName, new { @class = "col-xs-12 col-sm-5", id = "courseTxt", @placeholder = "Enter Course Name", name = "CourseName" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-2"></div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.ShortDescription, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "courseDesclbl" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.ShortDescription, new { @class = "col-xs-12 col-sm-5", id = "shortTxt", @placeholder = "Enter Short Description", name = "ShortDescription" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="hr hr-dotted"></div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.LongDescription, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    <textarea class="ckeditor col-xs-12 col-sm-9" style="height: 200px;" id="LongDescription" name="LongDescription"></textarea>
+                                                                    <input type="hidden" value="@Model.LongDescription" id="LongDescHidden" name="LongDescHidden" />
+                                                                    <input type="hidden" value="@userId" id=" UserIdHidden" name="UserIdHidden" />
+                                                                    <input type="hidden" id="StageCountHidden" name="StageCountHidden" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-2"></div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Objective, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    <textarea class="ckeditor" style="height: 200px;" id="objectiveTxt" name="Objective"></textarea>
+                                                                    <input type="hidden" value="@Model.Objective" id="ObjectiveHidden" name="ObjectiveHidden" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-2"></div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.ExamObjective, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    <textarea class="ckeditor" style="width: 450px; height: 200px;" id="examObjectiveTxt" name="ExamObjective"></textarea>
+                                                                    <input type="hidden" value="@Model.ExamObjective" id="ExamObjectiveHidden" name="ExamObjectiveHidden" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class="form-horizontal step-pane" data-step="2">
+                                                    <form class="form-horizontal" id="validation-form2" method="get">
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.StartDate, new { @class = "col-xs-12 col-sm-5 datepicker", id = "datepicker1", @placeholder = "Start Date", name = "StartDate" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-2"></div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EndDate, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.EndDate, new { @class = "col-xs-12 col-sm-5 datepicker", id = "datepicker2", @placeholder = "End Date", name = "EndDate" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-2"></div>
+
+                                                        <div class="form-group">
+                                                            <input type="hidden" id="ValidImage" name="ValidImage" />
+                                                            <input type="hidden" id="ImageNameHidden" name="ImageNameHidden" />
+                                                            @Html.LabelFor(model => model.CourseImageLink, "Course Image Here", new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    <input id="uploadFile" type="file" name="image" class="img" onchange="return ValidateFileUpload()" />
+                                                                    <img src="~/Images/noimage378X225.png" id="blah" class="blahCourseImageLink" />
+                                                                    <br>
+                                                                    <span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 378 X 225.</span><br />
+                                                                    @Html.ValidationMessageFor(m => m.CourseImageLink, "", new { @class = "text-danger errorImglink" })
+                                                                </div>
+                                                            </div>
+                                                            @*@Html.ValidationMessageFor(model => model.CourseImageLink, "", new { @class = "text-danger errorCourseImglink" })*@
+                                                        </div>
+
+                                                        <div class="hr hr-dotted"></div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Duration, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.Duration, new { @class = "col-xs-12 col-sm-5", id = "durationTxt", @placeholder = "Duration", name = "Duration", type = "number" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Hours, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.Hours, new { @class = "col-xs-12 col-sm-5", id = "hoursTxt", @placeholder = "Hours", name = "Hours", type = "number" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.NoOfSessions, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.NoOfSessions, new { @class = "col-xs-12 col-sm-5", id = "sessionTxt", @placeholder = "No Of Sessions", name = "NoOfSessions", type = "number" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseAvailability, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.CourseAvailability, AvailabilityList, "--Select Course Availability--", new { @class = "select2", id = "ddlCourseAvalibility", name = "CourseAvailability" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CreditPoints, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.CreditPoints, new { @class = "col-xs-12 col-sm-5", id = "credtitsPointTxt", @placeholder = "Credit Points", name = "CreditPoints", type = "number" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Rating, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.Rating, new { @class = "col-xs-12 col-sm-5", id = "ratingTxt", @placeholder = "Rating", name = "Rating", type = "number" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.Instructor, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.Instructor, new { @class = "col-xs-12 col-sm-5", id = "instructorTxt", @placeholder = "Instructor", name = "Instructor" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+
+                                                <div class="step-pane" data-step="3">
+                                                    <form class="form-horizontal" id="validation-form3" method="get">
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseCategory, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+
+                                                                    @Html.DropDownListFor(model => model.CourseCategory, CategoryList, new { id = "ddlCourseCategory", @class = "select2", name = "CourseCategory", @multiple = "multiple", @data_placeholder = "--Select Course Category--" })
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-2"></div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseLevels, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.CourseLevels, CourseLevelsList, "--Select Course Levels--", new { @Class = "select2", id = "ddlCourseLevels", name = "CourseLevels" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="space-2"></div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseLanguage, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.CourseLanguage, CourseLanguagesList, "--Select Course Language--", new { @Class = "select2", id = "ddlCourseLanguage", name = "CourseLanguage" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="hr hr-dotted"></div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseTypes, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.CourseTypes, CourseTypeList, "--Select Course Types--", new { @Class = "select2", id = "ddlCourseTypes", name = "CourseTypes" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CertificationProvider, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.CertificationProvider, CertficateProviderList, "--Select Certification Provider--", new { @Class = "select2", id = "ddlCertProvider", name = "CertificationProvider" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.ExamManager, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.ExamManager, ExamManagerList, "--Select Exam Manager--", new { @Class = "select2", id = "ddlExamManager", name = "ExamManager" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.CourseProvider, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.CourseProvider, CourseProviderList, "--Select Course Provider--", new { @Class = "select2", id = "ddlCourseProvider", name = "CourseProvider" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.DeliveryID, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.DropDownListFor(model => model.DeliveryID, CourseDeliversyList, "--Select Delivery Mode--", new { @Class = "select2", id = "ddlDelivery", name = "DeliveryID" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.HasVideoLink, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.CheckBoxFor(model => model.HasVideoLink, new { @class = "chksize", @checked = "checked", name = "HasVideoLink" })
+                                                                    <input type="file" name="file" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.ScheduleApplicable, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.CheckBoxFor(model => model.ScheduleApplicable, new { @class = "chksize", @checked = "checked", name = "ScheduleApplicable" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.HasSampleContents, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.CheckBoxFor(model => model.HasSampleContents, new { @class = "chksize", @checked = "checked", name = "HasVideoLink" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.SampleContentsLink, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-9">
+                                                                <div class="clearfix">
+                                                                    @Html.TextBoxFor(model => model.SampleContentsLink, new { @class = "col-xs-12 col-sm-5", id = "sampleContentsTxt", @placeholder = "Sample Contents Link", name = "SampleContentsLink", type = "url" })
+                                                                </div>
+                                                                @Html.ValidationMessageFor(model => model.SampleContentsLink, "", new { @class = "text-danger errorSampleContentsTxt" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+
+                                                            @Html.LabelFor(model => model.EvidenceRequired, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+
+                                                            <div class="col-xs-12 col-sm-9">
+
+                                                                <div class="clearfix">
+
+                                                                    @Html.CheckBoxFor(model => model.EvidenceRequired, new { @class = "chksize", @checked = "checked", name = "EvidenceRequired" })
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="step-pane" data-step="4">
+                                                    <form class="form-horizontal" id="validation-form4" method="get">
+                                                        <input type="hidden" value="false" id="EnableForCertification1" name="EnableForCertification1" />
+
+                                                        <div class="col-sm-12 widget-container-col col-xs-12">
+                                                            <!-- #section:custom/widget-box.options.transparent -->
+                                                            <div class="widget-box transparent">
+                                                                <div class="widget-header">
+                                                                    <h4 class="widget-title lighter">Course Settings</h4>
+
+                                                                    <div class="widget-toolbar no-border">
+
+                                                                        <a href="#" data-action="collapse">
+                                                                            <i class="ace-icon fa fa-chevron-up"></i>
+                                                                        </a>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="widget-body">
+                                                                    <div class="widget-main padding-6 no-padding-left no-padding-right">
+                                                                        <br />
+                                                                        <div class="form-group">
+                                                                            @Html.LabelFor(model => model.EDXCourseLink, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                            <div class="col-xs-12 col-sm-9">
+                                                                                <div class="clearfix">
+                                                                                    @Html.TextBoxFor(model => model.EDXCourseLink, new { @class = "col-xs-12 col-sm-5", id = "EDXCourseTxt", @placeholder = "EDX Course Link", name = "EDXCourseLink" })
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="space-2"></div>
+                                                                        @*<div class="form-group">*@
+                                                                        @*@Html.LabelFor(model => model.EnableForCertification, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })*@
+                                                                        @*<div class="col-xs-12 col-sm-9">
+                                                                            <div class="clearfix">*@
+                                                                        @*@Html.CheckBoxFor(model => model.EnableForCertification, new { @class = "chksize", @checked = "checked", name = "EnableForCertification" })*@
+                                                                        <br />
+                                                                        @*@Html.DropDownListFor(model => model.Certification, CertificationList, "--Select Certfication--", new { @Class = "select2", id = "ddlCertification", name = "Certification" })*@
+                                                                        @*</div>*@
+                                                                        @*@Html.ValidationMessageFor(model => model.Certification, "", new { @class = "text-danger errorCertification" })*@
+                                                                        @*</div>*@
+                                                                        @*</div>*@
+
+                                                                        <div class="form-group">
+                                                                            @Html.LabelFor(model => model.BasePrice, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                            <div class="col-xs-12 col-sm-9">
+                                                                                <div class="clearfix">
+                                                                                    @Html.TextBoxFor(model => model.BasePrice, new { @class = "col-xs-12 col-sm-5", id = "basePriceTxt", @placeholder = "Base Price", name = "BasePrice" })
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        @*Added by Archana*@
+                                                                        <div class="space-2"></div>
+
+                                                                        <div class="form-group">
+                                                                            @Html.LabelFor(model => model.LMSCourseId, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                            <div class="col-xs-12 col-sm-9">
+                                                                                <div class="clearfix">
+                                                                                    @Html.TextBoxFor(model => model.LMSCourseId, new { @class = "col-xs-12 col-sm-5", id = "lmsCourseTxt", @placeholder = "LMS Course ID", name = "LMSCourseId" })
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="space-2"></div>
+                                                                        <div class="form-group">
+                                                                            @Html.LabelFor(model => model.DisplayOnHomePage, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                            <div class="col-xs-12 col-sm-9">
+                                                                                <div class="clearfix">
+                                                                                    @Html.CheckBoxFor(model => model.DisplayOnHomePage, new { @class = "chksize", @checked = "checked", name = "DisplayOnHomePage" })
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="space-2"></div>
+                                                                        <div class="form-group">
+                                                                            @Html.LabelFor(model => model.CoursePriority, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                            <div class="col-xs-12 col-sm-9">
+                                                                                <div class="clearfix">
+                                                                                    @Html.DropDownListFor(model => model.CoursePriority, listItems, new { @Class = "select2", id = "ddlPriority", name = "Priority" })
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /section:custom/widget-box.options.transparent -->
+                                                        </div>
+                                                        @*Added by Archana*@
+
+
+                                                        <div class="col-sm-12 widget-container-col col-xs-12 ">
+                                                            <!-- #section:custom/widget-box.options.transparent -->
+                                                            <div class="widget-box transparent">
+                                                                <div class="widget-header">
+                                                                    <h4 class="widget-title lighter">Certificate Contents</h4>
+
+                                                                    <div class="widget-toolbar no-border">
+                                                                        @*<label>
+                                                                                <input type="checkbox" class="ace ace-checkbox-2" id="id-checkbox-vertical" />
+                                                                                <span class="lbl middle padding-4"> Use Default</span>
+                                                                            </label>*@
+
+                                                                        <label>
+
+                                                                            <input data-val="true" class="ace ace-checkbox-2 CertificateContentsSetting"
+                                                                                   id="EnableForCertification"
+                                                                                   name="EnableForCertification"
+                                                                                   type="checkbox"
+                                                                                   value="true"
+                                                                                   checked="checked" />
+
+                                                                            <span class="lbl middle padding-4">Certification</span>
+
+                                                                        </label>
+
+
+                                                                        <a href="#" data-action="collapse">
+                                                                            <i class="ace-icon fa fa-chevron-up"></i>
+                                                                        </a>
+
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="widget-body">
+                                                                    <div class="widget-main padding-6 no-padding-left no-padding-right">
+                                                                        <div class="space-2"></div>
+                                                                        <br />
+                                                                        <div class="form-group">
+                                                                            @Html.Label("Certification Partner", new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                            <div class="col-xs-12 col-sm-9">
+                                                                                <div class="clearfix">
+                                                                                    @Html.DropDownListFor(model => model.Certification, CertificationList, "--Select Certfication--", new { @Class = "select2", id = "ddlCertification", name = "Certification" })
+                                                                                </div>
+                                                                                @Html.ValidationMessageFor(model => model.Certification, "", new { @class = "text-danger errorCertification" })
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="space-2"></div>
+                                                                        <div class="space-2"></div>
+
+                                                                        <div class="form-group">
+                                                                            <div class="col-xs-12 col-sm-9">
+
+                                                                                <div class="clearfix">
+                                                                                    <div class="col-xs-12 col-sm-4 no-padding-right">
+                                                                                    </div>
+
+                                                                                    @Html.CheckBoxFor(model => model.UseDefaultCertificateContents, new { @class = "chksize", @checked = "checked", name = "UseDefaultCertificateContents" })
+                                                                                    @Html.LabelFor(model => model.UseDefaultCertificateContents, new { @class = "control-label" })
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="space-2"></div>
+                                                                        <div class="space-2"></div>
+
+                                                                        <div id="divCertificate">
+                                                                            @*start divCertificate*@
+
+                                                                            <div class="form-group">
+                                                                                <input type="hidden" id="CerificateTemplate" name="CerificateTemplate" />
+                                                                                <input type="hidden" id="CertTemplateHidden" name="CertTemplateHidden" />
+                                                                                @Html.LabelFor(model => model.CertificateTemplate, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                                <div class="col-xs-12 col-sm-9">
+                                                                                    <div class="clearfix">
+                                                                                        <input id="uploadFileCertificateTemplate" type="file" name="image" class="img" onchange="return ValidateFileUploadForCertificate(this, 'CerificateTemplate', 'CertTemplateHidden', 'blahCertTemplate', 'errorCertTemplate')" />
+                                                                                        <img src="~/Images/noimage378X225.png" id="blah" class="blahCertTemplate" />
+                                                                                        <br>
+                                                                                        <span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 378 X 225.</span><br />
+                                                                                        @Html.ValidationMessageFor(m => m.CertificateTemplate, "", new { @class = "text-danger errorCertTemplate" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="space-2"></div>
+
+                                                                            <div class="form-group">
+                                                                                <input type="hidden" id="CerificateLogoHidden" name="CerificateLogoHidden" />
+                                                                                <input type="hidden" id="CertLogoHidden" name="CertLogoHidden" />
+                                                                                @Html.LabelFor(model => model.CertificateLogo, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                                <div class="col-xs-12 col-sm-9">
+                                                                                    <div class="clearfix">
+                                                                                        <input id="uploadFileCertificateLogo" type="file" name="image" class="img" onchange="return ValidateFileUploadForCertificate(this, 'CerificateLogoHidden', 'CertLogoHidden', 'blahCertLogo', 'errorCertLogo')" />
+                                                                                        <img src="~/Images/noimage378X225.png" id="blah" class="blahCertLogo" />
+                                                                                        <br>
+                                                                                        <span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 378 X 225.</span><br />
+                                                                                        @Html.ValidationMessageFor(m => m.CertificateLogo, "", new { @class = "text-danger errorCertLogo" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="space-2"></div>
+
+                                                                            <div class="form-group">
+                                                                                <input type="hidden" id="CerificateSignHidden" name="CerificateSignHidden" />
+                                                                                <input type="hidden" id="CertSignHidden" name="CertSignHidden" />
+                                                                                @Html.LabelFor(model => model.CertificateSignature, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right" })
+                                                                                <div class="col-xs-12 col-sm-9">
+                                                                                    <div class="clearfix">
+                                                                                        <input id="uploadFileCertificateSign" type="file" name="image" class="img" onchange="return ValidateFileUploadForCertificate(this, 'CerificateSignHidden', 'CertSignHidden', 'blahCertSign', 'errorCertSign')" />
+                                                                                        <img src="~/Images/noimage378X225.png" id="blah" class="blahCertSign" />
+                                                                                        <br>
+                                                                                        <span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 378 X 225.</span><br />
+                                                                                        @Html.ValidationMessageFor(m => m.CertificateSignature, "", new { @class = "text-danger errorCertSign" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <input type="hidden" id="CertificateHtmFileHidden" name="CertificateHtmFileHidden" />
+                                                                                <input type="hidden" id="CertHtmFileHidden" name="CertHtmFileHidden" />
+                                                                                <div class="row">
+                                                                                    <label class="control-label col-xs-12 col-sm-3" for="htmlTemplateLabel" id="htmlTemplatelbl">Upload HTML template file <b class="red">(please view and follow the exact default template by Editing it.)</b>:</label>
+                                                                                    <div class="col-xs-8">
+
+                                                                                        <input type="file" id="uploadFileCertificateHtmTemplateFile" name="file" accept=".htm,.html" class="heightwidthtext form-control fileUpload col-md-4" style="margin-left: 0%;" onchange="return ValidateFileUploadForCertificateHtmFile(this, 'CertificateHtmFileHidden', 'CertHtmFileHidden', 'errorCertHtmFile')" />
+                                                                                        <div style="margin-top: 5px;">
+                                                                                            <a href="~/EmailTemplates/MLCertificate.htm" style="padding-left: 10px;text-decoration: underline;" download>Download/View Default HTML Template</a>
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        @Html.ValidationMessageFor(m => m.CertificateTemplateHtmFile, "", new { @class = "text-danger errorCertHtmFile" })
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div> @* end divCertificate*@
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- /section:custom/widget-box.options.transparent -->
+                                                        </div>
+                                                        <br />
+                                                        <div class="hr hr-dotted"></div>
+
+                                                    </form>
+                                                </div>
+                                                @*<div class="step-pane" data-step="4">
+                                                        <div class="center">
+                                                            <h3 class="green">Congrats!</h3>
+                                                            Your product is ready to ship! Click finish to continue!
+                                                        </div>
+                                                    </div>*@
+                                                <div class="step-pane" data-step="5">
+
+                                                    <form class="form-horizontal" id="validation-form5" method="get">
+                                                        <div id="entry1" class="clonedInput">
+                                                            <h2 id="reference" name="reference" class="heading-reference">Stage #1</h2>
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => model.ChapterNumber, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "stageNumberlbl", name = "stageNumberlbl" })
+                                                                <div class="col-xs-12 col-sm-9">
+                                                                    <div class="clearfix">
+                                                                        @Html.TextBoxFor(model => model.ChapterNumber, new { @class = "col-xs-12 col-sm-5 chapternumberTxt", id = "chapternumberTxt", @placeholder = "Stage Number", name = "ChapterNumber", type = "number" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => model.ChapterName, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "stageNamelbl", name = "stageNamelbl" })
+                                                                <div class="col-xs-12 col-sm-9">
+                                                                    <div class="clearfix">
+                                                                        @Html.TextBoxFor(model => model.ChapterName, new { @class = "col-xs-12 col-sm-5 chapternameTxt", id = "chapternameTxt", @placeholder = "Stage Name", name = "ChapterName" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => model.ChapterDescription, new { @class = "control-label col-xs-12 col-sm-3 no-padding-right", id = "stageDesclbl", name = "stageDesclbl" })
+                                                                <div class="col-xs-12 col-sm-9">
+                                                                    <div class="clearfix">
+                                                                        @Html.TextBoxFor(model => model.ChapterDescription, new { @class = "col-xs-12 col-sm-5 chapterDescriptionTxt", id = "chapterDescriptionTxt", @placeholder = "Stage Description", name = "ChapterDescription" })
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div><div id="addDelButtons">
+                                                            <input type="button" id="btnAdd" value="add section"> <input type="button" id="btnDel" value="remove section above">
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                                <div class="step-pane" data-step="6">
+                                                    <div class="center">
+                                                        <h3 class="green">Congrats!</h3>
+                                                        Your course is ready to use! Click finish to continue!
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- /section:plugins/fuelux.wizard.container -->
+
+                                        </div>
+
+                                        <hr />
+                                        <div class="wizard-actions">
+                                            <!-- #section:plugins/fuelux.wizard.buttons -->
+                                            <button class="btn btn-prev">
+                                                <i class="ace-icon fa fa-arrow-left"></i>
+                                                Prev
+                                            </button>
+
+                                            <button class="btn btn-success btn-next" data-last="Finish">
+                                                Next
+                                                <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+                                            </button>
+
+                                            <!-- /section:plugins/fuelux.wizard.buttons -->
+                                        </div>
+
+                                        <!-- /section:plugins/fuelux.wizard -->
+                                    </div><!-- /.widget-main -->
+                                </div><!-- /.widget-body -->
+                            </div>
+
+
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.page-content -->
+            </div>
+        </div><!-- /.main-content -->
+    </div><!-- /.main-container -->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script type="text/javascript">
+     window.jQuery || document.write("<script src='~/Content/assets/js/jquery1x.js'>"+"<"+"/script>");
+    </script>
+    <![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='~/Content/assets/js/jquery.mobile.custom.js'>" + "<" + "/script>");
+    </script>
+    <script src="~/Content/assets/js/bootstrap.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <script src="~/Content/assets/js/fuelux/fuelux.wizard.js"></script>
+    <script src="~/Content/assets/js/jquery.validate.js"></script>
+    <script src="~/Content/assets/js/additional-methods.js"></script>
+    <script src="~/Content/assets/js/bootbox.js"></script>
+    <script src="~/Content/assets/js/jquery.maskedinput.js"></script>
+    <script src="~/Content/assets/js/select2.js"></script>
+
+    <!-- ace scripts -->
+    <script src="~/Content/assets/js/ace/elements.scroller.js"></script>
+    <script src="~/Content/assets/js/ace/elements.colorpicker.js"></script>
+    <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+    <script src="~/Content/assets/js/ace/elements.typeahead.js"></script>
+    <script src="~/Content/assets/js/ace/elements.wysiwyg.js"></script>
+    <script src="~/Content/assets/js/ace/elements.spinner.js"></script>
+    <script src="~/Content/assets/js/ace/elements.treeview.js"></script>
+    <script src="~/Content/assets/js/ace/elements.wizard.js"></script>
+    <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+    <script src="~/Content/assets/js/ace/ace.js"></script>
+    <script src="~/Content/assets/js/ace/ace.ajax-content.js"></script>
+    <script src="~/Content/assets/js/ace/ace.touch-drag.js"></script>
+    <script src="~/Content/assets/js/ace/ace.sidebar.js"></script>
+    <script src="~/Content/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+    <script src="~/Content/assets/js/ace/ace.submenu-hover.js"></script>
+    @*<script src="~/Content/assets/js/ace/ace.widget-box.js"></script>*@
+    <script src="~/Content/assets/js/ace/ace.settings.js"></script>
+    <script src="~/Content/assets/js/ace/ace.settings-rtl.js"></script>
+    <script src="~/Content/assets/js/ace/ace.settings-skin.js"></script>
+    <script src="~/Content/assets/js/ace/ace.widget-on-reload.js"></script>
+    <script src="~/Content/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+    <!-- inline scripts related to this page -->
+
+    <script src="~/Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+    <link href="~/Content/Multiselct/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="~/Content/Multiselct/courses-multiselect.js"></script>
+    @*<script src="~/Scripts/JS/jquery.blockUI.js"></script>*@
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ud = '@userId'
+            if (ud == '') {
+                var url = "/Account/Login";
+                window.location.href = url;
+            }
+
+            $('.datepicker').datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                startDate: '-0d'
+            }).val('');
+            var uID = '@userId';
+
+            debugger
+            var isCertEnabled = $('#EnableForCertification')[0].checked;
+
+            $("#EnableForCertification1").val(isCertEnabled);
+            $("#EnableForCertification1").attr('checked', isCertEnabled);
+        });
+
+
+        //$('#EnableForCertification').click(function () {
+        //    var isCertEnabled = $('#EnableForCertification')[0].checked;
+        //    if (isCertEnabled == true) {
+        //        $("#divCertificate *").attr('disabled', false);
+        //    }
+        //    else {
+        //        $("#divCertificate *").attr("disabled", true);
+        //    }
+        //});
+
+        $('.CertificateContentsSetting').click(function () {
+            debugger
+            var isCertEnabled = $('#EnableForCertification')[0].checked;
+            var isDeafult = $('#UseDefaultCertificateContents')[0].checked;
+
+            if (isCertEnabled == false) {
+                $("#divCertificate *").attr('disabled', true);
+                $("#UseDefaultCertificateContents").attr('disabled', true);
+            }
+            else if (isCertEnabled == true && isDeafult == true) {
+                $("#divCertificate *").attr('disabled', true);      //disable
+                $("#UseDefaultCertificateContents").attr('disabled', false);
+            }
+            else if (isCertEnabled == true && isDeafult == false) {
+                $("#divCertificate *").attr("disabled", false);     // enable
+                $("#UseDefaultCertificateContents").attr('disabled', false);
+            }
+            else if (isCertEnabled == false && isDeafult == false) {
+                $("#divCertificate *").attr('disabled', true);
+                $("#UseDefaultCertificateContents").attr('disabled', false);
+            }
+            else if (isCertEnabled == false && isDeafult == true) {
+                $("#divCertificate *").attr('disabled', true);
+                $("#UseDefaultCertificateContents").attr('disabled', true);
+            }
+
+            $("#EnableForCertification1").val(isCertEnabled);
+            $("#EnableForCertification1").attr('checked', isCertEnabled);
+        });
+
+
+        $('#UseDefaultCertificateContents').click(function () {
+            debugger
+            var isDeafult = $('#UseDefaultCertificateContents')[0].checked;
+            if (isDeafult == false) {
+                $("#divCertificate *").attr('disabled', false);
+            }
+            else {
+                $("#divCertificate *").attr("disabled", true);
+            }
+        });
+
+        function ValidateFile(w, h) {
+            var isValid = true;
+            var fuData = document.getElementById('uploadiID');
+            var FileUploadPath = fuData.value;
+            //To check if user upload any file
+            if (FileUploadPath == '') {
+
+                bootbox.dialog({
+                    message: "Please upload an image",
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary",
+                            //callback: function () {
+                            //    location.href = '/Course/Index';
+                            //}
+                        }
+                    }
+                });
+
+            } else {
+                var Extension = FileUploadPath.substring(
+                        FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                //The file uploaded is an image
+
+                if (Extension == "gif" || Extension == "png" || Extension == "bmp"
+                                    || Extension == "jpeg" || Extension == "jpg") {
+                    isValid = true;
+                }
+                else {
+                    $('.errorCourseImglink')[0].innerHTML = "Please Enter File with png,bmp,gif,jpeg,jpg only.";
+                    isValid = false;
+                }
+                if (w == 378 && h == 225) {
+                    $('.errorCourseImglink')[0].innerHTML = " ";
+                    isValid = true;
+                }
+                else {
+                    $('.errorCourseImglink')[0].innerHTML = "Please Enter Image 378 X 225 Dimensions Only.";
+                    isValid = false;
+                }
+
+            }
+            return isValid;
+        }
+
+
+        $('[data-rel=tooltip]').tooltip();
+
+        $(".select2").css('width', '200px').select2({ allowClear: true })
+        .on('change', function () {
+            $(this).closest('form').validate().element($(this));
+        });
+
+
+        var $validation = true;
+        $('#fuelux-wizard-container')
+        .ace_wizard({
+        })
+        .on('actionclicked.fu.wizard', function (e, info) {
+            if (info.step == 1 && $validation) {
+                if (!$('#validation-form').valid()) {
+                    e.preventDefault();
+                }
+                else {
+                    var courseCode = $('#courseCode')[0].value;
+                    $.ajax({
+                        type: "POST",
+                        async: false,
+                        data: JSON.stringify({ "courseCode": courseCode }),
+                        contentType: 'application/json; charset=utf-8',
+                        url: "/Course/CourseExist",
+                        success: function (response) {
+                            if (response == true) {
+                                $('.errorCourseCode')[0].innerHTML = "The course code you provided is already exists.";
+                                e.preventDefault();
+                            }
+                            else {
+                                $('.errorCourseCode')[0].innerHTML = " ";
+                            }
+                        },
+                        error: function (response) { }
+                    });
+                }
+            }
+            if (info.step == 2 && $validation) {
+                if ($('#validation-form2').valid()) {
+                    if ($('#ValidImage')[0].value != "") {
+                        e.preventDefault();
+                    }
+
+                }
+                else if (!$('#validation-form2').valid()) {
+                    e.preventDefault();
+                }
+
+            }
+            if (info.step == 3 && $validation) {
+                if ($('#validation-form3').valid()) {
+                    var isSampleEnabled = $('#HasSampleContents')[0].checked;
+                    var sampleLink = $('#sampleContentsTxt')[0].value;
+                    if (isSampleEnabled == true) {
+                        if (sampleLink.length == 0) {
+                            $('.errorSampleContentsTxt')[0].innerHTML = "Please provide the sample link or uncheck the above [Sample Contents] checkbox";
+                            e.preventDefault();
+                        }
+                        else {
+                            $('.errorSampleContentsTxt')[0].innerHTML = "";
+                        }
+
+                    }
+                    else {
+                        $('.errorSampleContentsTxt')[0].innerHTML = "";
+                    }
+                }
+                else if (!$('#validation-form3').valid()) {
+                    $('.errorSampleContentsTxt')[0].innerHTML = "";
+                    e.preventDefault();
+                }
+            }
+            if (info.step == 4 && $validation) {
+                if ($('#validation-form4').valid()) {
+                    var isCertEnabled = $('#EnableForCertification')[0].checked;
+                    var cert = $('#ddlCertification')[0].value;
+                    if (isCertEnabled == true) {
+                        if (cert.length == 0) {
+                            $('.errorCertification')[0].innerHTML = "Please select the certification.";
+                            e.preventDefault();
+                        }
+                        else {
+                            $('.errorCertification')[0].innerHTML = "";
+                        }
+                    }
+                    else {
+                        $('.errorCertification')[0].innerHTML = "";
+                    }
+                }
+                else if (!$('#validation-form4').valid()) {
+                    e.preventDefault();
+                }
+            }
+            if (info.step == 5 && $validation) {
+                if (!$('#validation-form5').valid()) e.preventDefault();
+            }
+        })
+        .on('finished.fu.wizard', function (e) {
+            //Get Text Long Desc
+            var html = CKEDITOR.instances.LongDescription.getSnapshot();
+            var dom = document.createElement("DIV");
+            dom.innerHTML = html;
+            var longDescription = (dom.textContent || dom.innerText);
+            //Get Text objective
+            var htmlObj = CKEDITOR.instances.objectiveTxt.getSnapshot();
+            var domObj = document.createElement("DIV");
+            domObj.innerHTML = htmlObj;
+            var objective = (domObj.textContent || domObj.innerText);
+            //Get Text Exam objective
+            var htmlExObj = CKEDITOR.instances.examObjectiveTxt.getSnapshot();
+            var domExObj = document.createElement("DIV");
+            domExObj.innerHTML = htmlExObj;
+            var eaxmObjective = (domExObj.textContent || domExObj.innerText);
+            $("#LongDescHidden").val(escape(html));
+            $("#ObjectiveHidden").val(escape(htmlObj));
+            $("#ExamObjectiveHidden").val(escape(htmlExObj));
+            $('#UserIdHidden').val('@userId');
+            var imageName = $('#ImageNameHidden')[0].value;
+            $('#ImageNameHidden').val(imageName);
+            var stageCount = $('.clonedInput').length;
+            $('#StageCountHidden').val(stageCount);
+            var formData = $(".form-horizontal").serialize();
+            $.ajax({
+                type: 'POST',
+                url: "/Course/CreateCourse",
+                data: formData,
+                success: function (data) {
+                    var FolderName = data;
+                    var FolderID = FolderName.CourseId;
+                    var formDataImg = new FormData();
+
+                    for (var i = 0; i < $("input[type='file']").length; i++) {
+                        if ($("input[type='file']")[i].files.length > 0) {
+                            var imgName = $("input[type='file']")[i].files[0].name + ":" + $("input[type='file']")[i].id;
+                            var imgInfo = $("input[type='file']")[i].files[0];
+                            formDataImg.append(imgName, imgInfo);
+                        }
+                    }
+
+
+                    $.ajax({
+                        type: "POST",
+                        async: false,
+                        url: "/Course/UploadCoursePic?FolderID=" + FolderID,
+                        data: formDataImg,
+                        success: function (response) {
+                            bootbox.dialog({
+                                message: "Thank you! Your information is saved successfully!",
+                                buttons: {
+                                    "success": {
+                                        "label": "OK",
+                                        "className": "btn-sm btn-primary",
+                                        callback: function () {
+                                            location.href = '/Course/Index';
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        error: function (response) {
+                        }
+                    });
+
+                }
+            });
+        }).on('stepclick.fu.wizard', function (e) {
+
+        });
+
+        $.mask.definitions['~'] = '[+-]';
+        $('#phone').mask('(999) 999-9999');
+
+        jQuery.validator.addMethod("phone", function (value, element) {
+            return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+        }, "Enter a valid phone number.");
+
+        $('#validation-form').validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                CourseCode: {
+                    required: true
+                },
+                CourseName: {
+                    required: true,
+                    maxlength: 50
+                },
+                ShortDescription: {
+                    required: true,
+                    maxlength: 100
+                }
+            },
+
+            messages: {
+                CourseCode: {
+                    required: "Enter a Course Code.",
+                    CourseCode: "Enter a Course Code."
+                },
+                CourseName: {
+                    required: "Please provide a course name.",
+                    CourseName: "Please provide a course name."
+                },
+                ShortDescription: {
+                    required: "Enter a short description.",
+                    ShortDescription: "Enter a short description."
+                }
+            },
+
+
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                    var controls = element.closest('div[class*="col-"]');
+                    if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                    else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                }
+                else if (element.is('.select2')) {
+                    error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                }
+                else if (element.is('.chosen-select')) {
+                    error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                }
+                else error.insertAfter(element.parent());
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+        $('#validation-form2').validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                image: {
+                    required: true
+                },
+                Duration: {
+                    required: true
+                },
+                Hours: {
+                    required: true
+                },
+                NoOfSessions: {
+                    required: true
+                },
+                CourseAvailability: {
+                    required: true
+                },
+                CreditPoints: {
+                    required: true
+                },
+                Rating: {
+                    required: true
+
+                },
+                Instructor: {
+                    required: true
+                },
+            },
+
+            messages: {
+                image: {
+                    required: " Upload Course Image."
+
+                },
+                Duration: {
+                    required: "Enter Course duration."
+                },
+                Hours: {
+                    required: " Enter Number of Hours."
+                },
+                NoOfSessions: {
+                    required: "Please provide course sessions."
+                },
+                CourseAvailability: {
+                    required: "Please provide course availability."
+                },
+                CreditPoints: {
+                    required: "Please provide credit points."
+                },
+                Rating: {
+                    required: "Please provide course ratings."
+                },
+                Instructor: {
+                    required: "Please provide course instructor."
+                }
+
+
+            },
+
+
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                    var controls = element.closest('div[class*="col-"]');
+                    if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                    else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                }
+                else if (element.is('.select2')) {
+                    error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                }
+                else if (element.is('.chosen-select')) {
+                    error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                }
+                else error.insertAfter(element.parent());
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+        $('#validation-form3').validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                CourseCategory: {
+                    required: true
+                },
+                CourseLevels: {
+                    required: true
+                },
+                CourseLanguage: {
+                    required: true
+                },
+                CourseTypes: {
+                    required: true
+                },
+                CertificationProvider: {
+                    required: true
+                },
+                ExamManager: {
+                    required: true
+                },
+                CourseProvider: {
+                    required: true
+                },
+                DeliveryID: {
+                    required: true
+                },
+                SampleContentsLink: {
+
+                    url: true
+                },
+
+
+            },
+
+            messages: {
+                CourseCategory: {
+                    required: "Please provide course category."
+                },
+                CourseLevels: {
+                    required: "Please provide course level."
+                },
+                CourseLanguage: {
+                    required: "Please provide course language."
+                },
+                CourseTypes: {
+                    required: "Please provide course type."
+                },
+                CertificationProvider: {
+                    required: "Please provide certification provider."
+                },
+                ExamManager: {
+                    required: "Please provide exam manager."
+                },
+                CourseProvider: {
+                    required: "Please provide course provider."
+                },
+                DeliveryID: {
+                    required: "Please provide course delivery method."
+                },
+                SampleContentsLink: {
+                    url:"Please enter the valid sample link URL."
+                }
+
+            },
+
+
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                    var controls = element.closest('div[class*="col-"]');
+                    if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                    else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                }
+                else if (element.is('.select2')) {
+                    error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                }
+                else if (element.is('.chosen-select')) {
+                    error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                }
+                else error.insertAfter(element.parent());
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+        $('#validation-form4').validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                EDXCourseLink: {
+                    required: true,
+                    url: true
+                },
+                //Certification: {
+                //    required: true
+                //},
+                BasePrice: {
+                    required: true
+                },
+                LMSCourseId: {
+                    required: true
+                }
+            },
+
+            messages: {
+                EDXCourseLink: {
+                    required: "Enter EDX Course Link/URL."
+                },
+                BasePrice: {
+                    required: "Enter Base Price for the Course."
+                },
+                LMSCourseId: {
+                    required: " Enter Course ID from LMS."
+                }
+            },
+
+
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                    var controls = element.closest('div[class*="col-"]');
+                    if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                    else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                }
+                else if (element.is('.select2')) {
+                    error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                }
+                else if (element.is('.chosen-select')) {
+                    error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                }
+                else error.insertAfter(element.parent());
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+        $('#validation-form5').validate({
+            errorElement: 'div',
+            errorClass: 'help-block',
+            focusInvalid: false,
+            ignore: "",
+            rules: {
+                ChapterNumber: {
+                    required: true
+                },
+                ChapterName: {
+                    required: true
+                },
+                ChapterDescription: {
+                    required: true
+                },
+                StageNo2_input: {
+                    required: true
+                },
+                StageName2_input: {
+                    required: true
+                },
+                StageDesc2_input: {
+                    required: true
+                }
+            },
+
+            messages: {
+                ChapterNumber: {
+                    required: "Enter Stage Number."
+                },
+                ChapterName: {
+                    required: "Please provide stage name."
+                },
+                ChapterDescription: {
+                    required: "Enter Stage Description."
+                },
+                StageNo2_input: {
+                    required: " Enter Stage Number."
+                },
+                StageName2_input: {
+                    required: "Please provide stage name."
+                },
+                StageDesc2_input: {
+                    required: "Please provide stage description."
+                }
+            },
+
+
+            highlight: function (e) {
+                $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
+            },
+
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).remove();
+            },
+
+            errorPlacement: function (error, element) {
+                if (element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
+                    var controls = element.closest('div[class*="col-"]');
+                    if (controls.find(':checkbox,:radio').length > 1) controls.append(error);
+                    else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+                }
+                else if (element.is('.select2')) {
+                    error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+                }
+                else if (element.is('.chosen-select')) {
+                    error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+                }
+                else error.insertAfter(element.parent());
+            },
+
+            submitHandler: function (form) {
+            },
+            invalidHandler: function (form) {
+            }
+        });
+        $('#modal-wizard-container').ace_wizard();
+        $('#modal-wizard .wizard-actions .btn[data-dismiss=modal]').removeAttr('disabled');
+
+
+
+        $(document).one('ajaxloadstart.page', function (e) {
+            //in ajax mode, remove remaining elements before leaving page
+            $('[class*=select2]').remove();
+        });
+    </script>
+    <!-- the following scripts are used in demo only for onpage help and you don't need them -->
+    <link rel="stylesheet" href="~/Content/assets/css/ace.onpage-help.css" />
+    <link rel="stylesheet" href="~/Content/assets/js/themes/sunburst.css" />
+
+    <script type="text/javascript"> ace.vars['base'] = '..'; </script>
+    <script src="~/Content/assets/js/ace/elements.onpage-help.js"></script>
+    <script src="~/Content/assets/js/ace/ace.onpage-help.js"></script>
+    <script src="~/Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+    <script>
+        function ValidateFileUpload() {
+            var fuData = document.getElementById('uploadFile');
+            var FileUploadPath = fuData.value;
+            var imgError = '';
+            var isValid = true;
+            //To check if user upload any file
+            if (FileUploadPath == '') {
+                $('.errorImglink')[0].innerHTML = "Please upload an image";
+                imgError = "Please upload an image";
+                $('#ValidImage').val(imgError);
+            } else {
+                var Extension = FileUploadPath.substring(
+                        FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                //The file uploaded is an image
+                if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+
+                    // To Display
+                    if (fuData.files && fuData.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('.blahCourseImageLink').attr('src', e.target.result);
+                            $('#ImageNameHidden').val(fuData.files[0].name);
+
+                            if ($('.blahCourseImageLink')[0].width != 378 && $('.blahCourseImageLink')[0].height != 225) {
+
+                                $('.errorImglink')[0].innerHTML = "Please Select Image 378 X 225 Dimensions Only.";
+                                imgError = "Please Select Image 378 X 225 Dimensions Only.";
+                                $('#ValidImage').val(imgError);
+                            }
+                        }
+                        reader.readAsDataURL(fuData.files[0]);
+                    }
+                }
+                    //The file upload is NOT an image
+                else {
+                    $('.errorImglink')[0].innerHTML = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+                    imgError = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+                    $('#ValidImage').val(imgError);
+                }
+            }
+            if (imgError == '') {
+                $('.errorImglink')[0].innerHTML = "";
+                $('#ValidImage').val(imgError);
+            }
+        }
+
+        function ValidateFileUploadForCertificate(eval, Hidden1, Hidden2, blahCls, errorText) {
+            var fuData = document.getElementById($(eval)[0].id);
+            var FileUploadPath = fuData.value;
+            var imgError = '';
+            var isValid = true;
+
+            var hiddenTemp1 = "#" + Hidden1;
+            var hiddenTemp2 = "#" + Hidden2;
+            var blashTemp = "." + blahCls;
+            var errorTextTemp = "." + errorText;
+
+            //To check if user upload any file
+            if (FileUploadPath == '') {
+                $(errorTextTemp)[0].innerHTML = "Please upload an image";
+                imgError = "Please upload an image";
+                $(hiddenTemp1).val(imgError);
+            } else {
+                var Extension = FileUploadPath.substring(
+                        FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                //The file uploaded is an image
+                if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+
+                    // To Display
+                    if (fuData.files && fuData.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $(blashTemp).attr('src', e.target.result);
+                            $(hiddenTemp2).val(fuData.files[0].name);
+
+                            if ($(blashTemp)[0].width != 378 && $(blashTemp)[0].height != 225) {
+
+                                $(errorTextTemp)[0].innerHTML = "Please Select Image 378 X 225 Dimensions Only.";
+                                imgError = "Please Select Image 378 X 225 Dimensions Only.";
+                                $(hiddenTemp1).val(imgError);
+                            }
+                        }
+                        reader.readAsDataURL(fuData.files[0]);
+                    }
+                }
+                    //The file upload is NOT an image
+                else {
+                    $(errorTextTemp)[0].innerHTML = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+                    imgError = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+                    $(hiddenTemp1).val(imgError);
+                }
+            }
+            if (imgError == '') {
+                $(errorTextTemp)[0].innerHTML = "";
+                $(hiddenTemp1).val(imgError);
+            }
+        }
+
+        function ValidateFileUploadForCertificateHtmFile(eval, Hidden1, Hidden2, errorText) {
+            debugger
+            var fuData = document.getElementById($(eval)[0].id);
+            var FileUploadPath = fuData.value;
+            var imgError = '';
+            var isValid = true;
+
+            var hiddenTemp1 = "#" + Hidden1;
+            var hiddenTemp2 = "#" + Hidden2;
+            var errorTextTemp = "." + errorText;
+
+            //To check if user upload any file
+            if (FileUploadPath != '') {
+                var Extension = FileUploadPath.substring(
+                        FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+                if (Extension == "htm" || Extension == "html") {
+                    debugger
+                    if (fuData.files && fuData.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            debugger
+
+                            $(hiddenTemp2).val(fuData.files[0].name);
+                        }
+                        reader.readAsDataURL(fuData.files[0]);
+                    }
+                }
+                    //The file uploaded is an image
+                else {
+                    $(errorTextTemp)[0].innerHTML = "Only htm and html File types are allowed..";
+                    imgError = "Only htm and html File types are allowed..";
+                    $(hiddenTemp1).val(imgError);
+                }
+            }
+            if (imgError == '') {
+                $(errorTextTemp)[0].innerHTML = "";
+                $(hiddenTemp1).val(imgError);
+            }
+        }
+
+        function ValidateStep3() {
+            var sampleContents = $('#HasSampleContents')[0].value;
+            var isValid = true;
+            if (sampleContents == "true") {
+                if ($('#sampleContentsTxt')[0].value == "") {
+                    $('.errorsampleContentsTxt')[0].innerHTML == "Please enter sample contents link.";
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+    </script>
+    <style>
+        #imagePreview {
+            width: 180px;
+            height: 180px;
+            background-position: center center;
+            background-size: cover;
+            -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+            display: inline-block;
+        }
+    </style>
+</body>
+</html>

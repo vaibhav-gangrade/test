@@ -1,0 +1,134 @@
+﻿@model Millionlights.Models.Course
+@{
+    var userName = Session["UserName"];
+    var isVoucherValid = ViewBag.ValidVoucher;
+    var isVoucherActivated = ViewBag.IsActivated;
+    var courseList = ViewBag.CourseList;
+    var userId = Session["UserID"];
+    var voucherCode = ViewBag.VoucherCode;
+    var Discount = ViewBag.Discount;
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+<section id="sub-header">
+    <div class="container">
+        <div class="row">
+        @if (isVoucherValid == false)
+            {
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2>Incorrect coupon. We recommend you to:</h2>
+                    <p class="lead boxed ">
+                    <ul> 
+                        <li>Check if you have entered correct coupon.</li>
+                        <li>Your coupon may have already been redeemed.You can verify the coupon status in My Account or Contact Us at  Support@millionlights.org </li>
+                        <li>The Coupon you have entered may have been expired.  Contact Us at Support@millionlights.org</li>
+                        <li> If you have received this coupon from your institution or any Partners, please check with the Coupon Provider or Contact us at Support@millionlights.org</li> 
+                    </ul>
+                    </p>
+               
+                </div>
+            }
+            else if (isVoucherActivated == "true")
+            { 
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2>The course coupon you have entered has been already used. You can login with your Million Lights account you have used to redeem the course coupon. You can verify the course coupon status in My Account, My Course Coupons</h2>
+                    <p class="lead boxed ">Please try submitting the new voucher code.</p>
+
+                </div>
+            }
+            else { 
+            <div class="col-md-10 col-md-offset-1 text-center">
+                <h2>Thank you for visiting the Million Lights application and submitting the voucher code. You will avail @Discount % discount. !!</h2>
+                <p class="lead boxed ">Following are the applicable courses, You can activate any one course using this voucher.</p>
+
+            </div>
+            }
+        </div><!-- End row -->
+    </div><!-- End container -->
+    @*<div class="divider_top"></div>*@
+</section>
+<section id="main_content">
+    <div class="container">
+           
+        <div class="row" id="AllCourses">
+            <div class="col-md-10 studentView">
+              
+            @if (isVoucherValid == true && isVoucherActivated == "false")
+            { 
+                if(courseList!=null)
+                { 
+                     <h3 class="chapter_course no_margin_rop">Applicable courses for the activated voucher code@*<a href="#" class="back pull-right">Back</a>*@</h3>
+                    foreach (var course in courseList)
+                    {
+                         
+                        <div class="col-md-12 strip_single_course">
+                            <div class="col-md-4 courseBlock">
+                                <div class="photo">
+                                    <a href="#">
+                                        <img alt="Logo" src="~/Content/learn/img/Test.jpg" class="testLogo-about">
+                                    </a>
+
+                                </div>
+
+                            </div><!-- end strip single course -->
+                            <div class="col-md-8">
+                                <h4><a href="#">@course.CourseName : @course.ShortDescription </a></h4>
+                                <ul>
+                                    <li>&nbsp;&nbsp;<b>Timing:</b><i class="icon-clock"></i>@course.StartDate - @course.EndDate</li>
+                                </ul>
+                                <ul>
+                                    <li>&nbsp;&nbsp;<b>Duration:</b>  @course.Duration Days (@course.Hours hours)</li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        &nbsp;&nbsp;<b>Course Category:</b>  @course.Category
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        &nbsp;&nbsp;<b>Base Price:</b>  @course.BasePrice
+                                    </li>
+                                </ul>
+                                <ul class="pull-right">
+                                    <li>
+                                        <a class="actCoupon" id="@course.Id" onclick="ActivecCouponClick(this)" @*href="/VoucherCode/VoucherStatus?Id=@course.Id&userId=@userId&vc=@voucherCode"*@>Activate</a>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+
+                        </div>
+
+                    }
+                }
+            }
+            </div><!-- End col-md-8  -->
+        </div>
+
+    </div><!-- End container -->
+</section>
+
+<script type="text/javascript">
+    function ActivecCouponClick(ctrl) {
+        var courseId=$(ctrl)[0].id;
+        var userId = '@userId';
+        var vc='@voucherCode';
+        $.ajax({
+            type: "POST",
+            async: true,
+            data: JSON.stringify({ "Id": courseId, "userId": userId, "vc": vc }),
+            contentType: 'application/json; charset=utf-8',
+            url: "/VoucherCode/VoucherStatusAct",
+            success: function (response) {
+                location.href = "/VoucherCode/VoucherStatus";
+                localStorage.clear();
+            },
+            error: function (response) {
+                localStorage.clear();
+            }
+        });
+        localStorage.clear();
+    }
+
+</script>
+

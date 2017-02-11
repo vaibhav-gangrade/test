@@ -1,0 +1,111 @@
+﻿@using Millionlights.Controllers
+@{
+    ViewBag.Title = "_MainHeader";
+    var userName = Session["UserName"];
+    var UserId = Session["UserID"];
+    var UserProfileImg = Session["ImagePath"];
+    
+}
+<div id="navbar" class="navbar navbar-default">
+    <script type="text/javascript">
+        try { ace.settings.check('navbar', 'fixed') } catch (e) { }
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <!-- #section:basics/sidebar.mobile.toggle -->
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+            <span class="sr-only">Toggle sidebar</span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+        </button>
+
+        <!-- /section:basics/sidebar.mobile.toggle -->
+        <div class="navbar-header pull-left">
+            <!-- #section:basics/navbar.layout.brand -->
+            <a href="#" class="navbar-brand">
+                <small>
+                    <a href="/Home/Dashboard">
+                        <img src="/Content/assets/img/slider/footer-logo.png" style="width: 35%; padding-top: 3%;" class="img-responsive">
+                        </a>
+                </small>
+            </a>
+        </div>
+       
+        <!-- #section:basics/navbar.dropdown -->
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
+            <ul class="nav ace-nav">
+                <!-- #section:basics/navbar.user_menu -->
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" id="profileAnchor">
+                        @if (UserProfileImg != null)
+                        {
+                            <img class="nav-user-photo" src="@String.Format("/Images/UsersImg/{0}", UserProfileImg)" alt="Jason's Photo" />
+                        }
+                        else
+                        {
+                            <img class="nav-user-photo" src="~/Content/assets/avatars/ProfileImage.png" alt="Jason's Photo" />
+                        }
+                        <span class="user-info">
+                            <small>Welcome,</small>
+                            @userName
+                        </span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close righttoggle" id="DDLMenue">
+                        <li>
+                            <a href="/Home/Settings">
+                                <i class="ace-icon fa fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/UserRegister/Profile?id=@UserId" >
+                                <i class="ace-icon fa fa-user"></i>
+                                Profile
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            @Html.ActionLink("Logout", "LoginOut", "UserRegister")
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- /section:basics/navbar.user_menu -->
+            </ul>
+        </div>
+    </div><!-- /.navbar-container -->
+</div>
+
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#profileAnchor").mouseover(function () {
+            $('#DDLMenue').show();
+        });
+        $("#profileAnchor").mouseout(function () {
+            $('#DDLMenue').hide();
+        });
+        $("#DDLMenue").mouseover(function () {
+            $(this).show();
+        });
+        $("#DDLMenue").mouseout(function () {
+            $(this).hide();
+        });
+    });
+    function ProfilePage()
+    {
+        location.href = "/UserRegister/Profile/?id=" + @UserId + "";
+        return false;
+    }
+</script>

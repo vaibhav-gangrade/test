@@ -1,0 +1,880 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.Course>
+@using PagedList.Mvc;
+@{
+    int currentPage = -1;
+    ViewBag.Title = "e-Learning Certificate Programs in India | Free Video Lectures Pune";
+    //var courseCategories = ViewBag.CourseCategory;
+    //var courseDetails = ViewBag.Course;
+    var userName = Session["UserName"];
+    var userId = Session["UserID"];
+    //var courseType = ViewBag.CourseType;
+    //var courseId = ViewBag.CourseId;
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    bool isExist = false;
+}
+@{
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+}
+@section ExtraMetaTags
+{
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript';
+            po.async = true;
+            po.src = 'https://apis.google.com/js/client:plusone.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+    @*<script type="text/javascript" src="https://platform.linkedin.com/in.js">
+            api_key: 75cxqdj7v4gd8f
+            authorize: false
+            onLoad: onLinkedInLoad
+            scope: w_share
+        </script>*@
+    <meta name="keywords" content="E- learning Certificate Programs in India, Free Video Lectures, e learning courses, video courses, video classes india, pune" />
+    <meta name="description" content="MillionLights offers e-learning certificate programs in India and provides free video lectures for a variety of subjects." />
+}
+@*<button class="g-interactivepost"
+            data-bind="attr: { 'data-contenturl': GoogleShareURL,'data-calltoactionurl':GoogleShareURL }"
+            data-contenturl="http://www.millionlights.in/Course/AboutCourse/Linux/"
+            data-contentdeeplinkid="/pages"
+            data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
+            data-cookiepolicy="single_host_origin"
+            data-prefilltext="This is the excerpt"
+            data-calltoactionlabel="READ"
+            data-calltoactionurl="http://www.millionlights.in/Course/AboutCourse/Linux/"
+            data-calltoactiondeeplinkid="/pages/create">
+        Tell your friends
+    </button>*@
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link href="~/Content/Custom/Animation.css" rel="stylesheet" />
+
+@*Knockout Section*@
+<script src="~/Scripts/JS/PublicCoursesJS.js"></script>
+<script src="~/Scripts/Knockout/knockout-2.3.0.debug.js"></script>
+<script src="~/Scripts/Knockout/knockout-2.3.0.js"></script>
+<script src="~/Scripts/Knockout/knockout-3.3.0.debug.js"></script>
+<script src="~/Scripts/Knockout/knockout-3.3.0.js"></script>
+<script src="~/Scripts/Knockout/knockout.validation.js"></script>
+<script src="~/Scripts/Knockout/knockout.validation.min.js"></script>
+@*Knockout Section*@
+
+<div id="loderimage" class="loading" style="text-align:center;margin-top:50px">
+
+    <img src="~/Images/loading1.gif" /><br />
+    <h4 style="text-align:center">Courses Are Loading Please Wait...</h4>
+
+</div>
+@*<img src="~/Images/InternetSlowdown_Day.gif" />*@
+@*<img src="http://blog.teamtreehouse.com/wp-content/uploads/2015/05/InternetSlowdown_Day.gif">*@
+
+<section id="main_content" style="display:none">
+    @*<div class="loader"></div>*@
+    <div>
+        <div class="row">
+            <aside class="col-lg-3 col-md-4 col-sm-4 allCoursesAside">
+                <div class="box_style_1 ">
+                    <h4>Categories<i class="reveal icon-minus-circled-1 floatRight"> </i></h4>
+
+                    <ul class="submenu-col">
+                        <li><a href="" data-bind="click: $root.displayCourses" id="active">All Courses</a></li>
+                        <li data-bind="foreach: coursecategory">
+                            <a href="" class="cursorPointer" data-bind="click: $root.displayCourses">
+                                <span data-bind="text: CategoryCourseCount"></span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <h4>
+                        Price <i class="reveal icon-plus-circled-1 floatRight"></i>
+                    </h4>
+
+                    <ul class="submenu-col" style="display: none;">
+                        <li><a href="" data-bind="click: $root.searchFreeCourses">Free Courses</a></li>
+                        <li style="margin-left:6%">Price in Range</li>
+                        <input type="text" style="width: 46%;" placeholder="Min" id="min" autocomplete="off">-
+                        <input type="text" style="width: 46%;" placeholder="Max" id="max" autocomplete="off">
+                        <li><a href="" class="button_top btnsignin signupbg btnsignUp detailClass" style="text-align:center" data-bind="click: $root.searchCoursesByPriceRange">Search</a></li>
+                    </ul>
+                    <h4>Availability<i class="reveal icon-plus-circled-1 floatRight"> </i></h4>
+
+                    <ul class="submenu-col" data-bind="foreach: courseAvailability" style="display: none;">
+                        <li>
+                            <a href="" class="cursorPointer" data-bind="click: $root.displayCourses">
+                                <span data-bind="text: CourseAvailabilityCount"></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <h4>Level<i class="reveal icon-plus-circled-1 floatRight"> </i></h4>
+
+                    <ul class="submenu-col" data-bind="foreach: courseLevel" style="display: none;">
+                        <li>
+                            <a href="" class="cursorPointer" data-bind="click: $root.displayCourses">
+                                <span data-bind="text: CourseLevelCount"></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <h4>Language<i class="reveal icon-plus-circled-1 floatRight"> </i></h4>
+
+                    <ul class="submenu-col" data-bind="foreach: courseLanguage" style="display: none;">
+                        <li>
+                            <a href="" class="cursorPointer" data-bind="click: $root.displayCourses">
+                                <span data-bind="text: CourseLanguageCount"></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <h4>Course Type<i class="reveal icon-plus-circled-1 floatRight"> </i></h4>
+
+                    <ul class="submenu-col" data-bind="foreach: courseType" style="display: none;">
+                        <li>
+                            <a href="" class="cursorPointer" data-bind="click: $root.displayCourses">
+                                <span data-bind="text: CourseTypeCount"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </aside>
+            <div id="CoursesSection" class="col-lg-9 col-md-8 col-sm-8" style="margin-right: -26px;margin-top:2.5%;">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-image: linear-gradient(to bottom,#f5f5f5 0,#1dd7b2 100%) !important;">
+                            <h4 class="panel-title" style="text-align:center;font-weight: bold;">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Free Courses<i class="indicator icon-minus pull-right"></i></a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse in">
+                            <div class="panel-body" data-bind="visible: freecourses().length > 0" style="display:none;">
+                                <div class="row ib-container" id="ib-container" data-bind="foreach: freecourses">
+                                    <article class="paddingLeftRightZero">
+                                        <div class="col-item marginBottomZero">
+                                            <div class="photo">
+                                                <a href="#">
+                                                    <a data-bind="attr: { id: Id,href:hrefUrl }" class="detailClass">
+                                                        <img data-bind="attr: { src: ImageLink }" style="height:151px;">
+                                                    </a>
+                                                </a>
+                                                <div class="cat_row">
+                                                    <a href="#" data-bind="text: TempCourseCatName">
+                                                        <span data-bind="attr: {title: courseCatName}">...</span>
+                                                    </a>
+                                                    <span class="pull-right">
+                                                        <i class=" icon-clock"></i><span data-bind="text: CourseDuration"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="info" style="padding-bottom: 0px;">
+                                                <div class="row">
+                                                    <div class="course_info col-md-12 col-sm-12 CourseName-block">
+                                                        <a class="detailClass" data-bind="attr: { id: Id}">
+                                                            <div id="shortdiv" style="height:50px;">
+                                                                <div>
+                                                                    <h4 data-bind="text: CourseName">
+                                                                        @*<span data-bind="attr: {title:CourseName}">...</span>*@
+                                                                    </h4>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div class="shortdescription">
+                                                            <p data-bind="text: ShortDescription"> </p>
+                                                        </div>
+                                                        <div class="rating">
+                                                            @*<i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class=" icon-star-empty"></i>*@
+                                                            <ul style="margin-left:-40px;display:inline-flex;">
+                                                                <li data-bind="foreach: new Array(FilledRatings)" style="list-style:none;"><i class="icon-star"></i></li>
+                                                                <li data-bind="foreach: new Array(EmptyRatings)" style="list-style:none;"><i class="icon-star-empty"></i></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="price pull-right">
+                                                            <p data-bind="text: CoursePrice">
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-bind="ifnot: CourseAvailability">
+                                                    <div class="separator clearfix" style="background-color: seashell;height: 36px;">
+                                                        <p style="font-weight: bold; font-size: 14px;">Starting Soon....</p>
+                                                    </div>
+                                                    <div class="separator clearfix" style="text-align: center;">
+                                                        <a class="button_top btnsignin signupbg btnsignUp detailClass" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class=" icon-list"></i>Details</a>
+                                                        @*<button id="postToWallWithFBUiPrompt" type="button" style="padding: 6px 16px 3px 5px !important; background: #3b5998 !important; border: none; margin-top: 5px; color: #fff; font-size: 11px; text-decoration: none; display: inline-block; border-radius: 3px; cursor: pointer; outline: none; font-weight: 700; text-transform: uppercase; -webkit-font-smoothing: antialiased;" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.ShortDescription','@course.Id', '@course.CourseImageLink');">
+                                                                <i class="icon-facebook"></i> Share
+                                                            </button>*@
+
+                                                    </div>
+                                                </div>
+                                                <div data-bind="if: CourseAvailability">
+                                                    <div class="separator clearfix" style="background-color: aliceblue; height: 36px;">
+                                                        <p style="font-weight: bold; font-size: 14px;">Active</p>
+                                                    </div>
+                                                    <div data-bind="if: IsCourseEnrolled">
+                                                        <div class="separator clearfix" style="text-align:center">
+                                                            <a class="actCoupon enrollClass" onclick="return EnrollCourses(this);" style=" padding:6px 10px 3px 5px !important; background-color:grey; pointer-events:none; cursor:default;" href="" data-bind="attr: { id: Id}"><i class="icon-export-4"></i>Enrolled</a>
+                                                            <a class="button_top btnsignin signupbg btnsignUp detailClass" onclick="return CourseDetails(this);" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class=" icon-list"></i>Details</a>
+                                                            @*<button id="postToWallWithFBUiPrompt" type="button" style="padding: 6px 16px 3px 5px !important; background: #3b5998 !important; border: none; margin-top: 5px; color: #fff; font-size: 11px; text-decoration: none; display: inline-block; border-radius: 3px; cursor: pointer; outline: none; font-weight: 700; text-transform: uppercase; -webkit-font-smoothing: antialiased;" data-bind="click: postToWallUsingFBUi">
+                                                                    <i class="icon-facebook"></i> Share
+                                                                </button>*@
+
+                                                        </div>
+                                                    </div>
+                                                    <div data-bind="ifnot: IsCourseEnrolled">
+                                                        <div class="separator clearfix" style="text-align:center">
+                                                            <a class="actCoupon enrollClass" onclick="return EnrollCourses(this);" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="    attr: { id: Id }"><i class="icon-export-4"></i>Enroll</a>
+                                                            <a class="button_top btnsignin signupbg btnsignUp detailClass" onclick="return CourseDetails(this);" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class=" icon-list"></i>Details</a>
+                                                            @*<button id="postToWallWithFBUiPrompt" type="button" style="padding: 6px 16px 3px 5px !important; background: #3b5998 !important; border: none; margin-top: 5px; color: #fff; font-size: 11px; text-decoration: none; display: inline-block; border-radius: 3px; cursor: pointer; outline: none; font-weight: 700; text-transform: uppercase; -webkit-font-smoothing: antialiased;" data-bind="click: postToWallUsingFBUi">
+                                                                    <i class="icon-facebook"></i> Share
+                                                                </button>*@
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <hr style="margin-top: 10px !important;margin-bottom: 10px !important;">
+
+                                                    <ul class="social_team" style="text-align:center;">
+                                                        <li><a id="postToWallWithFBUiPrompt" href="" data-bind="click: $root.getcurrentCourse"><i class="icon-facebook"></i></a></li>
+                                                        <li><a href="" data-bind="click: $root.linkcourse" id="ShareOnLinkedIn1"><i class="icon-linkedin"></i></a></li>
+                                                        @*<li><a href="#"><i class=" icon-google"></i></a></li>*@
+                                                        <li>
+                                                            <a href="" data-bind="click: $root.googleShareCourse" id="ShareOnGooglePlus"><i class="icon-google"></i></a>
+                                                            @*<a href="#" class="g-interactivepost" data-bind="attr: { 'data-contenturl': GoogleShareURL,'data-calltoactionurl':GoogleShareURL }"
+                                                               data-contentdeeplinkid="/pages"
+                                                               data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
+                                                               data-cookiepolicy="single_host_origin"
+                                                               data-prefilltext="Prefilled Text Will Appear Here.."
+                                                               data-calltoactionlabel="READ"
+                                                               data-calltoactiondeeplinkid="/pages/create">
+                                                                <i class=" icon-google"></i>
+                                                            </a>*@
+                                                        </li>
+                                                        <li>
+                                                            <a id="SendMessage" data-bind="click: $root.emailCourse" href=""><i class="icon-email"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div data-bind="visible: freecourses().length == 0"><h4>No free course available. Please check other category.</h4></div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-image: linear-gradient(to bottom,#f5f5f5 0,#1dd7b2 100%) !important;">
+                            <h4 class="panel-title" style="text-align:center;font-weight: bold;">
+                                @*<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> Latest Courses (Paid Courses)<i class="indicator pull-right icon-plus"></i></a>*@
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> Paid Courses<i class="indicator pull-right icon-plus"></i></a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" style="height: auto;">
+                            <div class="panel-body" data-bind="visible: courses().length > 0" id="CollapseOneDiv" style="display:none;">
+                                <div class="row ib-container" id="ib-container" data-bind="foreach: courses">
+                                    <article class="paddingLeftRightZero">
+                                        <div class="col-item marginBottomZero">
+                                            <div class="photo">
+                                                <a href="#">
+                                                    <a data-bind="attr: { id: Id,href:hrefUrl }" class="detailClass">
+                                                        <img data-bind="attr: { src: ImageLink }" style="height:151px;">
+                                                    </a>
+                                                </a>
+                                                <div class="cat_row">
+                                                    <a href="#" data-bind="text: TempCourseCatName">
+                                                        <span data-bind="attr: {title: courseCatName}">...</span>
+                                                    </a>
+                                                    <span class="pull-right">
+                                                        <i class=" icon-clock"></i><span data-bind="text: CourseDuration"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="info" style="padding-bottom: 0px;">
+                                                <div class="row">
+                                                    <div class="course_info col-md-12 col-sm-12 CourseName-block">
+                                                        <a class="detailClass" data-bind="attr: { id: Id}">
+                                                            <div id="shortdiv" style="height:50px;">
+                                                                <div>
+                                                                    <h4 data-bind="text: CourseName">
+                                                                        @*<span data-bind="attr: {title:CourseName}">...</span>*@
+                                                                    </h4>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div class="shortdescription">
+                                                            <p data-bind="text: ShortDescription"> </p>
+                                                        </div>
+                                                        <div class="rating">
+                                                            @*<div data-bind="foreach: new Array(filledRatingCount())">
+                                                                    <i class="icon-star"></i>
+                                                                </div>
+                                                                <div data-bind="foreach: new Array(emptyRatingCount())">
+                                                                    <i class=" icon-star-empty"></i>
+                                                                </div>*@
+                                                            @*<i class="icon-star"></i>
+                                                                <i class="icon-star"></i>
+                                                                <i class="icon-star"></i>
+                                                                <i class="icon-star"></i>
+                                                                <i class=" icon-star-empty"></i>*@
+                                                            <ul style="margin-left:-40px;display:inline-flex;">
+                                                                <li data-bind="foreach: new Array(FilledRatings)" style="list-style:none;"><i class="icon-star"></i></li>
+                                                                <li data-bind="foreach: new Array(EmptyRatings)" style="list-style:none;"><i class="icon-star-empty"></i></li>
+                                                            </ul>
+                                                            @*<ul>
+                                                                    <li data-bind="foreach: new Array(EmptyRatings)"><i class="icon-star"></i></li>
+                                                                </ul>*@
+                                                        </div>
+                                                        <div class="price pull-right">
+                                                            <p data-bind="text: CoursePrice">
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-bind="ifnot: CourseAvailability">
+                                                    <div class="separator clearfix" style="background-color: seashell;height: 36px;">
+                                                        <p style="font-weight: bold; font-size: 14px;">Starting Soon....</p>
+                                                    </div>
+                                                    <div class="separator clearfix" style="text-align: center;">
+                                                        <a class="button_top btnsignin signupbg btnsignUp detailClass" onclick="return CourseDetails(this);" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class=" icon-list"></i>Details</a>
+                                                        @*<button id="postToWallWithFBUiPrompt" type="button" style="padding: 6px 16px 3px 5px !important; background: #3b5998 !important; border: none; margin-top: 5px; color: #fff; font-size: 11px; text-decoration: none; display: inline-block; border-radius: 3px; cursor: pointer; outline: none; font-weight: 700; text-transform: uppercase; -webkit-font-smoothing: antialiased;" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.ShortDescription','@course.Id', '@course.CourseImageLink');">
+                                                                <i class="icon-facebook"></i> Share
+                                                            </button>*@
+
+                                                    </div>
+                                                </div>
+                                                <div data-bind="if: CourseAvailability">
+                                                    <div class="separator clearfix" style="background-color: aliceblue; height: 36px;">
+                                                        <p style="font-weight: bold; font-size: 14px;">Active</p>
+                                                    </div>
+                                                    <div data-bind="if: IsCourseEnrolled">
+                                                        <div class="separator clearfix" style="text-align:center">
+                                                            <a class="actCoupon enrollClass" onclick="return EnrollCourses(this);" style=" padding :6px 10px 3px 5px !important; background-color: grey; pointer-events: none; cursor: default;" href="" data-bind="    attr: { id: Id }"><i class="icon-export-4"></i>Enrolled</a>
+                                                            <a class="button_top btnsignin signupbg btnsignUp detailClass" onclick="return CourseDetails(this);" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class=" icon-list"></i>Details</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div data-bind="ifnot: IsCourseEnrolled">
+                                                        <div class="separator clearfix" style="text-align:center">
+                                                            <a class="actCoupon enrollClass" onclick="return EnrollCourses(this);" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="    attr: { id: Id }"><i class="icon-export-4"></i>Enroll</a>
+                                                            <a class="button_top btnsignin signupbg btnsignUp detailClass" onclick="return CourseDetails(this);" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class=" icon-list"></i>Details</a>
+                                                        </div>
+                                                    </div>
+
+                                                    @*<div class="separator clearfix">
+                                                                            <a class="actCoupon enrollClass" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class="icon-export-4"></i>Enroll</a>
+                                                                            <a class="button_top btnsignin signupbg btnsignUp detailClass" style="padding: 6px 10px 3px 5px !important;" href="" data-bind="attr: { id: Id}"><i class=" icon-list"></i>Details</a>
+                                                                            @*<button id="postToWallWithFBUiPrompt" type="button" style="padding: 6px 16px 3px 5px !important; background: #3b5998 !important; border: none; margin-top: 5px; color: #fff; font-size: 11px; text-decoration: none; display: inline-block; border-radius: 3px; cursor: pointer; outline: none; font-weight: 700; text-transform: uppercase; -webkit-font-smoothing: antialiased;" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.ShortDescription','@course.Id', '@course.CourseImageLink');">
+                                                            <i class="icon-facebook"></i> Share
+                                                        </button>
+
+                                                                        </div>*@
+                                                </div>
+                                                <div>
+                                                    <hr style="margin-top: 10px !important;margin-bottom: 10px !important;">
+
+                                                    <ul class="social_team" style="text-align:center;">
+                                                        <li><a id="postToWallWithFBUiPrompt" href="" data-bind="click: $root.getcurrentCourse"><i class="icon-facebook"></i></a></li>
+                                                        @*<li><a href="" onclick="ShareOnLinkedIn1('.net','test');return false;" target="_blank"><i class="icon-linkedin"></i></a></li>*@
+                                                        <li><a href="" data-bind="click: $root.linkcourse" id="ShareOnLinkedIn1"><i class="icon-linkedin"></i></a></li>
+                                                        @*<li><a href="#"><i class=" icon-google"></i></a></li>*@
+                                                        @*<li>
+                                                            <a href="" class="g-interactivepost" data-contenturl="http://localhost/Course/AboutCourse/Single%20Variable%20Calculus%20I/" data-contentdeeplinkid="/pages" data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com" data-cookiepolicy="single_host_origin" data-prefilltext="Prefilled Text Will Appear Here.." data-calltoactionlabel="READ" data-calltoactionurl="http://localhost/Course/AboutCourse/Single%20Variable%20Calculus%20I/" data-calltoactiondeeplinkid="/pages/create" data-gapiscan="true" data-onload="true" data-gapiattached="true">
+                                                                <i class=" icon-google"></i>
+                                                            </a>
+
+                                                        </li>*@
+                                                        <li>
+                                                            <a href="" data-bind="click: $root.googleShareCourse" id="ShareOnGooglePlus"><i class="icon-google"></i></a>
+                                                            @*<a href="#" class="g-interactivepost" data-bind="attr: { 'data-contenturl': GoogleShareURL,'data-calltoactionurl':GoogleShareURL }"
+                                                               data-contentdeeplinkid="/pages"
+                                                               data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
+                                                               data-cookiepolicy="single_host_origin"
+                                                               data-prefilltext="Prefilled Text Will Appear Here.."
+                                                               data-calltoactionlabel="READ"
+                                                               data-calltoactiondeeplinkid="/pages/create">
+                                                                <i class=" icon-google"></i>
+                                                            </a>*@
+                                                        </li>
+                                                        <li>
+                                                            <a id="SendMessage" data-bind="click: $root.emailCourse" href=""><i class="icon-email"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div data-bind="visible: courses().length == 0"><h4>No paid course available. Please check other category.</h4></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="writecontentsection" class="loading" style="text-align:center;margin-top:50px">
+
+                <img src="~/Images/loading1.gif" /><br />
+                <h4 style="text-align:center">Courses Are Loading Please Wait...</h4>
+
+            </div>
+        </div>
+        <hr>
+    </div>
+</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#loderimage").show();
+        $("#main_content").hide();
+        $("#writecontentsection").hide();
+        var viewModel = new CategoryViewModel();
+        ko.applyBindings(viewModel);
+    });
+</script>
+<div id="fb-root"></div>
+<script type="text/javascript">
+    var APP_ID = "806929762735402";
+    // Facebook Deveoper account: Archana
+    //var APP_ID = "389441631447093";
+    window.fbAsyncInit = initFacebook;
+    function initFacebook() {
+        FB.init({
+            appId: APP_ID,
+            status: true, // check login status
+            cookie: false, // enable cookies to allow the server to access the session
+            xfbml: true  // parse XFBML
+        });
+        FB.getLoginStatus(onFacebookLoginStatus);
+    };
+
+    function onFacebookLoginStatus(response) {
+        //nothing to do
+    }
+
+    (function () {
+        var e = document.createElement('script');
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+    }());
+    function postToWallUsingFBUi() {
+        var name = this.CourseName;
+        var price = this.CoursePrice;
+        var desc = this.ShortDescription;
+        var courseId = this.Id;
+        var imgName = this.ImageName;
+        var picUrl = '';
+        if (imgName != '178x100_2.png') {
+            picUrl = 'https://www.millionlights.org/Images/CourseImg/' + courseId + '/' + imgName;
+        }
+        else {
+            picUrl = 'https://www.millionlights.org/Images/noimage378X225.png';
+        }
+
+        // Done by Archana
+        var path = 'https://www.millionlights.org/Course/AboutCourse?id=' + courseId;
+        var data =
+		{
+		    // Done by Archana
+		    //method: 'stream.publish',
+		    method: 'feed',
+		    message: "Posted using FB.ui and picture.",
+		    display: 'iframe',
+		    caption: desc,
+		    name: name,
+		    picture: picUrl,
+		    link: "https://www.millionlights.org",
+		    redirect_uri: path,
+		    description: price,
+		}
+        FB.ui(data, onPostToWallCompleted);
+    }
+
+    function onPostToWallCompleted(response) {
+        if (response) {
+            if (response.error) {
+                bootbox.dialog({
+                    message: response.error.message,
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary"
+                        }
+                    }
+                });
+            }
+            else {
+                if (response.id) {
+                    bootbox.dialog({
+                        message: "Shared the course successfully",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+                else if (response.post_id) {
+                    bootbox.dialog({
+                        message: "Shared the course successfully",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+                else {
+                    bootbox.dialog({
+                        message: "OOPs, Sharing failed. Please try again.",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            bootbox.dialog({
+                message: "Posting has been canceled.",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary"
+                    }
+                }
+            });
+            // user cancelled
+        }
+    }
+</script>
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+<script type="text/javascript">
+    var cartName = "CourseDetails";
+    var currentCourses = '';
+    function getCurrentCartItems() {
+        var itemsCart = window.localStorage[cartName];
+        if (itemsCart === undefined) {
+            return null;
+        }
+
+        var currentItems;
+        try {
+            currentItems = JSON.parse(itemsCart);
+        }
+        catch (e) {
+            currentItems = null;
+        }
+
+        return currentItems;
+    }
+
+    $(document).ready(function () {
+        var cartName = "CourseDetails";
+        if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
+            currentCourses = JSON.parse(window.localStorage[cartName]);
+        }
+        var dataEnroll = "";
+        var couponCode = null;
+        var currentItems = getCurrentCartItems();
+        if (currentItems == null || currentItems == "") {
+            currentItems = [];
+        }
+
+        $('.reveal').click(function () {
+            if ($(this).hasClass('icon-minus-circled-1')) {
+                $(this).parent().nextAll('ul.submenu-col:first').hide(500);
+                $(this).addClass('icon-plus-circled-1').removeClass('icon-minus-circled-1');
+            }
+            else {
+                $(this).parent().nextAll('ul.submenu-col:first').show(500);
+                $(this).addClass('icon-minus-circled-1').removeClass('icon-plus-circled-1');
+            }
+        });
+    })
+
+    function setCookie(cookieName, cookieValue, nDays) {
+        var today = new Date();
+        var expire = new Date();
+        if (nDays == null || nDays == 0) {
+            nDays = 1;
+        }
+        expire.setTime(today.getTime() + 3600000 * 24 * nDays);
+        document.cookie = cookieName + "=" + escape(cookieValue)
+        + ";expires=" + expire.toGMTString() + "; path=/";
+    }
+
+    function removeItem(tempCourse, courseId) {
+        var cc = 0;
+        for (var i = 0; i < tempCourse.length; i++) {
+            if (courseId === tempCourse[i].CourseId) {
+                if (cc == 0) {
+                    tempCourse.splice(i, 1);
+                }
+                cc++;
+            }
+        }
+        return tempCourse;
+    }
+    function CourseDetails() {
+        var courseId = $(this)[0].id;
+        var courseContents = {
+            CourseId: $(this)[0].id,
+            CourseImage: $($(this).parent().parent().parent().parent()).find('img').attr('src'),
+            CourseName: $($(this).parent().parent().parent().parent()).find('.course_info h4')[0].innerHTML,
+            CourseDescription: $($(this).parent().parent().parent().parent()).find('.course_info p')[0].innerHTML,
+            CoursePrice: $($(this).parent().parent().parent().parent()).find('.course_info .price p')[0].innerHTML,
+            CourseUserId: '@userId'
+        };
+
+        if (currentItems === null) {
+            window.localStorage[cartName] = JSON.stringify([courseContents]);
+        }
+        else {
+            currentItems.push(courseContents);
+            window.localStorage[cartName] = JSON.stringify(currentItems)
+        }
+        //
+        localStorage.CourseId = courseId;
+        location.href = "/Course/AboutCourse?id=" + courseId + "&type=";
+        return false;
+    }
+
+    function CourseInRange() {
+        var minAmt = $("#min").val();
+        var maxAmt = $("#max").val();
+
+        if (parseFloat(minAmt) > parseFloat(maxAmt)) {
+            bootbox.dialog({
+                message: "Max Amount Should be greater!!!",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary"
+                    }
+                }
+            });
+            return false;
+        }
+        else {
+            //location.href = "/Course/AllCourses?MinPrice=" + minAmt + "&MaxPrice=" + maxAmt + "&type=FilterCourse";
+            location.href = "/Course/AllCourses?MinPrice=" + minAmt + "&MaxPrice=" + maxAmt + "&type=FilterCourse";
+            return false;
+        }
+    }
+    function EnrollCourses(event) {
+        var currentItems = getCurrentCartItems();
+        localStorage.CouponCode = null;
+        var userId = '@userId';
+        if (userId == '') {
+            window.localStorage.removeItem(cartName);
+            currentItems = null;
+        }
+        var courseId = $(event)[0].id;
+        $.cookie("CourseID", courseId);
+
+        var courseContents = {
+            CourseId: $(event)[0].id,
+            CourseImage: $($(event).parent().parent().parent().parent().parent()).find('img').attr('src'),
+            CourseName: $($(event).parent().parent().parent().parent()).find('.course_info h4')[0].innerHTML,
+            CourseDescription: $($(event).parent().parent().parent().parent()).find('.course_info p')[0].innerHTML,
+            CoursePrice: $($(event).parent().parent().parent().parent()).find('.course_info .price p')[0].innerHTML,
+            CourseUserId: '@userId'
+        };
+
+        if (currentItems === null) {
+            window.localStorage[cartName] = JSON.stringify([courseContents]);
+        }
+        else {
+            currentItems.push(courseContents);
+            window.localStorage[cartName] = JSON.stringify(currentItems)
+            //  currentCourses = JSON.parse(window.localStorage[cartName]);
+        }
+        //
+        localStorage.CourseId = courseId;
+
+        var userId = '@userId';
+        if (userId == '') {
+            var url = "/Account/Login";
+            window.location.href = url;
+
+        }
+        else {
+            if ($.cookie("CourseID") != null) {
+                dataEnroll = $.cookie("CourseID");
+                $.ajax({
+                    type: "POST",
+                    async: true,
+                    data: JSON.stringify({ "data": dataEnroll }),
+                    contentType: 'application/json; charset=utf-8',
+                    url: "/UserRegister/GetUserCourses",
+                    success: function (response) {
+                        var resp = JSON.parse(response);
+                        if (resp.enrollCourse == "true") {
+                            var courseId = resp.couresId;
+                            var tempCurrentItems = JSON.parse(window.localStorage[cartName]);
+                            var remCourses = removeItem(tempCurrentItems, courseId);
+                            currentItems = remCourses;
+                            window.localStorage[cartName] = JSON.stringify(remCourses);
+                            bootbox.dialog({
+                                message: '@messages["AlredyEnroll"]',
+                                buttons: {
+                                    "success": {
+                                        "label": "Ok",
+                                        "className": "btn-sm btn-primary",
+                                        callback: function () {
+                                        }
+                                    },
+                                    "fail": {
+                                        "label": "Cancel",
+                                        "className": "btn-sm btn-primary",
+                                        callback: function () {
+                                            //location.href = '/Home/UserDashboard';
+                                        }
+
+                                    },
+
+                                }
+                            });
+                        }
+                        else {
+                            location.href = "/Order/Details";
+                        }
+
+                    },
+                    error: function (response) {
+                        localStorage.clear();
+                    }
+                });
+            }
+
+            $.removeCookie("CourseID");
+        }
+
+        return false;
+    }
+    function CourseDetails(event) {
+        var prevElement = 0;
+        if ($(event)[0].previousElementSibling == null || $(event).parent().parent().find('a.enrollClass')[0] == undefined) {
+            prevElement = 1;
+        }
+        var currentItems = getCurrentCartItems();
+        localStorage.CouponCode = null;
+
+        var courseId = $(event)[0].id;
+        var coursName = null;
+        var coursImage = null;
+        var coursDescription = null;
+        var coursPrice = null;
+        if ($(event)[0].text == "Details") {
+            coursName = $($(event).parent().parent().parent().parent()).find('.course_info h4')[0].innerHTML;
+            coursImage = $($(event).parent().parent().parent().parent().parent()).find('img').attr('src');
+            coursDescription = $($(event).parent().parent().parent().parent()).find('.course_info p')[0].innerHTML;
+            coursPrice = $($(event).parent().parent().parent().parent()).find('.course_info .price p')[0].innerHTML;
+        }
+        else {
+            coursName = $($(event).parent().parent().parent()).find('.course_info h4')[0].innerHTML;
+            coursImage = $($(event).parent().parent().parent()).find('img').attr('src');
+            coursDescription = $($(event).parent().parent().parent()).find('.course_info p')[0].innerHTML;
+            coursPrice = $($(event).parent().parent().parent()).find('.course_info .price p')[0].innerHTML;
+        }
+        setCookie("AboutCourseID", courseId, 1);
+        var courseContents = {
+            CourseId: $(event)[0].id,
+            CourseImage: coursImage,
+            CourseName: coursName,
+            CourseDescription: coursDescription,
+            CoursePrice: coursPrice,
+            CourseUserId: '@userId'
+        };
+
+        if (currentItems === null) {
+            window.localStorage[cartName] = JSON.stringify([courseContents]);
+        }
+        else {
+            currentItems.push(courseContents);
+            window.localStorage[cartName] = JSON.stringify(currentItems)
+        }
+        //
+        localStorage.CourseId = courseId;
+        //Redirect user to about course page
+        $.ajax({
+            type: "POST",
+            async: true,
+            data: JSON.stringify({ "Id": courseId, "pe": prevElement }),
+            contentType: 'application/json; charset=utf-8',
+            url: "/Course/AboutCourseData",
+            success: function (response) {
+                location.href = "/Course/AboutCourse/" + encodeURIComponent(coursName.trim()) + "/";
+            },
+            error: function (response) {
+            }
+        });
+        return false;
+    }
+    function GetCoursesforgoogle() {
+        return false;
+    }
+</script>
+
+<!--Blur Effect-->
+<link href="~/Blur/css/style.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function () {
+
+        var $container = $('#ib-container'),
+            $articles = $container.children('article'),
+            timeout;
+
+        $articles.on('mouseenter', function (event) {
+
+            var $article = $(this);
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+
+                if ($article.hasClass('active')) return false;
+
+                $articles.not($article.removeClass('blur').addClass('active'))
+                         .removeClass('active')
+                         .addClass('blur');
+
+            }, 65);
+
+        });
+
+        $container.on('mouseleave', function (event) {
+
+            clearTimeout(timeout);
+            $articles.removeClass('active blur');
+
+        });
+
+    });
+</script>

@@ -1,0 +1,112 @@
+﻿@model Millionlights.Models.CourseCategory
+
+@{
+    int roleID = 0;
+    var userid = Session["UserID"];
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+@using (Html.BeginForm("Edit", "CourseCategories", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value='@userid' name="Userid" />
+    <div class="breadcrumbs breadCrumbAlign" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home/Dashboard">Home</a>
+            </li>
+            <li> <a href="/Partner/Index">Categories</a></li>
+            <li class="active">Edit</li>
+        </ul>
+    </div>
+    <section id="main_content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box_style_2">
+                    <div class="page-header">
+                        <h1>
+                            Categories
+                            <small>
+                                <i class="ace-icon fa fa-angle-double-right"></i>
+                                Edit Category
+                            </small>
+                        </h1>
+                    </div>
+                    <div id="message-contact"></div>
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-md-offset-1">
+                            <div class="form-group regformPadding">
+                                @Html.LabelFor(m => m.Name, "Category Name", new { @class = "control-label" })
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-5">
+                            <div class="form-group regformPadding">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control userregtxt", id = "nameTxt", @placeholder = "Category Name" })
+                                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger errorCatName ", id = "errorCatName" })
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hr hr-18 dotted"></div>
+                    <div class="row well">
+                        <div class="col-md-12 Partner-btn-div">
+                            @Html.ActionLink("Cancel", "/Index", null, new { @class = "btn btn-danger" })
+                            <input type="submit" value="Submit" class="btn btn-success" id="submit-categories" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $('#submit-categories').click(function () {
+
+        var isValid = true;
+        var CatName = $('#nameTxt')[0].value;
+       
+        if (CatName.length == 0) {
+            $('.errorCatName')[0].innerHTML = "Please enter category name.";
+            isValid = false;
+        }
+        else {
+            $('.errorCatName')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    });
+</script>
+

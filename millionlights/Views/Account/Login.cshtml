@@ -1,0 +1,561 @@
+﻿﻿@using System
+@using System.Linq
+@using System.Security.Claims
+@using System.Web
+@using System.Web.Mvc;
+@using Microsoft.Owin.Security
+@using System.Web.Optimization
+@model Millionlights.Models.LoginViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userid = Session["UserID"];
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+    var authentication = Context.GetOwinContext().Authentication;
+    var extUserAlreadyExist = ViewBag.ExtAlreadyExist;
+    var extProviderName = ViewBag.ExtProviderName;
+    var IsAccountDeactivated = ViewBag.AccountDeactivateFlag;
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<section id="login_bg" style="margin-top: -20px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" style="margin-top: 5%; margin-bottom: 5%;">
+                <div id="login">
+                    <p class="text-center">
+                        <a href="/Account/Login">
+                            <img src="/Content/assets/img/slider/header-logo.png" class="img-responsive" style="padding-left:13%;" />
+                        </a>
+                    </p>
+                    <hr>
+                    <form action="/Account/ExternalLogin" method="post">
+
+                        <div class="oauthRow row">
+                            @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
+                        </div>
+                        <div class="login-or"><hr class="hr-or"><span class="span-or">or</span></div>
+
+                        <div class="form-group">
+                            <input id="UserLoginName" type="text" class=" form-control " placeholder="Email-Id" onkeypress="LoginEnterClick(event)">
+                            <span class="input-icon"><i class=" icon-user"></i></span>
+                        </div>
+                        <div class="form-group marginloginpwdTxt">
+                            <input id="UserPaddword" type="password" class=" form-control" placeholder="Password" onkeypress="LoginEnterClick(event)">
+                            <span class="input-icon"><i class="icon-lock"></i></span>
+                        </div>
+                        <p class="small">
+                            <a href="#" style="margin-left: 1%;" onclick="ForgotPwd()">Forgot Password?</a>
+                        </p>
+                        <label id="lblPwdError" class="colorRed"></label>
+                        <a id="btnLoginClick" href="#" class="button_fullwidth" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">Log in</a>
+                        <label id="errorReferralCode" class="errorReferralCode  hidden"></label>
+
+                        <a href="#" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()" class="button_fullwidth-2">Register</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- End login -->
+
+<div id="forgotModel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl">Retrieve Password</label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="dispalyNo"><label class="forgotEmailLbl">Enter your Email</label></div>
+                            <div class="form-group dispalyNo">
+                                <input id="forgotEmail" type="text" class=" form-control " placeholder="Email-Id">
+                                <span class="input-icon"><i class=" icon-user"></i></span>
+                            </div>
+                            <div><label id="emailValMsg" class="colorRed"></label></div>
+                            <div><label id="FPwdSuccessLbl" class="colorRed" style="font-size:small !important;"></label></div>
+                            <div class="rightAlign dispalyNo"><input type="button" value="Resend" id="Regbtn" class="btnRegister btnForword" onclick="forgotPWDResend()" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+<script type="text/javascript">
+    var cartCount = 0;
+
+    function LoginEnterClick(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            //Enter keycode
+            LoginBtnClick();
+        }
+    }
+
+    function ForgotPwd() {
+
+        $('.dispalyNo').removeClass('displayNone');
+        $('#FPwdSuccessLbl').addClass('displayNone');
+        $('#forgotModel').modal('show');
+        return false;
+    }
+
+    var cartName = "CourseDetails";
+    var currentCourses = '';
+
+    $(document).ready(function () {
+        var externalUserAlreadyExist = '@extUserAlreadyExist';
+        var AccountDeactivated = '@IsAccountDeactivated';
+        if (AccountDeactivated != '' & AccountDeactivated != null & AccountDeactivated == "true") {
+            var finalMessage = "Sorry, your account is deactivated. Please contact the MillionLights support team.";
+            bootbox.dialog({
+                message: finalMessage,
+                buttons: {
+                    "success": {
+                        "label": "Ok",
+                        "className": "btn-sm btn-primary",
+                        callback: function () {
+                            localStorage.CouponCode = null;
+                            AccountDeactivated = null;
+                        }
+                    },
+                }
+            });
+        }
+        if (externalUserAlreadyExist == "true") {
+            var finalMessage = "Sorry, the credentials you entered is already registered with your" + " " + '@extProviderName' + " " + "account";
+            bootbox.dialog({
+                message: finalMessage,
+                buttons: {
+                    "success": {
+                        "label": "Ok",
+                        "className": "btn-sm btn-primary",
+                        callback: function () {
+                            localStorage.CouponCode = null;
+                            externalUserAlreadyExist = "false";
+                        }
+                    },
+                }
+            });
+        }
+        debugger
+        if ((localStorage.CouponCode != "null") && (localStorage.CouponCode != undefined)
+            && (localStorage.CouponCode != "undefined") && (localStorage.CouponCode != "")) {
+            debugger
+            window.localStorage.removeItem(cartName);
+            currentItems = null;
+            $('#actCoupontxt')[0].value = localStorage.CouponCode.trim();
+            var couponText = $('#actCoupontxt')[0].value;
+            debugger
+            //if (couponText.length == 15) {
+            if (couponText.length !=8) {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "/UserRegister/CheckCoupon",
+                    data: JSON.stringify({ "couponText": couponText }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        debugger
+                        var resp = JSON.parse(response);
+
+                        if (resp.IsUserId == true) {
+                            $('#lblPwdError')[0].innerHTML = '@messages["NeedCouponActivateMsg"]'
+                        }
+                        else if (resp.IsProsId == true) {
+                            $('#lblPwdError')[0].innerHTML = '@messages["NeedRegForCouponActivateMsg"]'
+                        }
+                        else if (resp.NoUser == true) {
+                            $('#lblPwdError')[0].innerHTML = '@messages["NeedRegForCouponActivateMsg"]'
+                        }
+                        else if (resp.InvalidCoupon == true) {
+                            bootbox.dialog({
+                                message: '@messages["InvalidCoupon"]',
+                                buttons: {
+                                    "success": {
+                                        "label": "Ok",
+                                        "className": "btn-sm btn-primary",
+                                        callback: function () {
+                                            localStorage.CouponCode = null;
+                                        }
+                                    },
+                                }
+                            });
+                            //  $('#lblPwdError')[0].innerHTML = '@messages["CouponInvalid"]'
+                        }
+                    },
+                    error: function (response) {
+                    }
+                });
+            }
+            else if (couponText.length == 8) {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "/UserRegister/ValidateReferralCode",
+                    data: JSON.stringify({ "referralCodeText": couponText }),
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        debugger
+                        var resp = JSON.parse(response);
+
+                        if (resp.InvalidCoupon == true) {
+                            bootbox.dialog({
+                                message: '@messages["InvalidCoupon"]',
+                                buttons: {
+                                    "success": {
+                                        "label": "Ok",
+                                        "className": "btn-sm btn-primary",
+                                        callback: function () {
+                                            localStorage.CouponCode = null;
+                                        }
+                                    },
+                                }
+                            });
+                        }
+                        else {
+                            $('#lblPwdError')[0].innerHTML = '@messages["NeedRegForCouponActivateMsg"]'
+                        }
+                    },
+                    error: function (response) {
+                    }
+                });
+            }
+
+            else {
+                bootbox.dialog({
+                    message: '@messages["InvalidCoupon"]',
+                    buttons: {
+                        "success": {
+                            "label": "Ok",
+                            "className": "btn-sm btn-primary",
+                            callback: function () {
+                                localStorage.CouponCode = null;
+                            }
+                        },
+                    }
+                });
+            }
+
+        }
+    });
+
+    function forgotPWDResend() {
+        localStorage.clear();
+        window.localStorage.removeItem(cartName);
+        currentCourses = '';
+        var uName = $('#forgotEmail').val();
+
+        if (uName != "") {
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "userId": uName }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/ForgotPwd",
+                success: function (response) {
+
+                    if (response == "true") {
+                        $('#emailValMsg')[0].innerHTML = "";
+                        $('#FPwdSuccessLbl')[0].innerHTML = '@messages["SendPassword"]'
+                        $('.dispalyNo').addClass('displayNone');
+                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                        localStorage.clear();
+                        window.localStorage.removeItem(cartName);
+                    }
+                    else if (response == "externalUser") {
+                        $('#FPwdSuccessLbl')[0].innerHTML = '@messages["ifExternalUser"]';
+                        $('#emailValMsg')[0].innerHTML = " ";
+                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                    }
+                    else {
+                        $('#FPwdSuccessLbl')[0].innerHTML = '@messages["ValidRegEmailId"]'
+                        $('#emailValMsg')[0].innerHTML = " "
+                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                    }
+                },
+                error: function (response) { }
+            });
+        } else {
+            $('#emailValMsg')[0].innerHTML = '@messages["EnterEmailId"]'
+        }
+    }
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function LoginBtnClick() {
+        debugger
+        var data = null;
+        if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
+            currentCourses = JSON.parse(window.localStorage[cartName]);
+        }
+
+        if ($.cookie("CourseID") != null) {
+            data = $.cookie("CourseID");
+            $.removeCookie("CourseID");
+        }
+        else if (document.cookie.split('=')[0] == "CourseID") {
+
+            data = document.cookie.split('=')[1];
+            setCookie("CourseID", "", -1);
+        }
+        else if (currentCourses != "" && currentCourses != null && currentCourses[0].CourseId != "") {
+            if (currentCourses[0] != null) {
+                data = currentCourses[0].CourseId;
+            }
+        }
+
+        var uName = $('#UserLoginName').val();
+        var pWord = $('#UserPaddword').val();
+        $.ajax({
+            type: "POST",
+            async: false,
+            data: JSON.stringify({ "userName": uName, "password": pWord, "data": data }),
+            contentType: 'application/json; charset=utf-8',
+            url: "/UserRegister/Login",
+            success: function (response) {
+                debugger
+                var resp = JSON.parse(response);
+                var URL = getParameterByName('RedirectUrl');
+                if (resp.isLogin == "true") {
+                    if (resp.roleID == 1 || resp.roleID == 3) {
+                        window.location.href = "/Home/Dashboard";
+                        localStorage.clear();
+                        window.localStorage.removeItem(cartName);
+                    }
+                    else {
+                        debugger
+                        if ((localStorage.CouponCode != "null") && (localStorage.CouponCode != "") &&
+                            (localStorage.CouponCode != "undefined") && (localStorage.CouponCode != undefined))
+                            if (localStorage.CouponCode.trim().length == 8) {  // For Referral code done by Archana 29.11.2016
+
+                                if (!ApplyReferralCode(resp.userId)) {
+                                    debugger
+                                    bootbox.dialog({
+                                        message: $('.errorReferralCode')[0].innerHTML,
+                                        buttons: {
+                                            "success": {
+                                                "label": "Ok",
+                                                "className": "btn-sm btn-primary",
+                                                 callback: function () {
+                                                    localStorage.CouponCode = null;
+                                                    window.location.href = "/CouponCode/ActivateCoupon";
+                                                }
+                                            },
+                                        }
+                                    });
+
+                                }
+                            }
+                            else {          // For Coupon Code
+                                $.ajax({
+                                    type: "POST",
+                                    async: true,
+                                    data: JSON.stringify({ "vcc": localStorage.CouponCode.trim(), "userId": resp.userId, "isExt": "false" }),
+                                    contentType: 'application/json; charset=utf-8',
+                                    url: "/CouponCode/ActivateCouponCode",
+                                    success: function (response) {
+                                        location.href = "/CouponCode/ActivateCoupon";
+                                        localStorage.clear();
+                                        localStorage.CouponCode = null;
+                                    },
+                                    error: function (response) {
+                                        localStorage.clear();
+                                    }
+                                });
+                            }
+                        else if (resp.enrollCourse == "true") {
+                            debugger
+                            var courseId = resp.couresId;
+                            var remCourses = removeItem(currentCourses, courseId);
+                            window.localStorage[cartName] = JSON.stringify(remCourses);
+                            bootbox.dialog({
+                                message: '@messages["AlredyEnroll"]',
+                                buttons: {
+                                    "success": {
+                                        "label": "Ok",
+                                        "className": "btn-sm btn-primary",
+                                        callback: function () {
+                                            location.href = '/Home/Index';
+                                        }
+                                    },
+                                    "fail": {
+                                        "label": "Cancel",
+                                        "className": "btn-sm btn-primary",
+                                        callback: function () {
+                                            //ML Changes
+                                            location.href = '/Home/UserDashboard';
+                                            //location.href = '/Course/AllCourses';
+                                        }
+
+                                    },
+
+                                }
+                            });
+                        }
+                        else if (currentCourses.length > 0) {
+                            debugger
+                            for (var i = 0; i < currentCourses.length; i++) {
+                                if (currentCourses[i] != null) {
+                                    if (currentCourses[i].CourseUserId == resp.userId) {
+                                        cartCount = cartCount + 1;
+                                        if (cartCount == "Nan") {
+                                            cartCount = 0;
+                                        }
+                                        if ($('#cartItemCount')[0] != undefined) {
+                                            $('#cartItemCount')[0].innerHTML = "My Cart (" + cartCount + ")";
+                                        }
+                                        var courseIdTD = "<td style='vertical-align:middle;'><a href='' class='icon-minus-circled' id='" + currentCourses[i].CourseId + "'></a></td>";
+                                        var courseImageTD = "<td class='courseVal'><img src='" + currentCourses[i].CourseImage + "' class='imgOrderDetails' alt=''></td>";
+                                        var titleDescriptionTD = "<td class='courseVal'><label>" + currentCourses[i].CourseName + "</label> <br />" + currentCourses[i].CourseDescription + "</td>";
+                                        var basePriceTD = "<td class='prceValueTD'><label id='lblPrice'>" + currentCourses[i].CoursePrice + "</label></td>";
+                                        var courseDetailsRowTD = "<tr>" + courseIdTD + courseImageTD + titleDescriptionTD + basePriceTD + "</tr>";
+                                        $("#orderTable tbody").append(courseDetailsRowTD)
+                                    }
+                                }
+                            }
+                            location.href = "/Order/Details";
+                        }
+                        else {
+                            //ML Changes
+                            window.location.href = "/Home/UserDashboard";
+                            //window.location.href = "/Course/AllCourses";
+                        }
+                    }
+                }
+                else if (resp.userExist == "true") {
+                    $('#lblPwdError')[0].innerHTML = '@messages["InvalidUser"]'
+                }
+                else {
+
+                    $('#lblPwdError')[0].innerHTML = '@messages["IncorrectEmailInSystem"]'
+                }
+            },
+            error: function (response) {
+            }
+        });
+    }
+
+    function ApplyReferralCode(useridTemp) {
+        debugger
+        var isValid = true;
+        var ud = useridTemp;
+        var refCode = localStorage.CouponCode.trim(); // $('#ReferralCode')[0].value;
+        {
+            debugger
+            $('.errorReferralCode')[0].innerHTML = "";
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "refCode": refCode, "UserId": ud, "isLoggedIn": "true", "EmailId": null, "PhoneNumber": null }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/CheckReferralCode",
+                success: function (response) {
+                    debugger
+                    var resp = JSON.parse(response);
+                    if (resp.RefCodeFound == false) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, we couldn't find the referral code. Please try valid code.";
+                        isValid = false;
+                    }
+                    else if (resp.CodeExpires == true) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, the code you are trying to redeem is already expired. Please try new code.";
+                        isValid = false;
+                    }
+                    else if (resp.CodeShared == false) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, the code you submitted is not shared with you. Please submit valid referral code.";
+                        isValid = false;
+                    }
+                    else if (resp.AllowReferralCode == false) {
+                        $('.errorReferralCode')[0].innerHTML = "You can't activate your own referral code.";
+                        isValid = false;
+                    }
+                    else if (resp.AlreadyUsed == true) {
+                        $('.errorReferralCode')[0].innerHTML = "You have already activated this code. Please try new code.";
+                        isValid = false;
+                    }
+                    else if (resp.Success == false) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, their is some problem at our side. Please try again.";
+                        isValid = false;
+                    }
+                    else {
+                        isValid = true;
+                        $('.errorReferralCode')[0].innerHTML = "";
+                        bootbox.dialog({
+                            message: "Congratulations! The reward amount of Rs. " + resp.RewardAmount + " has been added to your wallet",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                        debugger
+
+                                        localStorage.clear();
+                                        localStorage.CouponCode = null;
+                                        localStorage.value = "MyProfile";
+                                        window.location.href = "/UserRegister/Profile/" + ud;
+                                    }
+                                },
+                            }
+                        });
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+        return isValid;
+    }
+
+    function removeItem(tempCourse, courseId) {
+        var cc = 0;
+        for (var i = 0; i < tempCourse.length; i++) {
+            if (courseId === tempCourse[i].CourseId) {
+                if (cc == 0) {
+                    tempCourse.splice(i, 1);
+                }
+                cc++;
+            }
+        }
+
+        return tempCourse;
+    }
+
+    function setCookie(cookieName, cookieValue, nDays) {
+
+        var today = new Date();
+        var expire = new Date();
+        if (nDays == null || nDays == 0) {
+            nDays = 1;
+        }
+        expire.setTime(today.getTime() + 3600000 * 24 * nDays);
+        document.cookie = cookieName + "=" + escape(cookieValue)
+        + ";expires=" + expire.toGMTString() + "; path=/";
+    }
+
+    function RegisterEnterClick() {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) { //Enter keycode
+            RegisterBtnClick();
+
+        }
+    }
+
+    function RegisterBtnClick() {
+        window.location.href = "/UserRegister/UserRegister";
+        return false;
+    }
+
+    function ResendMe() {
+
+    }
+
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

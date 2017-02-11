@@ -1,0 +1,559 @@
+﻿@model Millionlights.Models.ReferralCodes
+@{
+    ViewBag.Title = "Referral Codes";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerID;
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+        <li> <a href="/MarketingCampaign/ImportUsers">Marketing Campaign</a></li>
+        <li class="active">Referral Code(s)</li>
+    </ul>
+</div>
+
+<section id="main_content">
+    <div>
+
+        <div>
+            <div class="page-header">
+                <h1>
+                    Marketing Campaign
+                    <small>
+                        <i class="ace-icon fa fa-angle-double-right"></i>
+                        Referral Code(s)
+                    </small>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-sm-2">
+                    <div class="form-group ">
+                        <input name="dateRdb" id="dateRdb" type="checkbox" value="dateRdb" class="ace">
+                        <span class="lbl"> Date Range: </span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6" style="display:inline-flex;">
+                    @*<div class="form-group col-sm-4">
+                        <select class="" id="ddlSearchRefCode" name="ddlSearchRefCode" style="width:100%;height:35px;">
+                            <option value="1">Generated Code Date Range</option>
+                            <option value="2">Shared Code Date Range</option>
+                            <option value="3">Used Code Date Range</option>
+                        </select>
+                    </div>*@
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" style="width: 100%; height: 30px;" placeholder="Select register date range From-To" name="date-range-picker" id="id-date-range-picker-1" />
+                        <label class="text-danger errorCodeDate" id="errorCodeDate"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="partnerSelDiv">
+                <div class="col-md-2 col-sm-2">
+                    <div class="form-group">
+                        <input name="statusRdb" id="statusRdb" type="checkbox" value="statusRdb" class="ace">
+                        <span class="lbl"> Status</span>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group col-sm-8">
+                        <select class="" id="StatusID" name="StatusID" style="width:100%;height:35px;">
+                            <option value="1">Shared but not used</option>
+                            <option value="2">Shared and used</option>
+                            <option value="3">Not Shared Yet</option>
+                        </select>
+                    </div>
+                    <label class="text-danger errorNotStatus" id="errorNotStatus"></label>
+                </div>
+              
+            </div>
+            <label class="text-danger errorRdbSelection" id="errorRdbSelection"></label>
+            @*@Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger errorRdbSelection", id = "errorRdbSelection" })*@
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="form-group">
+                        <div class="form-group floatRight">
+                            <button type="button" name="UserInfoTxt" id="UserInfoTxt" class="ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple" onclick="searchRefCodes();"><i class="ace-icon fa fa-search nav-search-icon"></i>Search</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="page-content pagecs">
+            <div class="row">
+                <div class="col-xs-9">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <table id="grid-table"></table>
+
+                    <div id="grid-pager"></div>
+
+                    <script type="text/javascript">
+                        var $path_base = "..";//in Ace demo this will be used for editurl parameter
+                    </script>
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+            </div>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[name=date-range-picker]').daterangepicker({
+            'applyClass': 'btn-sm btn-success',
+            'cancelClass': 'btn-sm btn-default',
+            locale: {
+                applyLabel: 'Apply',
+                cancelLabel: 'Cancel',
+            }
+        });
+    });
+    var grid_data = [];
+    function ValidateSearch() {
+        var isValid = true;
+        var dateRange = $("#id-date-range-picker-1").val();
+        var status = $('#StatusID')[0].value;
+        var dateRdb = document.querySelector('input[id="dateRdb"]:checked');
+        var statusRdb = document.querySelector('input[id="statusRdb"]:checked');
+        if (dateRdb == null && statusRdb == null) {
+            $("#errorRdbSelection")[0].innerHTML = "Please select an option from above to see the referral Codes";
+            $('#errorCodeDate')[0].innerHTML = "";
+            $('#errorNotStatus')[0].innerHTML = " ";
+            isValid = false;
+        }
+        else if (dateRdb != null) {
+            $("#errorRdbSelection")[0].innerHTML = "";
+            if (dateRange.length == 0) {
+                $('#errorCodeDate')[0].innerHTML = "Please select date range.";
+                isValid = false;
+            }
+            else {
+                $('#errorCodeDate')[0].innerHTML = "";
+            }
+        }
+        else {
+            $("#errorRdbSelection")[0].innerHTML = "";
+            if (status.length == 0) {
+                $('#errorNotStatus')[0].innerHTML = "Please select status.";
+                isValid = false;
+            }
+            else {
+                $('#errorNotStatus')[0].innerHTML = "";
+            }
+        }
+        if (isValid == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    function searchRefCodes() {
+        var isValid = ValidateSearch();
+        if (isValid == true) {
+            $('#errorNotStatus')[0].innerHTML = " ";
+            $('#errorCodeDate')[0].innerHTML = " ";
+            grid_data = GetRefCodes();
+            var grid_selector = "#grid-table";
+            var pager_selector = "#grid-pager";
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+            //resize to fit page size
+            $(window).on('resize.jqGrid', function () {
+                $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+            })
+            //resize on sidebar collapse/expand
+            var parent_column = $(grid_selector).closest('[class*="col-"]');
+            $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                    setTimeout(function () {
+                        $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                    }, 0);
+                }
+            })
+
+            jQuery(grid_selector).jqGrid({
+                data: grid_data,
+                datatype: "local",
+                height: 250,
+                colNames: ['Referral Code', 'Referrer', 'Receivers Email', 'Receivers Phone', 'Generated On', 'SharedOn', 'IsCodeUsed', 'CodeUsedOn', 'ReferrerRewardAmount', 'ReceiverRewardAmount'],
+                colModel: [
+                    { name: 'ReferralCode', index: 'ReferralCode', width: 100, unformat: aceSwitch },
+                    { name: 'ReferrerEmail', index: 'ReferrerEmail', width: 200, unformat: aceSwitch },
+                    { name: 'ReceiverEmail', index: 'ReceiverEmail', width: 200, unformat: aceSwitch },
+                    { name: 'ReceiverPhoneNumber', index: 'ReceiverPhoneNumber', width: 250, unformat: aceSwitch },
+                    { name: 'CodeGeneratedOnString', index: 'CodeGeneratedOnString', width: 250, unformat: aceSwitch },
+                    { name: 'SharedOnString', index: 'SharedOnString', width: 250, unformat: aceSwitch },
+                    { name: 'CodeUsed', index: 'CodeUsed', width: 150, unformat: aceSwitch },
+                    { name: 'CodeUsedOnString', index: 'CodeUsedOnString', width: 100, unformat: aceSwitch },
+                    { name: 'ReferrerRewardAmount', index: 'ReferrerRewardAmount', width: 100, unformat: aceSwitch },
+                    { name: 'ReceiverRewardAmount', index: 'ReceiverRewardAmount', width: 100, unformat: aceSwitch }
+                ],
+
+                viewrecords: true,
+                rowNum: 10,
+                rowList: [10, 20, 30],
+                pager: pager_selector,
+                altRows: true,
+                //toppager: true,
+
+                multiselect: false,
+                //multikey: "ctrlKey",
+                multiboxonly: true,
+
+                loadComplete: function () {
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+
+                        updateActionIcons(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+
+                editurl: "/dummy.html",//nothing is saved
+                caption: "Referral Codes History"
+
+                //,autowidth: true,
+
+
+                /**
+                ,
+                grouping:true,
+                groupingView : {
+                     groupField : ['name'],
+                     groupDataSorted : true,
+                     plusicon : 'fa fa-chevron-down bigger-110',
+                     minusicon : 'fa fa-chevron-up bigger-110'
+                },
+                caption: "Grouping"
+                */
+
+            });
+            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+
+
+
+            //enable search/filter toolbar
+            //jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+            //jQuery(grid_selector).filterToolbar({});
+
+
+            //switch element when editing inline
+            function aceSwitch(cellvalue, options, cell) {
+                setTimeout(function () {
+                    $(cell).find('input[type=checkbox]')
+                        .addClass('ace ace-switch ace-switch-5')
+                        .after('<span class="lbl"></span>');
+                }, 0);
+            }
+            //enable datepicker
+            function pickDate(cellvalue, options, cell) {
+                setTimeout(function () {
+                    $(cell).find('input[type=text]')
+                            .datepicker({ format: 'yyyy-mm-dd', autoclose: true });
+                }, 0);
+            }
+
+
+            //navButtons
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                { 	//navbar options
+                    edit: false,
+                    editicon: 'ace-icon fa fa-pencil blue',
+                    add: false,
+                    addicon: 'ace-icon fa fa-plus-circle purple',
+                    del: false,
+                    delicon: 'ace-icon fa fa-trash-o red',
+                    search: true,
+                    searchicon: 'ace-icon fa fa-search orange',
+                    refresh: true,
+                    refreshicon: 'ace-icon fa fa-refresh green',
+                    view: false,
+                    viewicon: 'ace-icon fa fa-search-plus grey',
+                },
+                {
+                    //edit record form
+                    //closeAfterEdit: true,
+                    //width: 700,
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                        style_edit_form(form);
+                    }
+                },
+                {
+                    //new record form
+                    //width: 700,
+                    closeAfterAdd: true,
+                    recreateForm: true,
+                    viewPagerButtons: false,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar')
+                        .wrapInner('<div class="widget-header" />')
+                        style_edit_form(form);
+                    }
+                },
+                {
+                    //delete record form
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        if (form.data('styled')) return false;
+
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                        style_delete_form(form);
+
+                        form.data('styled', true);
+                    },
+                    onClick: function (e) {
+
+                    }
+                },
+                {
+                    //search form
+                    recreateForm: true,
+                    afterShowSearch: function (e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                        style_search_form(form);
+                    },
+                    afterRedraw: function () {
+                        style_search_filters($(this));
+                    }
+                    ,
+                    multipleSearch: true,
+                    /**
+                    multipleGroup:true,
+                    showQuery: true
+                    */
+                },
+                {
+                    //view record form
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                    }
+                }
+            )
+
+
+
+            function style_edit_form(form) {
+                //enable datepicker on "sdate" field and switches for "stock" field
+                form.find('input[name=sdate]').datepicker({ format: 'yyyy-mm-dd', autoclose: true })
+
+                form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+                //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+                //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+
+                //update buttons classes
+                var buttons = form.next().find('.EditButton .fm-button');
+                buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+                buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+                buttons = form.next().find('.navButton a');
+                buttons.find('.ui-icon').hide();
+                buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+                buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+            }
+
+            function style_delete_form(form) {
+                var buttons = form.next().find('.EditButton .fm-button');
+                buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+                buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+            }
+
+            function style_search_filters(form) {
+                form.find('.delete-rule').val('X');
+                form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                form.find('.add-group').addClass('btn btn-xs btn-success');
+                form.find('.delete-group').addClass('btn btn-xs btn-danger');
+            }
+            function style_search_form(form) {
+                var dialog = form.closest('.ui-jqdialog');
+                var buttons = dialog.find('.EditTable')
+                buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+                buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+                buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+            }
+
+            function beforeDeleteCallback(e) {
+                var form = $(e[0]);
+                if (form.data('styled')) return false;
+
+                form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                style_delete_form(form);
+
+                form.data('styled', true);
+            }
+
+            function beforeEditCallback(e) {
+                var form = $(e[0]);
+                form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                style_edit_form(form);
+            }
+
+
+
+            //it causes some flicker when reloading or navigating grid
+            //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+            //or go back to default browser checkbox styles for the grid
+            function styleCheckbox(table) {
+                /**
+                    $(table).find('input:checkbox').addClass('ace')
+                    .wrap('<label />')
+                    .after('<span class="lbl align-top" />')
+
+
+                    $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+                    .find('input.cbox[type=checkbox]').addClass('ace')
+                    .wrap('<label />').after('<span class="lbl align-top" />');
+                */
+            }
+
+
+            //unlike navButtons icons, action icons in rows seem to be hard-coded
+            //you can change them like this in here if you want
+            function updateActionIcons(table) {
+                /**
+                var replacement =
+                {
+                    'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+                    'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+                    'ui-icon-disk' : 'ace-icon fa fa-check green',
+                    'ui-icon-cancel' : 'ace-icon fa fa-times red'
+                };
+                $(table).find('.ui-pg-div span.ui-icon').each(function(){
+                    var icon = $(this);
+                    var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+                    if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+                })
+                */
+            }
+
+            //replace icons with FontAwesome icons like above
+            function updatePagerIcons(table) {
+                var replacement =
+                {
+                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                };
+                $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                    var icon = $(this);
+                    var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                    if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                })
+            }
+
+            function enableTooltips(table) {
+                $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+                $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+            }
+
+            //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+
+            $(document).one('ajaxloadstart.page', function (e) {
+                $(grid_selector).jqGrid('GridUnload');
+                $('.ui-jqdialog').remove();
+            });
+
+        }
+    }
+
+    function GetRefCodes() {
+        var dateRdb = document.querySelector('input[id="dateRdb"]:checked');
+        var statusRdb = document.querySelector('input[id="statusRdb"]:checked');
+
+        var dateRange = null;
+        if (dateRdb!=null) {
+           dateRange= $("#id-date-range-picker-1").val()
+        }
+        var statusId = null;
+        if (statusRdb!=null) {
+            statusId=$('#StatusID')[0].value;
+        }
+
+        var emailList = [];
+        emailList.length = 0;
+        var grid_selector = "#grid-table";
+        $(grid_selector).jqGrid('GridUnload');
+        $('.ui-jqdialog').remove();
+        $.ajax({
+            type: "POST",
+            async: false,
+            contentType: 'application/json',
+            url: "/MarketingCampaign/GetRefCodes",
+            data: "{dateRange:'" + dateRange + "',statusId:'" + statusId + "'}",
+            success: function (response) {
+                emailList.length = 0;
+                if (response != null) {
+                    emailList = response;
+                }
+            },
+            error: function (response) {
+            }
+        });
+        return emailList;
+    }
+</script>
+
+<!--Date range picker-->
+<link href="~/Content/assets/css/daterangepicker.css" rel="stylesheet" />
+<script src="~/Content/assets/js/date-time/moment.js"></script>
+<script src="~/Content/assets/js/date-time/daterangepicker.js"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+<script src="~/Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+<script src="~/Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="~/Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ui.jqgrid.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />

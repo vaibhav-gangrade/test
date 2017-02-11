@@ -1,0 +1,105 @@
+﻿
+@model Millionlights.Models.ProductCode
+@{
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerList;
+    var courseList = (List<SelectListItem>)ViewBag.CourseList;
+    var userName = Session["UserName"];
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link href="~/Content/Multiselct/demo.css" rel="stylesheet" />
+<script src="~/Content/Multiselct/jquery.js"></script>
+<script src="~/Content/Multiselct/ui.core.js"></script>
+<script src="~/Content/Multiselct/ui.dropdownchecklist.js"></script>
+<link href="~/Content/Multiselct/ui.dropdownchecklist.css" rel="stylesheet" />
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+@using (Html.BeginForm("Create", "ProductCode", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", onsubmit = "return ValidateProductCode()" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="box_style_2 productCode-Create">
+        <div class="form-horizontal">
+            <h4>Generate ProductCode</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+
+            <div class="firstDiv">
+
+
+                <div class="txtName">
+                    <div class="form-group formRegGroupCustom">
+                        @Html.LabelFor(model => model.PartnerID, new { @class = "col-sm-4 control-label dropDownClass" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(model => model.PartnerID, partnerList, "--Select Partner--", new { @class = "courseAvailability-dropdown controlmargintop", id = "ddlPartner", })
+                            @Html.ValidationMessageFor(model => model.PartnerID)
+                        </div>
+                    </div>
+                </div>
+                <div class="secondDiv">
+                    <div class="form-group formRegGroupCustom">
+                        @Html.LabelFor(model => model.CourseID, new { @class = "col-sm-4 control-label dropDownClass" })
+                        <div class="col-md-7">
+                            @Html.DropDownListFor(model => model.CourseID, courseList, "--Select Course--", new { @class = "courseAvailability-dropdown controlmargintop", id = "ddlCourse", @multiple = "multiple" })
+                            @Html.ValidationMessageFor(model => model.CourseID)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="firstDiv">
+
+
+                <div class="txtName">
+                    <div class="form-group formRegGroupCustom">
+                        @Html.LabelFor(model => model.Fees, new { @class = "col-sm-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.Fees, new { @class = "form-control", id = "feesTxt" })
+                            @Html.ValidationMessageFor(model => model.Fees, "", new { @class = "text-danger errorFees" })
+                        </div>
+                    </div>
+                </div>
+                <div class="seconddiv">
+                    <div class="form-group formRegGroupCustom">
+                        @Html.LabelFor(model => model.Discount, new { @class = "col-sm-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.Discount, new { @class = "form-control", id = "DiscountTxt" })
+                            @Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger errorDiscount" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="firstDiv">
+
+                <div class="txtName">
+                    <div class="form-group formRegGroupCustom">
+                        @Html.LabelFor(model => model.NOfAllowedCourses, new { @class = "col-sm-4 control-label" })
+                        <div class="col-md-7">
+                            @Html.TextBoxFor(model => model.NOfAllowedCourses, new { @class = "form-control", id = "noOfAllowedCoursesTxt" })
+                            @Html.ValidationMessageFor(model => model.NOfAllowedCourses, "", new { @class = "text-danger errorAllowedCourses" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group form-horizontal">
+                <div class="col-md-offset-5 col-sm-9 CATCsubmitButton">
+                    @Html.ActionLink("Cancel", "Index", null, new { @class = "button_top ProductCode-addbtn floatLeft btnFocus" })
+                    <input type="submit" value="Create" class="btnCreateCourse btnFocus" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    $(function () {
+        
+        $("#ddlCourse").dropdownchecklist();
+
+
+    });
+</script>
+
+

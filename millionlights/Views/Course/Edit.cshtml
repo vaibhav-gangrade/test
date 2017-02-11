@@ -1,0 +1,886 @@
+﻿@model Millionlights.Models.CoursesDetails
+
+@{
+    ViewBag.Title = "Edit";
+    var userId = Session["UserID"];
+    var AvailabilityList = (List<SelectListItem>)ViewBag.CourseAvailability;
+    var CategoryList = (List<SelectListItem>)ViewBag.CourseCategory;
+    var CertficateProviderList = (List<SelectListItem>)ViewBag.CourseCertiProvider;
+    var CourseDeliversyList = (List<SelectListItem>)ViewBag.CourseDelivery;
+    var CourseLevelsList = (List<SelectListItem>)ViewBag.CourseLevels;
+    var CourseLanguagesList = (List<SelectListItem>)ViewBag.CourseLanguages;
+    var CourseProviderList = (List<SelectListItem>)ViewBag.CourseProvider;
+    var ExamManagerList = (List<SelectListItem>)ViewBag.ExamManager;
+    var CourseTypeList = (List<SelectListItem>)ViewBag.CourseTypes;
+    var CertificationList = (List<SelectListItem>)ViewBag.Certification;
+    var userName = Session["Customer"];
+}
+
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<script src="~/Content/learn/js/courses.js"></script>
+
+@section scripts{
+    <script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/JS/Course.js"></script>
+<script>
+    $(function () {
+        $(".cke_button_bulletedlist").hide();
+        $(".cke_button_numberedlist").hide();
+    });
+</script>
+}
+<link href="~/Scripts/Wizard/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/Wizard/jquery-1.10.2.js"></script>
+<script src="~/Scripts/Wizard/ui-1.11.4-jquery-ui.js"></script>
+<script src="~/Content/learn/js/jquery.wizard.js"></script>
+<script src="~/Content/learn/js/jquery.validate.js"></script>
+<script src="~/Content/learn/check_radio/jquery.icheck.js"></script>
+<script src="~/Content/learn/js/courses.js"></script>
+
+@using (Html.BeginForm("EditOne", "Course", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value=@userId name="Userid" />
+     <input type="hidden" value=@Model.CourseId name="id" />
+    <section id="wizard_bg">
+        <div @*class="container"*@>
+            <!-- Start Survey container -->
+            <div id="survey_container">
+                <form name="example-1" id="wrapped" autocomplete="off">
+                    <div id="middle-wizard">
+                        <div class="step stepone" id="step1">
+                            <div class="row">
+                                <h3 class="col-md-10">Enter Course Info</h3>
+                                <div class="col-md-12">
+                                    <ul class="data-list">
+                                        <li>
+                                            @Html.TextBoxFor(model => model.CourseCode, new { @class = "form-control", id = "codeTxt", @placeholder = "Code", name = "Code" })
+                                            @Html.ValidationMessageFor(model => model.CourseCode, "", new { @class = "text-danger errorCode" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.CourseName, "Course Name", new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.CourseName, new { @class = "form-control", id = "courseTxt", @placeholder = "Course Name", name = "CourseName" })
+                                            @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger errorCourseName" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.ShortDescription, "Short Description", new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.ShortDescription, new { @class = "form-control", id = "shortTxt", @placeholder = "Short Description", name = "ShortDescription" })
+                                            @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger errorShortDescription" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.LongDescription, new { @class = "control-label" })
+                                            @Html.TextAreaFor(model => model.LongDescription, new { @class = "ckeditor", @style = "width: 450px; height: 200px;",id = "longTxt"})
+                                            @Html.ValidationMessageFor(model => model.LongDescription, "", new { @class = "text-danger errorLongDescription" })
+                                        </li>
+                                        <li>
+                                            @Html.LabelFor(model => model.Objective, new { @class = "control-label" })
+                                            @Html.TextAreaFor(model => model.Objective, new { @class = "ckeditor", @style = "width: 450px; height: 200px;", id = "objectiveTxt", @placeholder = "Objective" })
+                                            @Html.ValidationMessageFor(model => model.Objective, "", new { @class = "text-danger errorObjective" })
+                                        </li>
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.ExamObjective, new { @class = "control-label" })
+                                            @Html.TextAreaFor(model => model.ExamObjective, new { @class = "ckeditor", @style = "width: 450px; height: 200px;", id = "examObjectiveTxt" })
+                                            @Html.ValidationMessageFor(model => model.ExamObjective, "", new { @class = "text-danger errorExamObjetcive" })
+                                        </li>
+
+                                    </ul>
+                                </div><!-- end col-md-12 -->
+
+                            </div><!-- end row -->
+
+                        </div><!-- end step-->
+
+                        <div class="step row steptwo" id="step2">
+                            <div class="col-md-12">
+                                <h3>Course details</h3>
+                                <div class="col-md-12">
+                                    <ul class="data-list">
+                                        <li>
+                                            @Html.LabelFor(model => model.StartDate, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control", id = "datepicker1", @placeholder = "Start Date", name = "StartDate" })
+                                            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger errorStartDate" })
+                                        </li>
+                                        <li>
+                                            @Html.LabelFor(model => model.EndDate, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control", id = "datepicker2", @placeholder = "End Date", name = "EndDate" })
+                                            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger errorEndDate" })
+                                        </li>
+                                        <li>
+                                            @Html.LabelFor(model => model.CourseImageLink, new { @class = "control-label" })
+                                            @if (!string.IsNullOrEmpty(Model.CourseImageLink))
+                                            {
+                                                <img src="@String.Format("/Images/{0}", Model.CourseImageLink)" style="width:10%;height:10%;" alt="">
+                                            }
+                                            <input type="file" id="uploadiID" name="file" class="heightwidthtext form-control" />
+                                            <br>
+                                            <div id="uploadPreview"></div>
+                                            @Html.ValidationMessageFor(model => model.CourseImageLink, "", new { @class = "text-danger errorCourseImglink" })
+                                        </li>
+
+                                        <li>
+                                            @Html.LabelFor(model => model.Duration, "Duration", new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Duration, new { @class = "form-control", id = "durationTxt", @placeholder = "Duration", name = "Duration" })
+                                            @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger errorDuration" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.Hours, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Hours, new { @class = "form-control", id = "hoursTxt", @placeholder = "Hours", name = "Hours" })
+                                            @Html.ValidationMessageFor(model => model.Hours, "", new { @class = "text-danger errorHours" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.NoOfSessions, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.NoOfSessions, new { @class = "form-control", id = "sessionTxt", @placeholder = "No Of Sessions", name = "NoOfSessions" })
+                                            @Html.ValidationMessageFor(model => model.NoOfSessions, "", new { @class = "text-danger errorSession" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.CourseAvailability, "Course Availability", new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.CourseAvailability, AvailabilityList, "--Select Course Availability--", new { @class = "courseAvailability-dropdown", id = "ddlCourseAvalibility", name = "CourseAvailability" })
+                                            @Html.ValidationMessageFor(model => model.CourseAvailability, "", new { @class = "text-danger errorCourseAvailibility" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.CreditPoints, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.CreditPoints, new { @class = "form-control", id = "credtitsPointTxt", @placeholder = "Credit Points", name = "CreditPoints" })
+                                            @Html.ValidationMessageFor(model => model.CreditPoints, "", new { @class = "text-danger errorCreditsPoints" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.Rating, "Rating", new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Rating, new { @class = "form-control", id = "ratingTxt", @placeholder = "Rating", name = "Rating" })
+                                            @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger  errorRating" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.LabelFor(model => model.Instructor, "Instructor", new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Instructor, new { @class = "form-control", id = "instructorTxt", @placeholder = "Instructor", name = "Instructor" })
+                                            @Html.ValidationMessageFor(model => model.Instructor, "", new { @class = "text-danger  errorInstructor" })
+                                        </li>
+
+                                    </ul>
+                                </div><!-- end col-md-12 -->
+                            </div>
+                        </div><!-- end step -->
+
+                        <div class="step row stepthree" id="step3">
+                            <div class="col-md-12">
+                                <h3>Enable Course</h3>
+                                <div class="col-md-12">
+                                    <ul class="data-list" style="margin:0; padding:0;">
+
+                                        <li>
+                                            @Html.DropDownListFor(model => model.CourseCategory, CategoryList, "--Select Course Category--", new { @class = "courseAvailability-dropdown", id = "ddlCourseCategory", name = "CourseCategory" })
+                                            @Html.ValidationMessageFor(model => model.CourseCategory, "", new { @class = "text-danger errorCourseCategory" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.CourseLevels, CourseLevelsList, "--Select Course Levels--", new { @Class = "courseAvailability-dropdown", id = "ddlCourseLevels", name = "CourseLevels" })
+                                            @Html.ValidationMessageFor(model => model.CourseLevels, "", new { @class = "text-danger errorCourseLevels" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.CourseLanguage, CourseLanguagesList, "--Select Course Language--", new { @Class = "courseAvailability-dropdown", id = "ddlCourseLanguage", name = "CourseLanguage" })
+                                            @Html.ValidationMessageFor(model => model.CourseLanguage, "", new { @class = "text-danger errorCourseLanguage" })
+                                        </li>
+
+
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.CourseTypes, CourseTypeList, "--Select Course Types--", new { @Class = "courseAvailability-dropdown", id = "ddlCourseTypes", name = "CourseTypes" })
+                                            @Html.ValidationMessageFor(model => model.CourseTypes, "", new { @class = "text-danger errorCourseType" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.CertificationProvider, CertficateProviderList, "--Select Certification Provider--", new { @Class = "courseAvailability-dropdown", id = "ddlCertProvider", name = "CertificationProvider" })
+                                            @Html.ValidationMessageFor(model => model.CertificationProvider, "", new { @class = "text-danger errorCertificationProvider" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.ExamManager, ExamManagerList, "--Select Exam Manager--", new { @Class = "courseAvailability-dropdown", id = "ddlExamManager", name = "ExamManager" })
+                                            @Html.ValidationMessageFor(model => model.ExamManager, "", new { @class = "text-danger errorExamManager" })
+                                        </li>
+
+
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.CourseProvider, CourseProviderList, "--Select Course Provider--", new { @Class = "courseAvailability-dropdown", id = "ddlCourseProvider", name = "CourseProvider" })
+                                            @Html.ValidationMessageFor(model => model.CourseProvider, "", new { @class = "text-danger errorcourseProvider" })
+                                        </li>
+
+
+                                        <li class="droptop">
+                                            @Html.CheckBoxFor(model => model.HasVideoLink, new { @class = "check_radio courseBlock", @checked = "checked", name = "HasVideoLink" })
+                                            @Html.LabelFor(model => model.HasVideoLink, new { @class = "control-label chkalign" })
+                                            @Html.ValidationMessageFor(model => model.HasVideoLink, "", new { @class = "text-danger errorhasVideoLink" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.LabelFor(model => model.VideoLink, new { @class = "control-label" })
+                                            @if (!string.IsNullOrEmpty(Model.VideoLink))
+                                            {
+                                                <video style="width:50%;height:50%;" controls>
+                                                    <source src="@Url.Content(String.Format("/Videos/{0}", Model.VideoLink))" />
+                                                </video>
+                                            }
+
+                                            <input type="file" name="file" class="heightwidthtext form-control" />
+                                            @Html.ValidationMessageFor(model => model.VideoLink, "", new { @class = "text-danger errorVideoLink" })
+                                        </li>
+                                        <li class="droptop">
+                                            @Html.CheckBoxFor(model => model.ScheduleApplicable, new { @class = "check_radio courseBlock", @checked = "checked", name = "ScheduleApplicable" })
+                                            @Html.LabelFor(model => model.ScheduleApplicable, new { @class = "control-label chkalign" })
+                                            @Html.ValidationMessageFor(model => model.ScheduleApplicable, "", new { @class = "text-danger errorScheduleApplicable" })
+                                        </li>
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.DeliveryID, CourseDeliversyList, "--Select Delivery Mode--", new { @Class = "courseAvailability-dropdown", id = "ddlDelivery", name = "DeliveryID" })
+                                            @Html.ValidationMessageFor(model => model.DeliveryID, "", new { @class = "text-danger errorDelivery" })
+                                        </li>
+                                        <li class="droptop">
+                                            @Html.CheckBoxFor(model => model.HasSampleContents, new { @class = "check_radio", @checked = "checked", @style = "margin-top:2%;", name = "HasSampleContents" })
+                                            @Html.LabelFor(model => model.HasSampleContents, new { @class = "control-label chkalign" })
+                                            @Html.ValidationMessageFor(model => model.HasSampleContents, "", new { @class = "text-danger errorHasSample" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.TextBoxFor(model => model.SampleContentsLink, new { @class = "form-control", id = "sampleContentsTxt", @placeholder = "Sample Contents Link", name = "SampleContentsLink" })
+                                            @Html.ValidationMessageFor(model => model.SampleContentsLink, "", new { @class = "text-danger errorSampleContents" })
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- end step -->
+
+                        <div class="step row stepfour" id="step4">
+                            <div class="col-md-12">
+                                <h3>Enable Course</h3>
+                                <div class="col-md-12">
+                                    <ul class="data-list">
+                                        <li>
+                                            @Html.TextBoxFor(model => model.EDXCourseLink, new { @class = "form-control", id = "EDXCourseTxt", @placeholder = "EDX Course Link", name = "EDXCourseLink" })
+                                            @Html.ValidationMessageFor(model => model.EDXCourseLink, "", new { @class = "text-danger errorEDXCourseLink" })
+                                        </li>
+
+
+                                        <li class="droptop">
+                                            @Html.DropDownListFor(model => model.Certification, CertificationList, "--Select Certfication--", new { @Class = "courseAvailability-dropdown", id = "ddlCertification", name = "Certification" })
+                                            @Html.ValidationMessageFor(model => model.Certification, "", new { @class = "text-danger errorCertificetion" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.LabelFor(model => model.BasePrice, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.BasePrice, new { @class = "form-control", id = "basePriceTxt", @placeholder = "Base Price", name = "BasePrice" })
+                                            @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger errorBasePrice" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.LabelFor(model => model.LMSCourseId, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.LMSCourseId, new { @class = "form-control", id = "lmsCourseTxt", @placeholder = "LMS Course ID", name = "LMSCourseId" })
+                                            @Html.ValidationMessageFor(model => model.LMSCourseId, "", new { @class = "text-danger errorLmsCourseId" })
+                                        </li>
+
+                                    </ul>
+                                    <div class="col-md-12">
+                                        <div class="">
+                                            @Html.CheckBoxFor(model => model.EnableForLMS, new { @class = "check_radio", @checked = "checked", @style = "margin-top:2%;", name = "EnableForLMS" })
+                                            @Html.LabelFor(model => model.EnableForLMS, new { @class = "control-label chkalign" })
+                                            @Html.ValidationMessageFor(model => model.EnableForLMS, "", new { @class = "text-danger errorLmsEnable" })
+                                        </div>
+                                        <div class="">
+                                            @Html.CheckBoxFor(model => model.EnableForPayment, new { @class = "check_radio", @checked = "checked", @style = "margin-top:2%;", name = "EnableForPayment" })
+                                            @Html.LabelFor(model => model.EnableForPayment, new { @class = "control-label chkalign" })
+                                            @Html.ValidationMessageFor(model => model.EnableForPayment, "", new { @class = "text-danger errorPaymentEnable" })
+                                        </div>
+                                        <div class="">
+                                            @Html.CheckBoxFor(model => model.EnableForCertification, new { @class = "check_radio", @checked = "checked", @style = "margin-top:2%;", name = "EnableForCertification" })
+                                            @Html.LabelFor(model => model.EnableForCertification, new { @class = "control-label chkalign" })
+                                            @Html.ValidationMessageFor(model => model.EnableForCertification, "", new { @class = "text-danger errorcertificationEnable" })
+                                        </div>
+                                        <div class="">
+                                            @Html.CheckBoxFor(model => model.DisplayOnHomePage, new { @class = "check_radio", @checked = "checked", @style = "margin-top:2%;", name = "DisplayOnHomePage" })
+                                            @Html.LabelFor(model => model.DisplayOnHomePage, new { @class = "control-label chkalign" })
+                                            @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger  " })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- end step -->
+
+                        <div class="step row stepfive" id="step5">
+                            <div class="col-md-12">
+                                <h3>Course Content</h3>
+                                <div class="col-md-12">
+                                    <ul class="data-list">
+                                        <li>
+                                            @Html.LabelFor(model => model.ChapterNumber, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.ChapterNumber, new { @class = "form-control", id = "chapternumberTxt", @placeholder = "Stage Number" })
+                                            @Html.ValidationMessageFor(model => model.ChapterNumber, "", new { @class = "text-danger errorChapter" })
+                                        </li>
+
+
+                                        <li class="droptop">
+                                            @Html.TextBoxFor(model => model.ChapterName, new { @class = "form-control", id = "chapternameTxt", @placeholder = "Stage Name" })
+                                            @Html.ValidationMessageFor(model => model.ChapterName, "", new { @class = "text-danger errorChapterName" })
+                                        </li>
+
+                                        <li class="droptop">
+                                            @Html.TextBoxFor(model => model.ChapterDescription, new { @class = "form-control", id = "chapterDescriptionTxt", @placeholder = "Stage Description" })
+                                            @Html.ValidationMessageFor(model => model.BasePrice, "", new { @class = "text-danger errorChapterDescription" })
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- end middle-wizard -->
+                </form>
+                <div id="bottom-wizard">
+                    <button type="button" name="backward" class="btnCancel btnFocus" id="back" onclick="Backward(this)">Backward</button>
+                    <button type="button" name="forward" id="forword" class="btnRegister btnForword btnFocus" onclick="return Forword(this)">Forward </button>
+                    <button id="submit" type="submit" name="process" class="btnRegister btnForword btnFocus" onclick="return validateStep5()">Submit</button>
+                </div><!-- end bottom-wizard -->
+
+
+            </div><!-- end Survey container -->
+
+        </div>
+    </section><!-- end section main container -->
+
+}
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+       $("#ddlCourseAvalibility").val(@Model.CourseAvailability);
+        $("#ddlCourseCategory").val(@Model.CourseCategory);
+        $("#ddlCourseLevels").val(@Model.CourseLevels);
+        $("#ddlCourseTypes").val(@Model.CourseTypes);
+        $("#ddlCourseProvider").val(@Model.CourseProvider);
+        $("#ddlExamManager").val(@Model.ExamManager);
+        $("#ddlCertification").val(@Model.CertificationId);
+        $("#datepicker1").datepicker();
+        $("#datepicker2").datepicker();
+        $("#step2").hide();
+        $("#step3").hide();
+        $("#step4").hide();
+        $("#step5").hide();
+        $("#submit").hide();
+        $("#back").hide();
+    });
+
+    function Backward(ctrl) {
+
+        if ($(ctrl).parent().parent().find('.step')[0].style.display == "block") {
+           // $("#back").attr('disabled', 'disabled');
+
+        }
+        else if ($(ctrl).parent().parent().find('.step')[1].style.display == "block") {
+            $("#step1").show();
+            $("#forword").show();
+            $("#back").hide();
+            $("#submit").hide();
+            $("#step2").hide();
+            $("#step3").hide();
+            $("#step4").hide();
+            $("#step5").hide();
+        }
+        else if ($(ctrl).parent().parent().find('.step')[2].style.display == "block") {
+            $("#step2").show();
+            $("#step1").hide();
+            $("#step3").hide();
+            $("#step4").hide();
+            $("#step5").hide();
+            $("#forword").show();
+            $("#submit").hide();
+        }
+        else if ($(ctrl).parent().parent().find('.step')[3].style.display == "block") {
+            $("#step3").show();
+            $("#step1").hide();
+            $("#step2").hide();
+            $("#step4").hide();
+            $("#step5").hide();
+            $("#forword").show();
+            $("#submit").hide();
+        }
+        else if ($(ctrl).parent().parent().find('.step')[4].style.display == "block") {
+            $("#step4").show();
+            $("#step1").hide();
+            $("#step2").hide();
+            $("#step3").hide();
+            $("#step5").hide();
+            $("#forword").show();
+            $("#submit").hide();
+        }
+
+    }
+
+    function Forword(ctrl) {
+        var isValid = true;
+        var step = 1;
+        if ($(ctrl).parent().parent().find('.step')[0].style.display == "" || $(ctrl).parent().parent().find('.step')[0].style.display == "block") {
+            isValid = validateStep1();
+            if (isValid == true) {
+                $("#step2").show();
+                $("#step1").hide();
+                $("#step3").hide();
+                $("#step4").hide();
+                $("#step5").hide();
+                $("#submit").hide();
+                $("#back").show();
+                return isValid;
+            }
+            else {
+                return isValid;
+
+            }
+            return isValid;
+
+        }
+        else if ($(ctrl).parent().parent().find('.step')[1].style.display == "block") {
+            isValid = validateStep2();
+            if (isValid == true) {
+                $("#step3").show();
+                $("#forword").show();
+                $("#step2").hide();
+                $("#step1").hide();
+                $("#step4").hide();
+                $("#step5").hide();
+                $("#back").show();
+                return isValid;
+            }
+            else {
+                return isValid;
+
+            }
+            return isValid;
+
+        }
+        else if ($(ctrl).parent().parent().find('.step')[2].style.display == "block") {
+            isValid = validateStep3();
+            if (isValid == true) {
+                $("#step4").show();
+                $("#forword").show();
+                $("#step3").hide();
+                $("#step2").hide();
+                $("#step1").hide();
+                $("#step5").hide();
+                $("#back").show();
+                return isValid;
+            }
+            else {
+                return isValid;
+
+            }
+            return isValid;
+
+        }
+        else if ($(ctrl).parent().parent().find('.step')[3].style.display == "block") {
+            isValid = validateStep4();
+            if (isValid == true) {
+                $("#step5").show();
+                $("#submit").show();
+                $("#forword").hide();
+                $("#step1").hide();
+                $("#step2").hide();
+                $("#step3").hide();
+                $("#step4").hide();
+                $("#back").show();
+                return isValid;
+            }
+            else {
+                return isValid;
+
+            }
+            return isValid;
+
+        }
+
+    }
+
+    function validateStep1() {
+        var isValid = true;
+        var code = $("#codeTxt")[0].value;
+        var courseName = $("#courseTxt")[0].value;
+        var shortDescription = $("#shortTxt")[0].value;
+        //Get Text Long Desc
+        var html = CKEDITOR.instances.longTxt.getSnapshot();
+        var dom = document.createElement("DIV");
+        dom.innerHTML = html;
+        var longDescription = (dom.textContent || dom.innerText);
+        //Get Text objective
+        var htmlObj = CKEDITOR.instances.objectiveTxt.getSnapshot();
+        var domObj = document.createElement("DIV");
+        domObj.innerHTML = htmlObj;
+        var objective = (domObj.textContent || domObj.innerText);
+        //Get Text Exam objective
+        var htmlExObj = CKEDITOR.instances.examObjectiveTxt.getSnapshot();
+        var domExObj = document.createElement("DIV");
+        domExObj.innerHTML = htmlExObj;
+        var eaxmObjective = (domExObj.textContent || domExObj.innerText);
+        if (code.length == 0) {
+            $('.errorCode')[0].innerHTML = "Please enter course code.";
+            isValid = false;
+        }
+        else {
+            $('.errorCode')[0].innerHTML = "";
+        }
+        if (courseName.length == 0) {
+            $('.errorCourseName')[0].innerHTML = "Please enter course name.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourseName')[0].innerHTML = "";
+        }
+        if (shortDescription.length == 0) {
+            $('.errorShortDescription')[0].innerHTML = "Please enter short description.";
+            isValid = false;
+        }
+        else if (shortDescription.length > 120) {
+            $('.errorShortDescription')[0].innerHTML = "Please enter minimum 120 character description only.";
+            isValid = false;
+        }
+        else {
+            $('.errorShortDescription')[0].innerHTML = "";
+        }
+        if (longDescription.trim().length == 0) {
+            $('.errorLongDescription')[0].innerHTML = "Please enter long description.";
+            isValid = false;
+        }
+        else {
+            $('.errorLongDescription')[0].innerHTML = "";
+            $("#LongDescHidden").val(html);
+        }
+        if (objective.trim().length == 0) {
+            $('.errorObjective')[0].innerHTML = "Please enter Objective.";
+            isValid = false;
+        }
+        else {
+            $('.errorObjective')[0].innerHTML = "";
+            $("#ObjectiveHidden").val(htmlObj);
+        }
+        if (eaxmObjective.trim().length == 0) {
+            $('.errorExamObjetcive')[0].innerHTML = "Please enter Exam  Objective.";
+            isValid = false;
+        }
+        else {
+            $('.errorExamObjetcive')[0].innerHTML = "";
+            $("#ExamObjectiveHidden").val(htmlExObj);
+        }
+
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
+    function validateStep2() {
+        var isValid = true;
+        var startDate = $("#datepicker1")[0].value;
+        var endDate = $("#datepicker2")[0].value;
+        var duration = $("#durationTxt")[0].value;
+        var hours = $("#hoursTxt")[0].value;
+        var sesion = $("#sessionTxt")[0].value;
+        var courseAvail = $("#ddlCourseAvalibility")[0].value;
+        var creditpoints = $("#credtitsPointTxt")[0].value;
+
+
+        var hregex = "^(0|[1-9][0-9]*)$";
+
+        if (duration.length == 0) {
+            $('.errorDuration')[0].innerHTML = "Please enter course Duration.";
+            isValid = false;
+        }
+        else {
+            $('.errorDuration')[0].innerHTML = "";
+        }
+        if (hours == 0) {
+            $('.errorHours')[0].innerHTML = "Please enter  hours";
+        }
+        else if (!hours.match(hregex)) {
+            $('.errorHours')[0].innerHTML = "Please enter valid hours.";
+        }
+        else {
+            $('.errorHours')[0].innerHTML = " ";
+        }
+        if (sesion == 0) {
+            $('.errorSession')[0].innerHTML = "Please enter session";
+        }
+        else if (!sesion.match(hregex)) {
+            $('.errorSession')[0].innerHTML = "Please enter valid no.of sessions .";
+        }
+        else {
+            $('.errorSession')[0].innerHTML = " ";
+        }
+        if (courseAvail == "") {
+            $('.errorCourseAvailibility')[0].innerHTML = "Please enter course Availability.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourseAvailibility')[0].innerHTML = "";
+        }
+        if (creditpoints == 0) {
+            $('.errorCreditsPoints')[0].innerHTML = "Please enter Credit Points";
+        }
+        else if (!creditpoints.match(hregex)) {
+            $('.errorCreditsPoints')[0].innerHTML = "Please enter valid credit points.";
+        }
+        else {
+            $('.errorCreditsPoints')[0].innerHTML = " ";
+        }
+
+        if (startDate.length == 0) {
+            $('.errorStartDate')[0].innerHTML = "Please enter Start Date.";
+            isValid = false;
+        }
+        else {
+            $('.errorStartDate')[0].innerHTML = "";
+        }
+
+        if (endDate.length == 0) {
+            $('.errorEndDate')[0].innerHTML = "Please enter End Date.";
+            isValid = false;
+        }
+        else {
+            $('.errorEndDate')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function validateStep3() {
+        var isValid = true;
+        var courseCat = $("#ddlCourseCategory")[0].value;
+        var courseLevel = $("#ddlCourseLevels")[0].value;
+        var courseLanguages = $("#ddlCourseLanguage")[0].value;
+        var courseType = $("#ddlCourseTypes")[0].value;
+        var certProvider = $("#ddlCertProvider")[0].value;
+        var exam = $("#ddlExamManager")[0].value;
+        var courseProvider = $("#ddlCourseProvider")[0].value;
+        var courseDelivery = $("#ddlDelivery")[0].value;
+        if (courseCat == "") {
+            $('.errorCourseCategory')[0].innerHTML = "Please enter course Category.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourseCategory')[0].innerHTML = "";
+        }
+        if (courseLevel == "") {
+            $('.errorCourseLevels')[0].innerHTML = "Please enter course Level.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourseLevels')[0].innerHTML = "";
+        }
+        if (courseLanguages == "") {
+            $('.errorCourseLanguage')[0].innerHTML = "Please enter course Level.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourseLanguage')[0].innerHTML = "";
+        }
+        if (courseType == "") {
+            $('.errorCourseType')[0].innerHTML = "Please enter course type.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourseType')[0].innerHTML = "";
+        }
+        if (courseDelivery == "") {
+            $('.errorDelivery')[0].innerHTML = "Please enter delivery .";
+            isValid = false;
+        }
+        else {
+            $('.errorDelivery')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function validateStep4() {
+        var isValid = true;
+        var hregex = "^(0|[1-9][0-9]*)$";
+        var edxlink = $("#EDXCourseTxt")[0].value;
+        var certification = $("#ddlCertification")[0].value;
+        var price = $("#basePriceTxt")[0].value;
+        var Lmscourse = $("#lmsCourseTxt")[0].value;
+        if (edxlink.length == 0) {
+            $('.errorEDXCourseLink')[0].innerHTML = "Please enter EDX course.";
+            isValid = false;
+        }
+        else {
+            $('.errorEDXCourseLink')[0].innerHTML = "";
+        }
+        if (certification == "") {
+            $('.errorCertificetion')[0].innerHTML = "Please enter certification .";
+            isValid = false;
+        }
+        else {
+            $('.errorCertificetion')[0].innerHTML = "";
+        }
+        if (price == 0) {
+            $('.errorBasePrice')[0].innerHTML = "Please enter Price .";
+            isValid = false;
+        }
+        else if (!price.match(hregex)) {
+            $('.errorBasePrice')[0].innerHTML = "Please enter valid Prices .";
+        }
+        else {
+            $('.errorBasePrice')[0].innerHTML = " ";
+        }
+        if (Lmscourse == 0) {
+            $('.errorLmsCourseId')[0].innerHTML = "Please enter Price .";
+            isValid = false;
+        }
+        else if (!Lmscourse.match(hregex)) {
+            $('.errorLmsCourseId')[0].innerHTML = "Please enter valid LMS CoureseId .";
+        }
+        else {
+            $('.errorLmsCourseId')[0].innerHTML = " ";
+        }
+
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
+    function validateStep5() {
+        var isValid = true;
+        var stageno = $("#chapternumberTxt")[0].value;
+        var stagename = $("#chapternameTxt")[0].value;
+        var stageDescp = $("#chapterDescriptionTxt")[0].value;
+        if (stageno.length == 0) {
+            $('.errorChapter')[0].innerHTML = "Please enter stage number.";
+            isValid = false;
+        }
+        else {
+            $('.errorChapter')[0].innerHTML = "";
+        }
+        if (stagename.length == 0) {
+            $('.errorChapterName')[0].innerHTML = "Please enter stage name.";
+            isValid = false;
+        }
+        else {
+            $('.errorChapterName')[0].innerHTML = "";
+        }
+        if (stageDescp.length == 0) {
+            $('.errorChapterDescription')[0].innerHTML = "Please enter stage description.";
+            isValid = false;
+        }
+        else {
+            $('.errorChapterDescription')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
+    function readImage(file) {
+        var reader = new FileReader();
+        var image = new Image();
+
+        reader.readAsDataURL(file);
+        reader.onload = function (_file) {
+            // url.createObjectURL(file);
+            image.onload = function () {
+                var w = this.width,
+                    h = this.height,
+                    t = file.type                          // ext only: // file.type.split('/')[1],
+                ValidateFile(w, h);
+            };
+            image.src = _file.target.result;
+            image.onerror = function () {
+                bootbox.dialog({
+                    message: "Invalid file type:" + file.type,
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary"
+                        }
+                    }
+                });
+            };
+        };
+
+    }
+    $("#uploadiID").change(function (e) {
+        if (this.disabled)
+            return 
+            bootbox.dialog({
+                message: "File upload not supported!",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary"
+                    }
+                }
+            });
+        var F = this.files;
+        if (F && F[0]) for (var i = 0; i < F.length; i++) readImage(F[i]);
+    });
+
+    function ValidateFile(w, h) {
+        var isValid = true;
+        var fuData = document.getElementById('uploadiID');
+        var FileUploadPath = fuData.value;
+        //To check if user upload any file
+        if (FileUploadPath == '') {
+            bootbox.dialog({
+                message: "Please upload an image",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary"
+                    }
+                }
+            });
+
+        } else {
+            var Extension = FileUploadPath.substring(
+                    FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+            //The file uploaded is an image
+
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp"
+                                || Extension == "jpeg" || Extension == "jpg") {
+                isValid = true;
+            }
+            else {
+                $('.errorCourseImglink')[0].innerHTML = "Please Enter File with png,bmp,gif,jpeg,jpg only.";
+                isValid = false;
+            }
+            if (w == 378 && h == 225) {
+                $('.errorCourseImglink')[0].innerHTML = " ";
+                isValid = true;
+            }
+            else {
+                $('.errorCourseImglink')[0].innerHTML = "Please Enter Image 378 X 225 Dimensions Only.";
+                isValid = false;
+            }
+
+        }
+        return isValid;
+    }
+</script>
+

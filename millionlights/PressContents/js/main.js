@@ -1,0 +1,1 @@
+$('.parallax-window').parallax({imageSrc: 'img/top-banner.jpg'});

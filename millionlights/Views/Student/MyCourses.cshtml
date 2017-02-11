@@ -1,0 +1,125 @@
+﻿@model Millionlights.Models.Course
+@{
+
+    var courseDetails = ViewBag.CourseByCategories;
+    var userName = Session["UserName"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+
+    }
+}
+@{
+    ViewBag.Title = "MyOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link href="~/Content/learn/css/style.css" rel="stylesheet" />
+<section id="main_content">
+    <div class="container">
+
+        <div class="row" id="CurrentCourses">
+            <div class="col-sm-2 col-md-2">
+                @if (userName != null && roleID == 1)
+                {
+                    @Html.Partial("_StudentNavigation")
+                }
+            </div>
+            <div class="col-md-10 studentView">
+                <h1 class="chapter_course no_margin_rop">Current Courses<a href="#" class="viewAll pull-right">View all courses</a></h1>
+                @foreach (var course in courseDetails)
+                {
+                    if (course.CourseAvailability == 1)
+                    {
+                        <div class="col-md-12 strip_single_course">
+                            <div class="col-md-4 courseBlock">
+                                <div class="photo">
+                                    <a href="#">
+                                        <img alt="Logo" src="~/Content/learn/img/Test.jpg" class="testLogo-about">
+                                    </a>
+
+                                </div>
+
+                            </div><!-- end strip single course -->
+                            <div class="col-md-8">
+                                <h4><a href="#">@course.CourseName : @course.ShortDescription </a></h4>
+                                <ul>
+                                    <li><i class="icon-clock"></i> @course.StartDate - @course.EndDate</li>
+                                    <br />
+                                    <li> &nbsp;&nbsp;Duration: @course.Duration Days (@course.Hours hours)</li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+            </div><!-- End col-md-8  -->
+        </div><!-- End row -->
+        <div class="row ViewAllCourseBtn" id="ViewAll">
+            <div class="col-md-12">
+                <a href="#" class="viewAll button_medium_outline pull-right">View all courses</a>
+            </div>
+        </div>
+        <div class="row" id="AllCourses">
+            <div class="col-sm-2 col-md-2">
+                @if (userName != null && roleID == 1)
+                {
+                    @Html.Partial("_StudentNavigation")
+                }
+            </div>
+            <div class="col-md-10">
+                <h3 class="chapter_course no_margin_rop">All Courses<a href="#" class="back pull-right">Back</a></h3>
+                @foreach (var course in courseDetails)
+                {
+
+                    <div class="col-md-12 strip_single_course">
+                        <div class="col-md-4 courseBlock">
+                            <div class="photo">
+                                <a href="#">
+                                    <img alt="Logo" src="~/Content/learn/img/Test.jpg" class="testLogo-about">
+
+                                </a>
+
+                            </div>
+
+                        </div><!-- end strip single course -->
+                        <div class="col-md-8">
+                            <h4><a href="#">@course.CourseName : @course.ShortDescription </a></h4>
+                            <ul>
+                                <li><i class="icon-clock"></i> @course.StartDate - @course.EndDate</li>
+                                <br />
+                                <li> &nbsp;&nbsp;Duration: @course.Duration Days (@course.Hours hours)</li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                }
+            </div><!-- End col-md-8  -->
+        </div>
+
+    </div><!-- End container -->
+</section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AllCourses').hide();
+    });
+
+    $('.viewAll').click(function () {
+
+        $('#CurrentCourses').hide();
+        $('#ViewAll').hide();
+        $('#AllCourses').show();
+    });
+    $('.back').click(function () {
+
+        $('#CurrentCourses').show();
+        $('#ViewAll').show();
+        $('#AllCourses').hide();
+    });
+</script>
+

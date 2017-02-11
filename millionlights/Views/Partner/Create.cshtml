@@ -1,0 +1,318 @@
+﻿@model Millionlights.Models.Partner
+@{
+    var partnerTypeList = (List<SelectListItem>)ViewBag.PartnerList;
+    int roleID = 0;
+    var userid = Session["UserID"];
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+@using (Html.BeginForm("Create", "Partner", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="breadcrumbs breadCrumbAlign" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home/Dashboard">Home</a>
+            </li>
+            <li> <a href="/Partner/Index">Partner</a></li>
+            <li class="active">Create</li>
+        </ul>
+    </div>
+    <section id="main_content">
+        <div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class=" box_style_2">
+                        <div class="page-header">
+                            <h1>
+                               Partners
+                                <small>
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                    Add New Partner
+                                </small>
+                            </h1>
+                        </div>
+                        <div id="message-contact"></div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control style_2", id = "PartnerNameTxt", name = "PartnerName", placeholder = "Enter Partner Name" })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger errorPartnerName" })
+                                </div>
+                            </div> 
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.DropDownListFor(m => m.PartnerTypeId, partnerTypeList, "--Select Partner type--", new { @class = "form-control style_2", id = "ddlPartnerType", name = "ddlPartner" })
+                                    @Html.ValidationMessageFor(m => m.PartnerTypeId, "", new { @class = "text-danger errorPartnerTypeName" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailName", placeholder = "Enter Email ID" })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger errorEmail" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control style_2", id = "ContactPersonTxt", name = "ContactPerson", placeholder = "Enter Contact Person Name" })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger errorContactPersonName" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNumberTxt", name = "PhoneNumber", placeholder = "Enter Phone Number" })
+                                    @*<label class="text-danger errorPhoneNo" style="font-size:13px !important;"></label>*@
+                                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger errorPhoneNo" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.PartnerUrl, new { @class = "form-control style_2", id = "PartnerUrlTxt", name = "PartnerUrl", placeholder = "Enter Partner URL" })
+                                    @Html.ValidationMessageFor(m => m.PartnerUrl, "", new { @class = "text-danger errorPartnerUrl" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(m => m.ImageLink, "", new { @class = "control-label" })
+                                    <input type="file" id="uploadID" name="file" class="heightwidthtext form-control" onchange="return ValidateFileUpload()" />
+                                    @Html.LabelFor(m => m.ImageLink, "Partner Image", new { @class = "control-label" })
+                                    <img src="" id="blah">
+                                    <br>
+                                    <span class="middle"><b>Note: &nbsp;</b>Image Dimensions should be 178 X 100.</span><br>
+                                    @Html.ValidationMessageFor(m => m.ImageLink, "", new { @class = "text-danger errorImglink" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "Country", placeholder = "Enter Country" })
+                                    @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger errorCountry" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.State, new { @class = "form-control style_2", id = "StateTxt", name = "State", placeholder = "Enter State" })
+                                    @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger errorState" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control style_2", id = "CityTxt", name = "City", placeholder = "Enter City" })
+                                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger errorCity" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control style_2 TextArea", id = "AddressTxt", name = "Address", placeholder = "Enter Address" })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger errorAddress" })
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(m => m.DisplayOnHomePage, new { @class = "check_radio checkBox-partner", @checked = "checked" })
+                                    @Html.LabelFor(m => m.DisplayOnHomePage, "Display On Home Page", new { @class = "control-label " })
+                                </div>
+                                </div>
+                        </div>
+                        <div class="hr hr-18 dotted"></div>
+                        <div class="row well">
+                            <div class="col-md-12 Partner-btn-div">
+                                @Html.ActionLink("Cancel", "/Index", null, new { @class = "btn btn-danger" })
+                                <input type="submit" value="Submit" class="btn btn-success" id="submit-partner" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var ud = '@userid'
+        if (ud == '') {
+            var url = "/Account/Login";
+            window.location.href = url;
+        }
+    });
+    function ValidateFileUpload() {
+        var isValid = true;
+        var fuData = document.getElementById('uploadID');
+        var FileUploadPath = fuData.value;
+        var imgError = "";
+        //To check if user upload any file
+        if (FileUploadPath == '') {
+            $('.errorImglink')[0].innerHTML = "Please upload an image";
+            imgError = "Please upload an image";
+            isValid = false;
+        } else {
+            var Extension = FileUploadPath.substring(
+            FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+            //The file uploaded is an image
+            if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+                // To Display
+                if (fuData.files && fuData.files[0])
+                {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#blah').attr('src', e.target.result);
+                        var width = $('#blah').width();
+                        var height = $('#blah').height();
+                        if ((width != 178) && (height != 100)) {
+                        }
+                    }
+                    reader.readAsDataURL(fuData.files[0]);
+                }
+            }
+            else {
+                
+                $('.errorImglink')[0].innerHTML = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+                imgError = "Only GIF, PNG, BMP, JPG and JPEG File types are allowed..";
+                isValid = false;
+            }
+        }
+        if (imgError == '')
+        {
+            $('.errorImglink')[0].innerHTML = "";
+            isValid = true;
+        }
+        return isValid;
+    }
+    $('#submit-partner').click(function () {
+        var isValidImage=ValidateFileUpload();
+        var PartnerName = $('#PartnerNameTxt')[0].value;
+        var ContactPersonName = $('#ContactPersonTxt')[0].value;
+        var Email = $('#EmailTxt')[0].value;
+        var PhoneNo = $('#PhoneNumberTxt')[0].value;
+        var Address = $('#AddressTxt')[0].value;
+        var imglink = $('#uploadID')[0].value;
+        var Country = $('#CountryTxt')[0].value;
+        var State = $('#StateTxt')[0].value;
+        var city = $('#CityTxt')[0].value;
+        var PartnerUrl = $('#PartnerUrlTxt')[0].value;
+        var PartnerType = $('#ddlPartnerType')[0].value;
+        var phoneno = /^\d{10}$/;
+        var isValid = true;
+        if (PartnerName.length == 0) {
+            $('.errorPartnerName')[0].innerHTML = "Please enter partner name.";
+            isValid = false;
+        }
+        else {
+            $('.errorPartnerName')[0].innerHTML = "";
+        }
+        if (ContactPersonName.length == 0) {
+            $('.errorContactPersonName')[0].innerHTML = "Please enter contact person name.";
+            isValid = false;
+        }
+        else {
+            $('.errorContactPersonName')[0].innerHTML = "";
+        }
+        if (Address.length == 0) {
+            $('.errorAddress')[0].innerHTML = "Please enter address.";
+            isValid = false;
+        }
+        else {
+            $('.errorAddress')[0].innerHTML = "";
+        }
+        if (PartnerUrl.length == 0) {
+            $('.errorPartnerUrl')[0].innerHTML = "Please enter partner URL.";
+            isValid = false;
+        }
+        else {
+            $('.errorPartnerUrl')[0].innerHTML = "";
+        }
+        if (Country.length == 0) {
+            $('.errorCountry')[0].innerHTML = "Please enter country.";
+            isValid = false;
+        }
+        else {
+            $('.errorCountry')[0].innerHTML = "";
+        }
+        if (State.length == 0) {
+            $('.errorState')[0].innerHTML = "Please enter state.";
+            isValid = false;
+        }
+        else {
+            $('.errorState')[0].innerHTML = "";
+        }
+        if (city.length == 0) {
+            $('.errorCity')[0].innerHTML = "Please enter city.";
+            isValid = false;
+        }
+        else {
+            $('.errorCity')[0].innerHTML = "";
+        }
+        if (PartnerType.length == 0) {
+            $('.errorPartnerTypeName')[0].innerHTML = "Please select a partner.";
+            isValid = false;
+        }
+        else {
+            $('.errorPartnerTypeName')[0].innerHTML = "";
+        }
+        if(isValidImage== false){
+            isValid = false;
+        }
+        if (Email.length == 0) {
+            $('.errorEmail')[0].innerHTML = "Please Enter Email Id.";
+            isValid = false;
+        }
+        else {
+            $('.errorEmail')[0].innerHTML = "";
+        }
+        if (isEmail(Email) == false) {
+            $('.errorEmail')[0].innerHTML = "Please enter valid email id.";
+            isValid = false;
+        }
+        else {
+            $('.errorEmail')[0].innerHTML = "";
+        }
+        return isValid;
+      
+    });
+    function isEmail(emailid) {
+        var emailRegex = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
+        if (!emailid.match(emailRegex)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    
+</script>

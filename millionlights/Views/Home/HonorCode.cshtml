@@ -1,0 +1,54 @@
+﻿@{
+    var termsCond = ViewBag.TermsAndCondition;
+     int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<h3 style="padding-left: 9%;padding-bottom: 2%;">
+    MillionLight Terms and Conditions
+</h3>
+<section  class="homeimgHeight">
+    <div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                @if (termsCond !=null && termsCond.TermsAndCondition != null)
+                {
+                @Html.Raw(HttpUtility.HtmlDecode(termsCond.TermsAndCondition))
+                }
+                else
+                {
+                    <p style="padding-left:2%;">All users registering for a Millionlights course must agree to abide by the following honor code:</p>
+                    <ul>
+                        <li>I will maintain only one user account and not let anyone else use my username and/or password.</li>
+                        <li>I will not access or attempt to access any other user's account, or misrepresent or attempt to misrepresent my identity while taking a course.</li>
+                        <li>My answers to course assignments, including but not limited to homework, quizzes, exams, and projects, will be my own work (unless collaboration is expressly permitted by Millionlights).</li>
+                        <li>Complete all mid-terms and final exams with my own work and not copy or submit the workd of any other person.</li>
+                        <li>I will not engage in any activity that would dishonestly improve my results or dishonestly improve or hurt the results of others.</li>
+                        <li>  Not post answers to problems that can or are being used to assess other students performance</li>
+                        <li>Effective Date: August 1, 2015</li>
+                        <li><b>We conduct live lectures to support our users. You will be sent periodic SMS for the live lectures.</b></li>
+                    </ul>
+                    
+                }
+            </div>
+        </div><!-- End row -->
+    </div><!-- End container -->
+</section>

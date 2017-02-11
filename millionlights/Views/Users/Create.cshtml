@@ -1,0 +1,333 @@
+﻿@model Millionlights.Models.UserRegister
+@{
+    var roleList = (List<SelectListItem>)ViewBag.UserRoleList;
+    var usersInfo = ViewBag.UserDetail;
+    var userId = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+@using (Html.BeginForm("Create", "Users", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", onsubmit = "return ValidateCreateUser()", @class = "form-horizontal", id = "UserCreate" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="breadcrumbs breadCrumbAlign" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home/Dashboard">Home</a>
+            </li>
+            <li> <a href="/Users/Index">Users</a></li>
+            <li class="active">Create</li>
+        </ul>
+    </div>
+    <section id="main_content">
+        <div @*class="container"*@>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box_style_2">
+                        <div class="page-header">
+                            <h1>
+                                Users
+                                <small>
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                    Add New User
+                                </small>
+                            </h1>
+                        </div>
+                        <div class="form-horizontal createUserMargins">
+                          
+                            @Html.ValidationSummary(true)
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control ", id = "firstnameTxt", @placeholder = "First Name" })
+                                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger ", id = "errorFirstname" })
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control userregtxt", id = "lastnameTxt", @placeholder = "Last Name" })
+                                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger ", id = "errorlastname" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control userregtxt", id = "emailIdTxt", @placeholder = "Email ID" })
+                                        @*<label class="text-danger" id="errorEmailId" style="font-size:14px;font-weight:200;"></label>*@
+                                        @Html.ValidationMessageFor(m => m.EmailId, "", new { @class = "text-danger ", id = "errorEmailId" })
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control userregtxt", id = "useranameTxt", @placeholder = "User Name" })
+                                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger ", id = "errorusername" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                    <div class="form-group regformPadding">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control userregtxt", id = "passwordTxt", @placeholder = "Password" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger ", id = "errorpassword" })
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div class="form-group regformPadding">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control userregtxt", id = "confirmpassTxt", @placeholder = "Confirm Password" })
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger", id = "errorconfirm" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.AddressLine1, new { @class = "form-control userregtxt", id = "addressTxt", @placeholder = "Address Line1" })
+                                        @Html.ValidationMessageFor(m => m.AddressLine1, "", new { @class = "text-danger ", id = "erroraddress" })
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.AddressLine2, new { @class = "form-control ", id = "userregtxt", @placeholder = "Address Line 2" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.City, new { @class = "form-control userregtxt", id = "cityTxt", @placeholder = "City" })
+                                        @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger ", id = "errorcity" })
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control userregtxt", id = "zipcodeTxt", @placeholder = "Zip Code" })
+                                        @*<label class="text-danger" id="errorzip" style="font-size:14px; font-weight:200;"></label>*@
+                                        @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger ", id = "errorzip" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                    <div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control userregtxt", id = "phoneTxt", @placeholder = "Phone Number" })
+                                        @*<label class="text-danger" id="errorphone" style="font-size:14px; font-weight:200;"></label>*@
+                                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger ", id = "errorphone" })
+                                    </div>
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div class="form-group regformPadding">
+                                        @Html.DropDownListFor(m => m.RoleId, roleList, "--Select Role--", new { @class = "form-control userregtxt", id = "ddlUserRole" })
+                                        @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger", id = "ErrorddlUserRole" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                @Html.TextBoxFor(m => m.UserType, new { visible = "false", @class = "displayNone" })
+                                @Html.TextBoxFor(m => m.ProviderKey, new { visible = "false", @class = "displayNone" })
+                            </div>
+                            <div class="hr hr-18 dotted"></div>
+                            <div class="row well">
+                                <div class="col-md-12 Partner-btn-div">
+                                    @Html.ActionLink("Cancel", "/Index", null, new { @class = "btn btn-danger" })
+                                    <input type="button" class="btn btn-success" value="Submit" onclick="return CreateUser()"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script>
+    function CreateUser(){
+        var isValid = ValidateCreateUser();
+        if(isValid==true){
+            var formData = $("#UserCreate").serializeArray();
+            var url = "/Users/Create";
+            $.post(url, formData).done(function (data) {
+                bootbox.dialog({
+                    message: "Success! The user is created successfully!",
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary",
+                            callback: function () {
+                                location.href = '/Users/Index';
+                            }
+                        }
+                    }
+                });
+            });
+        }
+        
+    }
+    $(document).ready(function () {
+        var userid = '@userId'
+        if (userid == '') {
+            var url = "/Account/Login";
+            window.location.href = url;
+        }
+    });
+
+    function ValidateCreateUser() 
+    {
+        debugger;
+        var isValid = true;
+        var firstname = $('#firstnameTxt')[0].value;
+        var email = $('#emailIdTxt')[0].value;
+        var password = $('#passwordTxt')[0].value;
+        var address = $('#addressTxt')[0].value;
+        var phone = $('#phoneTxt')[0].value;
+        var lastname = $('#lastnameTxt')[0].value;
+        var confirmpassword = $('#confirmpassTxt')[0].value;
+        var zipcode = $('#zipcodeTxt')[0].value;
+        
+        var userRole = $('#ddlUserRole')[0].value;
+
+        
+        var zipcodeRegex = /^[0-9-+ ]+$/;
+        var phNoRegx = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        if (firstname.length == 0) {
+            $('#errorFirstname')[0].innerHTML = "Please enter first name.";
+            isValid = false;
+        }
+        else {
+            $('#errorFirstname')[0].innerHTML = "";
+        }
+        if (email.length == 0) {
+            $('#errorEmailId')[0].innerHTML = "Please enter email.";
+            isValid = false;
+        }
+        else if (isEmail(email) == false) {
+            $('#errorEmailId')[0].innerHTML = "Please enter valid email id.";
+            isValid = false;
+        }
+        else {
+            $('#errorEmailId')[0].innerHTML = "";
+        }
+        
+        if (password.length == 0) {
+            $('#errorpassword')[0].innerHTML = "Please enter password.";
+            isValid = false;
+        }
+        else if (password.length < 8) {
+            $('#errorpassword')[0].innerHTML = "Minimum password length is 8 char/digits.";
+            isValid = false;
+        }
+        else {
+            $('#errorpassword')[0].innerHTML = "";
+        }
+        if(userRole.length == 0)
+        {
+            $('#ErrorddlUserRole')[0].innerHTML = "Please select user role.";
+            isValid =false;
+        }
+        else
+        {
+            $('#ErrorddlUserRole')[0].innerHTML = "";
+        }
+        if (lastname.length == 0) {
+            $('#errorlastname')[0].innerHTML = "Please enter lastname.";
+            isValid = false;
+        }
+        else {
+            $('#errorlastname')[0].innerHTML = "";
+        }
+      
+        if (confirmpassword.length == 0) {
+            $('#errorconfirm')[0].innerHTML = "Please enter confirm password.";
+            isValid = false;
+        }
+        else if (password != confirmpassword) {
+            $('#errorconfirm')[0].innerHTML = "Confirm password is incorrect.";
+            isValid = false;
+        }
+        else {
+            $('#errorconfirm')[0].innerHTML = "";
+        }
+        if (zipcode.length >0 && zipcode.length != 6) {
+            $('#errorzip')[0].innerHTML = "Zipcode must be 6 digits.";
+            isValid = false;
+
+        }
+        else {
+            $('#errorzip')[0].innerHTML = "";
+        }
+        if (email.length > 0 || phone.length > 0) {
+
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "emailid": email, "phone": phone }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/CheckEmailNPhoneExist",
+                success: function (response) {
+                    debugger
+                    var resp = JSON.parse(response);
+                    if (resp.EmailExist == true) {
+                        $('#errorEmailId')[0].innerHTML = "Email Id is already exists.";
+                        isValid = false;
+                    }
+                    else {
+                        $('#errorEmailId')[0].innerHTML = "";
+                    }
+                    if (resp.PhoneExist == true) {
+                        $('#errorphone')[0].innerHTML = "Phone number is already exists.";
+                        isValid = false;
+                    }
+                    else {
+                        $('#errorphone')[0].innerHTML = "";
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function isEmail(emailid) {
+        debugger
+        var emailRegex = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
+        if (!emailid.match(emailRegex)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+</script>

@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MillionLightDb" Class="MillionlightsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=e8p7xyitbf.database.windows.net,1433;Initial Catalog=MillionLightDb;Persist Security Info=True;User ID=mlazure" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MillionLightDbConnectionString2" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.BatchExecuteUserData" Method="BatchExecuteUserData">
+    <ElementType Name="BatchExecuteUserDataResult">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetUsersEmailAndSMS" Method="GetUsersEmailAndSMS">
+    <Parameter Name="StartDate" Parameter="startDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="EndDate" Parameter="endDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="IsEmail" Parameter="isEmail" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="NotificationStatusId" Parameter="notificationStatusId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetUsersEmailAndSMSResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Receiver" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReceiverName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Sender" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Subject" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DateSent" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsRead" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ReadDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="IsAlert" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SMSDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MailDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EMAILFormattedDate" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="SMSFormattedDate" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="NotificationStatusId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetUserDetails" Method="GetUserDetails">
+    <Parameter Name="Role" Parameter="role" Type="System.Int32" DbType="Int" />
+    <Parameter Name="StartDate" Parameter="startDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="EndDate" Parameter="endDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="City" Parameter="city" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="State" Parameter="state" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Country" Parameter="country" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PartnerId" Parameter="partnerId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetUserDetailsResult">
+      <Column Name="PartnerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserDetailsId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="RegisteredDatetime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="RegisteredDatetimeString" Type="System.String" DbType="VarChar(19)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetUserDetailsForView" Method="GetUserDetailsForView">
+    <Parameter Name="Role" Parameter="role" Type="System.Int32" DbType="Int" />
+    <Parameter Name="StartDate" Parameter="startDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="EndDate" Parameter="endDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="City" Parameter="city" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="State" Parameter="state" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Country" Parameter="country" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="PartnerId" Parameter="partnerId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetUserDetailsForViewResult">
+      <Column Name="PartnerId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserDetailsId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FullName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="RoleName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="RegisteredDatetime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="RegisteredDatetimeString" Type="System.String" DbType="VarChar(19)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.InsertToUserCourses" Method="InsertToUserCourses">
+    <ElementType Name="InsertToUserCoursesResult">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="EmailId" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.ReseedIdentityOfUsersTable" Method="ReseedIdentityOfUsersTable">
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetAllCourseDetails" Method="GetAllCourseDetails">
+    <Parameter Name="Id" Parameter="id" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="MinPrice" Parameter="minPrice" Type="System.Int32" DbType="Int" />
+    <Parameter Name="MaxPrice" Parameter="maxPrice" Type="System.Int32" DbType="Int" />
+    <Parameter Name="type" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="courseName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="page" Type="System.Int32" DbType="Int" />
+  </Function>
+</Database>

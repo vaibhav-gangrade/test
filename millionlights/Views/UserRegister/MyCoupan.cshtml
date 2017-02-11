@@ -1,0 +1,249 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.CoupanCourseDetails>
+@using PagedList.Mvc;
+
+@{ int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    var ViewCourseInfo = ViewBag.CourseDetailsView;
+    var userId = Session["UserID"];
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+@*<section id="main_content">
+    <div class="container" id="MyCoupanTab">
+        <div class="row">
+            <div class="panel-info col-xs-11 tableContent">
+                <div class="panel-heading">*@
+                @*</div>*@
+
+                <div class="table-responsive fontText" id="MyCoupanTab">
+    <table id="CourseGridview" class="table">
+        <thead>
+            <tr>
+                @if (roleID == 10)
+                {
+                    <th>CCGId</th>
+                }
+                <th>Code</th>
+                <th>Partner</th>
+                @*<th>Course Details</th>*@
+                <th>Allowed Courses</th>
+                @if (roleID != 1)
+                {
+                    <th>Benefit</th>
+                }
+                <th>Valid From- To</th>
+                <th>Activated On</th>
+                <th>Redeem Status</th>
+                <th>Coupon Expired</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coupans in Model)
+            {
+                <tr>
+                    @if (roleID == 10)
+                    {
+                        <td>@coupans.CCGId</td>
+                    }
+                    <td>@coupans.CouponCode</td>
+                    <td>@coupans.PartnerName</td>
+                    <td>
+                        @coupans.AllowedCourses
+                        @*@Html.ActionLink("View", "GetCoupanId", "UserRegister", new { id = @coupans.Id }, new { @class = "btnDelete" })*@
+                        <a href="#" id="@coupans.CoupanId" class="ViewCoupan" style="padding-left:2px;" onclick="OpenPopup(@coupans.CoupanId);"> (View) </a>
+                    </td>
+                    @if (roleID != 1)
+                    {
+
+                        <td>@coupans.BenefitName</td>
+                    }
+                    <td>@coupans.ValidFromString - @coupans.ValidToString</td>
+                    @if (coupans.ActivatedOnDatetimeString != null)
+                    {
+                    <td>@coupans.ActivatedOnDatetimeString</td>
+                    }
+                    else
+                    {
+                        <td> </td>
+                    }
+                    @if (coupans.StatusType == "Blocked")
+                    {
+                        <td>
+                            <ul class="data-lessons">
+                                <li class="po-markup">
+                                    <a class="po-link" href="javascript:void(0)">@coupans.StatusType</a>
+                                    <div class="po-content hidden">
+                                        <div class="po-title"><strong>Status</strong></div> <!-- ./po-title -->
+                                        <div class="po-body">
+                                            <ul class="list_po_body"><li>Blocked On : @coupans.BlockedOn</li><li>Reason : @coupans.BlockedReason</li></ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </td>
+                    }
+                    else if (coupans.CouponRedeemStatus != null)
+                    {
+                        <td>@coupans.CouponRedeemStatus</td>
+                    }
+                    else
+                    {
+                        @*<td>@coupans.StatusType</td>*@
+                         <td> <p>Not Activated</p></td>
+                    }
+                    @if (coupans.CouponStatus == "YES")
+                    {
+                        <td> <p>YES</p></td>
+                    }
+                    else
+                    {
+                        <td> <p>NO</p></td>
+                    }
+                    @*<td>
+                        @if (coupans.StatusId == 2 || coupans.StatusId == 4)
+                        {
+                            if (coupans.CouponRedeemStatus!=null && coupans.CouponRedeemStatus == "Partial")
+                            {
+                            <input type="submit" id="@coupans.CouponCode" class="btn btn-success" value="Activate" onclick="ActivateMyCoupon(this)" />
+                            }
+                            else if (coupans.CouponRedeemStatus == null)
+                            {
+                             <input type="submit" id="@coupans.CouponCode" class="btn btn-success" value="Activate" onclick="ActivateMyCoupon(this)" />
+                            }
+                            else
+                            {
+                                <p>Activated</p>
+                            }
+                        }
+                    </td>*@
+                    <td>
+                       
+                            @if (coupans.CouponRedeemStatus != null && coupans.CouponRedeemStatus == "Partial" && (coupans.StatusId == 2 || coupans.StatusId == 4))
+                            {
+                                if (coupans.CouponStatus != "YES")
+                                {
+                                    <input type="submit" id="@coupans.CouponCode" class="btn btn-success" value="Activate" onclick="ActivateMyCoupon(this)" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="btn btn-grey" disabled="disabled" value="Activate" />
+                                }
+                                
+                            }
+                            else if (coupans.CouponRedeemStatus == null && (coupans.StatusId == 2 || coupans.StatusId == 4))
+                            {
+                                if (coupans.CouponStatus != "YES")
+                                {
+                                <input type="submit" id="@coupans.CouponCode" class="btn btn-success" value="Activate" onclick="ActivateMyCoupon(this)" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="btn btn-grey" disabled="disabled" value="Activate" />
+                                }
+                            }
+                            else
+                            {
+                                <p>Activated</p>
+                            }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id='CoupanPaging' style="text-align:center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("CoupanTab", new { page }))
+    </div>
+</div><!-- End col-md-8  -->
+                    @*</div><!-- End row -->
+
+            </div><!-- End container -->
+        </div>
+    </section>*@
+
+    <div class="modal fade" id="terms-txt" tabindex="-1" role="dialog" aria-labelledby="termsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="termsLabel">Course Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-info filterable add_bottom_45">
+                        <table id="CourceDetailsTable" class="table table-striped table-bordered table-hover fullWidth">
+                            <thead>
+                                <tr>
+                                    <th class="aligntextcenter">Course Code</th>
+                                    <th class="aligntextcenter">Course Name</th>
+                                    <th class="aligntextcenter">Short Description</th>
+                                    <th class="aligntextcenter">Base Price</th>
+                                    <th class="aligntextcenter">Is Redeemed</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <script>
+        $(function () {
+            $('#CoupanPaging').on('click', 'a', function () {
+                $.ajax({
+                    url: this.href,
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        $('#MyCoupanTab').html(result);
+                    }
+                });
+                return false;
+            });
+        });
+
+        function OpenPopup(coupanId) {
+            
+            $("#CourceDetailsTable thead").empty();
+            $("#terms-txt").modal("show");
+            var ViewcourseJson = '@Html.Raw(Json.Encode(ViewCourseInfo))';
+            var viewCourse = JSON.parse(ViewcourseJson);
+            $("#CourceDetailsTable  thead").empty();
+            row = "<tr><th>Code</th><th>Course Name</th><th>Short Description</th><th>Base Price</th><th>IsEnrolled</th></tr>";
+            $("#CourceDetailsTable thead").append(row);
+            for (var i = 0; i < viewCourse.length; i++) {
+                if (viewCourse[i].CouponId == coupanId) {
+                    //if (viewCourse[i].CoupanCourseCourseId == viewCourse[i].CourseId) {
+                    row = "<tr><td>" + viewCourse[i].CourseCode + "</td><td>" + viewCourse[i].CName + "</td><td>" + viewCourse[i].ShortDescription + "</td>" +
+                        "<td>" + viewCourse[i].BasePrice + "</td><td>" + viewCourse[i].IsCourseRedeemed + "</td></tr>"
+                        $("#CourceDetailsTable thead").append(row);
+                    //}
+                }
+            }
+        }
+        function ActivateMyCoupon(eval) {
+            var couponCode = $(eval)[0].id;
+            var userId = '@userId';
+            $.ajax({
+                type: "POST",
+                async: true,
+                data: JSON.stringify({ "vcc": couponCode, "userId": userId, "isExt": "false" }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/CouponCode/ActivateCouponCode",
+                success: function (response) {
+                    location.href = "/CouponCode/ActivateCoupon";
+                },
+                error: function (response) {
+                }
+            });
+        }
+    </script>

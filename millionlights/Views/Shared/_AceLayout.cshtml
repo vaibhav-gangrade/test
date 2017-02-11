@@ -1,0 +1,121 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Millionlights</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/ace-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/assets/css/ace.css" />
+
+    @*<link rel="stylesheet" href="~/Content/assets/jquery-ui.custom.css" />*@
+    <link rel="stylesheet" href="~/Content/assets/css/jquery.gritter.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/select2.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/datepicker.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/bootstrap-editable.css" />
+    <link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+    <!--[if lte IE 9]>
+            <link rel="stylesheet" href="~/Content/assets/css/ace-part2.css" class="ace-main-stylesheet" />
+        <![endif]-->
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="~/Content/assets/css/ace-ie.css" />
+    <![endif]-->
+
+    <script type="text/javascript" src="~/Content/assets/js/ace-extra.js"></script>
+    <!-- Favicons-->
+    @*<link rel="shortcut icon" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon" />*@
+</head>
+<body>
+    @RenderBody()
+
+    <!--User defined scripts -->
+    @*<script type='text/javascript' src="../Scripts/CustomJS/common.js"></script>*@
+    <!--End User defined scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- <![endif]-->
+    <!--[if IE]>
+    <script type="text/javascript">
+     window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery1x.js'>"+"<"+"/script>");
+    </script>
+    <![endif]-->
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.mobile.custom.js'>" + "<" + "/script>");
+    </script>
+    <script type="text/javascript" src="~/Content/assets/js/bootstrap.js"></script>
+
+    <!-- page specific plugin scripts -->
+    <!--[if lte IE 8]>
+      <script src="~/Content/assets/js/excanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="~/Content/assets/js/jquery-ui.custom.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/jquery.ui.touch-punch.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/jquery.easypiechart.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/jquery.sparkline.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/flot/jquery.flot.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/flot/jquery.flot.pie.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/flot/jquery.flot.resize.js"></script>
+
+    <!-- ace scripts -->
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.scroller.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.colorpicker.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.typeahead.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.wysiwyg.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.spinner.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.treeview.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.wizard.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.aside.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.ajax-content.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.touch-drag.js"></script>
+
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.sidebar.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.submenu-hover.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.widget-box.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.settings.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.settings-rtl.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.settings-skin.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.widget-on-reload.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+
+    <!-- inline scripts related to this page -->
+    <!-- the following scripts are used in demo only for onpage help and you don't need them -->
+    <link href="~/Content/assets/css/ace.onpage-help.css" rel="stylesheet" />
+    @*<link href="~/Content/assets/js/themes/sunburst.css" rel="stylesheet" />*@
+
+    <script type="text/javascript"> ace.vars['base'] = '..'; </script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/elements.onpage-help.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/ace/ace.onpage-help.js"></script>
+    @*<script type="text/javascript" src="~/Content/assets/js/rainbow.js"></script>*@
+    @*<script type="text/javascript" src="~/Content/assets/js/language/generic.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/language/html.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/language/css.js"></script>
+    <script type="text/javascript" src="~/Content/assets/js/language/javascript.js"></script>*@
+
+    <script src="~/Content/assets/js/jquery.gritter.js"></script>
+    <script src="~/Content/assets/js/bootbox.js"></script>
+    <script src="~/Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+    <script src="~/Content/assets/js/jquery.hotkeys.js"></script>
+    <script src="~/Content/assets/js/bootstrap-wysiwyg.js"></script>
+    <script src="~/Content/assets/js/select2.js"></script>
+    <script src="~/Content/assets/js/fuelux/fuelux.spinner.js"></script>
+    <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+    <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+    <script src="~/Content/assets/js/jquery.maskedinput.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#skin-colorpicker')
+                .val('#438EB9')
+                .trigger('change');
+        })
+    </script>
+</body>
+</html>

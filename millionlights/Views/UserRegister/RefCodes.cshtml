@@ -1,0 +1,418 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.ReferralCodes>
+@using PagedList.Mvc;
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+@{
+    var userid = Session["UserID"];
+}
+<div class="table-responsive fontText" id="RefCodesTab">
+    <table id="RefCodesGridview" class="table">
+        <thead>
+            <tr class="RefHeader">
+                <th id="thReferralCode">Referral Code</th>
+                <th id="thReferrer">Referrer</th>
+                <th id="thReceiverEmail">Receiver Email</th>
+                <th id="thReceiverPhoneNumber">Receiver PhoneNumber</th>
+                <th id="thSharedOn">Shared On</th>
+                <th id="thCodeUsed">Is Code Used</th>
+                <th id="thUsedOn">Code Used On</th>
+                <th id="thRecRewAmt">Receiver Reward Amount</th>
+                <th id="thRefRewAmt">Referrer Reward Amount</th>
+                <th id="thApplyCode">Apply Code</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr class="RefData">
+                        <td id="trReferralCode">
+                            @item.ReferralCode
+                        </td>
+                        <td id="trReferrer">
+                            @item.ReferrerEmail
+                        </td>
+                        <td id="trReceiverEmail">
+                            @item.ReceiverEmail
+                        </td>
+                        <td id="trReceiverPhoneNumber">
+                            @item.ReceiverPhoneNumber
+                        </td>
+                        <td id="trSharedOn">
+                            @item.SharedOn
+                        </td>
+                        <td id="trCodeUsed">
+                            @item.CodeUsed
+                        </td>
+                        <td id="trUsedOn">
+                            @item.CodeUsedOn
+                        </td>
+                        @*<td>
+                                @item.Receiver
+                            </td>*@
+                        <td id="trRecRewAmt">
+                            @item.ReceiverRewardAmount
+                        </td>
+                        <td id="trRefRewAmt">
+                            @item.ReferrerRewardAmount
+                        </td>
+                        <td id="trApplyCode">
+                            @if (@item.CodeUsed == "NO")
+                            {
+                                var code = @item.ReferralCode;
+                                <a href="#" onclick="ApplyThisCode('@code')">Apply</a>
+                            }
+                            else
+                            {
+                                <span>Activated</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @if (Model != null)
+    {
+        <div id='RefCodePaging' style="text-align:center">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("RefCodesTab", new { page }))
+        </div>
+    }
+</div>
+
+<script>
+    function ApplyThisCode(refCode) {
+        var ud = '@userid'
+        if (confirm("Are you sure want to apply this code?")) {
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "refCode": refCode, "UserId": ud, "isLoggedIn": "true", "EmailId": null, "PhoneNumber": null }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/CheckReferralCode",
+                success: function (response) {
+
+                    var resp = JSON.parse(response);
+                    if (resp.RefCodeFound == false) {
+                        bootbox.dialog({
+                            message: "Sorry, we couldn't find the referral code. Please try valid code.",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                      
+                                    }
+                                },
+                            }
+                        });
+                    }
+                    else if (resp.CodeExpires == true) {
+                        bootbox.dialog({
+                            message: "Sorry, the code you are trying to redeem is already expired. Please try new code.",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                       
+                                    }
+                                },
+                            }
+                        });
+                    }
+                    else if (resp.CodeShared == false) {
+                        bootbox.dialog({
+                            message: "Sorry, the code you submitted is not shared with you. Please submit valid referral code.",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                       
+                                    }
+                                },
+                            }
+                        });
+                    }
+                    else if (resp.AllowReferralCode==false) {
+                        bootbox.dialog({
+                            message: "You can't activate your own referral code.",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                       
+                                    }
+                                },
+                            }
+                        });
+                    }
+                    else if (resp.AlreadyUsed == true) {
+                        bootbox.dialog({
+                            message: "You have already activated this code. Please try new code.",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                       
+                                    }
+                                },
+                            }
+                        });
+                    }
+                    else if (resp.Success == false) {
+                        bootbox.dialog({
+                            message: "Sorry, their is some problem at our side. Please try again.",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                       
+                                    }
+                                },
+                            }
+                        });
+                    }
+                    else {
+                        bootbox.dialog({
+                            message: "Congratulations! The reward amount of Rs. " + resp.RewardAmount + " has been added to your wallet",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                        $('#finalWalletAmt')[0].innerHTML = "";
+                                        $('#finalWalletAmt')[0].innerHTML = "Rs. " + resp.UpdatedWalletAmount;
+
+                                        var OperationId = null;
+                                        OperationId = $('#ddlSearchRefCode')[0].value;
+                                        $.ajax({
+                                            type: "POST",
+                                            async: false,
+                                            data: JSON.stringify({ "page": null, "id": ud, "OperationId": OperationId }),
+                                            contentType: 'application/json; charset=utf-8',
+                                            url: "/UserRegister/RefCodesTab",
+                                            success: function (response) {
+                                                $('#main_contentRefCodes')[0].style.display = 'block';
+                                                localStorage.value = "MyRefCodes";
+                                                $('#RefCodesTab').html(response);
+
+                                                if (OperationId == "1") {
+                                                    //$("tr.RefHeader th").each(function () {
+                                                    for (i = 0; i < $("tr.RefHeader th").length; i++) {
+                                                        if ($("tr.RefHeader th")[i].id == "thReferrer") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thRefRewAmt") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thApplyCode") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thReceiverEmail") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thReceiverPhoneNumber") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thRecRewAmt") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                    }
+                                                    for (i = 0; i < $("tr.RefData td").length; i++) {
+                                                        if ($("tr.RefData td")[i].id == "trReferrer") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trRefRewAmt") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trApplyCode") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trReceiverEmail") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trReceiverPhoneNumber") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trRecRewAmt") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                    }
+                                                }
+                                                if (OperationId == "2") {
+                                                    for (i = 0; i < $("tr.RefHeader th").length; i++) {
+                                                        if ($("tr.RefHeader th")[i].id == "thReferrer") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thRefRewAmt") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thApplyCode") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thReceiverEmail") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thReceiverPhoneNumber") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefHeader th")[i].id == "thRecRewAmt") {
+                                                            $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                    }
+                                                    for (i = 0; i < $("tr.RefData td").length; i++) {
+                                                        if ($("tr.RefData td")[i].id == "trReferrer") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trRefRewAmt") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trApplyCode") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trReceiverEmail") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trReceiverPhoneNumber") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                                                        }
+                                                        if ($("tr.RefData td")[i].id == "trRecRewAmt") {
+                                                            $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            error: function (response) { }
+                                        });
+                                    }
+                                },
+                            }
+                        });
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+        return false;
+    }
+    $(function () {
+        $('#RefCodePaging').on('click', 'a', function () {
+            $('.errorNoSearchShareCode')[0].innerHTML = "";
+            $('#ShowSearchCodeModel').modal('hide');
+
+            var OperationId = null;
+            OperationId = $('#ddlSearchRefCode')[0].value;
+            var pageNum = this.innerHTML;
+            var uId = '@userid';
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "page": pageNum, "id": uId, "OperationId": OperationId }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/RefCodesTab",
+                success: function (response) {
+                    $('#main_contentRefCodes')[0].style.display = 'block';
+                    localStorage.value = "MyRefCodes";
+                    $('#RefCodesTab').html(response);
+
+                    if (OperationId == "1") {
+                        for (i = 0; i < $("tr.RefHeader th").length; i++) {
+                            if ($("tr.RefHeader th")[i].id == "thReferrer") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRefRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thApplyCode") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverEmail") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverPhoneNumber") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRecRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                        for (i = 0; i < $("tr.RefData td").length; i++) {
+                            if ($("tr.RefData td")[i].id == "trReferrer") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRefRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trApplyCode") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverEmail") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverPhoneNumber") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRecRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                    }
+                    if (OperationId == "2") {
+                        for (i = 0; i < $("tr.RefHeader th").length; i++) {
+                            if ($("tr.RefHeader th")[i].id == "thReferrer") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRefRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thApplyCode") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverEmail") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverPhoneNumber") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRecRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                        for (i = 0; i < $("tr.RefData td").length; i++) {
+                            if ($("tr.RefData td")[i].id == "trReferrer") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRefRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trApplyCode") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverEmail") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverPhoneNumber") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRecRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                    }
+                },
+                error: function (response) { }
+            });
+            return false;
+        });
+    });
+</script>
+

@@ -1,0 +1,1608 @@
+﻿@model Millionlights.Models.UserRegister
+
+@using PagedList.Mvc;
+@using PagedList;
+@using System.Collections.Generic
+@{
+    var courseDetails = ViewBag.CourseByCategories;
+    ViewBag.Title = "Profile";
+    var userName = Session["UserName"];
+    var userid = Session["UserID"];
+    var userType = Session["UserType"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var WalletAmount = ViewBag.WalletAmount;
+    var ReferralCodeToShare = ViewBag.ReferralCodeToShare;
+ 
+    
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/learn/css/jquery.switch.css">
+<link href="~/Content/learn/css/style.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery.gritter.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap-editable.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<section id="main_content">
+    <div class="container">
+        <div class="row">
+            @if (roleID == 2)
+            {
+                <div class="col-md-12">
+                    <!--  Tabs -->
+                    <ul class="nav nav-tabs custom-tabs" id="mytabs">
+                        <li class="active" id="ProfileId"><a href="#profile" data-toggle="tab">Profile</a></li>
+                        <li id="MycourseId"><a id="AnchorMycourseId" href="#courses" data-toggle="tab">My Courses</a></li>
+                        <li id="MyordersId"><a href="#orders" data-toggle="tab">My Orders</a></li>
+                        <li id="MycouponsId"><a href="#coupons" data-toggle="tab">My Coupons</a></li>
+                        <li id="MyNoteId"><a href="#note" data-toggle="tab">My Notifications</a></li>
+                        <li id="MyCertId"><a href="#certificate" data-toggle="tab">My Certificate</a></li>
+                        <li id="MyRefCodeId"><a href="#refCodes" data-toggle="tab">My Referral Codes</a></li>
+                    </ul>
+                    <div class="tab-content Profilepages-tabs" style="margin-bottom: 2%;">
+                        <div class="tab-pane fade in active" id="profile">
+                            <div class="row">
+                                <aside class="col-md-4">
+                                    <div class=" box_style_1 profile">
+                                        @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
+                                        @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
+                                        <form id="files" method="post" enctype="multipart/form-data">
+                                            <p class="text-center">
+                                                <span class="profile-pictures">
+                                                    @if (Model.ImageURL != null)
+                                                    {
+                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
+                                                    }
+                                                </span>
+                                            </p>
+                                        </form>
+                                        <div style="margin-bottom: 20px !important;height: 50px;width: 282px;display:inline-flex;border: aliceblue solid 1px;">
+                                            <div>
+                                                <img src="~/Images/Wallet.png" />
+                                            </div>
+                                            <div>
+                                                <p>
+                                                    @{
+                                                        string totalWalletAmount=null;
+                                                       if (WalletAmount!=null){
+                                                           totalWalletAmount = WalletAmount;
+                                                       }
+                                                       else
+                                                       {
+                                                           totalWalletAmount = "0.00";
+                                                       }
+                                                    }
+                                                    <b><span id="finalWalletAmt">Rs. @totalWalletAmount </span></b>
+                                                    <br />
+                                                    Your Wallet Balance
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div style="height: 32px;text-align: right;margin-top: -20px;">
+                                            <a href="#" onclick="ShowReferralCodePopup()">Have a Referral Code?</a>
+                                        </div>
+                                        <div style="height: 36px;background-color: #F5F8F9;margin-bottom: 7px;padding-left: 4px;">
+                                            <p style="padding-top: 9px;font-size: 16px;font-weight: 800;">My Account</p>
+                                        </div>
+                                        <ul>
+                                            <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
+                                            <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
+                                            <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
+                                            <li>Country<strong class="pull-right">@Model.Country</strong></li>
+                                            <li>City<strong class="pull-right">@Model.City</strong></li>
+                                            <li id="profile">
+                                                <img src="~/Content/learn/img/edit-profile.jpg" alt="">
+                                                <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
+
+                                                <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
+                                                <div style="text-align:center;">
+                                                    <a class="actCoupon" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
+                                                </div>
+
+                                            </li>
+                                        </ul>
+                                    </div><!-- End box-sidebar -->
+                                </aside><!-- End aside -->
+                                <div class="col-md-8">
+                                    <div id="EditProfileUser">
+                                        @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                                        {
+                                            @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
+                                            <div class="box_style_2">
+
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
+                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
+                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
+                                                            @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt  ">
+                                                            @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
+                                                            @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
+                                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group  marginTxt">
+                                                            @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
+                                                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
+                                                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
+                                                            @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginloginpwdTxt ">
+                                                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
+                                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginloginpwdTxt ">
+                                                            @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
+                                                            @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="Partner-btn-div marginTxt">
+                                                    <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus" />
+                                                    <input type="submit" value="Submit" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div><!-- End col-md-8 -->
+                            </div><!-- End row -->
+                        </div><!-- End tab-pane -->
+                        @if (roleID == 2)
+                        {
+                            <div class="tab-pane fade" id="courses">
+                                <section id="main_content">
+                                    <div class="container">
+                                        <div class="row" id="CurrentCourses">
+                                            <div class="col-md-10 studentView">
+                                                <h1 class="chapter_course no_margin_rop col-md-12">All Courses</h1>
+                                                @{Html.RenderAction("AllCourseTab", "UserRegister");}
+                                            </div><!-- End col-md-8  -->
+                                        </div><!-- End row -->
+                                    </div><!-- End container -->
+                                </section>
+                            </div><!-- End tab-pane -->
+                            <div class="tab-pane fade" id="orders">
+                                @{Html.RenderAction("OrderTab", "UserRegister");}
+                            </div><!-- End tab-pane -->
+                            <div class="tab-pane fade" id="coupons">
+                                @{Html.RenderAction("CoupanTab", "UserRegister");}
+                            </div><!-- End tab-pane -->
+                            <div class="tab-pane fade" id="note">
+                                <section id="main_content">
+                                    <div class="container">
+                                        <div class="row" id="notification">
+                                            <div class="col-md-10 studentView">
+                                                <h1 class="chapter_course no_margin_rop col-md-12">Notifications</h1>
+                                                @{Html.RenderAction("AllNotification", "Notification");}
+                                            </div><!-- End col-md-8  -->
+                                        </div><!-- End row -->
+                                    </div><!-- End container -->
+                                </section>
+                            </div>
+                            if (roleID == 2)
+                            {
+                                <div class="tab-pane fade" id="certificate">
+                                    <section id="main_content">
+                                        <div class="container">
+                                            <div class="row" id="notification">
+                                                <div class="col-md-10 studentView">
+                                                    <h1 class="chapter_course no_margin_rop col-md-12">Certificates</h1>
+                                                    @{Html.RenderAction("CertificateTab", "UserRegister");}
+                                                </div><!-- End col-md-8  -->
+                                            </div><!-- End row -->
+                                        </div><!-- End container -->
+                                    </section>
+                                </div>
+                            }
+                            if (roleID == 2)
+                            {
+                                <div class="tab-pane fade" id="refCodes">
+                                    <section id="main_content">
+                                        <div class="container">
+                                            <div class="row" id="">
+                                                <div class="col-md-10 studentView">
+                                                    <h1 class="chapter_course no_margin_rop col-md-12">Share/Search My Referral Code(s)</h1>
+                                                   
+
+                                                    <div id="MyCourseTab">
+                                                       
+                                                                <div class="strip_single_course">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                          
+                                                                               
+                                                                               
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12 col-sm-12" style="text-align:left;">
+                                                                                        <label>
+                                                                                            <b>My Code : </b>
+                                                                                            @if (@ReferralCodeToShare != null)
+                                                                                            {
+                                                                                                <span>@ReferralCodeToShare</span>
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                <span>No code to share</span>
+                                                                                            }
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <br />
+                                                                                <div class="row">
+                                                                                    <div>
+                                                                                        <div class="form-group rdbRefCodeShow">
+                                                                                            <input type="radio" name="ShareCode" id="ShareCode" class="refCodeSelectionClasss" value="ShareCode" /><label>&nbsp;&nbsp; Code</label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div style="display:inline-flex;">
+                                                                                        <div class="form-group rdbRefCodeShow">
+                                                                                            <input type="radio" name="ShareCode" id="SearchCode" class="refCodeSelectionClasss" value="SearchCode" /><label>&nbsp;&nbsp;Search My Codes History</label>
+                                                                                        </div>
+                                                                                        <div style="margin: -6px 0px 0px 10px;">
+                                                                                            <select class="" id="ddlSearchRefCode" name="ddlSearchRefCode" style="width:100%;height:35px;">
+                                                                                                <option value="1">When I am a Sender</option>
+                                                                                                <option value="2">When I am a Receiver</option>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <label id="errorNoSearchShareCode" class="errorNoSearchShareCode text-danger"></label>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12" style="text-align:center;">
+                                                                                        <button id="submit-contact" type="button" class="button_medium btn btn-success" style="width:10%" onclick="ReadRadioBtnSelection()">
+                                                                                            OK
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </div>
+                                                                          
+                                                                        </div>
+                                                                    </div>
+                                                                </div><!-- end strip single course -->
+                                                          
+                                                       
+                                                    </div>
+
+
+                                                </div><!-- End col-md-8  -->
+                                            </div><!-- End row -->
+                                        </div><!-- End container -->
+                                    </section>
+                                    <section id="main_contentRefCodes" style="display:none;">
+                                        <div class="container">
+                                            <div class="row" id="notification">
+                                                <div class="col-md-10 studentView">
+                                                    <h1 class="chapter_course no_margin_rop col-md-12">Referral Codes</h1>
+                                                    @{Html.RenderAction("RefCodesTab", "UserRegister");}
+                                                </div><!-- End col-md-8  -->
+                                            </div><!-- End row -->
+                                        </div><!-- End container -->
+                                    </section>
+                                </div>
+                            }
+                            @*if (roleID == 2)
+                            {
+                                <div class="tab-pane fade" id="refCodes">
+                                    <section id="main_content">
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class=" box_style_2">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h3>Share/Search My Referral Code(s)</h3>
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+                                                        <div id="message-contact"></div>
+                                                        <div class="row">
+                                                            <div class="col-md-12 col-sm-12" style="text-align:center;">
+                                                               <label><b>My Code: </b>
+                                                                @if (@ReferralCodeToShare != null)
+                                                                {
+                                                                    <span>@ReferralCodeToShare</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>No code to share</span>
+                                                                }
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div>
+                                                                <div class="form-group rdbRefCodeShow">
+                                                                    <input type="radio" name="ShareCode" id="ShareCode" class="refCodeSelectionClasss" value="ShareCode"/><label>Share My Code</label>
+                                                                </div>
+                                                            </div>
+                                                            <div style="display:inline-flex;">
+                                                                <div class="form-group rdbRefCodeShow">
+                                                                    <input type="radio" name="ShareCode" id="SearchCode" class="refCodeSelectionClasss" value="SearchCode"/><label>Search My Codes History</label>
+                                                                </div>
+                                                                <div style="margin: -6px 0px 0px 10px;">
+                                                                    <select class="" id="ddlSearchRefCode" name="ddlSearchRefCode" style="width:100%;height:35px;">
+                                                                        <option value="1">When I am a Sender</option>
+                                                                        <option value="2">When I am a Receiver</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <label id="errorNoSearchShareCode" class="errorNoSearchShareCode text-danger"></label>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12" style="text-align:center;">
+                                                                <button id="submit-contact" type="button" class="button_medium" style="background-color: #008278 !important" onclick="ReadRadioBtnSelection()">
+                                                                    <i class="bigger-110"></i>
+                                                                    OK
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id="main_contentRefCodes" style="display:none;">
+                                        <div class="container">
+                                            <div class="row" id="notification">
+                                                <div class="col-md-10 studentView">
+                                                    <h1 class="chapter_course no_margin_rop col-md-12">Referral Codes</h1>
+                                                    @{Html.RenderAction("RefCodesTab", "UserRegister");}
+                                                </div><!-- End col-md-8  -->
+                                            </div><!-- End row -->
+                                        </div><!-- End container -->
+                                    </section>
+                                </div>
+                            }*@
+                        }
+                    </div><!-- End col-md-8-->
+                </div>
+            }
+            else
+            {
+                <div class="col-md-11">
+                    <!--  Tabs -->
+                    <ul class="nav nav-tabs custom-tabs" id="mytabs">
+                        <li class="active" id="ProfileId"><a href="#profile" data-toggle="tab">Profile</a></li>
+                    </ul>
+                    <div class="tab-content Profilepages-tabs">
+                        <div class="tab-pane fade in active" id="profile">
+                            <div class="row">
+                                <aside class="col-md-4">
+                                    <div class=" box_style_1 profile">
+                                        @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
+                                        @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
+                                        <!-- #section:pages/profile.picture -->
+                                        <form id="files" method="post" enctype="multipart/form-data">
+                                            <p class="text-center">
+                                                <span class="profile-pictures">
+                                                    @if (Model.ImageURL != null)
+                                                    {
+                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
+                                                    }
+                                                </span>
+                                            </p>
+                                        </form>
+                                        <ul>
+                                            <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
+                                            <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
+                                            <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
+                                            <li>Country<strong class="pull-right">@Model.Country</strong></li>
+                                            <li>City<strong class="pull-right">@Model.City</strong></li>
+                                            <li id="profile">
+                                                <img src="~/Content/learn/img/edit-profile.jpg" alt="">
+                                                <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
+
+                                                <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
+                                                <div style="text-align:center;">
+                                                    <a class="actCoupon" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div><!-- End box-sidebar -->
+                                </aside><!-- End aside -->
+                                <div class="col-md-8">
+                                    <div id="EditProfileUser">
+                                        @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                                        {
+                                            @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
+                                            <div class="box_style_2">
+
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
+                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
+                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
+                                                            @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt  ">
+                                                            @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
+                                                            @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
+                                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group  marginTxt">
+                                                            @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
+                                                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
+                                                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginTxt ">
+                                                            @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
+                                                            @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginloginpwdTxt ">
+                                                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
+                                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                    <div class="col-md-8 col-sm-8">
+                                                        <div class="form-group marginloginpwdTxt ">
+                                                            @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
+                                                            @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-2"></div>
+                                                </div>
+                                                <div class="Partner-btn-div marginTxt">
+                                                    <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus" />
+                                                    <input type="submit" value="Submit" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div><!-- End col-md-8 -->
+                            </div><!-- End row -->
+                        </div><!-- End tab-pane -->
+                    </div><!-- End col-md-8-->
+                </div>
+            }
+        </div><!-- End row-->
+    </div><!-- End container -->
+</section>
+<div id="ResetPwdModel" class="modal fade">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl">Reset Password</label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="hideDiv">
+                                <input id="oldPwd" type="password" class=" form-control" placeholder="Old Password">
+                            </div>
+                            <div class="hideDiv"><label id="oldPwdErrorLbl" class="colorRed"></label></div>
+                            <div class="hideDiv">
+                                <input id="newPwd" type="password" class=" form-control " placeholder="New Password">
+                            </div>
+                            <div class="hideDiv"><label id="newPwdErrorLbl" class="colorRed"></label></div>
+                            <div class="hideDiv">
+                                <input id="confirmPwd" type="password" class=" form-control " placeholder="Confirm password">
+                            </div>
+                            <div class="hideDiv"><label id="confirmPwdErrorLbl" class="colorRed"></label></div>
+
+                            <div><label id="ResetFPwdSuccessLbl" class="forgotEmailLbl" style="font-size: 16px!important;"></label></div>
+                            <div id="ResetBtnDiv" class="rightAlign"><input type="button" value="Reset" id="Regbtn" class="btnRegister btnForword" onclick="ResetPwdBtn()" /></div>
+                            <div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+<div id="DeactivateMyAccountModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Are you sure you want to deactivate your account?</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="hideDiv">
+                                <p>
+                                    Deactivating your account will disable your profile and you will no longer be able to login to the MillionLights Portal.
+                                </p>
+                            </div>
+                            <div id="DeactivateAccount" class="rightAlign">
+                                <input type="button" value="Cancel" id="CancelDeactivateBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelDeactivate()" />
+                                <input type="button" value="Deactivate Now" id="DeactivateBtn" class="btnRegister btnForword" onclick="DeactivateNow()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ShowReferralCodeModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Please submit valid referral code to get rewards</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="hideDiv aligntextcenter" >
+                                <input type="text" id="ReferralCode" placeholder="Enter Referral Code"/><br />
+                                <label id="errorReferralCode" class="errorReferralCode text-danger"></label>
+                            </div>
+                            <br />
+                            <div id="DeactivateAccount" class="aligntextcenter">
+                                <input type="button" value="Cancel" id="CancelDeactivateBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelReferralCode()" />
+                                <input type="button" value="Apply Code" id="DeactivateBtn" class="btnRegister btnForword" onclick="return ApplyReferralCode()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ShowSearchCodeModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Please submit the receiver details</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="hideDiv aligntextcenter">
+                                <input type="text" id="ReceiverEmailId" placeholder="Enter Email Address" /><br />
+                            </div>
+                            <div class="hideDiv aligntextcenter" style="margin:4px 0px 4px 0px;">
+                                <input type="text" id="ReceiverPhoneNo" placeholder="Enter Phone Number" /><br />
+                            </div>
+                            <div class="hideDiv aligntextcenter">
+                                <label id="errorShareCode" class="errorShareCode text-danger"></label>
+                             </div>
+                            <br />
+                            <div id="DeactivateAccount" class="aligntextcenter">
+                                <input type="button" value="Cancel" id="CancelShareCodeBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelShareCode()" />
+                                <input type="button" value="Share Code" id="ShareCodeBtn" class="btnRegister btnForword" onclick="return ShareCode()" />
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="DeactivateSuccess" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Account Deactivation Is Successful</b></label></div>
+                            <div class="hideDiv">
+                                <p>
+                                    Your account has been deactivated.
+                                    <br />
+                                    To reactivate your account, drop us a mail on <a href="mailto:support@Millionlights.org">support@millionlights.org</a>.
+                                    We will activate your account and you will then be able to use the site as before.
+                                    We hope you come back soon.
+                                </p>
+                            </div>
+                            <div id="DeactivateAccountSuccess" class="rightAlign"><input type="button" value="OK" id="DeactivateOKBtn" class="btnRegister btnForword" onclick="DeactivateSuccess()" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="DeactivateFailed" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Account Deactivation Fails</b></label></div>
+                            <div class="hideDiv">
+                                <p>
+                                    Your account deactivation request is failed. Please try again or drop us a mail on <a href="mailto:support@Millionlights.org">support@millionlights.org</a>.
+                                    We will deactivate your account and you will no longer be able to login to MillionLights Portal.
+                                    Sorry for the Inconvenience.
+                                </p>
+                            </div>
+                            <div id="DeactivateAccountFails" class="rightAlign"><input type="button" value="OK" id="DeactivateOKBtn" class="btnRegister btnForword" onclick="DeactivateFails()" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+<script src="~/Scripts/Online/1.10.7-js-jquery.dataTables.min.js"></script>
+<script src="~/Scripts/Online/responsive-1.0.6-js-dataTables.responsive.min.js"></script>
+<script src="~/Scripts/Online/plug-ins-1.10.7-integration-bootstrap-3-dataTables.bootstrap.js"></script>
+
+@if (roleID != 0)
+{
+    if (roleID == 1 || roleID == 3)
+    {
+        Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+        <!-- ace scripts - for user profile photo -->
+        <script src="~/Content/assets/js/jquery.gritter.js"></script>
+        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+        //added by suraj to fix sidebar menu issue
+        <script src="~/Content/assets/js/bootstrap.js"></script>
+        <script src="~/Content/assets/js/jquery.gritter.js"></script>
+        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+        <script src="~/Content/assets/js/ace/ace.js"></script>
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        <!-- ace scripts - for user profile photo -->
+        <script src="~/Content/assets/js/bootstrap.js"></script>
+        <script src="~/Content/assets/js/jquery.gritter.js"></script>
+        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+        <script src="~/Content/assets/js/ace/ace.js"></script>
+    }
+}
+else
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <script src="~/Content/assets/js/bootstrap.js"></script>
+    <script src="~/Content/assets/js/jquery.gritter.js"></script>
+    <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+    <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+    <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+    <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+    <script src="~/Content/assets/js/ace/ace.js"></script>
+}
+<script src="~/Content/assets/js/bootbox.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger
+        var reCode = '@ReferralCodeToShare';
+        if (reCode == "") {
+            $("#ShareCode").attr('disabled', true);
+        }
+        else {
+            $("#ShareCode").attr('disabled', false);
+        }
+        var userType = '@userType';
+        if (userType != "MillionLight") {
+            $("#ResetpwdBtnDiv").addClass("displayNone");
+        }
+        else {
+            $("#ResetpwdBtnDiv").removeClass("displayNone");
+        }
+        var ud = '@userid'
+        if (ud == '') {
+            var url = "/Account/Login";
+            window.location.href = url;
+        }
+
+        $('#CloseBtnDiv').addClass('displayNone');
+        var mobileNumber = $("#hiddenMobile").val();
+        var EmailAddress = $("#hiddenEmail").val();
+        if (EmailAddress == null || EmailAddress == '') {
+            $('#EmailTxt').attr("readonly", false);
+        }
+        if (mobileNumber == null || mobileNumber == '') {
+            $('#PhoneNoTxt').attr("readonly", false);
+        }
+
+        if (mobileNumber == null || mobileNumber == '') {
+            bootbox.dialog({
+                message: "Please click Edit Profile button and add your Email/phone number.",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary",
+
+                    }
+                }
+            });
+        }
+        $("#editProfile").click(function () {
+            $("#EditProfileUser").show();
+        });
+
+        $("#cancelbtn").click(function () {
+            $("#EditProfileUser").hide();
+        });
+        $('#OrdersGridview').DataTable();
+        $('#CouponsGridview').DataTable();
+
+        var coupanId = 0;
+        $('.ViewCoupan').click(function () {
+            coupanId = $(this)[0].id;
+        });
+
+        var currentTab = localStorage.value;
+        if (currentTab != null) {
+            $("#ProfileId").removeClass("active");
+            $("#MyordersId").removeClass("active");
+            $("#MycouponsId").removeClass("active");
+            $("#MycourseId").removeClass("active");
+            $("#MyNoteId").removeClass("active");
+            $("#MyCertId").removeClass("active");
+            $("#MyRefCodeId").removeClass("active");
+            $("#profile").removeClass("active");
+            $("#profile").removeClass("in");
+            $("#courses").removeClass("active");
+            $("#courses").removeClass("in");
+            $("#coupons").removeClass("active");
+            $("#coupons").removeClass("in");
+            $("#redeemedCoupons").removeClass("active");
+            $("#redeemedCoupons").removeClass("in");
+            $("#orders").removeClass("active");
+            $("#orders").removeClass("in");
+            $("#note").removeClass("active");
+            $("#note").removeClass("in");
+            $("#certificate").removeClass("active");
+            $("#certificate").removeClass("in");
+
+            if (currentTab == "MyCourses") {
+
+                $("#MycourseId").addClass("active");
+                $("#courses").addClass("active");
+                $("#courses").addClass("in");
+            }
+            else if (currentTab == "MyOrders") {
+                $("#MyordersId").addClass("active");
+                $("#orders").addClass("active");
+                $("#orders").addClass("in");
+
+            }
+            else if (currentTab == "MyCoupons") {
+                $("#MycouponsId").addClass("active");
+                $("#coupons").addClass("active");
+                $("#coupons").addClass("in");
+            }
+            else if (currentTab == "MyProfile") {
+                $("#ProfileId").addClass("active");
+                $("#profile").addClass("active");
+                $("#profile").addClass("in");
+            }
+            else if (currentTab == "MyNotification") {
+                $("#MyNoteId").addClass("active");
+                $("#note").addClass("active");
+                $("#note").addClass("in");
+            }
+            else if (currentTab == "MyCertification") {
+                $("#MyCertId").addClass("active");
+                $("#certificate").addClass("active");
+                $("#certificate").addClass("in");
+            }
+            else if (currentTab == "MyRefCodes") {
+                $("#MyRefCodeId").addClass("active");
+                $("#refCodes").addClass("active");
+                $("#refCodes").addClass("in");
+            }
+        }
+        else {
+            $("#ProfileId").addClass("active");
+            $("#profile").addClass("active");
+            $("#profile").addClass("in");
+        }
+
+        var app = "";
+
+        var PhoneNo = $('#PhoneNoTxt')[0].value;
+        if (PhoneNo.length > 0 && PhoneNo != "0") {
+            $('#PhoneNoTxt').attr('readonly', true);
+        }
+        else {
+            $('#PhoneNoTxt').attr('readonly', false);
+        }
+    });
+    jQuery(function ($) {
+        //editables on first profile page
+        $.fn.editable.defaults.mode = 'inline';
+        $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+        $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>' +
+                                    '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';
+        try {
+            //ie8 throws some harmless exceptions, so let's catch'em
+            //first let's add a fake appendChild method for Image element for browsers that have a problem with this
+            //because editable plugin calls appendChild, and it causes errors on IE at unpredicted points
+            try {
+                document.createElement('IMG').appendChild(document.createElement('B'));
+            } catch (e) {
+                Image.prototype.appendChild = function (el) { }
+            }
+
+            var last_gritter
+            $('#avatar').editable({
+                type: 'image',
+                name: 'avatar',
+                value: null,
+                image: {
+                    //specify ace file input plugin's options here
+                    btn_choose: 'Change Avatar',
+                    droppable: true,
+                    maxSize: 110000,//~100Kb
+
+                    //and a few extra ones here
+                    name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+                    on_error: function (error_type) {//on_error function will be called when the selected file has a problem
+                        if (last_gritter) $.gritter.remove(last_gritter);
+                        if (error_type == 1) {//file format error
+                            last_gritter = $.gritter.add({
+                                title: 'File is not an image!',
+                                text: 'Please choose a jpg|gif|png image!',
+                                class_name: 'gritter-error gritter-center'
+                            });
+                        } else if (error_type == 2) {//file size rror
+                            last_gritter = $.gritter.add({
+                                title: 'File too big!',
+                                text: 'Image size should not exceed 100Kb!',
+                                class_name: 'gritter-error gritter-center'
+                            });
+                        }
+                    },
+                    on_success: function () {
+                        $.gritter.removeAll();
+                    }
+                },
+                url: function (params) {
+                    var formData = new FormData();
+                    var imgName = $("input[type='file']")[0].files[0].name;
+                    var imgInfo = $("input[type='file']")[0].files[0];
+                    formData.append(imgName, imgInfo);
+                    $.ajax({
+                        type: "POST",
+                        async: false,
+                        data: formData,
+                        url: "/UserRegister/UploadProfilePic",
+                        success: function (response) {
+
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        error: function (response) {
+
+                        }
+                    });
+
+                    var deferred = new $.Deferred
+
+                    var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+                    if (!value || value.length == 0) {
+                        deferred.resolve();
+                        return deferred.promise();
+                    }
+
+                    //dummy upload
+                    setTimeout(function () {
+                        if ("FileReader" in window) {
+                            //for browsers that have a thumbnail of selected image
+                            var thumb = $('#avatar').next().find('img').data('thumb');
+                            if (thumb) $('#avatar').get(0).src = thumb;
+                        }
+
+                        deferred.resolve({ 'status': 'OK' });
+
+                        if (last_gritter) $.gritter.remove(last_gritter);
+                        last_gritter = $.gritter.add({
+                            title: 'Profile Photo Updated!',
+                            text: 'Profile Photo Updated Successfully.',
+                            class_name: 'gritter-info gritter-center'
+                        });
+
+                    }, parseInt(Math.random() * 800 + 800))
+
+                    return deferred.promise();
+
+                    // ***END OF UPDATE AVATAR HERE*** //
+                },
+
+                success: function (response, newValue) {
+                }
+            })
+        } catch (e) { }
+
+    });
+    $("#EditProfileUser").hide();
+</script>
+<script>
+    function ResetPwd() {
+        $('#ResetFPwdSuccessLbl')[0].innerHTML = $('#oldPwdErrorLbl')[0].innerHTML = "";
+        $('#oldPwd')[0].value = $('#newPwd')[0].value = $('#confirmPwd')[0].value = "";
+        $('.hideDiv').removeClass('displayNone');
+        $('#CloseBtnDiv').addClass('displayNone');
+        $('#ResetBtnDiv').removeClass('displayNone');
+        $('#ResetPwdModel').modal('show');
+    }
+
+    function ResetPwdBtn() {
+        var isValid = validateResetPwg();
+        if (isValid == true) {
+            var oldPwd = $('#oldPwd')[0].value;
+            var newPwd = $('#newPwd')[0].value;
+            var confirmPwd = $('#confirmPwd')[0].value;
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "oldPwd": oldPwd, "newPwd": newPwd }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/ResetPassword",
+                success: function (response) {
+
+                    if (response == true) {
+                        $('.hideDiv').addClass('displayNone');
+                        $('#CloseBtnDiv').removeClass('displayNone');
+                        $('#ResetBtnDiv').addClass('displayNone');
+                        $('#oldPwd')[0].value = $('#newPwd')[0].value = $('#confirmPwd')[0].value = "";
+                        $('#oldPwdErrorLbl')[0].innerHTML = "";
+                        $('#ResetFPwdSuccessLbl')[0].innerHTML = "Password reset successfully";
+                    }
+                    else {
+                        $('#ResetFPwdSuccessLbl')[0].innerHTML = "";
+                        $('#oldPwdErrorLbl')[0].innerHTML = "Please enter valid password";
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+    }
+    function validateResetPwg() {
+
+        var isValid = true;
+        var oldPwd = $('#oldPwd')[0].value;
+        var newPwd = $('#newPwd')[0].value;
+        var confirmPwd = $('#confirmPwd')[0].value;
+        if (oldPwd == "") {
+            $('#oldPwdErrorLbl')[0].innerHTML = "Please enter Current password";
+            isValid = false;
+        }
+        else {
+            $('#oldPwdErrorLbl')[0].innerHTML = "";
+        }
+        if (newPwd == "") {
+            $('#newPwdErrorLbl')[0].innerHTML = "Please enter New password.";
+            isValid = false;
+        }
+        else if (newPwd.length < 8) {
+            $('#newPwdErrorLbl')[0].innerHTML = "Minimum password length is 8 char/digits";
+            isValid = false;
+        }
+        else if (newPwd == oldPwd) {
+            $('#newPwdErrorLbl')[0].innerHTML = "Old password and New password should not be same";
+            isValid = false;
+        }
+        else {
+            $('#newPwdErrorLbl')[0].innerHTML = "";
+        }
+        if (confirmPwd == "") {
+            $('#confirmPwdErrorLbl')[0].innerHTML = "Please enter confirm password";
+            isValid = false;
+        }
+        else if (newPwd != confirmPwd) {
+            $('#confirmPwdErrorLbl')[0].innerHTML = "new Password & Confirm Password must be same";
+            isValid = false;
+        }
+        else {
+            $('#confirmPwdErrorLbl')[0].innerHTML = "";
+        }
+        if (isValid == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+    function ValidateProfileData() {
+        var FirstName = $('#FirstNameTxt')[0].value;
+        var LastName = $('#LastNameTxt')[0].value;
+
+        var Zipcode = $('#ZipCodeTxt')[0].value;
+        var PhoneNo = $('#PhoneNoTxt')[0].value;
+        var email = $('#EmailTxt')[0].value;
+        var phonenoRegx = /^\d{10}$/;
+        var isValid = true;
+        if (FirstName.length == 0) {
+            $('.errorFirstName')[0].innerHTML = "Please Enter First Name";
+            isValid = false;
+        }
+        else {
+            $('.errorFirstName')[0].innerHTML = "";
+        }
+        if (LastName.length == 0) {
+            $('.errorLastName')[0].innerHTML = "Please Enter Last Name";
+            isValid = false;
+        }
+        else {
+            $('.errorLastName')[0].innerHTML = "";
+        }
+        if (Zipcode.length > 0 && Zipcode.length != 6) {
+            $('.errorZipCode')[0].innerHTML = "Zipcode must be 6 digits.";
+            isValid = false;
+
+        }
+        else {
+            $('.errorZipCode')[0].innerHTML = "";
+        }
+        if (email.length == 0) {
+            $('.errorEmailTxt')[0].innerHTML = "Please enter email.";
+            isValid = false;
+        }
+        else if (isEmail(email) == false) {
+            $('.errorEmailTxt')[0].innerHTML = "Please enter valid email id.";
+            isValid = false;
+        }
+        else {
+            $('.errorEmailTxt')[0].innerHTML = "";
+        }
+        if (email.length > 0 || PhoneNo.length > 0) {
+            if (email.length > 0) {
+                var isEmailDisabled = $('#EmailTxt').is('[readonly]');
+            }
+            if (PhoneNo.length > 0) {
+                var isPhoneDisabled = $('#PhoneNoTxt').is('[readonly]');
+            }
+            debugger;
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "emailid": email, "phone": PhoneNo }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/CheckEmailNPhoneExist",
+                success: function (response) {
+                    debugger
+                    var resp = JSON.parse(response);
+                    if (resp.EmailExist == true && isEmailDisabled == false) {
+                        $('.errorEmailTxt')[0].innerHTML = "Email Id is already exists.";
+                        isValid = false;
+                    }
+                    else {
+                        $('.errorEmailTxt')[0].innerHTML = "";
+                    }
+                    if (resp.PhoneExist == true && isPhoneDisabled == false) {
+                        $('.errorPhoneNo')[0].innerHTML = "Phone number is already exists.";
+                        isValid = false;
+                    }
+                    else {
+                        $('.errorPhoneNo')[0].innerHTML = "";
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+        return isValid;
+
+    }
+    function isEmail(emailid) {
+        var emailRegex = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
+        if (!emailid.match(emailRegex)) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    function ShowReferralCodePopup() {
+        $('#ReferralCode')[0].value = "";
+        $('.errorReferralCode')[0].innerHTML = "";
+        $('#ShowReferralCodeModel').modal('show');
+    }
+    function CancelReferralCode() {
+        $('#ShowReferralCodeModel').modal('hide');
+    }
+    function ApplyReferralCode() {
+        var isValid = true;
+        $('#ShowReferralCodeModel').modal('show');
+        var ud = '@userid'
+        var refCode = $('#ReferralCode')[0].value;
+        if (refCode.length == 0) {
+            $('.errorReferralCode')[0].innerHTML = "Please Enter Referral Code";
+            isValid = false;
+        }
+        else {
+            $('.errorReferralCode')[0].innerHTML = "";
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "refCode": refCode, "UserId": ud, "isLoggedIn": "true", "EmailId": null, "PhoneNumber": null }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/CheckReferralCode",
+                success: function (response) {
+
+                    var resp = JSON.parse(response);
+                    if (resp.RefCodeFound == false) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, we couldn't find the referral code. Please try valid code.";
+                        isValid = false;
+                    }
+                    else if (resp.CodeExpires == true) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, the code you are trying to redeem is already expired. Please try new code.";
+                        isValid = false;
+                    }
+                    else if (resp.CodeShared == false) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, the code you submitted is not shared with you. Please submit valid referral code.";
+                        isValid = false;
+                    }
+                    else if (resp.AllowReferralCode==false) {
+                        $('.errorReferralCode')[0].innerHTML = "You can't activate your own referral code.";
+                        isValid = false;
+                    }
+                    else if (resp.AlreadyUsed == true) {
+                        $('.errorReferralCode')[0].innerHTML = "You have already activated this code. Please try new code.";
+                        isValid = false;
+                    }
+                    else if (resp.Success == false) {
+                        $('.errorReferralCode')[0].innerHTML = "Sorry, their is some problem at our side. Please try again.";
+                        isValid = false;
+                    }
+                    else {
+                        isValid = true;
+                        $('#ShowReferralCodeModel').modal('hide');
+                        $('.errorReferralCode')[0].innerHTML = "";
+                        bootbox.dialog({
+                            message: "Congratulations! The reward amount of Rs. " + resp.RewardAmount + " has been added to your wallet",
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                        $('#finalWalletAmt')[0].innerHTML = "";
+                                        $('#finalWalletAmt')[0].innerHTML = "Rs. " + resp.UpdatedWalletAmount;
+                                    }
+                                },
+                            }
+                        });
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+        return isValid;
+    }
+    function DeactivateAccountButtonClick() {
+        $('#DeactivateSuccess').modal('hide');
+        $('#DeactivateFailed').modal('hide');
+        $('#DeactivateMyAccountModel').modal('show');
+    }
+
+    function CancelDeactivate() {
+        $('#DeactivateSuccess').modal('hide');
+        $('#DeactivateFailed').modal('hide');
+        $('#DeactivateMyAccountModel').modal('hide');
+    }
+    function DeactivateNow() {
+        $('#DeactivateMyAccountModel').modal('hide');
+        $.ajax({
+            type: "POST",
+            async: false,
+            data: {},
+            contentType: 'application/json; charset=utf-8',
+            url: "/UserRegister/DeactivateMyAccount",
+            success: function (response) {
+
+                if (response == true) {
+                    $('#DeactivateSuccess').modal('show');
+                    $('#DeactivateFailed').modal('hide');
+                }
+                else {
+                    $('#DeactivateSuccess').modal('hide');
+                    $('#DeactivateFailed').modal('show');
+                }
+            },
+            error: function (response) { }
+        });
+    }
+    function DeactivateSuccess() {
+        $('#DeactivateSuccess').modal('hide');
+        $('#DeactivateFailed').modal('hide');
+        $('#DeactivateMyAccountModel').modal('hide');
+        location.href = '/UserRegister/LoginOut';
+    }
+    function DeactivateFails() {
+        $('#DeactivateSuccess').modal('hide');
+        $('#DeactivateFailed').modal('hide');
+        $('#DeactivateMyAccountModel').modal('hide');
+    }
+    function ReadRadioBtnSelection() {
+        debugger
+        var userType = document.querySelector('input[name="ShareCode"]:checked');
+        if (userType == null) {
+            $('.errorNoSearchShareCode')[0].innerHTML = "Please select share/search option";
+        }
+        else if (userType.value == "ShareCode") {
+            $('#main_contentRefCodes')[0].style.display = 'none';
+            $('.errorNoSearchShareCode')[0].innerHTML = "";
+            $('.errorShareCode')[0].innerHTML = "";
+            $('#ShowSearchCodeModel').modal('show');
+        }
+        else if (userType.value == "SearchCode") {
+            $('.errorNoSearchShareCode')[0].innerHTML = "";
+            $('#ShowSearchCodeModel').modal('hide');
+
+            var OperationId = null;
+            OperationId = $('#ddlSearchRefCode')[0].value;
+            var uId = '@userid';
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "page": null, "id": uId, "OperationId": OperationId }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/RefCodesTab",
+                success: function (response) {
+                    $('#main_contentRefCodes')[0].style.display = 'block';
+                    localStorage.value = "MyRefCodes";
+                    $('#RefCodesTab').html(response);
+
+                    if (OperationId == "1") {
+                        for (i = 0; i < $("tr.RefHeader th").length; i++) {
+                            if ($("tr.RefHeader th")[i].id == "thReferrer") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRefRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thApplyCode") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverEmail") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverPhoneNumber") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRecRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                        for (i = 0; i < $("tr.RefData td").length; i++) {
+                            if ($("tr.RefData td")[i].id == "trReferrer") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRefRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trApplyCode") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverEmail") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverPhoneNumber") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRecRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                    }
+                    if (OperationId == "2") {
+                        for (i = 0; i < $("tr.RefHeader th").length; i++) {
+                            if ($("tr.RefHeader th")[i].id == "thReferrer") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRefRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thApplyCode") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverEmail") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thReceiverPhoneNumber") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefHeader th")[i].id == "thRecRewAmt") {
+                                $("tr.RefHeader th").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                        for (i = 0; i < $("tr.RefData td").length; i++) {
+                            if ($("tr.RefData td")[i].id == "trReferrer") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRefRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trApplyCode") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverEmail") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trReceiverPhoneNumber") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'none' });
+                            }
+                            if ($("tr.RefData td")[i].id == "trRecRewAmt") {
+                                $("tr.RefData td").eq(i).css({ 'display': 'grid' });
+                            }
+                        }
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+    }
+    function isvalidateEmail(shareCodeEmailId) {
+        var filter = /^[\w\-\.\+]+\@@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+        return filter.test(shareCodeEmailId);
+    }
+    function CancelShareCode() {
+        $('#ShowSearchCodeModel').modal('hide');
+    }
+    function ShareCode() {
+        debugger
+        var codeToShare = '@ReferralCodeToShare';
+        var isValid = true;
+        $('#ShowSearchCodeModel').modal('show');
+        debugger
+        var ud = '@userid'
+        var shareCodeEmailId = $('#ReceiverEmailId')[0].value;
+        var shareCodePhoneNo = $('#ReceiverPhoneNo')[0].value;
+
+        if (shareCodeEmailId.length == 0 && shareCodePhoneNo.length == 0) {
+            $('.errorShareCode')[0].innerHTML = "Please Enter Receivers EmailId / Phone Number";
+            isValid = false;
+        }
+        else if (!isvalidateEmail(shareCodeEmailId)) {
+            $('.errorShareCode')[0].innerHTML = "Please Enter valid EmailId";
+            isValid = false;
+        }
+        else {
+            $('.errorShareCode')[0].innerHTML = "";
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "codeToShare": codeToShare, "UserId": ud, "EmailId": shareCodeEmailId, "PhoneNumber": shareCodePhoneNo }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/UserRegister/ShareCode",
+                success: function (response) {
+
+                    var resp = JSON.parse(response);
+                    if (resp.CodeToShare == false) {
+                        $('.errorShareCode')[0].innerHTML = "Sorry, their is some problem with sharing code. Please try again.";
+                        isValid = false;
+                    }
+                    else if (resp.UserSession == false) {
+                        $('.errorShareCode')[0].innerHTML = "You must be login to share this code.";
+                        isValid = false;
+                    }
+                    else if (resp.InputProvided == false) {
+                        $('.errorShareCode')[0].innerHTML = "Please provide the receivers Email/Phone to share the code.";
+                        isValid = false;
+                    }
+                    else if (resp.CodeValid == false) {
+                        $('.errorShareCode')[0].innerHTML = "Sorry, their is some problem with this code. Please contact ML support team.";
+                        isValid = false;
+                    }
+                    else if (resp.ReceiverExist == true) {
+                        $('.errorShareCode')[0].innerHTML = "Sorry,Receiver is already a member of ML portal. Please share this code to new user.";
+                        isValid = false;
+                    }
+                    else if (resp.CantShareCodeWithSelf == true) {
+                        $('.errorShareCode')[0].innerHTML = "Sorry,You can't share your referral code with yourself.";
+                        isValid = false;
+                    }
+                    else if (resp.CodeAlreadyShared == true) {
+                        $('.errorShareCode')[0].innerHTML = "Sorry,You already have shared this code to the selected user. Please try new user.";
+                        isValid = false;
+                    }
+                    else if (resp.IsSuccess == false) {
+                        $('.errorShareCode')[0].innerHTML = "Sorry, their is some problem at our end. Please try again.";
+                        isValid = false;
+                    }
+                    else {
+                        isValid = true;
+                        var successMsg=null;
+                        if (shareCodeEmailId.length >0 && shareCodePhoneNo.length == 0) {
+                            successMsg="Congratulations! The referral code " + codeToShare + " has been shared with: Email - "+shareCodeEmailId;
+                        }
+                        else if (shareCodeEmailId.length == 0 && shareCodePhoneNo.length > 0) {
+                            successMsg="Congratulations! The referral code " + codeToShare + " has been shared with: Phone - "+shareCodePhoneNo;
+                        }
+                        else{
+                            successMsg="Congratulations! The referral code " + codeToShare + " has been shared with: Email/Phone - "+shareCodeEmailId+"/"+shareCodePhoneNo;
+                        }
+                        
+                        $('#ShowSearchCodeModel').modal('hide');
+                        $('.errorShareCode')[0].innerHTML = "";
+                        bootbox.dialog({
+                            message: successMsg,
+                            buttons: {
+                                "success": {
+                                    "label": "Ok",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+
+                                    }
+                                },
+                            }
+                        });
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+        return isValid;
+    }
+</script>

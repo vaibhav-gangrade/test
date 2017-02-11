@@ -1,0 +1,77 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.OrderManagement>
+@using PagedList.Mvc;
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+@*<section id="main_content">
+    <div class="container" id="OrderTab">
+        <div class="row">
+            <div class="panel-info col-xs-11 tableContent">
+                <div class="panel-heading">*@
+                @*</div>*@
+   <div class="table-responsive fontText" id="OrderTab">
+    <table id="OrderGridview" class="table">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Total Courses</th>
+                <th>Course Name</th>
+                <th>Price</th>
+                <th>Order Status</th>
+                <th>Ordered Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.OrderNumber
+                    </td>
+                    <td>
+                        @item.TotalItems
+                    </td>
+                    <td>
+                        @item.CourseName
+                    </td>
+                    <td>
+                        @item.TotalPrice
+                    </td>
+                    <td>
+                        @item.OrderStatus
+                    </td>
+                    <td>
+                        @item.OrderedDatetimeString
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id='Paging' style="text-align:center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("OrderTab", new { page }))
+    </div>
+</div><!-- End col-md-8  -->
+            @*</div><!-- End row -->
+        </div>
+    </div><!-- End container -->
+</section>*@
+
+
+
+<script>
+    $(function () {
+        $('#Paging').on('click', 'a', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#OrderTab').html(result);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+

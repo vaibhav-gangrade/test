@@ -1,0 +1,120 @@
+﻿@{
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<script type="text/javascript" src="~/Content/assets/js/slider/jssor.slider.mini.js"></script>
+
+
+@*<link rel="shortcut icon" href="Content/learn/img/favicon.ico" type="image/x-icon" />*@
+<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+
+@*<link rel="icon" href="Content/learn/img/favicon.ico" type="image/x-icon">*@
+<link href="~/PressContents/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/PressContents/css/superfish.css" rel="stylesheet" />
+<link href="~/PressContents/css/style.css" rel="stylesheet" />
+<link href="~/PressContents/Content/learn/fontello/css/fontello.css" rel="stylesheet" />
+<link href="~/PressContents/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link href="~/PressContents/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link href="~/PressContents/css/font-awesome.css" rel="stylesheet" />
+<link href="~/PressContents/main.css" rel="stylesheet" />
+
+
+
+<section id="press-content-area-1" style="background-color:#d35400;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p><span>Release Date : </span> 30 jan 2015</p>
+                <h3>Press Release 1</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="press-content-area-2" style="background-color:#bdc3c7;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p><span>Release Date : </span> 22 march 2015</p>
+                <h3>Press Release 2</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="press-content-area-3" style="background-color:#d35400;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p><span>Release Date : </span> 11 Apri 2015</p>
+                <h3>Press Release 3</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="press-content-area-4" style="background-color:#bdc3c7;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p><span>Release Date : </span> 26 may 2015</p>
+                <h3>Press Release 4</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

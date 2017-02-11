@@ -1,0 +1,206 @@
+﻿@model Millionlights.Models.Orders
+
+@{
+    ViewBag.Title = "Delete";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Orders</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalItems)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalItems)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingAddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingAddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingAddress2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddress2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatusID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderStatusID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderedDatetime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderedDatetime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderModifiedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderModifiedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

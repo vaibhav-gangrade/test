@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Millionlights.Models.Orders>
+@{
+
+    var orderDetails = ViewBag.OrdersByUserID;
+    var userName = Session["UserName"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+
+    }
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+<script src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
+
+<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<link href="~/Content/learn/css/style.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        $('#OrdersGridview').DataTable();
+    });
+</script>
+<section id="main_content">
+    <div class="container">
+
+        <div class="row" id="CurrentCourses">
+            <div class="col-sm-2 col-md-2">
+                @if (userName != null && roleID == 1)
+                {
+                    @Html.Partial("_StudentNavigation")
+                }
+            </div>
+            <div class="col-md-10 studentView">
+                <div class="table-header gridPadding gridAlign">
+                    <b>Order Details</b>
+                </div>
+                <div class="table-responsive gridPadding">
+                    <table id="OrdersGridview" class="table table-striped table-bordered table-hover fullWidth tablediv">
+                        <thead>
+                            <tr>
+                                <th>Order Number</th>
+                                <th>Total Items</th>
+                                <th>Total Price</th>
+                                <th>Order Status</th>
+                                <th>Ordered Date</th>
+                                <th>Shipping Address</th>
+                                <th>Billing Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalItems)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalPrice)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderedDatetime)
+                                    </td>
+                                    <td>
+                                        @if (item.ShippingAddress1 != null)
+                                        {
+                                            @item.ShippingAddress1 <br /> @item.ShippingCountry  <br />  @item.ShippingState <br /> @item.ShippingCity  <br /> @item.ShippingZipCode
+                                        }
+                                        else
+                                        {
+
+                                        }
+
+                                    </td>
+                                    <td>
+                                        @if (item.BillingAddress1 != null || item.BillingAddress1 != "")
+                                        {
+                                            @item.BillingAddress1  @item.BillingCountry   @item.BillingState  @item.BillingCity  @item.BillingZipCode
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div><!-- End col-md-8  -->
+        </div><!-- End row -->
+        
+        
+
+    </div><!-- End container -->
+</section>
+

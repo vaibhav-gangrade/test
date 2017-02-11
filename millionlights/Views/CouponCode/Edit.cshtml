@@ -1,0 +1,163 @@
+﻿@model Millionlights.Models.Coupon
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Coupon</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CCGId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CCGId)
+                @Html.ValidationMessageFor(model => model.CCGId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CouponCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CouponCode)
+                @Html.ValidationMessageFor(model => model.CouponCode)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PartnerID, "PartnerID", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PartnerID", String.Empty)
+                @Html.ValidationMessageFor(model => model.PartnerID)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AllowedCourses, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AllowedCourses)
+                @Html.ValidationMessageFor(model => model.AllowedCourses)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BenifitId, "BenifitId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("BenifitId", String.Empty)
+                @Html.ValidationMessageFor(model => model.BenifitId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidFrom, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidFrom)
+                @Html.ValidationMessageFor(model => model.ValidFrom)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidTo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidTo)
+                @Html.ValidationMessageFor(model => model.ValidTo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StatusId, "StatusId", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("StatusId", String.Empty)
+                @Html.ValidationMessageFor(model => model.StatusId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ActivatedBy, "ActivatedBy", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ActivatedBy", String.Empty)
+                @Html.ValidationMessageFor(model => model.ActivatedBy)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ActivatedOn, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ActivatedOn)
+                @Html.ValidationMessageFor(model => model.ActivatedOn)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BlockedOn, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BlockedOn)
+                @Html.ValidationMessageFor(model => model.BlockedOn)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BlockedReason, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BlockedReason)
+                @Html.ValidationMessageFor(model => model.BlockedReason)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreatedBy, "CreatedBy", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CreatedBy", String.Empty)
+                @Html.ValidationMessageFor(model => model.CreatedBy)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreatedOn, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreatedOn)
+                @Html.ValidationMessageFor(model => model.CreatedOn)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsPrepaid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsPrepaid)
+                @Html.ValidationMessageFor(model => model.IsPrepaid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default btnFocus" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

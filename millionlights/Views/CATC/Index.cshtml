@@ -1,0 +1,105 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.CATS>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    var userName = Session["Customer"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+@{
+    var catsList = ViewBag.CATCDetails;
+}
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="~/Scripts/Online/1.10.7-js-jquery.dataTables.min.js"></script>
+<script src="~/Scripts/Online/responsive-1.0.6-js-dataTables.responsive.min.js"></script>
+<script src="~/Scripts/Online/plug-ins-1.10.7-integration-bootstrap-3-dataTables.bootstrap.js"></script>
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/learn/css/jquery.switch.css">
+<link href="~/Content/learn/css/style.css" rel="stylesheet" />
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
+<script>
+    $(document).ready(function () {
+     //   $('#CATCGridview').DataTable();
+    });
+</script>
+
+                            <section id="main_content">
+                                <div @*class="container"*@>
+                                    <div class="row">
+                                        <div class="col-xs-12 tableContent">
+                                            <div class="table-header">
+                                                <b>CATC Details</b>
+                                               @Html.ActionLink("Add CATC", "Create", "CATC", null, new { @class = "btnDataTable btnFocus" })
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table id="CATCGridview" class="table table-striped table-bordered table-hover fullWidth">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="aligntextcenter">Customer Name</th>
+                                                            <th class="aligntextcenter">City</th>
+                                                            <th class="aligntextcenter">Zip Code</th>
+                                                            <th class="aligntextcenter">Address Line1</th>
+                                                            <th class="aligntextcenter">Address Line2</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td class="aligntextcenter">
+                                                                    @item.CustomerName
+                                                                </td>
+                                                                <td class="aligntextcenter">
+                                                                    @item.City
+                                                                </td>
+                                                                <td class="aligntextcenter">
+                                                                    @item.ZipCode
+                                                                </td>
+                                                                <td class="aligntextcenter">
+                                                                    @item.AddressLine1
+                                                                </td>
+                                                                <td class="aligntextcenter">
+                                                                    @item.AddressLine2
+                                                                </td>
+                                                            </tr>
+                                                        }
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div id='Paging' style="text-align:center">
+                                                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                                                of @Model.PageCount
+
+                                                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </section>
+
+

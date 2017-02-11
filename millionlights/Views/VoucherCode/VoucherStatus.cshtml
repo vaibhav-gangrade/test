@@ -1,0 +1,94 @@
+﻿@model Millionlights.Models.Course
+@{
+    ViewBag.Title = "About";
+    var course = ViewBag.Course;
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+<section id="main_content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 ">
+                <div class=" box_style_2 studentView successDiv">
+
+                    <div class="row">
+                        <div class="col-md-12 marginSuccessDiv">
+                            <h3>Thank you for Activating the coupon code. The course is activated successfully !!</h3>
+                            <p class="lead boxed whiteColor">Please refer below the activated course details</p>
+                        </div>
+                    </div>
+                    <div id="message-contact"></div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <section id="main_content">
+                <div class="container">
+
+                    <div class="row" id="AllCourses">
+                        <div class="col-md-10 studentView">
+
+                           
+                                    <h3 class="chapter_course no_margin_rop">Activated Course Details</h3>
+                                   
+                                        <div class="col-md-12 strip_single_course">
+                                            <div class="col-md-4 courseBlock">
+                                                <div class="photo">
+                                                    <a href="#">
+                                                        <img alt="Logo" src="~/Content/learn/img/Test.jpg" class="testLogo-about">
+
+                                                    </a>
+                                                    <ul class="voucherStatus">
+                                                        <li><b>Course Name: </b><p>@course.CourseName</p></li>
+                                                        <li><b>Course Description: </b><p>@course.ShortDescription</p></li>
+                                                    </ul>
+                                                </div>
+
+                                            </div><!-- end strip single course -->
+                                            <div class="col-md-8">
+                                               
+                                               
+                                                        <aside class="col-md-12">
+                                                            <div class="box_style_1 headings">
+                                                                <h4>Effort:<span class="pull-right">@course.Duration  (@course.Hours hours/day)</span></h4>
+                                                                <h4>Level: <span class="pull-right">@course.Level</span></h4>
+                                                                <h4>Category: <span class="pull-right">@course.Category</span></h4>
+                                                                <h4>Type: <span class="pull-right">@course.Type</span></h4>
+                                                                <h4>Availability: <span class="pull-right">@course.Availability</span></h4>
+                                                                <h4>Languages: <span class="pull-right">@course.Language</span></h4>
+                                                                <h4>Hours: <span class="pull-right">@course.Hours</span></h4>
+                                                                <h4>Rates: <span class="pull-right rating_2"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class=" icon-star-empty"></i><i class=" icon-star-empty"></i></span></h4>
+                                                                <h4>Base Price: <span class="pull-right">@course.BasePrice</span></h4>
+                                                                <h4>Instructor: <span class="pull-right">@course.Instructor</span></h4>
+                                                            </div>
+                                                            <div id="mediaSection">
+                                                                <h4>Share this course with a friend</h4>
+                                                                <div class="media">
+                                                                    <ul id="follow_us" class="followus">
+                                                                        <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                                                        <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                                                        <li><a href="#"><i class=" icon-google"></i></a></li>
+                                                                        <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                                                        <li><a href="#"><i class="icon-windows"></i></a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                        </aside>
+                                                   
+                                            </div>
+
+                                        </div>
+
+                        </div><!-- End col-md-8  -->
+                    </div>
+
+                </div><!-- End container -->
+            </section>
+    

@@ -1,0 +1,702 @@
+﻿@model Millionlights.Models.UserDetails
+@{
+    ViewBag.Title = "Import Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userRegistered = ViewBag.RegisteredUsers;
+    var userRole = (List<SelectListItem>)ViewBag.UserRoleList;
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerID;
+    var userId = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+    <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<h2>Please select the recipient(s)</h2>
+<section id="main_content">
+    <div @*class="container"*@>
+      
+            <div>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <div class="form-group ">
+                            <input type="radio" name="userTypeRdBtn" id="self" class="asignRdb ace" value="self" onclick="RdbselfReg()" />
+                            <span class="lbl">Million Lights</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6" style="display:inline-flex;">
+                        <div class="form-group">
+                            <input type="radio" name="userTypeRdBtn" id="partner" class="asignRdb ace" value="partner" onclick="RdbpartnerList()" />
+                            <span class="lbl"> Partner</span>
+                        </div>
+                        <div class="form-group col-sm-8 PartnerList ">
+                            @Html.DropDownListFor(model => model.PartnerId, partnerList, "---Select Partner---", new { @style = "width:105%; margin-left:3%;", id = "partnerID" })
+                            @Html.ValidationMessageFor(model => model.PartnerId, "", new { @class = "text-danger errorMaxCoupon",@style="margin-left:5%;", id = "errorPartner" })
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" id="partnerSelDiv">
+                    <div class="col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <input type="radio" name="partnersUserType" id="partnerTempUser" class="asignRdb ace" value="partnerTempUser" onclick="TempUserSelect()" />
+                            <span class="lbl"> Temp Users</span>
+                            @*<label>Temp Users</label>*@
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <input type="radio" name="partnersUserType" id="partnerRegUser" class="asignRdb ace" value="partnerRegUser" onclick="RegUserSelect()" />
+                            <span class="lbl"> Registered Users</span>
+                            @*<label>Registered Users</label>*@
+                        </div>
+                    </div>
+
+                </div>
+                 @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger errorMaxCoupon", id = "errorUserType" })
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.FirstName, userRole, "---Select UserRole---", new { @style = "width:100%;", id = "roleId" })
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="form-group">
+                            <input class="form-control" type="text" style="width:100%; height:30px;" placeholder="Select register date range From-To" name="date-range-picker" id="id-date-range-picker-1" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top:1%;">
+                    <div class="col-md-2 col-sm-2">
+                        <div class="form-group ">
+                            <input type="text" placeholder="City" id="cityId" style="width:100%; height:30px;">
+                            <input type="hidden" id="HdcityId" name="city" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <div class="form-group ">
+                            <input type="text" placeholder="State" id="stateId" style="width:100%; height:30px;">
+                            <input type="hidden" id="HdstateId" name="state" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4">
+                        <div class="form-group ">
+                            <input type="text" placeholder="Country" id="countryId" style="width:100%; height:30px;">
+                            <input type="hidden" name="country" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2">
+                        <div class="form-group ">
+                            @*<button type="button" name="UserInfoTxt" id="UserInfoTxt" class="ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple" onclick="searchUsers();"><i class="ace-icon fa fa-search nav-search-icon"></i>Search</button>*@
+                            <button type="button" name="UserInfoTxt" id="UserInfoTxt" class="ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple" onclick="ShowLoader();"><i class="ace-icon fa fa-search nav-search-icon"></i>Search</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="loderimage" class="loading" style="display:none;text-align:center">
+
+                    <img src="~/Images/loading1.gif" /><br />
+                    <h4 style="text-align:center">Users Are Loading Please Wait...</h4>
+                </div>
+            </div>
+            <div class="page-content pagecs">
+                <div class="row" id="SelectUserTableId">
+                    <div class="col-xs-9">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <table id="grid-table"></table>
+
+                        <div id="grid-pager"></div>
+
+                        <script type="text/javascript">
+                            var $path_base = "..";//in Ace demo this will be used for editurl parameter
+                        </script>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div>
+            </div>
+        </div>
+    <div class="modal-footer" id="SelectUserListDiv">
+
+        <button type="button" name="UserInfoTxt" id="SelectUserList" class="ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple" onclick="return ReadGridTablesRows();"><i class="ace-icon fa fa-check nav-check-icon"></i>Select</button>
+    </div>
+</section>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+<script src="~/Contents/assets/js/bootstrap.js"></script>
+<script src="~/Contents/assets/js/bootstrap-tag.js"></script>
+<script src="~/Contents/assets/js/jquery.hotkeys.js"></script>
+<script src="~/Contents/assets/js/bootstrap-wysiwyg.js"></script>
+<script src="~/Contents/assets/js/ace/elements.wysiwyg.js"></script>
+
+<!--Date range picker-->
+<link href="~/Content/assets/css/daterangepicker.css" rel="stylesheet" />
+<script src="~/Content/assets/js/date-time/moment.js"></script>
+<script src="~/Content/assets/js/date-time/daterangepicker.js"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+<script src="~/Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+<script src="~/Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="~/Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="~/Content/assets/js/bootbox.js"></script>
+<!--End Date range picker-->
+<!--Css for editor -->
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+
+<!-- page specific plugin styles -->
+<!-- text fonts -->
+<link rel="stylesheet" href="~/Content/assets/css/ace-fonts.css" />
+
+<!-- ace styles -->
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+   <script type="text/javascript">
+       var prevUrl = '';
+
+       $(document).ready(function () {
+           prevUrl = document.referrer;
+        $('input[name=date-range-picker]').daterangepicker({
+            'applyClass': 'btn-sm btn-success',
+            'cancelClass': 'btn-sm btn-default',
+            locale: {
+                applyLabel: 'Apply',
+                cancelLabel: 'Cancel',
+            }
+        });
+        $(".PartnerList").hide();
+        $("#partnerSelDiv").hide();
+        $("#SelectUserList").hide();
+        $("#SelectUserListDiv").hide();
+    });
+       function ShowLoader() {
+           var isValid = ValidateUser();
+           if (isValid == true) {
+               $("#loderimage").css({ display: "block" });
+               $('#SelectUserTableId').hide();
+               setTimeout(searchUsers, 1000);
+           }
+          
+       }
+    function RdbpartnerList() {
+        $(".PartnerList").show();
+        $("#partnerSelDiv").show();
+    }
+    function RdbselfReg() {
+        $(".PartnerList").hide();
+        $("#partnerSelDiv").hide();
+    }
+    var grid_data = [];
+    function searchUsers() {
+        
+
+        //var isValid = ValidateUser();
+        //if (isValid == true) {
+            
+            grid_data = GetUserDetails();
+            
+                var grid_selector = "#grid-table";
+                var pager_selector = "#grid-pager";
+
+                //resize to fit page size
+                $(window).on('resize.jqGrid', function () {
+                    $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+                    //$(grid_selector).jqGrid('setGridWidth', "900px");
+                })
+                //resize on sidebar collapse/expand
+                var parent_column = $(grid_selector).closest('[class*="col-"]');
+                $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                    if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                        //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                        setTimeout(function () {
+                            $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                            //$(grid_selector).jqGrid('setGridWidth', "900px");
+                        }, 0);
+                    }
+                })
+                var idsOfSelectedRows = [],
+                    updateIdsOfSelectedRows = function (id, isSelected) {
+                        
+                        var test = this;
+                        var index = $.inArray(id, idsOfSelectedRows);
+                        if (!isSelected && index >= 0) {
+                            idsOfSelectedRows.splice(index, 1); // remove id from the list
+                        } else if (index < 0) {
+                            idsOfSelectedRows.push(id);
+                        }
+                    };
+
+                var totalRecords = grid_data.length;
+                jQuery(grid_selector).jqGrid({
+                    data: grid_data,
+                    datatype: "local",
+                    height: 250,
+                    colNames: ['UserId', 'FullName', 'EmailId', 'PhoneNumber', 'Role', 'Registered On'],
+                    colModel: [
+                        { name: 'UserId', index: 'UserId', hidden: true },
+                        { name: 'FullName', index: 'FullName', },
+                        { name: 'EmailId', index: 'EmailId', },
+                        { name: 'PhoneNumber', index: 'PhoneNumber', width: 150, unformat: aceSwitch },
+                        { name: 'RoleName', index: 'RoleName', },
+                        { name: 'RegisteredDatetimeString', index: 'RegisteredDatetimeString', width: 150, unformat: aceSwitch },
+                    ],
+
+                    viewrecords: true,
+                    rowNum: 10,
+                    rowList: [10, 20, 30, totalRecords],
+                    pager: pager_selector,
+                    altRows: true,
+                    //toppager: true,
+
+                    multiselect: true,
+                    multiselectWidth: 150,
+                    //multikey: "ctrlKey",
+                    multiboxonly: true,
+                    //onSelectRow: updateIdsOfSelectedRows,
+                    onSelectAll: function (aRowids, isSelected) {
+                        var i, count, id;
+                        for (i = 0, count = aRowids.length; i < count; i++) {
+                            id = aRowids[i];
+                            updateIdsOfSelectedRows(id, isSelected);
+                        }
+                    },
+                    loadComplete: function () {
+                        
+                       
+                        //$(grid_selector).jqGrid("setLabel", "cb", "Select ALL");
+                        var $this = $(this), i, count;
+                        for (i = 0, count = idsOfSelectedRows.length; i < count; i++) {
+                            $this.jqGrid('setSelection', idsOfSelectedRows[i], false);
+                        }
+                        var table = this;
+                        setTimeout(function () {
+                            styleCheckbox(table);
+
+                            updateActionIcons(table);
+                            updatePagerIcons(table);
+                            enableTooltips(table);
+                        }, 0);
+                    },
+
+                    editurl: "/dummy.html",//nothing is saved
+                    caption: "Users Details"
+
+                    //,autowidth: true,
+
+
+                    /**
+                    ,
+                    grouping:true,
+                    groupingView : {
+                         groupField : ['name'],
+                         groupDataSorted : true,
+                         plusicon : 'fa fa-chevron-down bigger-110',
+                         minusicon : 'fa fa-chevron-up bigger-110'
+                    },
+                    caption: "Grouping"
+                    */
+                     
+                });
+                $("<span>Select All <br /></span>").prependTo("#jqgh_grid-table_cb");
+                $('#jqgh_grid-table_cb').css("height","35px");
+                $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+
+
+
+                //enable search/filter toolbar
+                //jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+                //jQuery(grid_selector).filterToolbar({});
+
+
+                //switch element when editing inline
+                function aceSwitch(cellvalue, options, cell) {
+                    setTimeout(function () {
+                        $(cell).find('input[type=checkbox]')
+                            .addClass('ace ace-switch ace-switch-5')
+                            .after('<span class="lbl"></span>');
+                    }, 0);
+                }
+                //enable datepicker
+                function pickDate(cellvalue, options, cell) {
+                    setTimeout(function () {
+                        $(cell).find('input[type=text]')
+                                .datepicker({ format: 'yyyy-mm-dd', autoclose: true });
+                    }, 0);
+                }
+
+
+                //navButtons
+                jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                    { 	//navbar options
+                        edit: false,
+                        editicon: 'ace-icon fa fa-pencil blue',
+                        add: false,
+                        addicon: 'ace-icon fa fa-plus-circle purple',
+                        del: false,
+                        delicon: 'ace-icon fa fa-trash-o red',
+                        search: false,
+                        searchicon: 'ace-icon fa fa-search orange',
+                        refresh: false,
+                        refreshicon: 'ace-icon fa fa-refresh green',
+                        view: false,
+                        viewicon: 'ace-icon fa fa-search-plus grey',
+                    },
+                    {
+                        //edit record form
+                        //closeAfterEdit: true,
+                        //width: 700,
+                        recreateForm: true,
+                        beforeShowForm: function (e) {
+                            var form = $(e[0]);
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                            style_edit_form(form);
+                        }
+                    },
+                    {
+                        //new record form
+                        //width: 700,
+                        beforeShowForm: function (e) {
+                            location.href = "/Users/Create";
+                        }
+                    },
+                    {
+                        //delete record form
+                        recreateForm: true,
+                        beforeShowForm: function (e) {
+                            ReadTablesRows();
+                            //var form = $(e[0]);
+                            //if (form.data('styled')) return false;
+
+                            //form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                            //style_delete_form(form);
+
+                            //form.data('styled', true);
+                        },
+                        onClick: function (e) {
+                          
+                        }
+                    },
+                    {
+                        //search form
+                        recreateForm: true,
+                        afterShowSearch: function (e) {
+                            var form = $(e[0]);
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                            style_search_form(form);
+                        },
+                        afterRedraw: function () {
+                            style_search_filters($(this));
+                        }
+                        ,
+                        multipleSearch: true,
+                        /**
+                        multipleGroup:true,
+                        showQuery: true
+                        */
+                    },
+                    {
+                        //view record form
+                        recreateForm: true,
+                        beforeShowForm: function (e) {
+                            var form = $(e[0]);
+                            form.find('ui-jqdialog').addClass('jqwidth');
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                        }
+                    }
+                )
+
+                function style_edit_form(form) {
+                    
+                    //enable datepicker on "sdate" field and switches for "stock" field
+                    form.find('input[name=sdate]').datepicker({ format: 'yyyy-mm-dd', autoclose: true })
+
+                    form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+                    //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+                    //.addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+
+                    //update buttons classes
+                    var buttons = form.next().find('.EditButton .fm-button');
+                    buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                    buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+                    buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+                    buttons = form.next().find('.navButton a');
+                    buttons.find('.ui-icon').hide();
+                    buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+                    buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+                }
+
+                function style_delete_form(form) {
+                    var buttons = form.next().find('.EditButton .fm-button');
+                    buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                    buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+                    buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+                }
+
+                function style_search_filters(form) {
+                    form.find('.delete-rule').val('X');
+                    form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                    form.find('.add-group').addClass('btn btn-xs btn-success');
+                    form.find('.delete-group').addClass('btn btn-xs btn-danger');
+                }
+                function style_search_form(form) {
+                    var dialog = form.closest('.ui-jqdialog');
+                    var buttons = dialog.find('.EditTable')
+                    buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+                    buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+                    buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+                }
+
+                function beforeDeleteCallback(e) {
+                    var form = $(e[0]);
+                    if (form.data('styled')) return false;
+
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_delete_form(form);
+
+                    form.data('styled', true);
+                }
+
+                function beforeEditCallback(e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_edit_form(form);
+                }
+
+                function displayButtons(cellvalue, options, rowObject) {
+                    var edit = '<a href="#" title="Edit" id="edit_' + rowObject.UserId + '" onclick="EditUser(' + rowObject.UserId + ')" class="ace-icon fa fa-pencil fa-lg blue"></a>';
+                    var del = '&nbsp;&nbsp;&nbsp;<a onclick="deleteRecord(' + rowObject.UserId + ');" title="Delete" style="cursor:pointer;" class="ace-icon fa fa-trash-o fa-lg red"></a>';
+                    return "<div style='display:flex;'>" + edit + del + "</div>";
+                }
+
+                //it causes some flicker when reloading or navigating grid
+                //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+                //or go back to default browser checkbox styles for the grid
+                function styleCheckbox(table) {
+                    /**
+                        $(table).find('input:checkbox').addClass('ace')
+                        .wrap('<label />')
+                        .after('<span class="lbl align-top" />')
+
+
+                        $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+                        .find('input.cbox[type=checkbox]').addClass('ace')
+                        .wrap('<label />').after('<span class="lbl align-top" />');
+                    */
+                }
+
+
+                //unlike navButtons icons, action icons in rows seem to be hard-coded
+                //you can change them like this in here if you want
+                function updateActionIcons(table) {
+                    /**
+                    var replacement =
+                    {
+                        'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
+                        'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
+                        'ui-icon-disk' : 'ace-icon fa fa-check green',
+                        'ui-icon-cancel' : 'ace-icon fa fa-times red'
+                    };
+                    $(table).find('.ui-pg-div span.ui-icon').each(function(){
+                        var icon = $(this);
+                        var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+                        if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+                    })
+                    */
+                }
+
+                //replace icons with FontAwesome icons like above
+                function updatePagerIcons(table) {
+                    var replacement =
+                    {
+                        'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                        'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                        'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                        'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                    };
+                    $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                        var icon = $(this);
+                        var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                        if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                    })
+                }
+
+                function enableTooltips(table) {
+                    $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+                    $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+                }
+
+                //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+
+                $(document).one('ajaxloadstart.page', function (e) {
+                    $(grid_selector).jqGrid('GridUnload');
+                    $('.ui-jqdialog').remove();
+                });
+           
+            $('#alertmod_grid-table').hide();
+        //}
+    }
+    function ValidateUser() {
+        
+        var isValid = true;
+        var partnerList = $('#partnerID')[0].value;
+        var self = document.querySelector('input[id="self"]:checked');
+        var partner = document.querySelector('input[id="partner"]:checked');
+        var partnerTempUser = document.querySelector('input[id="partnerTempUser"]:checked');
+        var partnerRegUser = document.querySelector('input[id="partnerRegUser"]:checked');
+        if (self == null && partner==null) {
+            $("#errorUserType")[0].innerHTML = "Please select any one field from above";
+            isValid = false;
+        }
+        else if (partner != null) {
+            if (partnerList.length == 0) {
+                $('#errorPartner')[0].innerHTML = "Please select a partner.";
+                $("#errorUserType")[0].innerHTML = "";
+                isValid = false;
+            }
+            else if (partnerTempUser == null && partnerRegUser == null) {
+                $('#errorPartner')[0].innerHTML = "Please select from Temp User or register users.";
+                $("#errorUserType")[0].innerHTML = "";
+                isValid = false;
+            }
+            else {
+                $("#errorPartner")[0].innerHTML = "";
+                $("#errorUserType")[0].innerHTML = "";
+            }
+        }
+        else {
+            $("#errorPartner")[0].innerHTML = "";
+        }
+       
+        if (isValid == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    function GetUserDetails() {
+        
+        if ($('#self').is(':checked')) {
+            var radioval = $('#self')[0].value;
+        }
+        else if ($('#partner').is(':checked')) {
+            var radioval = $('#partnerID')[0].value;
+            if ($('#partnerTempUser').is(':checked')) {
+                var radioval2 = $('#partnerTempUser')[0].value;
+            }
+            else if ($('#partnerRegUser').is(':checked')) {
+                var radioval2 = $('#partnerRegUser')[0].value;
+            }
+        }
+        var role = $("#roleId").val();
+        if (role == "") {
+            role = 0;
+        }
+        var partner = $("#partnerID").val();
+        if (partner == "") {
+            partner = 0;
+        }
+        var daterange = $("#id-date-range-picker-1").val();
+        var city = $("#cityId").val();
+        var state = $("#stateId").val();
+        var country = $("#countryId").val();
+        var UsersList = [];
+        UsersList.length = 0;
+        var grid_selector = "#grid-table";
+        $(grid_selector).jqGrid('GridUnload');
+        $('.ui-jqdialog').remove();
+        $.ajax({
+            type: "POST",
+            async: false,
+            contentType: 'application/json',
+            url: "/MarketingCampaign/GetUserDetails",
+            data: "{role:'" + role + "',daterange:'" + daterange + "',city:'" + city + "',state:'" + state + "',country:'" + country + "',radioval:'" + radioval + "',partner:'" + partner + "',radioval2:'" + radioval2 + "'}",
+            success: function (response) {
+                
+                UsersList.length = 0;
+                if (response != null) {
+                    $("#SelectUserList").show();
+                    $("#SelectUserListDiv").show();
+                    UsersList = response;
+                }
+                $("#loderimage").css({ display: "none" });
+                $('#SelectUserTableId').show();
+            },
+            error: function (response) {
+                
+            }
+        });
+        return UsersList;
+    }
+   
+
+    function ReadGridTablesRows() {
+        var prevPage = prevUrl.split('MarketingCampaign/');
+        localStorage.SelectUsersList = null;
+        if (prevPage[1] == "EmailCampaign") {
+            var emailList = '';
+            $('#grid-table > tbody  > tr').each(function () {
+                
+                if ($(this).attr('aria-selected') != undefined) {
+                    var selectedId = $($(this)[0].cells['3'])[0].innerText;
+                    if (emailList != '') {
+                        emailList = emailList + ';' + selectedId;
+                    }
+                    else {
+                        emailList = selectedId;
+                    }
+
+                }
+            });
+            localStorage.SelectUsersList = emailList;
+            window.location.href = "/MarketingCampaign/EmailCampaign";
+        }
+        else {
+            var smsList = '';
+            $('#grid-table > tbody  > tr').each(function () {
+                
+                if ($(this).attr('aria-selected') != undefined) {
+                    var selectedId = $($(this)[0].cells['4'])[0].innerText;
+                    if (selectedId != 0 && selectedId != "0") {
+                        if (smsList != '') {
+                            smsList = smsList + ';' + selectedId;
+                        }
+                        else {
+                            smsList = selectedId;
+                        }
+                    }
+                }
+            });
+            localStorage.SelectUsersList = smsList;
+            window.location.href = "/MarketingCampaign/SMSCampaign";
+        }
+    }
+</script>
+
+     
+
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ui.jqgrid.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />

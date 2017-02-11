@@ -1,0 +1,211 @@
+﻿@model  Millionlights.Models.HomePageConfiguration
+@{
+    int roleID = 0;
+    var msg = ViewBag.message;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+            <script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+<div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+
+    </ul>
+</div>
+
+@using (Html.BeginForm("Settings", "Home", FormMethod.Post, new { role = "form", enctype = "multipart/form-data"}))
+{
+  @Html.AntiForgeryToken()
+<section id="main_content">
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class=" box_style_2">
+                    <div class="page-header">
+                        <h1>
+                            Home
+                            <small>
+                                <i class="ace-icon fa fa-angle-double-right"></i>
+                                Page Configuration
+                            </small>
+                        </h1>
+                    </div>
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.IsPromoEnabled, new { id = "PromoHidden" })
+                        <label class="col-sm-4 control-label no-padding-right" for="form-field-1-1"> Promotion </label>
+                        <div class="col-sm-8">
+                            <div class="col-sm-3">
+                                    @if (Model != null && Model.IsPromoEnabled == true)
+                                    {
+                                        <input name="switch-field-1" class="ace ace-switch ace-switch-4" type="checkbox" id="PromotionId" checked="checked" onchange="setPromotion(this)" />
+                                <span class="lbl"></span>
+                                    }
+                                    else
+                                    {
+                                        <input name="switch-field-1" class="ace ace-switch ace-switch-4" type="checkbox" id="PromotionId" onchange="setPromotion(this)" />
+                                        <span class="lbl"></span>
+                                    }
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    @Html.TextBoxFor(m => m.Promotext, new { @class = "form-control style_2", id = "PromoTextId", name = "PromoText", placeholder = "Enter Promo Text" })
+                                    @Html.ValidationMessageFor(m => m.Promotext, "", new { @class = "text-danger errorPromo" })
+                                </div>
+                                @*<input type="text" id="PromoTextId" placeholder="Enter Promo Text" class="form-control" />*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group controlpadding">
+                        <label class="col-sm-4 control-label no-padding-right" for="form-field-1-1"> Millionlight Youtube Channel </label>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                @Html.TextBoxFor(m => m.VideoUrl, new { @class = "form-control style_2", id = "VideoUrlId", name = "VideoUrl", placeholder = "Enter Video Source" })
+                                @Html.ValidationMessageFor(m => m.VideoUrl, "", new { @class = "text-danger errorVideo" })
+                            </div>
+                            @*<input type="text" id="form-field-1-1" placeholder="Enter Video Source" class="form-control" />*@
+                        </div>
+                    </div>
+                    <div class="form-group controlpadding">
+                        <label class="col-sm-4 control-label no-padding-right" for="form-field-1-1"> Referral Code Reward Amount </label>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                @Html.TextBoxFor(m => m.RewardAmount, new { @class = "form-control style_2", id = "RewardAmount", name = "RewardAmount", placeholder = "Enter Reward Amount" })
+                                @Html.ValidationMessageFor(m => m.RewardAmount, "", new { @class = "text-danger errorRewardAmount" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group controlpadding">
+                        <label class="col-sm-4 control-label no-padding-right" for="form-field-1-1">Terms And Conditions</label>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <div class="clearfix">
+                                    @if (Model != null)
+                                    {
+                                            @*<textarea class="ckeditor col-xs-12 col-sm-9" style="height: 200px;" id="TermsAndCondition" name="TermsAndCondition"></textarea>*@
+                                            @Html.TextAreaFor(m => m.TermsAndCondition, new { @class = "ckeditor col-xs-12 col-sm-9", id = "TermsAndCondition", name = "TermsAndCondition" })
+                                        <input type="hidden" value="@Model.TermsAndCondition" id="TermCondHidden" name="TermCondHidden" />
+                                    }
+                                    else
+                                    {
+                                           @Html.TextAreaFor(m => m.TermsAndCondition, new { @class = "ckeditor col-xs-12 col-sm-9", id = "TermsAndCondition", name = "TermsAndCondition" })
+                                    }
+                                    
+                                    @Html.ValidationMessageFor(model => model.TermsAndCondition, "", new { @class = "text-danger errorTermCond" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row well" style="margin-top:35%;">
+                        <div class="col-md-12 Partner-btn-div">
+                            @Html.ActionLink("Cancel", "Settings", null, new { @class = "btn btn-danger" })
+                            <input type="submit" value="Submit" class="btn btn-success" id="submit-config" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+}
+<style type="text/css">
+    .controlpadding {
+        padding-top: 4%;
+    }
+</style>
+<script type="text/javascript">
+    $('#RewardAmount').keypress(function (event) {
+
+        var charCode = (event.which) ? event.which : event.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57)) {
+            $('.errorRewardAmount')[0].innerHTML = "Incorrect input, allows only number and decimal.";
+            return false;
+        }
+        else {
+            $('.errorRewardAmount')[0].innerHTML = "";
+            return true;
+        }
+        event.stopPropagation();
+    });
+    $(document).ready(function () {
+        var successMsg = '@msg';
+        if (successMsg != null && successMsg == 'Success') {
+            bootbox.dialog({
+                message: "Thank you! Your settings have been saved successfully!",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary",
+                        callback: function () {
+                        }
+                    }
+                }
+            });
+        }
+        var radioChecked = $('#PromotionId')[0].checked;
+        if (radioChecked == true) {
+            $("#PromoTextId").show();
+        }
+        else {
+        $("#PromoTextId").hide();
+        }
+
+    });
+    function setPromotion(eval) {
+        if (eval.checked == true) {
+            $("#PromoTextId").show();
+            $("#PromoHidden")[0].value = true;
+        }
+        else if (eval.checked == false) {
+            $("#PromoHidden")[0].value = false;
+            $("#PromoTextId").hide();
+        }
+    }
+    $('#submit-config').click(function () {
+        var isValid = true;
+        var rewAmount = $('#RewardAmount')[0].value;
+        if (rewAmount.length == 0) {
+            $('.errorRewardAmount')[0].innerHTML = "Please Enter Reward Amount E.g. 500";
+            isValid = false;
+        }
+        else {
+            $('.errorRewardAmount')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    });
+
+    </script>

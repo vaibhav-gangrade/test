@@ -1,0 +1,285 @@
+﻿@model Millionlights.Models.UserDetails
+@{
+    ViewBag.Title = "Email Campaign";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+@{
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+}
+<div class="row">
+    <div class="page-header">
+        <h1>
+            Marketing Campaign
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+                Send Email 
+            </small>
+        </h1>
+    </div>
+    <div class="col-xs-12">
+        <div id="id-message-new-navbar" class="message-navbar clearfix">
+            <div class="message-bar">
+                <div class="message-toolbar">
+                    <button type="button" class="btn btn-xs btn-white btn-primary" onclick="DiscardChanges()">
+                        <i class="ace-icon fa fa-times bigger-125 orange2"></i>
+                        <span class="bigger-110">Clear</span>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <div class="messagebar-item-left">
+                    <a href="/MarketingCampaign/ImportUsers" class="btn-back-message-list">
+                        <i class="ace-icon fa fa-arrow-left bigger-110 middle blue"></i>
+                        <b class="middle bigger-110">Back</b>
+                    </a>
+                </div>
+                <div class="messagebar-item-right">
+
+                    <span class="inline btn-send-message">
+                        <button id="id-add-attachment" type="button" class="btn btn-sm btn-success" onclick="SendEmail()">
+                            <i class="bigger-110"></i>
+                            Send Email
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div id="id-message-form4321" class="form-horizontal message-form col-xs-12">
+            <!-- #section:pages/inbox.compose -->
+            <div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" for="form-field-recipient" style="width:15%;">Recipient(s):</label>
+                    <div class="col-sm-6 col-xs-12" style="width:70%;">
+                        <div class=" input-icon block col-xs-12 no-padding">
+                        <input type="text" class="col-xs-12" name="recipient" id="form-field-recipient" placeholder="Recipient(s)" />
+                        <i class="ace-icon fa fa-user"></i>
+                    </div>
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger", id = "errorRecipient" })
+                    </div>
+                    <button id="id-add-attachment" type="button" class="btn btn-sm btn-danger" onclick="SelectUsers()">
+                        <i class="bigger-110"></i>
+                        Select Users
+                    </button>
+                </div>
+                <div class="hr hr-5 dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" for="form-field-subject" style="width:15%;">Subject:</label>
+                    <div class="col-sm-6 col-xs-12" style="width:70%;">
+                        <div class="input-icon block col-xs-12 no-padding">
+                            <input maxlength="100" type="text" class="col-xs-12" name="subject" id="form-field-subject" placeholder="Subject" />
+                            <i class="ace-icon fa fa-comment-o"></i>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger", id = "errorSubject" })
+                    </div>
+                </div>
+                <div class="hr hr-5 dotted"></div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right" style="width:15%;">
+                        <span class="inline space-24 hidden-480"></span>
+                        Message:
+                    </label>
+                    <!-- #section:plugins/editor.wysiwyg -->
+                    <div class="col-sm-9" style="width:75%;">
+                        <div class="wysiwyg-editor" id="wysiwyg-editor" style="height:500px;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /section:pages/inbox.compose -->
+        </div>
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+<script src="~/Contents/assets/js/bootstrap.js"></script>
+<script src="~/Contents/assets/js/bootstrap-tag.js"></script>
+<script src="~/Contents/assets/js/jquery.hotkeys.js"></script>
+<script src="~/Contents/assets/js/bootstrap-wysiwyg.js"></script>
+<script src="~/Contents/assets/js/ace/elements.wysiwyg.js"></script>
+
+<!--Date range picker-->
+<script src="~/Content/assets/js/date-time/moment.js"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+<script src="~/Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="~/Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="~/Content/assets/js/bootbox.js"></script>
+<!--End Date range picker-->
+<!--Css for editor -->
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+
+<!-- page specific plugin styles -->
+<!-- text fonts -->
+<link rel="stylesheet" href="~/Content/assets/css/ace-fonts.css" />
+
+<!-- ace styles -->
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<script src="~/Scripts/JS/Common.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (localStorage.SelectUsersList != null) {
+            var data = localStorage.SelectUsersList;
+            $('#form-field-recipient').val(data);
+            localStorage.removeItem("SelectUsersList");
+            localStorage.SelectUsersList = null;
+        }
+        //intialize wysiwyg editor
+        $('.message-form .wysiwyg-editor').ace_wysiwyg({
+            toolbar:
+            [
+                'bold',
+                'italic',
+                'strikethrough',
+                'underline',
+                null,
+                'justifyleft',
+                'justifycenter',
+                'justifyright',
+                null,
+                'createLink',
+                'unlink',
+                null,
+                'undo',
+                'redo'
+            ]
+        }).prev().addClass('wysiwyg-style1');
+
+    });
+    function SendEmail() {
+        var isValid = ValidateEmailCampaign();
+        var recipient = $('#form-field-recipient')[0].value;
+        var subject = $('#form-field-subject')[0].value;
+        var message = $('#wysiwyg-editor')[0].innerHTML;
+        if (isValid == true) {
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: JSON.stringify({ "recipient": recipient, "subject": subject, "message": message }),
+                contentType: 'application/json; charset=utf-8',
+                url: "/MarketingCampaign/SendEmail",
+                success: function (response) {
+                    if (response == "true") {
+                        bootbox.dialog({
+                            message: '@messages["EmailSucess"]',
+                            buttons: {
+                                "success": {
+                                    "label": "OK",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                        location.href = '/MarketingCampaign/EmailCampaign';
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        bootbox.dialog({
+                            message: '@messages["NotSendEmailForIssue"]',
+                            buttons: {
+                                "success": {
+                                    "label": "OK",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                        location.href = '/MarketingCampaign/EmailCampaign';
+                                    }
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function (response) { }
+            });
+        }
+    }
+  
+    function validateEmails(ctrl) {
+        var emails = $get(ctrl).value;
+        var emailsArray = emails.split(';');
+        for (i in emailsArray) {
+            if (emails.trim().length > 0 && !validateEmail(emailsArray[i].trim())) {
+                bootbox.dialog({
+                    message: "Please make sure the emails are correct",
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary"
+                        }
+                    }
+                });
+                return false;
+            }
+        }
+        return true;
+    }
+    function ValidateEmailCampaign() {
+        var isValid = true;
+        var recipient = $('#form-field-recipient')[0].value;
+        var subject = $('#form-field-subject')[0].value;
+        if (recipient.trim().length == 0) {
+            $('#errorRecipient')[0].innerHTML = "Please select at least one recipient.";
+            isValid = false;
+        }
+        else if (recipient.trim().length > 0) {
+            var emails = recipient.split(';');
+            for (var i = 0; i < emails.length; ++i) {
+                if (emails[i].trim().length > 0 &&
+                    !validateEmail(emails[i].trim())) {
+                    $('#errorRecipient')[0].innerHTML = "Please make sure that the email address is correct.";
+                    isValid = false;
+                }
+                else {
+                    $('#errorRecipient')[0].innerHTML = "";
+                    isValid = true;
+                }
+            }
+        }
+        else{
+            $('#errorRecipient')[0].innerHTML = "";
+        }
+        if (subject.length == 0) {
+            $('#errorSubject')[0].innerHTML = " Please enter a subject to the email message.";
+            isValid = false;
+        }
+        else {
+            $('#errorSubject')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    function DiscardChanges() {
+        window.location.href = "/MarketingCampaign/EmailCampaign"
+    }
+    function SelectUsers() {
+        window.location.href = "/MarketingCampaign/SelectUsers"
+    }
+    
+</script>

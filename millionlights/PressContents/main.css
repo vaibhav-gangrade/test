@@ -1,0 +1,135 @@
+/* Press page style */
+#contactus_area h2{
+	color: #ddd;
+}
+
+
+#what_new{
+	background-color: #bdc3c7;
+	padding-top: 20px;
+	padding-bottom: 30px;
+ }
+#what_new h2{padding: 30px 0;color: #555;}
+.new_title{font-size: 20px;color: #d35400;}
+
+
+
+#press_releases_area{
+	padding-top: 50px;
+	padding-bottom: 80px;
+	background-color: #d35400;
+
+}
+.single_releases{
+	border-top: 1px solid #1abc9c;
+	padding-top: 10px;
+}
+#press_releases_area h2{
+	color: #bdc3c7;
+	padding-bottom: 50px;
+}
+
+#press_releases_area p{
+	font-size: 18px;color: #fff;
+}
+
+.date{
+	font-size: 16px;color: blue;
+}
+
+.parallax-window {
+    /*min-height: 600px;*/
+     min-height: 533px;
+    background: transparent;
+}
+
+
+
+/* Team page Style */
+
+#title_area h1{
+	padding-top: 20px;
+}
+
+#team_area{}
+.team_row{
+	padding-top: 3%;
+}
+.parson_area{position: relative;overflow: hidden;}
+.parson_img{}
+.parson_hover{
+	padding-top: 14%;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 102, 102, 0.9);
+	text-align: center;
+	transition: all .5s;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+
+	
+
+
+
+
+}
+.parson_area:hover .parson_hover{
+	top: 0;
+
+
+}
+
+.parson_hover h3{color: #eee;}
+.parson_hover p{color: #eee;}
+.parson_hover a{
+	display: inline-block;
+	padding: 10px 13px;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	color: #fff;
+}
+.parson_hover a:hover{
+	background-color: rgb(48, 217, 164, 0.9);
+}
+
+#promise_area{
+	padding-top: 4%;
+}
+
+.promise_area, .guarantee_area{
+	padding: 20px;
+	margin-bottom: 30px;
+	background-color:rgba(28, 187, 180, 0.2); 
+}
+
+#ready_area{padding-bottom: 30px;}
+
+
+#contactus_area{
+	padding-top: 50px;
+	padding-bottom: 80px;
+	background-color: #d35400;
+}
+
+
+
+
+
+#press-content-area-1,
+#press-content-area-2,
+#press-content-area-3,
+#press-content-area-4{
+	padding-top: 4%;
+	padding-bottom: 4%;
+	color: #fff;
+}
+
+#press-content-area-1 p,
+#press-content-area-2 p,
+#press-content-area-3 p,
+#press-content-area-4 p{
+	font-size: 18px;
+}

@@ -1,0 +1,88 @@
+﻿@model Millionlights.Models.Transaction
+@{
+    ViewBag.Title = "Transaction completed successfuly!!";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    int roleID = 0;
+    var userId = Session["UserID"];
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12 col-sm-12" style="padding-left:120px !important;">
+    <h3>Thank you! We have submitted your order successfully.Please go to your dashboard to start learning. </h3><br />
+        <p>(To avoid sending duplicate orders, please do NOT click the browser Back button.)</p>
+    </div>
+</div>
+<hr />
+<section id="main_content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 studentView">
+                <div class="panel panel-info filterable add_bottom_45">
+                    <table id="CourseOrderSuccess" class="table table-responsive table-striped gridPadding">
+                        <thead class="theadColor">
+                            <tr>
+                                <th class="courseImg successMag"> Order number</th>
+                                <th class="CoursDetails successMag">Transaction ID</th>
+                                <th class="coursePrice successMag">Course Name</th>
+                                <th class="coursePrice successMag">Price (Rs.)</th>
+                                <th class="orderCouponHead successMag">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="courseVal">@Model.orderNumber</td>
+                                <td class="courseVal">@Model.transactionId</td>
+                                <td class="succcessMargLeft">@Html.Raw(Model.courseName)</td>
+                                <td class="succcessMargLeft">@Model.price</td>
+                                <td class="succcessMargLeft">@Model.status</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var userid = '@userId'
+        if (userid == '') {
+            var url = "/Account/Login";
+            window.location.href = url;
+        }
+        var cartName = "CourseDetails";
+        window.localStorage.removeItem(cartName);
+        localStorage.removeItem('CourseId');
+        localStorage.removeItem('value');
+        //Suraj to fix My Coupon Issue
+        window.localStorage.removeItem('CouponCode');
+        localStorage.removeItem('CouponCode');
+        localStorage.clear();
+        $.removeCookie("CouponCode");
+        setCookie("CouponCode", "", -1);
+    });
+</script>

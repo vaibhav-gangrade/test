@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewBag.Title = "Milion Lights - Microsoft Courses & Certification in India";
+}
+
+@section Scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            if ($("#box1").is(":hidden")) {
+                $("#box1").slideDown("slow");
+            }
+            else {
+                $("#box1").hide();
+            }
+
+            $("#sepration1").hover(function () {
+                $("#box2").slideDown("slow");
+                $("#step2").slideDown("slow");
+                $("#sepration2").slideDown("slow");
+            });
+
+            $("#sepration2").hover(function () {
+                $("#box3").slideDown("slow");
+                $("#step3").slideDown("slow");
+                $("#sepration3").slideDown("slow");
+            });
+
+            $("#sepration3").hover(function () {
+                $("#step4").slideDown("slow");
+                $("#box4").slideDown("slow");
+                $("#box5").slideDown("slow");
+            });
+
+
+        });
+
+
+    </script>
+
+}
+
+
+<div @*class="container"*@>
+    <div class="row">
+        <div class="row">
+            <div class="col-sm-1 col-md-1"></div>
+            <div class="col-sm-6 col-md-6">
+                <h2>Four simple steps to attend the exam</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8">
+                    <div class="box" id="box1" hidden>
+                        <div class="row">
+                            <img style="padding-top: 10%; margin-left: -4%; position: absolute; z-index:999;" id="step1" src="~/Content/learn/img/1.png">
+                            <div class="col-sm-6 col-md-6">
+                                <p> <img src="~/Content/learn/img/snapdeal-logo.jpg" /></p>
+                            </div>
+                            <div class="col-sm-6 col-md-6 ">
+                                <h2 class="BlockHeading">Choose course on Snapdeal</h2>
+                                <p class="rightText">
+                                    Students need to register with Snapdeal to access the content based on official curriculum of Microsoft.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8 sepration" id="sepration1">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <img style="" src="~/Content/learn/img/arrowdown.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8">
+                    <div class="box" id="box2" hidden>
+                        <div class="row">
+                            <img style="padding-top: 10%; margin-left:92%; position: absolute; z-index:999;" id="step2" src="~/Content/learn/img/2.png">
+                            <div class="col-sm-6 col-md-6 " style="padding-left:10%;">
+                                <h2 class="BlockHeading">Search for exam center</h2>
+                                <p>
+                                    The student must search for the nearest  Certiport examination center before purchasing a Voucher from the Million LIghts website.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <img src="~/Content/learn/img/searchforcenter.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8 sepration" id="sepration2" hidden>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <img src="~/Content/learn/img/arrowdown.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8">
+                    <div class="box" id="box3" hidden>
+                        <div class="row">
+                            <img style="padding-top: 10%; margin-left: -4%; position: absolute; z-index:999;" id="step3" src="~/Content/learn/img/3.png">
+                            <div class="col-sm-6 col-md-6">
+                                <img src="~/Content/learn/img/Millionlights.jpg" />
+                            </div>
+                            <div class="col-sm-6 col-md-6 ">
+                                <h2 class="BlockHeading">Pay on Million Lights</h2>
+                                <p>
+                                    Once the student locates the Exam Center, they need to verify their mobile number on Million Lights website and proceed to buy a voucher Code.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8 sepration" id="sepration3" hidden>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <img src="~/Content/learn/img/arrowdown.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8">
+                    <div class="box" id="box4" hidden>
+                        <div class="row">
+                            <img style="padding-top: 10%; margin-left:92%; position: absolute; z-index:999;" id="step4" src="~/Content/learn/img/4.png">
+                            <div class="col-sm-6 col-md-6 " style="padding-left:10%;">
+                                <h2 class="BlockHeading">Get voucher code and hall ticket</h2>
+                                <p>
+                                    Student will get his login and password to access his dashboard after validation.
+                                    The process takes between 24-48 hours. After validation the student will get a Voucher Code and a Hall Ticket.
+                                    The student will give the exam at the center after paying a nominal exam fee.
+                                    The student will pay the proctoring fees directly to the exam center.
+                                    The fee may range from Rs. 180 to Rs. 220 depending on the location.
+                                </p>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <img style="margin-left:-3%;" src="~/Content/learn/img/Coupon.jpg" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-md-8" id="box5" hidden>
+                    <div class="row sepration" style="margin-left:-25% !important">
+                        <div class="col-sm-4 col-md-4"></div>
+                        <div class="col-sm-4 col-md-4">
+                            <a class="button_medium" href="/Home/Index"> GET STARTED </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+

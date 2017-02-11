@@ -1,0 +1,256 @@
+﻿@{
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var msg = ViewBag.message;
+    var pressData = ViewBag.PressData;
+    var PressHeading = ViewBag.PressPageHeading;
+}
+<script type="text/javascript" src="~/Content/assets/js/slider/jssor.slider.mini.js"></script>
+
+
+@*<link rel="shortcut icon" href="Content/learn/img/favicon.ico" type="image/x-icon" />*@
+<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+
+@*<link rel="icon" href="Content/learn/img/favicon.ico" type="image/x-icon">*@
+<link href="~/PressContents/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/PressContents/css/superfish.css" rel="stylesheet" />
+<link href="~/PressContents/css/style.css" rel="stylesheet" />
+<link href="~/PressContents/Content/learn/fontello/css/fontello.css" rel="stylesheet" />
+<link href="~/PressContents/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link href="~/PressContents/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link href="~/PressContents/css/font-awesome.css" rel="stylesheet" />
+<link href="~/PressContents/main.css" rel="stylesheet" />
+
+
+<section @*class="parallax-window"*@ data-parallax="scroll" style="background:url(../PressContents/img/top-banner.jpg);height:300px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center" style="padding-top:10%;color:#fff;">Press</h1>
+            </div>
+        </div>
+    </div><!-- End container -->
+</section>
+
+@*<section id="contactus_area">
+    <div class="container">
+        <div class="row">
+            <h2 class="text-center">Contact Us</h2>
+            <div class="col-md-8">
+                <p class="text-justify" style="color:#eee;">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+
+                <p class="text-justify" style="color:#eee;">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h3 style="color:#eee;">Address</h3>
+                <p style="color:#eee;">+91 9890122592<br>support@millionlights.org</p>
+            </div>
+        </div>
+    </div>
+</section>*@
+
+<section id="what_new">
+    <div class="container">
+        @if (pressData.Count > 0)
+        {
+            <div class="row">
+                <h2 class="text-center">@PressHeading</h2>
+                @foreach (var data in pressData)
+                {
+                    <div class="col-md-6">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                @if (!string.IsNullOrEmpty(data.PressImage))
+                                {
+                                    <img class="img-responsive" src="@String.Format("/Images/PressContentsImg/{0}",data.PressImage)" />
+
+                                }
+                                else
+                                {
+                                    <img src="~/Images/noimage378X225.png" id="blah" style="width: 250px; height: 180px; " alt="" />
+
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                <p class="new_title">@data.PressShortDescription</p>
+                                @{
+                                string longdescription = data.PressLongDescription;
+                                string templogdesc = string.Empty;
+                                var Id = data.Id;
+                                if (longdescription.Length > 200)
+                                {
+                                    templogdesc = longdescription.Substring(0, 199);
+                                }
+                                else
+                                {
+                                    templogdesc = longdescription;
+                                }
+                                <p>@templogdesc</p>
+                                }
+                                @*@if (longdescription.Length > 50 )
+                                {*@
+                                    <div>
+                                       
+                                        @*<h4>@templogdesc <span title="@longdescription">...</span></h4><br />*@
+                                        <a id="@data.Id" href="/PressRelease/PressContentDetails/@Id" class="detailClass">Read more....</a>
+                                   </div>
+                                @*}
+                                else
+                                {
+                                    <div>
+                                        <h4>@templogdesc</h4>
+                                    </div>
+                                }*@
+                            </div>
+                        </div>
+
+                    </div>
+                }
+                @*<div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img class="img-responsive" src="../PressContents/img/press_1.jpg" alt="">
+                            </div>
+                            <div class="col-md-6">
+                                <p class="new_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        }
+        else
+        {
+            <h2 class="text-center">Press release are not configured yet. Please visit later....</h2>
+        }
+        <br>
+        <br>
+
+        @*<div class="row">*@
+
+            @*<div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img class="img-responsive" src="../PressContents/img/press_1.jpg" alt="">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="new_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                        </div>
+                    </div>
+                </div>*@
+            @*<div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img class="img-responsive" src="../PressContents/img/press_1.jpg" alt="">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="new_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </p>
+                        </div>
+                    </div>
+                </div>*@
+        @*</div>*@
+    </div>
+</section>
+
+@*<section id="press_releases_area">
+    <div class="container">
+        <h2 class="text-center">Press Releases</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <a href="Press_Content">
+                    <div class="single_releases">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
+                        <p class="date">PDF - 30 jan 2015</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="Press_Content">
+                    <div class="single_releases">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
+                        <p class="date">PDF - 22 march 2015</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="Press_Content">
+                    <div class="single_releases">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
+                        <p class="date">PDF - 11 Apri 2015</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="Press_Content">
+                    <div class="single_releases">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,</p>
+                        <p class="date">PDF - 26 may 2015</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>*@
+
+

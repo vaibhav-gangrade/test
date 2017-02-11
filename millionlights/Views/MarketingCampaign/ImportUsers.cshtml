@@ -1,0 +1,611 @@
+﻿@model Millionlights.Models.Partner
+@{
+    ViewBag.Title = "Import Users";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerID;
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+@*<script src="~/Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="~/Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>*@
+
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ui.jqgrid.css" />
+@*<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />*@
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+<script src="~/Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+<script src="~/Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="~/Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+
+<div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+        <li> <a href="/MarketingCampaign/ImportUsers">Marketing Campaign</a></li>
+        <li class="active">Import Users</li>
+    </ul>
+</div>
+
+<div class="page-header">
+    <h1>
+        Marketing Campaign
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Import Users
+        </small>
+    </h1>
+</div>
+<form id="files" method="post" enctype="multipart/form-data">
+    <section id="main_content">
+        <div @*class="container"*@>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box_style_2">
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="SelectPartner" id="SelectPartner">Select Partner :</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="clearfix">
+                                    @Html.DropDownListFor(model => model.Id, partnerList, "---Select Partner---", new { @style = "width: 50%; margin-left: -14%;", id = "partnerID" })
+                                </div>
+                                <div class="clearfix">
+                                   <label class="text-danger errorImportCSVFile"></label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="CourseCode" id="courseCodelbl">Upload CSV File:</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="clearfix">
+                                    <input type="file" id="uploadID" name="file" accept=".csv" class="heightwidthtext form-control fileUpload col-md-4" />
+                                    <div style="margin-top: 5px;">
+                                        <a href="~/ExcelTemplate/ImportUserTemplate.csv" style="padding-left: 10px;text-decoration: underline;" download>Download CSV Template</a>
+                                    </div>
+                                </div>
+                                <label class="text-danger CSVFilePath errorImportCSVFileUpload"></label>
+                            </div>
+                        </div>
+                      
+                        @*<div class="col-xs-12 col-sm-9">
+                            <label class="text-danger errorImportCSVFileUpload" style="margin-left: 34%;"></label>
+                        </div>*@
+                       
+                        @*<label class="text-danger"></label>*@
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="hr hr-18 dotted"></div>
+                                <div id="accordion" class="accordion-style1 panel-group" style="margin-top:5px;">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                    &nbsp;Select the course(s) - (If not selected, the default courses "Excel 2010 Core" & "IITBX Course - CS 101" will be added to users account)
+                                                </a>
+                                            </h4>
+                                        </div>
+
+                                        <div class="panel-collapse collapse" id="collapseOne">
+                                            <div class="panel-body">
+                                                @*<div class="page-content pagecs">*@
+                                                <div class="row">
+                                                    <div class="col-xs-8">
+                                                        <!-- PAGE CONTENT BEGINS -->
+                                                        <table id="grid-table"></table>
+
+                                                        <div id="grid-pager"></div>
+
+                                                        <script type="text/javascript">
+                                                        var $path_base = "..";//in Ace demo this will be used for editurl parameter
+                                                        </script>
+                                                        <!-- PAGE CONTENT ENDS -->
+                                                    </div><!-- /.col -->
+                                                </div>
+                                                @*</div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                    &nbsp;HTML Email Template - (if not selected/uploaded, the default template will be used for sending emails)
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="collapseTwo">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <label class="control-label col-xs-12 col-sm-3" for="htmlTemplateLabel" id="htmlTemplatelbl">Upload HTML template file <b class="red">(please view and follow the exact default template by Editing it.)</b>:</label>
+                                                    <div class="col-xs-8">
+                                                        <input type="file" id="templateUploadID" name="file" accept=".htm,.html" class="heightwidthtext form-control fileUpload col-md-4" style="margin-left: 0%;" />
+                                                        <div style="margin-top: 5px;">
+                                                            <a href="~/EmailTemplates/ImportUsersRegistrationEmail.htm" style="padding-left: 10px;text-decoration: underline;" download>Download/View Default HTML Template</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-xs-12 col-sm-12">
+
+                                <div class="well" style="text-align:center;">
+                                    <button id="id-add-attachment" type="button" class="btn btn-sm btn-success" onclick="return UploadFile()">
+                                        <i class="bigger-110"></i>
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        </section>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+        DisplayCourses();
+    });
+    function UploadFile() {
+        var isValid = ValidateUser();
+        if (isValid == true) {
+            var partnerList = $('#partnerID')[0].value;
+            var partnerName = $('#partnerID option:selected').text();
+            $('.errorImportCSVFile')[0].innerHTML = "";
+            $('.errorImportCSVFileUpload')[0].innerHTML = "";
+            var formData = new FormData();
+            var fileInput = $('#uploadID');
+            if (fileInput[0].files[0] != undefined) {
+                formData.append(fileInput[0].files[0].name, fileInput[0].files[0]);
+            }
+            else {
+                $('.errorImportCSVFileUpload')[0].innerHTML = "Please select file to import";
+                return;
+            }
+            formData.append("partnerValue", partnerList);
+            formData.append("partnerName", partnerName);
+
+            //CKEditor Changes
+            var selectedCourseIds = ReadGridTablesRows();
+            formData.append("SelectedCourseIds", selectedCourseIds);
+            var templatefileInput = $('#templateUploadID');
+            if (templatefileInput[0].files[0] != undefined) {
+                formData.append("IsNewTemplateUploaded", "YES");
+                formData.append(templatefileInput[0].files[0].name, templatefileInput[0].files[0]);
+            }
+            else {
+                formData.append("IsNewTemplateUploaded", "NO");
+            }
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: formData,
+                url: "/MarketingCampaign/UploadBankFile",
+                success: function (response) {
+                    var resp = JSON.parse(response);
+                    var importMessage = '<b>' + "Total Records Uploaded: " + '</b>' + " " + resp.TotalRecordsUploaded + '<br/>' + '<b>' + "Duplicate Records Found:" + '</b>' + " " + resp.DuplicateUserCount + '<br/>' + '<b>' + "Records Inserted Successfully:" + " " + '</b>' + resp.DistinctUserCount;
+                    bootbox.dialog({
+                        message: importMessage,
+                        buttons: {
+                            "success": {
+                                "label": "Ok",
+                                "className": "btn-sm btn-primary",
+                                callback: function () {
+                                    response = null;
+                                    resp = null;
+                                    importMessage = null;
+                                    location.reload();
+                                }
+                            },
+                            "fail": {
+                                "label": "Cancel",
+                                "className": "btn-sm btn-primary",
+                                callback: function () {
+                                    response = null;
+                                    resp = null;
+                                    importMessage = null;
+                                    location.reload();
+                                }
+
+                            },
+
+                        }
+                    });
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+                error: function (response) {
+                    bootbox.dialog({
+                        message: "An error has occured while importing users. Please try again",
+                        buttons: {
+                            "success": {
+                                "label": "Ok",
+                                "className": "btn-sm btn-primary",
+                                callback: function () {
+                                    location.reload();
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
+        return false;
+    }
+    function ValidateUser() {
+        var isValid = true;
+        var partnerList = $('#partnerID')[0].value;
+        if (partnerList.length == 0) {
+            $('.errorImportCSVFile')[0].innerHTML = "Please select a partner..";
+            isValid = false;
+        }
+        else {
+            $('.errorImportCSVFile')[0].innerHTML = "";
+        }
+        //
+        var fileInput = $('#uploadID');
+        if (fileInput[0].files[0] == undefined) {
+            $('.errorImportCSVFileUpload')[0].innerHTML = "Please select file to import";
+            isValid = false;
+        }
+        else {
+            $('.errorImportCSVFileUpload')[0].innerHTML = "";
+        }
+        
+        //
+        if (isValid == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //New Changes
+    var grid_data = [];
+    function DisplayCourses() {
+            grid_data = GetCourseDetails();
+            var grid_selector = "#grid-table";
+            var pager_selector = "#grid-pager";
+
+            //resize to fit page size
+            $(window).on('resize.jqGrid', function () {
+                $(grid_selector).jqGrid('setGridWidth', $(".page-content").width()-30);
+            })
+            //resize on sidebar collapse/expand
+            var parent_column = $(grid_selector).closest('[class*="col-"]');
+            $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                    //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                    setTimeout(function () {
+                        $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                    }, 0);
+                }
+            })
+            var idsOfSelectedRows = [],
+                updateIdsOfSelectedRows = function (id, isSelected) {
+
+                    var test = this;
+                    var index = $.inArray(id, idsOfSelectedRows);
+                    if (!isSelected && index >= 0) {
+                        idsOfSelectedRows.splice(index, 1); // remove id from the list
+                    } else if (index < 0) {
+                        idsOfSelectedRows.push(id);
+                    }
+                };
+
+            var totalRecords = grid_data.length;
+            jQuery(grid_selector).jqGrid({
+                data: grid_data,
+                datatype: "local",
+                height: 250,
+                colNames: ['Id', 'CourseName', 'BasePrice',  'CourseCode', 'EnableForCertification'],
+                colModel: [
+                    { name: 'Id', index: 'Id', width: 60, sorttype: "int", hidden: true },
+                    { name: 'CourseName', index: 'CourseName', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                    { name: 'BasePrice', index: 'BasePrice', width: 50, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                    { name: 'CourseCode', index: 'CourseCode', width: 100, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                    { name: 'EnableForCertification', index: 'EnableForCertification', width: 150, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No" }, unformat: aceSwitch }
+                ],
+
+                viewrecords: true,
+                rowNum: 10,
+                rowList: [10, 20, 30, totalRecords],
+                pager: pager_selector,
+                altRows: true,
+                multiselect: true,
+                multiselectWidth: 150,
+                multiboxonly: true,
+                onSelectAll: function (aRowids, isSelected) {
+                    var i, count, id;
+                    for (i = 0, count = aRowids.length; i < count; i++) {
+                        id = aRowids[i];
+                        updateIdsOfSelectedRows(id, isSelected);
+                    }
+                },
+                loadComplete: function () {
+                    var $this = $(this), i, count;
+                    for (i = 0, count = idsOfSelectedRows.length; i < count; i++) {
+                        $this.jqGrid('setSelection', idsOfSelectedRows[i], false);
+                    }
+                    var table = this;
+                    setTimeout(function () {
+                        styleCheckbox(table);
+
+                        updateActionIcons(table);
+                        updatePagerIcons(table);
+                        enableTooltips(table);
+                    }, 0);
+                },
+
+                editurl: "/dummy.html",//nothing is saved
+                caption: "Course(s) Details"
+            });
+            $("<span>Select All <br /></span>").prependTo("#jqgh_grid-table_cb");
+            $('#jqgh_grid-table_cb').css("height", "35px");
+            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+            //switch element when editing inline
+            function aceSwitch(cellvalue, options, cell) {
+                setTimeout(function () {
+                    $(cell).find('input[type=checkbox]')
+                        .addClass('ace ace-switch ace-switch-5')
+                        .after('<span class="lbl"></span>');
+                }, 0);
+            }
+            //enable datepicker
+            function pickDate(cellvalue, options, cell) {
+                setTimeout(function () {
+                    $(cell).find('input[type=text]')
+                            .datepicker({ format: 'yyyy-mm-dd', autoclose: true });
+                }, 0);
+            }
+
+
+            //navButtons
+            jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                { 	//navbar options
+                    edit: false,
+                    editicon: 'ace-icon fa fa-pencil blue',
+                    add: false,
+                    addicon: 'ace-icon fa fa-plus-circle purple',
+                    del: false,
+                    delicon: 'ace-icon fa fa-trash-o red',
+                    search: false,
+                    searchicon: 'ace-icon fa fa-search orange',
+                    refresh: false,
+                    refreshicon: 'ace-icon fa fa-refresh green',
+                    view: false,
+                    viewicon: 'ace-icon fa fa-search-plus grey',
+                },
+                {
+                    //edit record form
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                        style_edit_form(form);
+                    }
+                },
+                {
+                    //new record form
+                    beforeShowForm: function (e) {
+                        location.href = "/MarketingCampaign/ImportUsers";
+                    }
+                },
+                {
+                    //delete record form
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        ReadTablesRows();
+                    },
+                    onClick: function (e) {
+
+                    }
+                },
+                {
+                    //search form
+                    recreateForm: true,
+                    afterShowSearch: function (e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                        style_search_form(form);
+                    },
+                    afterRedraw: function () {
+                        style_search_filters($(this));
+                    }
+                    ,
+                    multipleSearch: true,
+                },
+                {
+                    //view record form
+                    recreateForm: true,
+                    beforeShowForm: function (e) {
+                        var form = $(e[0]);
+                        form.find('ui-jqdialog').addClass('jqwidth');
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                    }
+                }
+            )
+
+            function style_edit_form(form) {
+
+                //enable datepicker on "sdate" field and switches for "stock" field
+                form.find('input[name=sdate]').datepicker({ format: 'yyyy-mm-dd', autoclose: true })
+
+                form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+                //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+                //update buttons classes
+                var buttons = form.next().find('.EditButton .fm-button');
+                buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+                buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+                buttons = form.next().find('.navButton a');
+                buttons.find('.ui-icon').hide();
+                buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+                buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+            }
+
+            function style_delete_form(form) {
+                var buttons = form.next().find('.EditButton .fm-button');
+                buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+                buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+            }
+
+            function style_search_filters(form) {
+                form.find('.delete-rule').val('X');
+                form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                form.find('.add-group').addClass('btn btn-xs btn-success');
+                form.find('.delete-group').addClass('btn btn-xs btn-danger');
+            }
+            function style_search_form(form) {
+                var dialog = form.closest('.ui-jqdialog');
+                var buttons = dialog.find('.EditTable')
+                buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+                buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+                buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+            }
+
+            function beforeDeleteCallback(e) {
+                var form = $(e[0]);
+                if (form.data('styled')) return false;
+
+                form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                style_delete_form(form);
+
+                form.data('styled', true);
+            }
+
+            function beforeEditCallback(e) {
+                var form = $(e[0]);
+                form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                style_edit_form(form);
+            }
+            //it causes some flicker when reloading or navigating grid
+            //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+            //or go back to default browser checkbox styles for the grid
+            function styleCheckbox(table) {
+            }
+
+
+            //unlike navButtons icons, action icons in rows seem to be hard-coded
+            //you can change them like this in here if you want
+            function updateActionIcons(table) {
+            }
+
+            //replace icons with FontAwesome icons like above
+            function updatePagerIcons(table) {
+                var replacement =
+                {
+                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                };
+                $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                    var icon = $(this);
+                    var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                    if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                })
+            }
+
+            function enableTooltips(table) {
+                $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+                $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+            }
+
+            //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+
+            $(document).one('ajaxloadstart.page', function (e) {
+                $(grid_selector).jqGrid('GridUnload');
+                $('.ui-jqdialog').remove();
+            });
+
+            $('#alertmod_grid-table').hide();
+    }
+    function GetCourseDetails() {
+
+        var CoursesList = [];
+        CoursesList.length = 0;
+        var grid_selector = "#grid-table";
+        $(grid_selector).jqGrid('GridUnload');
+        $('.ui-jqdialog').remove();
+        $.ajax({
+            type: "POST",
+            async: false,
+            contentType: 'application/json',
+            url: "/MarketingCampaign/GetFreeCourseDetails",
+            data: {},
+            success: function (response) {
+                CoursesList.length = 0;
+                if (response != null) {
+                    for (var i = 0; i < response.length; i++) {
+                        CoursesList.push(JSON.parse(response[i]))
+                    }
+                }
+            },
+            error: function (response) {
+            }
+        });
+        return CoursesList;
+    }
+    function ReadGridTablesRows() {
+            var coursesList = '';
+            $('#grid-table > tbody  > tr').each(function () {
+
+                if ($(this).attr('aria-selected') != undefined) {
+                    var selectedId = $($(this)[0].cells['1'])[0].innerText;
+                    if (coursesList != '') {
+                        coursesList = coursesList + ';' + selectedId;
+                    }
+                    else {
+                        coursesList = selectedId;
+                    }
+
+                }
+            });
+            return coursesList;
+    }
+</script>

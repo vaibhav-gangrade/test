@@ -1,0 +1,502 @@
+﻿@model Millionlights.Models.Coupon
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = Session["UserID"];
+    var benifitlist = (List<SelectListItem>)ViewBag.BenifitId;
+    var courseList = (List<SelectListItem>)ViewBag.CourseList;
+    var statusList = (List<SelectListItem>)ViewBag.StatusId;
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerID;
+    var userlist = (List<SelectListItem>)ViewBag.UserEmailId;
+    var actCouponCount = ViewBag.ActivateCoupons;
+}
+@using (Html.BeginForm("GenerateCoupon", "CouponCode", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value=@userId name="Userid" />
+    <section id="wizard_bg">
+        <div @*class="container"*@ style="width:60%!important">
+            <!-- Start Survey container -->
+            <div id="survey_container">
+                <form name="example-1" id="wrapped" action="apply_send.php" method="POST" autocomplete="off">
+                    <div id="middle-wizard">
+                        <div class="step stepone" id="step1">
+                            <div class="row ">
+                                <h3 class="col-md-10">Generate  Coupon</h3>
+                                <ul class="partnerUl">
+                                    <li class="controlmargintop">
+                                        @Html.DropDownListFor(model => model.PartnerID, partnerList, "--Select Partner--", new { @style = "width:100%;height:30px;", id = "ddlPartner" })
+                                        @Html.ValidationMessageFor(model => model.PartnerID, "", new { @class = "text-danger errorCourseAvailibility" })
+                                    </li>
+                                    <li class="controlmargintop listStyleNone">
+                                        @Html.DropDownListFor(model => model.CourseId, courseList,new { @style = "width:100%;height:30px;", id = "ddlCourse", @class = "selectCourse", name = "ddlCourse", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger errorCourseAvailibility" })
+                                        @Html.HiddenFor(m => m.CourseId, new { id = "VisibilityID" })
+                                    </li>
+                                </ul>
+                                <div class="col-md-6">
+                                    <ul class="data-list">
+                                        <li class="controlmargintop">
+                                            @Html.DropDownListFor(model => model.BenifitType, benifitlist, "--Select Benifit Type--", new { @style = "width:100%;height:30px;", id = "ddlBenifit" })
+                                            @Html.ValidationMessageFor(model => model.BenifitType, "", new { @class = "text-danger errorCourseAvailibility" })
+                                        </li>
+                                        <li class="controlmargintop">
+
+                                            @Html.TextBoxFor(model => model.ValidFrom, new { @class = "form-control", id = "datepicker1", @placeholder = "Valid from Date" })
+                                            @Html.ValidationMessageFor(model => model.ValidTo, "", new { @class = "text-danger errorEndDate" })
+                                        </li>
+
+                                        <li class="controlmargintop">
+                                            @Html.TextBoxFor(m => m.AllowedCourses, new { @class = "form-control style_2", id = "maxAllowedCoursesTxt", name = "maxAllowedCourses", placeholder = "max Reedim" })
+                                            @Html.ValidationMessageFor(m => m.AllowedCourses, "", new { @class = "text-danger ", id = "errorMaxAllowedCourses" })
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-6">
+
+
+                                    <ul class="data-list" style="margin:0; padding:0;">
+                                        <li class="controlmargintop">
+
+                                            @Html.TextBoxFor(m => m.StatusId, new { @class = "form-control style_2", id = "Discounttxt", name = "Discount", placeholder = "Enter Discount in %" })
+                                            @Html.ValidationMessageFor(m => m.StatusId, "", new { @class = "text-danger ", id = "errorMaxAllowedCourses" })
+                                        </li>
+                                        <li class="controlmargintop">
+                                            @Html.TextBoxFor(model => model.ValidTo, new { @class = "form-control", id = "datepicker2", @placeholder = "Valid to Date" })
+                                            @Html.ValidationMessageFor(model => model.ValidTo, "", new { @class = "text-danger errorEndDate" })
+                                        </li>
+                                        <li class="controlmargintop">
+                                          
+                                        </li>
+
+                                    </ul>
+                                </div><!-- end col-md-6 -->
+                            </div><!-- end row -->
+                        </div><!-- end step1-->
+
+                        <div class="step row steptwo" id="step2">
+                            <div class="col-md-12">
+                                <h3>Assign Cource Coupon</h3>
+                                <ul>
+                                    <li class="listStyleNone" style="margin-left: -30px;"><label>Existing Users</label></li>
+                                    @if (userlist != null)
+                                    {
+                                        <li class="controlmargintop listStyleNone">
+                                            @Html.DropDownListFor(model => model.EmailId, userlist, "--Select Existing Users--", new { @style = "width:100%;height:30px;text", id = "ddlUsers", @class = "selectCourse", name = "ddlUsers", @multiple = "multiple", @title = "--Select Existing Users--" })
+                                            @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorCourseAvailibility" })
+                                            @Html.HiddenFor(m => m.EmailId, new { id = "VisibilityID2" })
+                                        </li>
+                                    }
+                                    <li class="listStyleNone" style="margin-top:10px;">
+                                        <label style="margin-left: -30px;">Import Users From CSV File</label>
+                                    </li>
+                                    <li class="controlmargintop floatLeft listStyleNone">
+                                        <input type="radio" name="userDetails" class="" value="1" onclick="" /><label>Upload mobile Number</label>
+                                    </li>
+                                    <li class="controlmargintop">
+                                        <input type="radio" name="userDetails" style="margin-left: 40px;" value="2" onclick="" /><label>Upload EmailId</label>
+                                    </li>
+                                    @*<li class="listStyleNone" style="margin-top:20px;">
+                                            @*<label class="floatLeft">Notify User:</label>
+                                            <div class="">
+                                                <label></label>
+
+                                            </div>
+                                            <div class="">
+
+
+                                            </div>
+                                        </li>*@
+                                </ul>
+                                <div class="col-md-4">
+                                    <ul class="data-list">
+                                        <li class="selectSVC">
+                                            <label>Select SVC File:</label>
+                                        </li>
+                                    </ul>
+                                </div><!-- end col-md-6 -->
+                                <div class="col-md-8">
+                                    <ul class="fileUp">
+                                        <li><input type="file" id="uploadID" name="file" accept=".csv" class="heightwidthtext form-control" /></li>
+                                    </ul>
+                                </div><!-- end col-md-6 -->
+                                <ul>
+                                    <li><button type="button" name="import" id="ImportId" class="btnRegister btnForword importBtn" onclick="ImportBtn()">Import </button></li>
+                                </ul>
+                            </div>
+                        </div><!-- end step2 -->
+
+                        <div class="step stepthree" id="step3">
+                            <div class="row ">
+                                <h4 class="confirmLbl">Confirm coupons Details</h4>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-2">
+                                        <div class="regformPadding">
+                                            <label>Partner Name :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-6">
+                                        <div class=" regformPadding">
+                                            @Html.LabelFor(m => m.PartnerName, new { @class = "form-control ", id = "PartnernameTxt" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-2">
+                                        <div class="regformPadding">
+                                            <label>Benifit in % :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-6">
+                                        <div class="regformPadding">
+                                            @Html.LabelFor(m => m.BenefitName, new { @class = "form-control userregtxt", id = "BenefitNameTxt" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-2">
+                                        <div class="regformPadding">
+                                            <label>Course Name :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-6">
+                                        <div class="regformPadding">
+                                            @Html.LabelFor(m => m.CourseId, new { @class = "form-control userregtxt", id = "CourseName",@style="height:90px;"})
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-2">
+                                        <div class=" regformPadding">
+                                            <label>Valid From/To :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-6">
+                                        <div class="regformPadding">
+                                            @Html.LabelFor(m => m.ValidFrom, new { @class = "form-control userregtxt", id = "ValidFromTxt", @placeholder = "ValidFrom" })
+                                            @*@Html.TextBoxFor(m => m.ValidTo, new { @class = "form-control userregtxt", id = "ValidToTxt", @placeholder = "ValidTo" })*@
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-2">
+                                        <div class="regformPadding">
+                                            <label>No of Courses :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-6">
+                                        <div class="regformPadding">
+                                            @Html.LabelFor(m => m.AllowedCourses, new { @class = "form-control userregtxt", id = "AllowedCoursesTxt", @placeholder = "AllowedCourses" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-2">
+                                        <div class=" regformPadding">
+                                            <label>No of Coupons :</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-6">
+                                        <div class="regformPadding">
+                                            @Html.LabelFor(m => m.NoOfCoupon, new { @class = "form-control userregtxt", id = "NoOfCouponTxt", @placeholder = "NoOfCoupon" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-2">
+                                        <div class=" regformPadding">
+                                            <label>Assign to Users:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-6">
+                                        <div class="regformPadding">
+                                            @Html.LabelFor(m => m.IsActive, new { @class = "form-control userregtxt", id = "AssignToUserTxt", @placeholder = "NoOfCoupon" })
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.PartnerID, new { id = "partnerId" })
+
+                                @Html.HiddenFor(model => model.BenifitId, new { id = "BenifitId" })
+                                @Html.HiddenFor(model => model.CourseId, new { id = "courseId" })
+                                @Html.HiddenFor(model => model.CreatedBy, new { id = "userId" })
+                                @Html.HiddenFor(model => model.CreatedBy, new { id = "AssignToUserId" })
+                                <input type="hidden" name="courseidList" id="coursesID" />
+                                <div class="form-group formGroupCustom">
+                                </div>
+                            </div>
+                        </div><!-- end step3 -->
+                    </div>
+                    <div id="bottom-wizard">
+                        <button type="button" name="backward" class="btnCancel" id="back" onclick="Backward(this)">Back</button>
+                        <button type="button" name="forward" id="forword" class="btnRegister btnForword" onclick="Forword(this)">Next</button>
+                        <button type="button" name="Skip" id="Skip" class="btnRegister btnForword" onclick="SkipPage(this)">Skip </button>
+                        <button type="submit" name="Generate" id="Generate" class="btnRegister btnForword">Generate </button>
+                    </div><!-- end bottom-wizard -->
+                </form>
+            </div>
+        </div>
+    </section>
+    <div id="ActCountModel" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content modalPopup">
+                <div class="">
+                    <div class="">
+                        <div class="">
+                            <div id="login" class="col-sm-12">
+                                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+                            <div class="col-md-10">
+                                <label>@actCouponCount Coupons are Generated. Check the coupons in Copuons Page</label>
+                            </div>
+                            <div style="margin-top:40px;">
+                                <button type="button" class="btnCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<link href="~/Scripts/Wizard/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/Wizard/jquery-1.10.2.js"></script>
+<script src="~/Scripts/Wizard/ui-1.11.4-jquery-ui.js"></script>
+<link href="~/Content/Multiselct/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/Multiselct/bootstrap-multiselect.js"></script>
+<!-- Wizard-->
+@*<script src="~/Content/learn/js/jquery-ui-1.8.12.min.js"></script>*@
+<script src="~/Content/learn/js/jquery.wizard.js"></script>
+<script src="~/Content/learn/js/jquery.validate.js"></script>
+<script src="~/Content/learn/check_radio/jquery.icheck.js"></script>
+<script src="~/Content/learn/js/courses.js"></script>
+
+    <script type="text/javascript">
+
+        var selectedCourse = [];
+        var userid = @userId
+        $(document).ready(function () {
+            var aactCoupon = '@actCouponCount';
+
+            if(aactCoupon!=""){
+                $("#ActCountModel").modal('show');
+            }
+
+            $("#datepicker1").datepicker();
+            $("#datepicker2").datepicker();
+            $("#datepicker3").datepicker();
+            $("#step2").hide();
+            $("#step3").hide();
+            $("#Generate").hide();
+            $("#back").hide();
+            $("#Skip").hide();
+            $("#IsNotification").hide();
+        });
+        $(function () {
+
+            $('[id*=ddlCourse]').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+
+        $(function () {
+
+            $('[id*=ddlUsers]').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+        function assignVisibility() {
+            var selected = $("#ddlCourse option:selected");
+            var message = "";
+            selected.each(function () {
+                message += $(this).val() + ';';
+            });
+            $("#VisibilityID").val(message);
+        }
+        function assignVisibility() {
+            var selected = $("#ddlUsers option:selected");
+            var message = "";
+            selected.each(function () {
+                message += $(this).val() + ';';
+            });
+            $("#VisibilityID2").val(message);
+        }
+        function DisplayNotification() {
+            $("#IsNotification").show();
+        }
+        function HideNotification() {
+            $("#IsNotification").hide();
+        }
+
+        function Backward(ctrl) {
+
+            if ($(ctrl).parent().parent().find('.step')[0].style.display == "block") {
+                //$("#back").attr('disabled', 'disabled');
+
+            }
+            else if ($(ctrl).parent().parent().find('.step')[1].style.display == "block") {
+                $("#step1").show();
+                $("#step2").hide();
+                $("#step3").hide();
+                $("#forword").show();
+                $("#back").show();
+                $("#Generate").hide();
+                $("#Skip").hide();
+            }
+            else if ($(ctrl).parent().parent().find('.step')[2].style.display == "block") {
+                $("#step2").show();
+                $("#step1").hide();
+                $("#step3").hide();
+                $("#forword").show();
+                $("#back").show();
+                $("#Generate").hide();
+                $("#Skip").show();
+            }
+
+        }
+
+
+        function Forword(ctrl) {
+
+            if ($(ctrl).parent().parent().find('.step')[0].style.display == "block") {
+         
+                $("#step2").show();
+                $("#step1").hide();
+                $("#step3").hide();
+                $("#forword").show();
+                $("#back").show();
+                $("#back").removeAttr('disabled');
+                //$("#back").attr("")
+                $("#Skip").show();
+                $("#Generate").hide();
+                var pId = $('#ddlPartner')[0];
+                var partnerId = pId.options[pId.selectedIndex].value;
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    data: JSON.stringify({ "partnerId": partnerId }),
+                    contentType: 'application/json; charset=utf-8',
+                    url: "/CouponCode/UserListOnPartnerSelect",
+                    success: function (response) {
+                    },
+                    error: function (response) {
+                        
+                    }
+                });
+               
+            }
+    
+
+
+        else if ($(ctrl).parent().parent().find('.step')[1].style.display == "block") {
+
+            $("#step3").show();
+            $("#Generate").show();
+            $("#forword").hide();
+            $("#step2").hide();
+            $("#step1").hide();
+            $("#back").show();
+            $("#Skip").hide();
+        }
+        }
+
+        function SkipPage(ctrl) {
+            if ($(ctrl).parent().parent().find('.step')[0].style.display == "block") {
+                //$("#back").attr('disabled', 'disabled');
+                $("#step3").show();
+            }
+            else if ($(ctrl).parent().parent().find('.step')[1].style.display == "block") {
+                $("#step3").show();
+                $("#step2").hide();
+                $("#step1").hide();
+                $("#forword").hide();
+                $("#back").show();
+                $("#Skip").hide();
+                $("#Generate").show();
+
+                var partId = $('#ddlPartner')[0];
+                $('#PartnernameTxt')[0].innerHTML = partId.options[partId.selectedIndex].text
+
+                $('#BenefitNameTxt')[0].innerHTML = $('#Discounttxt')[0].value
+                $('#AllowedCoursesTxt')[0].innerHTML = $('#maxAllowedCoursesTxt')[0].value;
+                $('#ValidFromTxt')[0].innerHTML = $('#datepicker1 ')[0].value + " - " + $('#datepicker2')[0].value;
+                $('#NoOfCouponTxt')[0].innerHTML = $('#maxAllowedCouponTxt')[0].value;
+                var allCorse = $('#ddlCourse')[0];
+                for (var i = 0; i < $('#ddlCourse')[0].length; i++) {
+
+                    if ($('#ddlCourse')[0][i].selected == true) {
+                        selectedCourse.push({ id: $('#ddlCourse')[0][i].value, val: $('#ddlCourse')[0][i].innerText })
+                    }
+                }
+                var add = '';
+                var addId = '';
+                for (var i = 0; i < selectedCourse.length; i++) {
+                    var cousAdd = selectedCourse[i].val;
+                    add = cousAdd + "," + add;
+                    $('#CourseName')[0].innerHTML = add;
+
+
+                }
+                for (var i = 0; i < selectedCourse.length; i++) {
+                    var cousAddId = selectedCourse[i].id;
+                    addId = cousAddId + "," + addId;
+                }
+                $('#coursesID')[0].value = addId;
+
+                $('#userId')[0].value = userid;
+
+                 var allUsers = $('#ddlCourse')[0];
+                for (var i = 0; i < $('#ddlCourse')[0].length; i++) {
+
+                    if ($('#ddlCourse')[0][i].selected == true) {
+                        selectedCourse.push({ id: $('#ddlCourse')[0][i].value, val: $('#ddlCourse')[0][i].innerText })
+                    }
+                }
+                var add = '';
+                var addId = '';
+                for (var i = 0; i < selectedCourse.length; i++) {
+                    var cousAdd = selectedCourse[i].val;
+                    add = cousAdd + "," + add;
+                    $('#CourseName')[0].innerHTML = add;
+
+
+                }
+                for (var i = 0; i < selectedCourse.length; i++) {
+                    var cousAddId = selectedCourse[i].id;
+                    addId = cousAddId + "," + addId;
+                }
+                $('#coursesID')[0].value = addId;
+
+            }
+            else if ($(ctrl).parent().parent().find('.step')[2].style.display == "block") {
+                
+            }
+        }
+
+    </script>
+<style type="text/css">
+    .controlmargintop {
+        margin-top: 6px;
+    }
+
+    .txtAreaHeight {
+        height: 125px !important;
+    }
+
+    .chkalign {
+        margin-left: 16%;
+        margin-top: 3%;
+    }
+
+    .droptop {
+        margin-top: 2.5%;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,191 @@
+﻿@using Millionlights.Models;
+@using System.Collections.Generic;
+
+@{
+    ViewBag.Title = "_MainFooter";
+    List<ShortCourse> allCourses = (List<ShortCourse>)Session["AllCourses"];
+    var count = 0;
+    var userName = Session["UserName"];
+    var userid = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+}
+
+@if (roleID != 2)
+{
+
+    <footer>
+        @if (userName == null)
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h3>DIDN'T FIND WHAT YOU WERE LOOKING FOR?</h3>
+                        <div id="message-newsletter">
+                        </div>
+                        <form method="post" name="newsletter" id="newsletter" class="form-inline">
+                            <div class="col-sm-12">
+                                <input name="email_newsletter" id="email_newsletter" type="email" value="" placeholder="Your Email" class="form-control newsCss ">
+                                <button id="submit-newsletter" type="button" class="button_medium" style="background-color: #008278 !important" onclick="CustomersQuery()">
+                                    <i class="bigger-110"></i>
+                                    Send Email
+                                </button>
+                            </div>
+                            <div class="col-sm-12">
+                                <img src="~/Content/assets/img/slider/footer-logo.png" style="width:190px;">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="container" id="nav-footer">
+                <div class="row text-left">
+                    <div class="col-md-3 col-sm-3">
+                        <h4>Browse</h4>
+                        <ul>
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li><a href="~/Course/AllCourses">Courses</a></li>
+                            <li><a href="http://blog.Millionlights.org/" target="_blank">Blog</a></li>
+                            <li><a href="~/Home/Contact">Contact Us</a></li>
+                            <li><a href="~/Home/MLPrivacyPolicies">Privacy Policy</a></li>
+                            <li>@Html.ActionLink("Honour Code", "HonorCode", "Home")</li>
+                            <li>@Html.ActionLink("Feedback", "UserFeedback", "Home")</li>
+                        </ul>
+                    </div><!-- End col-md-4 -->
+                    <div class="col-md-3 col-sm-3">
+                        <h4>About Million Lights</h4>
+                        <ul>
+                            <li>@Html.ActionLink("About Us", "massive-open-online-courses-India", "Home")</li>
+                            <li><a href="http://blog.Millionlights.org/" target="_blank">Blog</a></li>
+                            <li><a href="~/Home/Career">Career</a></li>
+                            <li>@Html.ActionLink("FAQ", "FAQ", "Home")</li>
+                            <li><a href="https://www.millionlights.org/MobileApp/index.html" target="_blank">Mobile App</a></li>
+                            <li><a href="http://www.millionlights.tv" target="_blank">ML - TV</a></li>
+                        </ul>
+                    </div><!-- End col-md-4 -->
+                    <div class="col-md-3 col-sm-3">
+                        <ul id="follow_us">
+                            <li><a href="https://www.facebook.com/millionlights" target="_blank"><i class="icon-facebook"></i></a></li>
+                            <li><a href="https://twitter.com/Million_Lights1" target="_blank"><i class="icon-twitter"></i></a></li>
+                            <li><a href="https://plus.google.com/+MillionlightsOrg" target="_blank"><i class=" icon-google"></i></a></li>
+                            <li><a href="https://www.linkedin.com/company/millionlights" target="_blank"><i class="icon-linkedin"></i></a></li>
+                            <li><a href="https://www.pinterest.com/million_lights" target="_blank"><i class="icon-pinterest-circled"></i></a></li>
+                        </ul>
+
+                    </div><!-- End col-md-4 -->
+                    <div class="col-md-3 col-sm-3" id="edxFooterLogo">
+                        <a href="https://open.edx.org/" target="_blank"><img src="~/Content/assets/img/slider/footer-logo-1.png" /></a>
+                    </div>
+                </div><!-- End row -->
+            </div>
+        }
+        <script src="~/Content/assets/js/bootbox.js"></script>
+        <script type="text/javascript">
+            function CustomersQuery() {
+                var queryEmail = $('#email_newsletter').val();
+                var fullName = '';
+                var message = '';
+                if (queryEmail != "") {
+                    if (isEmail(queryEmail) == false) {
+                        bootbox.dialog({
+                            message: "Please enter valid email id.",
+                            buttons: {
+                                "success": {
+                                    "label": "OK",
+                                    "className": "btn-sm btn-primary",
+                                    callback: function () {
+                                    }
+                                }
+                            }
+                        });
+                        return false;
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            async: false,
+                            data: JSON.stringify({ "queryEmail": queryEmail, "fullName": fullName, "message": message, "phoneNumber": null }),
+                            contentType: 'application/json; charset=utf-8',
+                            url: "/MarketingCampaign/CustomersQuery",
+                            success: function (response) {
+                                if (response == "true") {
+                                    bootbox.dialog({
+                                        message: "Thank you for showing the interest, we'll getback to you soon!",
+                                        buttons: {
+                                            "success": {
+                                                "label": "OK",
+                                                "className": "btn-sm btn-primary",
+                                                callback: function () {
+                                                    location.href = '/Home/Index';
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                                else {
+                                    bootbox.dialog({
+                                        message: "Email could not be sent due to some problems. Please try later.",
+                                        buttons: {
+                                            "success": {
+                                                "label": "OK",
+                                                "className": "btn-sm btn-primary",
+                                                callback: function () {
+                                                    location.href = '/Home/Index';
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                bootbox.dialog({
+                                    message: "Email could not be sent due to some problems. Please try later.",
+                                    buttons: {
+                                        "success": {
+                                            "label": "OK",
+                                            "className": "btn-sm btn-primary",
+                                            callback: function () {
+                                                location.href = '/Home/Index';
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                }
+                else {
+                    bootbox.dialog({
+                        message: "Please provide an email.",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary",
+                                callback: function () {
+                                }
+                            }
+                        }
+                    });
+                }
+                return false;
+            }
+            function isEmail(emailid) {
+                var emailRegex = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
+                if (!emailid.match(emailRegex)) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+        </script>
+        <div id="copy_right">Millionlights &copy; 2016</div>
+    </footer>
+
+}
+<div id="toTop">Back to top</div>

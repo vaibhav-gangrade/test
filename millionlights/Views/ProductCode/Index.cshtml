@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@{
+    var prodCodeList = ViewBag.ProductCodeList;
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+<script src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
+
+<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#ProdCodeGridview').DataTable();
+    });
+</script>
+<section id="main_content">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 tableContent">
+                <div class="table-header">
+                    <b>Course Details</b>
+
+                    @Html.ActionLink("Generate Product Code", "Create", "ProductCode", null, new { @class = "btnDataTable btnFocus" })
+
+                </div>
+                <div class="table-responsive tablediv">
+                    <table id="ProdCodeGridview" class="table table-striped table-bordered table-hover fullWidth">
+                        <thead>
+                            <tr>
+                                <th>ProductCode</th>
+                                <th>Partner</th>
+                                <th>Course</th>
+                                <th>Fees</th>
+                                <th>Discount</th>
+                                <th>NOfAllowedCourses</th>
+                                @*<th class="actionColWidth">Action</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in prodCodeList)
+                    {
+                    <tr>
+                        <td>
+                            @item.ProdCode
+                        </td>
+                        <td>
+                            @item.PartnerName
+                        </td>
+                        <td>
+                            @item.CourseName
+                        </td>
+                        <td>
+                            @item.Fees
+                        </td>
+                        <td>
+                            @item.Discount
+                        </td>
+                        <td>
+                            @item.NOfAllowedCourses
+                        </td>
+                    </tr>
+                    }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

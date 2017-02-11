@@ -1,0 +1,890 @@
+﻿@{
+    var courseDetails = ViewBag.Courses;
+    var courseContents = ViewBag.CourseContents;
+    var userId = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+
+    if (roleID != 0)
+    {
+
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+
+    else
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+
+    var pe = ViewBag.Pe;
+
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+
+    var pageTitle = ViewBag.PageTitle;
+
+    var pageDesc = ViewBag.PageDesc;
+
+    var pageImg = ViewBag.PageImg;
+
+}
+
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+
+<h1 itemprop="name" style="display:none;">@pageTitle</h1>
+
+@*<img itemprop="image" style="display:none;" src="https://www.gstatic.com/images/icons/gplus-64.png" />*@
+
+@*<img itemprop="image" style="display:none;" src="https://www.gstatic.com/images/icons/gplus-64.png" />*@
+
+<meta property="og:image" content="@pageImg" />
+
+<p itemprop="description" style="display:none;">@pageDesc</p>
+<section id="sub-header">
+
+    <div @*class="container"*@>
+
+        @if (courseDetails != null)
+        {
+
+            <div class="row">
+
+                <div class="col-md-12 text-center">
+
+                    <h2 style="font-weight: 200 !important;font-size: 30px !important;">
+
+                        @courseDetails.CourseName
+
+                    </h2>
+
+                    @*@if (userId != null)
+
+                        {*@
+
+                    <div id="ratemebtn">
+
+                        <a href="" class="pull-right button_fullwidth-3" onclick="CourseRatings('@courseDetails.Id','@courseDetails.CourseName'); return false;">Rate Me</a>
+
+                    </div>
+
+                    @*}*@
+                    <div id="enrollbtn">
+
+                        <a href="" class="pull-right button_fullwidth-3 enrollCourse" id="@courseDetails.Id">
+                            Enroll
+                        </a>
+
+                    </div>
+                    <p class="lead">@courseDetails.ShortDescription</p>
+
+                </div>
+
+            </div><!-- End row -->
+            <div class="row" id="sub-header-features">
+
+                <div class="col-md-6" id="longDescp">
+
+                    <h2>A brief summary</h2>
+
+                    <div>
+
+                        @Html.Raw(HttpUtility.HtmlDecode(courseDetails.LongDescription))
+
+                    </div>
+
+                    <p class="whiteColor"><h2>Instructor:</h2>@courseDetails.Instructor</p>
+
+                    <p class="whiteColor">@*Instructor:<em>@courseDetails.Instructor</em>*@</p>
+
+                </div>
+
+                <div class="col-md-6" id="abtObj">
+
+                    <h2>What you will learn</h2>
+
+                    @Html.Raw(HttpUtility.HtmlDecode(courseDetails.Objective))
+
+                    <div>
+
+                        @if (courseDetails.BasePrice == 0)
+                        {
+
+                            <h2>Course Fee: Free</h2>
+
+                        }
+
+                        else
+                        {
+
+                            <h2>Course Fee: Rs. @courseDetails.BasePrice</h2>
+
+                        }
+
+
+
+
+                    </div>
+
+                    <div>
+
+                        @if (courseDetails.CourseCertificationName == null || courseDetails.EnableForCertification == false)
+                        {
+
+                            <h2>Certification By: Not Certified</h2>
+
+                        }
+
+                        else
+                        {
+
+                            <h2>Certification By: @courseDetails.CourseCertificationName</h2>
+
+                        }
+
+                    </div>
+
+                </div>
+
+
+
+
+            </div><!-- End row -->
+
+
+
+
+        }
+
+    </div><!-- End container -->
+
+</section>
+
+<section id="main_content" class="style_2">
+
+    <div class="container">
+        @if (courseContents != null)
+        {
+
+            var count = 0;
+
+            foreach (var courseContent in courseContents)
+            {
+
+                if (count < 6 && courseDetails.Id == courseContents[count].CourseId)
+                {
+
+                    var imagenumber = courseContents[count].ChapterNumber;
+
+                    <article class="row">
+
+                        <div class="col-md-3 col-sm-3 hidden-xs text-center">
+
+                            <img src="@String.Format("/Content/learn/img/smallchapter{0}.png", 2)" alt="" style="display:none; width:40%;">
+
+                            <img src="@String.Format("/Content/learn/img/smallchapter{0}.png", imagenumber)" alt="" style="width:40%;">
+
+                        </div>
+
+                        <div class="col-md-9 col-sm-9">
+
+                            <h3>@courseContent.ChapterName</h3>
+
+                            <p>@courseContent.ChapterDescription</p>
+
+
+
+
+                            <ul class="data-lessons">
+
+                                <li class="po-markup">
+
+                                    <a class="po-link" href="javascript:void(0)"><i class="icon-calendar"></i>Available dates</a>
+
+                                    <div class="po-content hidden">
+
+                                        <div class="po-title"><strong>Available dates</strong></div> <!-- ./po-title -->
+                                        <div class="po-body">
+
+                                            <ul class="list_po_body"><li><i class="icon-ok"></i>Self Paced</li></ul>
+
+                                        </div>
+
+                                    </div><!-- ./po-content -->
+
+                                </li>
+
+                                <li class="po-markup">
+
+                                    <a class="po-link" href="javascript:void(0)"><i class="icon-clock"></i>Duration</a>
+
+                                    <div class="po-content hidden">
+
+                                        <div class="po-title"><strong>Duration</strong></div> <!-- ./po-title -->
+
+                                        <div class="po-body">
+
+                                            <p class="no_margin">Duration:@courseDetails.Duration days</p>
+
+                                            <p class="no_margin">Learning hours:@courseDetails.Hours</p>
+
+                                            <p class="no_margin">No. of sessions:@courseDetails.NoOfSessions</p>
+
+                                        </div><!-- ./po-body -->
+
+                                    </div><!-- ./po-content -->
+
+                                </li>
+
+                                <li class="po-markup">
+
+                                    <a class="po-link" href="javascript:void(0)"><i class="icon-doc-text-inv"></i>Available doc</a>
+
+                                    <div class="po-content hidden">
+
+                                        <div class="po-title"><strong>Available doc</strong></div> <!-- ./po-title -->
+
+                                        <div class="po-body">
+
+                                            Not Available
+
+                                        </div><!-- ./po-body -->
+
+                                    </div><!-- ./po-content -->
+
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </article>
+
+                    count++;
+
+                }
+
+            }
+
+        }
+
+        else
+        {
+
+            <h4>We are adding the courses contents, please visit later to view the course.</h4>
+
+        }
+
+    </div>
+</section>
+<section id="join">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <div class="row">
+                    <div class="col-md-2 hidden-sm hidden-xs"> </div>
+                    <div class="col-md-8"><a href="AllCourses" class="button_big">View All Courses</a> </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<script src="~/Content/assets/js/bootbox.js"></script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+
+<script type="text/javascript">
+
+    var cartName = "CourseDetails";
+
+    var currentCourses = '';
+    $(document).ready(function () {
+        var peVal = '@pe';
+        if (peVal == "1") {
+
+            $('#enrollbtn').hide();
+
+        }
+
+        if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
+
+            currentCourses = JSON.parse(window.localStorage[cartName]);
+
+        }
+
+        var uId = '@userId';
+
+        var currentItems = getCurrentCartItems();
+        if ($.cookie("AboutCourseID") != null) {
+            var courseId = $.cookie("AboutCourseID");
+
+            var tempCurrentItems = JSON.parse(window.localStorage[cartName]);
+
+            var remCourses = removeItem(tempCurrentItems, courseId);
+
+            currentItems = remCourses;
+
+            window.localStorage[cartName] = JSON.stringify(remCourses);
+
+            $.removeCookie("AboutCourseID");
+
+            if (uId != '') {
+
+                var cartCount = parseInt($('#CartCount').val());
+
+                var courseCount = 0;
+
+                if (cartCount != 0) {
+
+                    courseCount = cartCount - 1;
+
+                }
+                if (cartCount == "Nan") {
+                    cartCount = 0;
+                }
+                $('#cartItemCount')[0].innerHTML = "My Cart (" + courseCount + ")";
+
+            }
+
+        }
+        //New Way
+
+        var data = "";
+
+        $('.enrollCourse').click(function () {
+
+            var userId = '@userId';
+
+            if (userId == '') {
+
+                window.localStorage.removeItem(cartName);
+
+                currentItems = null;
+
+            }
+
+            var courseId = $(this)[0].id;
+
+            setCookie("CourseID", courseId, 1);
+
+            for (var i = 0; i < currentCourses.length; i++) {
+
+                var courseId = $(this)[0].id;
+
+                if (currentCourses[i] != null) {
+
+                    var courseContents = {
+
+                        CourseId: currentCourses[i].CourseId,
+
+                        CourseImage: currentCourses[i].CourseImage,
+
+                        CourseName: currentCourses[i].CourseName,
+
+                        CourseDescription: currentCourses[i].CourseDescription,
+
+                        CoursePrice: currentCourses[i].CoursePrice,
+
+                        CourseUserId: '@userId'
+
+                    };
+
+                }
+
+            }
+
+
+
+
+            if (currentItems === null) {
+
+                window.localStorage[cartName] = JSON.stringify([courseContents]);
+
+            }
+
+            else {
+
+                currentItems.push(courseContents);
+
+                window.localStorage[cartName] = JSON.stringify(currentItems)
+
+            }
+            localStorage.CourseId = courseId;
+            if (userId == '') {
+
+                var url = "/Account/Login";
+
+                window.location.href = url;
+
+            }
+
+            else {
+
+                if ($.cookie("CourseID") != null) {
+
+                    data = $.cookie("CourseID");
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        async: true,
+
+                        data: JSON.stringify({ "data": data }),
+
+                        contentType: 'application/json; charset=utf-8',
+
+                        url: "/UserRegister/GetUserCourses",
+
+                        success: function (response) {
+                            var resp = JSON.parse(response);
+
+                            if (resp.enrollCourse == "true") {
+
+                                var courseId = resp.couresId;
+
+                                var tempCurrentItems = JSON.parse(window.localStorage[cartName]);
+
+                                var remCourses = removeItem(tempCurrentItems, courseId);
+
+                                currentItems = remCourses;
+
+                                window.localStorage[cartName] = JSON.stringify(remCourses);
+
+                                bootbox.dialog({
+
+                                    message: '@messages["AlredyEnroll"]',
+
+                                    buttons: {
+
+                                        "success": {
+
+                                            "label": "Ok",
+
+                                            "className": "btn-sm btn-primary",
+
+                                            callback: function () {
+                                            }
+
+                                        },
+
+                                        "fail": {
+
+                                            "label": "Cancel",
+
+                                            "className": "btn-sm btn-primary",
+
+                                            callback: function () {
+                                            }
+                                        },
+                                    }
+
+                                });
+
+                            }
+
+                            else {
+
+                                location.href = "/Order/Details";
+
+                            }
+                        },
+
+                        error: function (response) {
+
+                            localStorage.clear();
+
+                        }
+
+                    });
+
+                }
+
+                $.removeCookie("CourseID");
+            }
+            return false;
+
+        });
+
+    });
+
+    function removeItem(tempCourse, courseId) {
+        for (var i = 0; i < tempCourse.length; i++) {
+
+            if (tempCourse[i] != null && courseId === tempCourse[i].CourseId) {
+
+                tempCourse.splice(i, 1);
+
+            }
+
+        }
+
+        return tempCourse;
+
+    }
+
+    function getCurrentCartItems() {
+
+        var itemsCart = window.localStorage[cartName];
+
+        if (itemsCart === undefined) {
+
+            return null;
+
+        }
+        var currentItems;
+
+        try {
+
+            currentItems = JSON.parse(itemsCart);
+
+        }
+
+        catch (e) {
+
+            currentItems = null;
+
+        }
+
+
+
+
+        return currentItems;
+
+    }
+
+    function setCookie(cookieName, cookieValue, nDays) {
+        var today = new Date();
+
+        var expire = new Date();
+
+        if (nDays == null || nDays == 0) {
+
+            nDays = 1;
+
+        }
+
+        expire.setTime(today.getTime() + 3600000 * 24 * nDays);
+
+        document.cookie = cookieName + "=" + escape(cookieValue)
+
+        + ";expires=" + expire.toGMTString() + "; path=/";
+
+    }
+
+</script>
+
+<style type="text/css">
+    ul.data-lessons li a {
+        color: #488dc6 !important;
+    }
+
+
+
+
+        ul.data-lessons li a:hover {
+            color: black !important;
+        }
+</style>
+
+<div id="CourseRatingsModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+
+    <div class="modal-dialog">
+
+        <div class="">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="">
+
+                        <div id="login" class="col-sm-5">
+
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Submit Course Ratings</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+
+                            <div class="hideDiv aligntextcenter">
+
+                                <label>Course Name</label>
+
+                                <input id="CourseNameTxt" name="CourseNameTxt" type="text" class="form-control" disabled="disabled" />
+
+                                <br />
+
+                            </div>
+
+                            <div class="hideDiv aligntextcenter" style="margin:4px 0px 4px 0px;">
+
+                                <label>Ratings</label>
+
+                                <input id="rating-input" value="0" type="number" class="rating" min=0 max=5 step=0.5 data-size="xs" data-stars="5">
+
+                                <label class="text-danger errorRatings"></label>
+
+                                <br />
+
+                            </div>
+
+                            <div class="hideDiv aligntextcenter" style="margin:4px 0px 4px 0px;">
+
+                                <label>Comments</label>
+
+                                <textarea id="rating-comments" rows="4" cols="50" style="resize:none;"></textarea>
+
+                                <label class="text-danger errorRatingsComments"></label>
+
+                                <br />
+
+                            </div>
+
+                            <br />
+
+                            <div id="ButtonsId" class="aligntextcenter">
+
+                                <input type="hidden" name="CourseIdHidden" id="CourseIdHidden" />
+
+                                <input type="button" value="Cancel" id="CancelRatingsBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelRatingsButton()" />
+
+                                <input type="button" value="Save" id="SaveRatingsBtn" class="btnRegister btnForword" style="padding: 9px 35px 6px 35px !important;" onclick="SubmitRatingsButton()" />
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    function CourseRatings(cId, cName) {
+
+        var usrId = '@userId';
+
+        if (usrId == '') {
+
+            bootbox.dialog({
+
+                message: "Please signin to portal to rate the course",
+
+                buttons: {
+
+                    "success": {
+
+                        "label": "Ok",
+
+                        "className": "btn-sm btn-primary",
+
+                        callback: function () {
+
+
+
+
+                        }
+
+                    },
+
+                }
+
+            });
+
+        }
+
+        else {
+
+            var courseId = cId;
+
+            var courseName = cName;
+
+            $('#CourseNameTxt')[0].value = cName;
+
+            $('#CourseIdHidden').val(cId);
+
+            $('.filled-stars').width('0%');
+
+            $('.caption >.label')[0].innerHTML = "Not Rated";
+
+            $('#rating-comments')[0].value = '';
+
+            $('.errorRatings')[0].innerHTML = "";
+
+            $('#CourseRatingsModel').modal('show');
+
+        }
+
+    }
+
+    function CancelRatingsButton() {
+
+        $('#CourseRatingsModel').modal('hide');
+
+    }
+
+    function SubmitRatingsButton() {
+
+        var usrId = '@userId';
+
+        var ratingStars = $('#rating-input').val();
+
+        var courseId = $('#CourseIdHidden').val();
+
+        var comments = $('#rating-comments')[0].value;
+
+        if (ratingStars < 0.5) {
+
+            $('.errorRatings')[0].innerHTML = "Please provide the star ratings";
+
+        }
+
+        else {
+
+            $('.errorRatings')[0].innerHTML = "";
+
+            $('#CourseRatingsModel').modal('hide');
+
+            $.ajax({
+
+                type: "POST",
+
+                async: false,
+
+                data: JSON.stringify({ "ratingStars": ratingStars, "courseId": courseId, "comments": comments, "userId": usrId }),
+
+                contentType: 'application/json; charset=utf-8',
+
+                url: "/UserRegister/SubmitUsersRatings",
+
+                success: function (response) {
+
+                    var resp = JSON.parse(response);
+
+                    if (resp.IsSuccess == true) {
+
+                        bootbox.dialog({
+
+                            message: "Thank you for providing the ratings.",
+
+                            buttons: {
+
+                                "success": {
+
+                                    "label": "Ok",
+
+                                    "className": "btn-sm btn-primary",
+
+                                    callback: function () {
+
+
+
+
+                                    }
+
+                                },
+
+                            }
+
+                        });
+
+                    }
+
+                    else if (resp.AlreadyRated == true) {
+
+                        bootbox.dialog({
+
+                            message: "Sorry, you already have rated this course. Please rate the new course.",
+
+                            buttons: {
+
+                                "success": {
+
+                                    "label": "Ok",
+
+                                    "className": "btn-sm btn-primary",
+
+                                    callback: function () {
+
+
+
+
+                                    }
+
+                                },
+
+                            }
+
+                        });
+
+                    }
+
+                },
+
+                error: function (response) {
+
+                    bootbox.dialog({
+
+                        message: "Sorry, we couldn't submit your ratings due to an internal error. Please try again.",
+
+                        buttons: {
+
+                            "success": {
+
+                                "label": "Ok",
+
+                                "className": "btn-sm btn-primary",
+
+                                callback: function () {
+
+
+
+
+                                }
+
+                            },
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        }
+
+    }
+
+</script>
+
+<link href="~/StarRatingsPlugin/star-rating.css" rel="stylesheet" />
+
+<script src="~/StarRatingsPlugin/star-rating.js"></script>

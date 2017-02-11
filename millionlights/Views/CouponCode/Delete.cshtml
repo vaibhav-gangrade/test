@@ -1,0 +1,153 @@
+﻿@model Millionlights.Models.Coupon
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Coupon</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivatedByUser.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActivatedByUser.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BenifitType.BenifitName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BenifitType.BenifitName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CouponStatus.StatusName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CouponStatus.StatusName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdByUser.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdByUser.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.partner.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.partner.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CCGId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CCGId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CouponCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CouponCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AllowedCourses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AllowedCourses)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValidFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValidFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValidTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValidTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActivatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BlockedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockedReason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BlockedReason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPrepaid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPrepaid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

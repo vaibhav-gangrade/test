@@ -1,0 +1,218 @@
+﻿@using Microsoft.AspNet.Identity.Owin;
+@{
+    var userName = Session["UserName"];
+    var userid = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+}
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>*@
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<div id="MainHeaderId">
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <a href="/Home/Index" id="logo">
+                        @*<a id="logo"></a>*@
+                    </a>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-9">
+                    <div class=" pull-right" id="log">
+                        @if (userName == null)
+                        {
+                            <input type="text" placeholder="Coupon Code / Referral Code" class="actCoupontxt activeCodeTextWidth hidden-xs couponTextChange" id="actCoupontxt" onkeypress="ActivateCouponEnterClickEvent(event)" />
+                            <a class="actCoupon hidden-xs " id="apply" onclick="ActivateCoupon();">Activate</a>
+                            @ViewBag.User
+
+                            <a id="login_top" href="/Account/Login" class="button_top btnsignin signInbtn">Sign in</a>
+                            @Html.ActionLink("Sign Up", "UserRegister", new { controller = "UserRegister" }, new { @class = "button_top btnSignin signUpBg btnsignUp hidden-xs" })
+                        }
+                        else
+                        {
+                            <label class="lblUserName ">Welcome! @userName</label>
+                            @Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { @class = "button_top btnSignin signUpBg btnFocus", id = "logoutBtn" })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header><!-- End header -->
+    <nav style="margin-top: -12px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12" style="min-height:0px !important;">
+                    <div id="mobnav-btn"></div>
+                    <input type="hidden" id="CartCount" name="CartCount" />
+                    <ul class="sf-menu">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        @if (userName != null)
+                        {
+                            <li>@Html.ActionLink("Dashboard", "UserDashboard", "Home")</li>
+                            if (roleID == 1 || roleID == 3)
+                            {
+                                <li class="mega_drop_down">
+                                    <a href="#">ADMIN</a>
+                                    <div class="mobnav-subarrow"></div>
+                                    <div class="sf-mega">
+                                        <div class="col-md-3 col-sm-5">
+                                            <h5>Masters</h5>
+                                            <ul class="mega_submenu">
+                                                <li><a href="~/Partner/Index">Partners</a></li>
+                                            </ul>
+                                            <h5>Order Management</h5>
+                                            <ul class="mega_submenu">
+                                                <li>@Html.ActionLink("Orders", "Index", "Order")</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-3 col-sm-5">
+                                            <h5>Users</h5>
+                                            <ul class="mega_submenu">
+                                                <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                                            </ul>
+                                            <h5>Marketing Campaing</h5>
+                                            <ul class="mega_submenu">
+                                                <li>@Html.ActionLink("Import Users", "Bank", "CouponCode")</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-3 col-sm-5">
+                                            <h5>Coupon Management</h5>
+                                            <ul class="mega_submenu">
+                                                <li>@Html.ActionLink("View Coupons", "AllCoupons", "CouponCode")</li>
+                                                <li>@Html.ActionLink("Generate Coupons", "CreateCoupon", "CouponCode")</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-3 col-sm-5">
+                                            <h5>Course Management</h5>
+                                            <ul class="mega_submenu">
+                                                <li>@Html.ActionLink("Courses", "Index", "Course")</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-3 col-sm-5">
+
+                                        </div>
+
+                                    </div>
+                                </li>
+                            }
+
+                            <li id="courselist">
+                                <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">My Account</a>
+                            </li>
+                        }
+                        <li>@Html.ActionLink("Courses", "AllCourses", "Course")</li>
+                        @if (userName == null)
+                        {
+                            <li class="visible-xs activeCouponResize" id="activeCouponResizeID">@Html.ActionLink("Activate Coupon", "ActivateCoupon", "CouponCode")</li>
+                        }
+                        @if (userName != null)
+                        {
+                            <li>@Html.ActionLink("Activate Coupon", "ActivateCoupon", "CouponCode")</li>
+                            <li class="pull-right" id="Cart">
+                                <a href="/Order/Details" id="cartItemCount"></a>
+                            </li>
+                        }
+
+                        <li class="normal_drop_down">
+                            <a id="AboutUsId" class="sf-with-ul" href="/Home/massive-open-online-courses-India">About Us</a>
+                            <div class="mobnav-subarrow"></div>
+                            <ul class="normal_drop_down">
+                                <li><a href="/PressRelease/Press">Press Release</a></li>
+                                <li><a href="~/Career/Career">Career</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="http://blog.Millionlights.org/" target="_blank">Blog</a></li>
+                        <li><a href="~/Home/Contact">Contact Us</a></li>
+                        <li><a href="https://www.millionlights.org/MobileApp/index.html" target="_blank">Mobile App</a></li>
+                        @if (userName == null)
+                        {
+                            <li><a href="http://www.millionlights.tv" target="_blank">ML - TV</a></li>
+                        }
+                    </ul>
+
+                </div>
+            </div><!-- End row -->
+        </div><!-- End container -->
+    </nav><!-- End header -->
+    <!-- Modal HTML -->
+</div>
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script type="text/javascript">
+
+    var currentCourses = '';
+    var cartName = "CourseDetails";
+    function ActivateCouponEnterClickEvent(e) {
+
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) { //Enter keycode
+            ActivateCoupon();
+        }
+    }
+    $(document).ready(function () {
+        debugger
+        $(".couponTextChange").change(function () {
+            var couponCode = $('#actCoupontxt')[0].value;
+            if (couponCode == "") {
+                localStorage.CouponCode = null;
+            }
+        });
+
+        $('#AboutUsId').addClass("sf-with-ul");
+
+        var cartCount = 0;
+        var uId = '@userid';
+        if ($('#cartItemCount').length > 0) {
+            if (cartCount == "Nan") {
+                cartCount = 0;
+            }
+            $('#cartItemCount')[0].innerHTML = "My Cart (" + cartCount + ")";
+
+        }
+        if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
+            currentCourses = JSON.parse(window.localStorage[cartName]);
+        }
+        if ($('#cartItemCount').length > 0) {
+            for (var i = 0; i < currentCourses.length; i++) {
+                if (currentCourses[i].CourseUserId == uId) {
+                    var count = 0;
+                    count = currentCourses.length;
+                    cartCount = cartCount + 1;
+                    if (cartCount == "Nan") {
+                        cartCount = 0;
+                    }
+                    $('#CartCount').val(cartCount);
+                    $('#cartItemCount')[0].innerHTML = "My Cart (" + cartCount + ")";
+                    $('#Cart').css("display", "block");
+                }
+            }
+        }
+    });
+    function ActivateCoupon() {
+        var couponCode = $('#actCoupontxt')[0].value;
+        if (couponCode != "") {
+            localStorage.CouponCode = couponCode.trim();
+            window.location.href = "/Account/Login";
+        }
+        else {
+
+            bootbox.dialog({
+                message: "Please enter the coupon code",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary"
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+
+
+
+
+

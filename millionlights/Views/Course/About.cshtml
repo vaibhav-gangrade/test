@@ -1,0 +1,151 @@
+﻿@model Millionlights.Models.Course
+@{
+    ViewBag.Title = "About";
+    var courseDetails = ViewBag.Course;
+    var userName = Session["UserName"];
+    var courseByCats = ViewBag.CourseByCategories;
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<section id="main_content">
+    <div @*class="container"*@>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <h1 class="chapter_course no_margin_rop">@courseDetails.CourseName</h1>
+                <div class="col-md-12 strip_single_course">
+                    <div class="col-md-4 courseBlock">
+                        <div class="photo">
+                            <a href="#">
+                                <img alt="Logo" src="~/Content/learn/img/Test.jpg" class="testLogo-about">
+                            </a>
+                        </div>
+                    </div><!-- end strip single course -->
+                    <div class="col-md-8">
+                        <h3><a href="#">@courseDetails.CourseName : @courseDetails.ShortDescription </a></h3>
+                        <ul>
+                            <li><i class="icon-clock"></i> @courseDetails.StartDate - @courseDetails.EndDate</li>
+                            <br />
+                            <li> &nbsp;&nbsp;Duration: @courseDetails.Duration Days (@courseDetails.Hours hours)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- End col-md-8  -->
+        </div><!-- End row -->
+    </div><!-- End container -->
+</section>
+<br />
+<section id="main_content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3 class="chapter_course no_margin_rop">About this course</h3>
+                <div class="strip_single_course longDescDiv">
+                    <h5>@courseDetails.LongDescription</h5>
+                </div><!-- end strip single course -->
+                <h3 class="chapter_course">Chapter 2: Case aeque melius duo ut, porro ridens habemus quo in.</h3>
+                <div class="strip_single_course">
+                    <h4><a href="#">Et has suscipit probatus.</a></h4>
+                    <ul>
+                        <li><i class="icon-clock"></i> 00:58</li>
+                        <li><i class="icon-doc"></i>Text reading</li>
+                    </ul>
+                </div><!-- end strip single course -->
+
+                <div class="strip_single_course">
+                    <h4><a href="#">Quo ea feugiat saperet vulputate</a></h4>
+                    <ul>
+                        <li><i class="icon-clock"></i> 00:58</li>
+                        <li><i class="icon-doc"></i>Text reading</li>
+                    </ul>
+                </div><!-- end strip single course -->
+
+                <div class="strip_single_course">
+                    <h4><a href="#">Legere sanctus perfecto at eos</a></h4>
+                    <ul>
+                        <li><i class="icon-clock"></i> 00:58</li>
+                        <li><i class="icon-doc"></i>Text reading</li>
+                    </ul>
+                </div><!-- end strip single course -->
+
+                <div class="strip_single_course">
+                    <h4><a href="#">Mei habemus voluptua ex, utroque instructior.</a></h4>
+                    <ul>
+                        <li><i class="icon-clock"></i> 00:58</li>
+                        <li><i class="icon-doc"></i>Text reading</li>
+                    </ul>
+                </div><!-- end strip single course -->
+
+
+            </div><!-- End col-md-8  -->
+
+            <aside class="col-md-4">
+                <a href="#" class=" button_fullwidth-3 enrollCourse" id="@courseDetails.Id">Enroll Course</a>
+                <div class="box_style_1 headings">
+                    <h4>Effort:<span class="pull-right">@courseDetails.Duration  (@courseDetails.Hours hours/day)</span></h4>
+                    <h4>Level: <span class="pull-right">@courseDetails.Level</span></h4>
+                    <h4>Category: <span class="pull-right">@courseDetails.Category</span></h4>
+                    <h4>Type: <span class="pull-right">@courseDetails.Type</span></h4>
+                    <h4>Availability: <span class="pull-right">@courseDetails.Availability</span></h4>
+                    <h4>Languages: <span class="pull-right">@courseDetails.Language</span></h4>
+                    <h4>Hours: <span class="pull-right">@courseDetails.Hours</span></h4>
+                    <h4>Rates: <span class="pull-right rating_2"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class=" icon-star-empty"></i><i class=" icon-star-empty"></i></span></h4>
+                    <h4>Base Price: <span class="pull-right">@courseDetails.BasePrice</span></h4>
+                    <h4>Instructor: <span class="pull-right">@courseDetails.Instructor</span></h4>
+
+
+                </div>
+                <div id="mediaSection">
+                    <h4>Share this course with a friend</h4>
+                    <div class="media">
+                        <ul id="follow_us" class="followus">
+                            <li><a href="#"><i class="icon-facebook"></i></a></li>
+                            <li><a href="#"><i class="icon-twitter"></i></a></li>
+                            <li><a href="#"><i class=" icon-google"></i></a></li>
+                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                            <li><a href="#"><i class="icon-windows"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box_style_1">
+                    <h4>Related Courses</h4>
+                    <ul class="list_1">
+                        @if (courseByCats.Count == 0)
+                        {
+                            <li>No Course found..</li>
+                        }
+                        else
+                        {
+                            foreach (var courseByCat in courseByCats)
+                            {
+                                <li><a href="/Course/About?id=@courseByCat.Id">@courseByCat.CourseName</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </aside> <!-- End col-md-4 -->
+
+        </div><!-- End row -->
+    </div><!-- End container -->
+</section>
+
+<script type="text/javascript">
+
+    $('.enrollCourse').click(function () {
+        var courseId = $(this)[0].id;
+        localStorage.CourseId = courseId;
+        var uName = '@userName';
+        if (uName == '') {
+            $('#LoginModal').modal('show');
+        }
+        else {
+            var url = "/Course/Details?id=" + courseId + "&uName=" + uName;
+            window.location.href = url;
+
+        }
+
+        return false;
+
+    });
+</script>
+

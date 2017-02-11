@@ -1,0 +1,205 @@
+﻿
+@model Millionlights.Models.CATS
+@{
+    var userName = Session["UserName"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/JS/CATC.js"></script>
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+    <script>
+        $(function () {
+          
+            $(".cke_button_bulletedlist").hide();
+            $(".cke_button_numberedlist").hide();
+        });
+    </script>
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+
+@using (Html.BeginForm("Create", "CATC", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", onsubmit = "return ValidateCATC()" }))
+{
+    @Html.AntiForgeryToken()
+    <section id="main_content">
+        <div @*class="container"*@>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box_style_2">
+                        <div class="form-horizontal">
+                            <h4>Add CATC</h4>
+                            <hr />
+                            @Html.ValidationSummary(true)
+                            <div class="firstDiv">
+                                <div class="secondDiv">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.CustomerId, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.CustomerId, new { @class = "form-control", id = "custIdTxt" })
+                                            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger errorCustId" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="txtName">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.CustomerName, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.CustomerName, new { @class = "form-control", id = "custNameTxt" })
+                                            @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger errorCustName" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="firstDiv">
+                                <div class="secondDiv">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.CustomerTypeDesc, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.CustomerTypeDesc, new { @class = "form-control", id = "custTypeDescTxt" })
+                                            @Html.ValidationMessageFor(model => model.CustomerTypeDesc, "", new { @class = "text-danger errorCustType" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="txtName">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.AccountStatus, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.AccountStatus, new { @class = "form-control", id = "accStatusTxt" })
+                                            @Html.ValidationMessageFor(model => model.AccountStatus, "", new { @class = "text-danger errorAccStatus" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="firstDiv">
+                                <div class="secondDiv">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.Sector, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.Sector, new { @class = "form-control", id = "sectorTxt" })
+                                            @Html.ValidationMessageFor(model => model.Sector, "", new { @class = "text-danger errorSector" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="txtName">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.CountryName, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.CountryName, new { @class = "form-control", id = "countryNameTxt" })
+                                            @Html.ValidationMessageFor(model => model.CountryName, "", new { @class = "text-danger errorCountryName" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="firstDiv">
+                                <div class="secondDiv">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.City, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.City, new { @class = "form-control", id = "cityTxt" })
+                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="txtName">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.ZipCode, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control", id = "zipTxt" })
+                                            @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="firstDiv">
+                                <div class="secondDiv">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.AddressLine1, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control", id = "addLine1Txt" })
+                                            @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="txtName">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.AddressLine2, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control", id = "addLine2Txt" })
+                                            @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="firstDiv">
+                                <div class="secondDiv">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.WebAddress, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.WebAddress, new { @class = "form-control", id = "webAddressTxt" })
+                                            @Html.ValidationMessageFor(model => model.WebAddress, "", new { @class = "text-danger errorWebAddress" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="txtName">
+                                    <div class="form-group formRegGroupCustom">
+                                        @Html.LabelFor(model => model.Phone, new { @class = "col-sm-4 control-label" })
+                                        <div class="col-md-7">
+                                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", id = "phoneTxt" })
+                                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger errorPhone" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group form-horizontal">
+                                <div class="col-md-offset-5 col-sm-9 CATCsubmitButton">
+                                    @Html.ActionLink("Cancel", "Index", null, new { @class = "button_top addbtn floatLeft btnFocus" })
+                                    <input type="submit" value="Create" class="btnCreateCourse btnFocus" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+</section>
+}
+
+

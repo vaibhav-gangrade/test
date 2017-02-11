@@ -1,0 +1,111 @@
+﻿@model Millionlights.Models.Course
+@{
+    var userName = Session["UserName"];
+    var isCouponValid = ViewBag.ValidCoupon;
+    var isCouponActivated = ViewBag.IsActivated;
+    var courseList = ViewBag.CourseList;
+    var userId = Session["UserID"];
+    var couponCode = ViewBag.CouponCode;
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+<section id="sub-header">
+    <div class="container">
+        <div class="row">
+        @if (isCouponValid == false)
+            {
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2>Invalid Coupon.</h2>
+                    <p class="lead boxed ">Please submit the valid coupon code.</p>
+               
+                </div>
+            }
+            else if(isCouponActivated=="true")
+            { 
+                <div class="col-md-10 col-md-offset-1 text-center">
+                    <h2>The copon is already used,</h2>
+                    <p class="lead boxed ">Check you coupon or Contact support</p>
+
+                </div>
+            }
+            else { 
+            <div class="col-md-10 col-md-offset-1 text-center">
+                <h2>Thank you for visiting the Million Lights application and submitting the coupon code !!</h2>
+                <p class="lead boxed ">Following are the applicable courses, You can activate any one course using this coupon.</p>
+
+            </div>
+            }
+        </div><!-- End row -->
+    </div><!-- End container -->
+    @*<div class="divider_top"></div>*@
+</section>
+<section id="main_content">
+    <div class="container">
+           
+        <div class="row" id="AllCourses">
+            @*<div class="col-sm-2 col-md-2">
+                    @if (userName != null && roleID == 1)
+                    {
+                        @Html.Partial("_StudentNavigation")
+                    }
+                </div>*@
+            <div class="col-md-10 studentView">
+              
+            @if (isCouponValid == true && isCouponActivated=="false")
+            { 
+                if(courseList!=null)
+                { 
+                     <h3 class="chapter_course no_margin_rop">Applicable courses for the activated voucher code@*<a href="#" class="back pull-right">Back</a>*@</h3>
+                    foreach (var course in courseList)
+                    {
+                         
+                        <div class="col-md-12 strip_single_course">
+                            <div class="col-md-4 " style="padding-bottom: 10px;">
+                                <div class="photo">
+                                    <a href="#">
+                                        <img alt="Logo" src="~/Content/learn/img/Test.jpg" style="width:100%;height:40%;">
+
+                                    </a>
+
+                                </div>
+
+                            </div><!-- end strip single course -->
+                            <div class="col-md-8">
+                                <h4><a href="#">@course.CourseName : @course.ShortDescription </a></h4>
+                                <ul>
+                                    <li>&nbsp;&nbsp;<b>Timing:</b><i class="icon-clock"></i>@course.StartDate - @course.EndDate</li>
+                                </ul>
+                                <ul>
+                                    <li>&nbsp;&nbsp;<b>Duration:</b>  @course.Duration Days (@course.Hours hours)</li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        &nbsp;&nbsp;<b>Course Category:</b>  @course.Category
+                                    </li>
+                                </ul>
+                                <ul>
+                                    <li>
+                                        &nbsp;&nbsp;<b>Base Price:</b>  @course.BasePrice
+                                    </li>
+                                </ul>
+                                <ul class="pull-right">
+                                    <li>
+                                        <a class="actCoupon" id="apply" href="/Order/StoreCourseInfo?Id=@course.Id&userId=@userId&vc=@couponCode">Activate</a>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+
+                        </div>
+
+                    }
+                }
+            }
+            </div><!-- End col-md-8  -->
+        </div>
+
+    </div><!-- End container -->
+</section>
+
+
+

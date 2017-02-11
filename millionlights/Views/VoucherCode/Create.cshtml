@@ -1,0 +1,201 @@
+﻿@model Millionlights.Models.VoucherCode
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerList;
+    var courseList = (List<SelectListItem>)ViewBag.CourseList;
+}
+<div id="create-vouchercode">
+    @using (Html.BeginForm("Create", "VoucherCode", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", onsubmit = "return ValidateVouchers()", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+ 
+        <section id="main_content">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class=" box_style_2">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Generate Voucher Codes</h3>
+                                </div>
+                            </div>
+                            <div id="message-contact"></div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.DropDownListFor(m => m.PartnerID, partnerList, "--Select Partner--", new { @class = "form-control style_2", id = "ddlPartner", name = "ddlPartner" })
+                                        @Html.ValidationMessageFor(m => m.PartnerID, "", new { @class = "text-danger ", id = "errorPartnerName" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.DropDownListFor(m => m.CourseId, courseList, new { @class = "form-control style_2", id = "ddlCourse", name = "ddlCourse", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(m => m.CourseId, "", new { @class = "text-danger ", id = "errorCourseName" })
+                                    </div>
+                                    @Html.HiddenFor(m => m.CourseId, new { id = "VisibilityID" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.VoucherType, new { @class = "form-control style_2", id = "voucherTypeTxt", name = "voucherType", placeholder = "Enter Voucher Type" })
+                                        @Html.ValidationMessageFor(m => m.VoucherType, "", new { @class = "text-danger ", id = "errorVoucherType" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control style_2", id = "expiryDateTxt", name = "expiryDate", placeholder = "Enter Expiry Date" })
+                                        @Html.ValidationMessageFor(m => m.ExpiryDate, "", new { @class = "text-danger ", id = "errorExpiryDate" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.Discount, new { @class = "form-control style_2", id = "discountTxt", name = "discount", placeholder = "Enter Discount" })
+                                        @Html.ValidationMessageFor(m => m.Discount, "", new { @class = "text-danger ", id = "errorDiscount" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.AllowedCourses, new { @class = "form-control style_2", id = "maxAllowedCoursesTxt", name = "maxAllowedCourses", placeholder = "Enter Max Course Value" })
+                                        @Html.ValidationMessageFor(m => m.AllowedCourses, "", new { @class = "text-danger ", id = "errorMaxAllowedCourses" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 Partner-btn-div">
+                                    <input type="button" value="Cancel" class="btn btn-danger" id="cancel-button" />
+                                    <input type="submit" value="Submit" class="btn btn-success" id="submit-contact" onclick="ValidateVouchers();" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+</div>
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<link href="~/Content/Multiselct/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/Multiselct/bootstrap-multiselect.js"></script>
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link href="~/Content/learn/css/datepicker.css" rel="stylesheet" />
+<script src="~/Content/learn/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#expiryDateTxt").datepicker();
+    });
+
+    $(function () {
+                                                                                                         
+        $('[id*=ddlCourse]').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+    function assignVisibility() {
+        var selected = $("#ddlCourse option:selected");
+        var message = "";
+        selected.each(function () {
+            message += $(this).val() + ';';
+        });
+        $("#VisibilityID").val(message);
+    }
+
+</script>
+
+
+<script>
+    $('#submit-contact').click(function () {
+        var isValid = true;
+        var partner = $('#ddlPartner')[0].value;
+        var course = $('#ddlCourse')[0].value;
+        var voucherType = $('#voucherTypeTxt')[0].value;
+        var expDate = $('#expiryDateTxt')[0].value;
+        var discount = $('#discountTxt')[0].value;
+        var noOfAllowedCourses = $('#maxAllowedCoursesTxt')[0].value;
+        var selectedCourses = $('ul.multiselect-container').find('li.active');
+        var isAllCoursesSelected = $('ul.multiselect-container').find('li.multiselect-all').hasClass('active');
+
+        if (partner.length == 0) {
+            $('#errorPartnerName')[0].innerHTML = "Please select the partner.";
+            isValid = false;
+        }
+        else {
+            $('#errorPartnerName')[0].innerHTML = "";
+        }
+        if (course.length == 0) {
+            $('#errorCourseName')[0].innerHTML = "Please select the course(s).";
+            isValid = false;
+        }
+        else if (noOfAllowedCourses != "") {
+            if (selectedCourses.length > 0) {
+                if ((isAllCoursesSelected == true) && ((selectedCourses.length - 1) > noOfAllowedCourses)) {
+                    $('#errorCourseName')[0].innerHTML = "Number of allowed course(s) for this voucher is only " + noOfAllowedCourses;
+                    isValid = false;
+                }
+                else if ((isAllCoursesSelected == false) && ((selectedCourses.length) > noOfAllowedCourses)) {
+                    $('#errorCourseName')[0].innerHTML = "Number of allowed course(s) for this voucher is only " + noOfAllowedCourses;
+                    isValid = false;
+                }
+                else {
+                    $('#errorCourseName')[0].innerHTML = "";
+                }
+            }
+        }
+        else {
+            $('#errorCourseName')[0].innerHTML = "";
+        }
+
+        if (voucherType.length == 0) {
+            $('#errorVoucherType')[0].innerHTML = "Please enter voucher type.";
+            isValid = false;
+        }
+        else {
+            $('#errorVoucherType')[0].innerHTML = "";
+        }
+        if (expDate.length == 0) {
+            $('#errorExpiryDate')[0].innerHTML = "Please enter expiry date.";
+            isValid = false;
+        }
+        else {
+            $('#errorExpiryDate')[0].innerHTML = "";
+        }
+        if (discount.length == 0) {
+            $('#errorDiscount')[0].innerHTML = "Please enter discount.";
+            isValid = false;
+        }
+        else {
+            $('#errorDiscount')[0].innerHTML = "";
+        }
+        if (noOfAllowedCourses.length == 0) {
+            $('#errorMaxAllowedCourses')[0].innerHTML = "Please enter allowed courses value.";
+            isValid = false;
+        }
+        else {
+            $('#errorMaxAllowedCourses')[0].innerHTML = "";
+        }
+
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    });
+
+
+    $('#cancel-button').click(function () {
+        window.location.href = "VoucherList"
+        //$("#VoucherList").show();
+        //$("#create-vouchercode").hide();
+    });
+
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

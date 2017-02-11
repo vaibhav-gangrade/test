@@ -1,0 +1,216 @@
+﻿@model Millionlights.Models.Certification
+
+@{
+    var courseList = (List<SelectListItem>)ViewBag.CourseList;
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerList;
+    var catList = (List<SelectListItem>)ViewBag.CatList;
+    int roleID = 0;
+    var userid = Session["UserID"];
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+@using (Html.BeginForm("Edit", "Certification", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value='@userid' name="Userid" />
+    <div class="breadcrumbs breadCrumbAlign" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home/Dashboard">Home</a>
+            </li>
+            <li> <a href="/Partner/Index">Certifications</a></li>
+            <li class="active">Edit Certification</li>
+        </ul>
+    </div>
+    <section id="main_content">
+      
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box_style_2">
+                        <div class="page-header">
+                            <h1>
+                                Certifications
+                                <small>
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                    Edit Certification
+                                </small>
+                            </h1>
+                        </div>
+                        <div id="message-contact"></div>
+
+                        <div class="row">
+                            <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                <div class="form-group regformPadding">
+                                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control ", id = "nameTxt", @placeholder = "Certificate Name" })
+                                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger errorCertName", id = "errorCertName" })
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-5">
+                                <div class="form-group regformPadding">
+                                    @Html.TextBoxFor(m => m.ShortDescription, new { @class = "form-control userregtxt", id = "shortTxt", @placeholder = "Short Description" })
+                                    @Html.ValidationMessageFor(m => m.ShortDescription, "", new { @class = "text-danger errorShort ", id = "errorShort" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                <div class="form-group regformPadding">
+                                    @Html.TextAreaFor(model => model.LongDescription, new { @class = "form-control txtAreaHeight", id = "longTxt", @placeholder = "Long Description" })
+                                    @Html.ValidationMessageFor(model => model.LongDescription, "", new { @class = "text-danger errorLongDescription" })
+                                </div>
+                                <div class="form-group regformPadding">
+                                    @Html.TextBoxFor(m => m.AvailableAttempts, new { @class = "form-control userregtxt", id = "availAttemptTxt", @placeholder = "Available Attempt" })
+                                    @Html.ValidationMessageFor(m => m.AvailableAttempts, "", new { @class = "text-danger errorAvailAttempt ", id = "errorAvailAttempt" })
+                                </div>
+                                <div class="form-group regformPadding">
+                                    @Html.DropDownListFor(m => m.CourseCategoryId, catList, "--Select CourseCategory--", new { @class = "form-control style_2", id = "ddlCourseCat", name = "ddlCourseCat" })
+                                    @Html.ValidationMessageFor(m => m.CourseCategoryId, "", new { @class = "text-danger errorCourseCat", id = "errorCourseCat" })
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-5">
+                                <div class="form-group regformPadding">
+                                    @Html.TextAreaFor(model => model.Objective, new { @class = "form-control txtAreaHeight", id = "objective", @placeholder = "Objective" })
+                                    @Html.ValidationMessageFor(model => model.Objective, "", new { @class = "text-danger errorObjective" })
+                                </div>
+                                <div class="form-group regformPadding">
+                                    @Html.TextBoxFor(m => m.Price, new { @class = "form-control userregtxt", id = "price", @placeholder = "Price" })
+                                    @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger errorPrice", id = "errorPrice" })
+                                </div>
+                                @*<div class="form-group regformPadding">
+                                        @Html.LabelFor(model => model.CertImageLink, new { @class = "control-label" })
+                                        <input type="file" id="uploadiID" name="file" @*onchange="return ValidateFile(this)" class="heightwidthtext form-control" />
+                                        @*<br>
+                                        @Html.ValidationMessageFor(m => m.CertImageLink, "", new { @class = "text-danger ", id = "errorCertimg" })
+                                    </div>*@
+                                @*<div class="form-group regformPadding">
+                                        @Html.TextBoxFor(m => m.Objective, new { @class = "form-control userregtxt objectiveTxt", id = "objective", @placeholder = "Objective" })
+                                        @Html.ValidationMessageFor(m => m.Objective, "", new { @class = "text-danger ", id = "errorObjective" })
+                                    </div>*@
+                                <div class="form-group regformPadding">
+                                    @Html.TextBoxFor(m => m.Benifits, new { @class = "form-control userregtxt", id = "benifits", @placeholder = "Benifits" })
+                                    @Html.ValidationMessageFor(m => m.Benifits, "", new { @class = "text-danger errorBenifits", id = "errorBenifits" })
+                                </div>
+                                @*<div class="form-group regformPadding">
+                                        @Html.DropDownListFor(m => m.PartnerID, partnerList, "--Select Partner--", new { @class = "form-control", id = "ddlPartner" })
+                                        @Html.ValidationMessageFor(model => model.PartnerID, "", new { @class = "text-danger errorPartnerName" })
+                                    </div>*@
+                            </div>
+                        </div>
+                        <div class="hr hr-18 dotted"></div>
+                        <div class="row well">
+                            <div class="col-md-12 Partner-btn-div">
+                                @Html.ActionLink("Cancel", "/Index", null, new { @class = "btn btn-danger" })
+                                <input type="submit" value="Submit" class="btn btn-success" id="submit-certification" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $('#submit-certification').click(function () {
+
+        var isValid = true;
+        var CertName = $('#nameTxt')[0].value;
+        var ShortDesc = $('#shortTxt')[0].value;
+        var LongDesc = $('#longTxt')[0].value;
+        var Objective = $('#objective')[0].value;
+        var AvailableAttempt = $('#availAttemptTxt')[0].value;
+        var Price = $('#price')[0].value;
+        var CourseCat = $('#ddlCourseCat')[0].value;
+        var Benefits = $('#benifits')[0].value;
+
+        if (CertName.length == 0) {
+            $('.errorCertName')[0].innerHTML = "Please enter certification name.";
+            isValid = false;
+        }
+        else {
+            $('.errorCertName')[0].innerHTML = "";
+        }
+        if (ShortDesc.length == 0) {
+            $('.errorShort')[0].innerHTML = "Please enter short description.";
+            isValid = false;
+        }
+        else {
+            $('.errorShort')[0].innerHTML = "";
+        }
+
+        if (LongDesc.length == 0) {
+            $('.errorLongDescription')[0].innerHTML = "Please enter long description.";
+            isValid = false;
+        }
+        else {
+            $('.errorLongDescription')[0].innerHTML = "";
+        }
+        if (Objective.length == 0) {
+            $('.errorObjective')[0].innerHTML = "Please enter objective.";
+            isValid = false;
+        }
+        else {
+            $('.errorObjective')[0].innerHTML = "";
+        }
+        if (AvailableAttempt.length == 0) {
+            $('.errorAvailAttempt')[0].innerHTML = "Please enter available attempt(s).";
+            isValid = false;
+        }
+        else {
+            $('.errorAvailAttempt')[0].innerHTML = "";
+        }
+        if (Price.length == 0) {
+            $('.errorPrice')[0].innerHTML = "Please enter price.";
+            isValid = false;
+        }
+        else {
+            $('.errorPrice')[0].innerHTML = "";
+        }
+        if (CourseCat.length == 0) {
+            $('.errorCourseCat')[0].innerHTML = "Please select course category.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourseCat')[0].innerHTML = "";
+        }
+        if (Benefits.length == 0) {
+            $('.errorBenifits')[0].innerHTML = "Please enter benefits.";
+            isValid = false;
+        }
+        else {
+            $('.errorBenifits')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    });
+</script>
+

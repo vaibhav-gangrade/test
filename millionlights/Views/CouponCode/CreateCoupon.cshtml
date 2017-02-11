@@ -1,0 +1,1021 @@
+﻿ @model Millionlights.Models.Coupon
+@{
+    ViewBag.Title = "Create";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = Session["UserID"];
+    var benifitlist = (List<SelectListItem>)ViewBag.BenifitId;
+    var courseList = (List<SelectListItem>)ViewBag.CourseList;
+    var statusList = (List<SelectListItem>)ViewBag.StatusId;
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerID;
+    var tmepUsersList = (List<SelectListItem>)ViewBag.TmpUsersList;
+    //var userEmailsList = (List<SelectListItem>)ViewBag.UserEmailId;
+    var actCouponCount = ViewBag.ActivateCoupons;
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+        <li> <a href="/CouponCode/AllCoupons">Coupons</a></li>
+        <li class="active">Generate Coupons</li>
+    </ul>
+</div>
+
+@using (Html.BeginForm(new { encType = "multipart/form-data", id = "Couponform", name = "myform", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <input type="hidden" value=@userId name="Userid" />
+    <section id="wizard_bg">
+        <div @*class="container"*@ style="width:100%!important">
+            <div id="survey_container">
+                <div id=""></div>
+                <div class="row ">
+                    <div class="step row stepone" id="step1">
+                        <div class="col-md-12">
+                            <div class="page-header">
+                                <h1>
+                                    Coupons
+                                    <small>
+                                        <i class="ace-icon fa fa-angle-double-right"></i>
+                                        Generate Coupon(s)
+                                    </small>
+                                </h1>
+                            </div>
+                            <ul class="listyleNone">
+                                <li class="controlmargintop" style="margin-left:1%;">
+                                    @Html.DropDownListFor(model => model.PartnerID, partnerList, "---Select Partner---", new { @style = "width:99%;height:35px;", id = "ddlPartner" })
+                                    @Html.ValidationMessageFor(model => model.PartnerID, "", new { @class = "text-danger errorPartner" })
+                                </li>
+                                <li class="controlmargintop listStyleNone" style="margin-left:1%;">
+                                    @Html.DropDownListFor(model => model.CourseId, courseList, new { @style = "width:100%;height:35px;", id = "ddlCourse", @class = "selectCourse", name = "ddlCourse", @multiple = "multiple" })
+                                    @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger errorCourse" })
+                                    @Html.HiddenFor(m => m.CourseId, new { id = "VisibilityID" })
+                                </li>
+                            </ul>
+                            <div class="col-md-6" style="margin-top:-8px;">
+                                <ul class="data-list">
+                                    <li class="controlmargintop listStyleNone">
+                                        @Html.DropDownListFor(model => model.BenifitType, benifitlist, "---Select Benefit Type---", new { @style = "width:100%;height:35px;", id = "ddlBenifit" })
+                                        @Html.ValidationMessageFor(model => model.BenifitType, "", new { @class = "text-danger errorBenifit" })
+                                    </li>
+                                    <li class="controlmargintop listStyleNone">
+                                        @Html.TextBoxFor(model => model.ValidFrom, new { @class = "form-control datepicker", id = "datepicker1", @placeholder = "Valid From-Date" })
+                                        @Html.ValidationMessageFor(model => model.ValidTo, "", new { @class = "text-danger errorValidFrom" })
+                                    </li>
+
+                                    <li class="controlmargintop listStyleNone">
+                                        @Html.TextBoxFor(m => m.AllowedCourses, new { @class = "form-control style_2", id = "maxAllowedCoursesTxt", name = "maxAllowedCourses", placeholder = "No. of courses to be Reedeem", onkeypress = "return isIntegerKey(event)" })
+                                        @Html.ValidationMessageFor(m => m.AllowedCourses, "", new { @class = "text-danger  errorMaxAllowedCourses", id = "errorMaxAllowedCourses" })
+                                    </li>
+
+                                    <li class="controlmargintop listStyleNone">
+                                        <div class="redeemMarg">
+                                            @Html.LabelFor(model => model.MultiRedeem, new { @class = "control-label col-xs-12 col-sm-4 no-padding-right", @style = "margin-left: -2%;" })
+                                            <div class="col-xs-12 col-sm-8">
+                                                <div class="chkMarg">
+                                                    @Html.CheckBoxFor(model => model.MultiRedeem, new { id = "MultiRmdChk", @class = "redeemChksize", @checked = "checked", name = "MultiRedeem" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6" style="margin-top:-8px;">
+                                <ul class="data-list" style="margin:0; padding:0;">
+                                    <li class="controlmargintop listStyleNone">
+
+                                        @Html.TextBoxFor(m => m.DiscountPrice, new { @class = "form-control style_2", id = "Discounttxt", name = "Discount", placeholder = "Enter Discount in %", onkeypress = "return isIntegerKey(event)" })
+                                        @Html.ValidationMessageFor(m => m.DiscountPrice, "", new { @class = "text-danger  errorDiscount", id = "errorDiscount" })
+                                    </li>
+                                    <li class="controlmargintop listStyleNone">
+                                        @Html.TextBoxFor(model => model.ValidTo, new { @class = "form-control datepicker", id = "datepicker2", @placeholder = "Valid To-Date" })
+                                        @Html.ValidationMessageFor(model => model.ValidTo, "", new { @class = "text-danger errorValidTo" })
+                                    </li>
+                                    <li class="controlmargintop listStyleNone">
+                                        @Html.TextBoxFor(m => m.IsActive, new { @class = "form-control style_2", id = "maxAllowedCouponTxt", name = "maxAllowedCourses", placeholder = "No. of coupons to generate", onkeypress = "return isIntegerKey(event)" })
+                                        @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger errorMaxCoupon", id = "errorMaxAllowedCourses" })
+                                    </li>
+                                </ul>
+                            </div><!-- end col-md-6 -->
+                        </div>
+                    </div><!-- end step1-->
+
+                    <div class="step row steptwo" id="step2">
+                        <div class="col-md-12">
+                            <h3 class="col-md-12">Assign Users</h3>
+                            <label class="text-danger errorMsg"></label>
+                            <div id="radiolist" style=" margin-top: -2%; margin-left: 3%;">
+                                <div id="ExistingUsers">
+                                    <ul class="">
+                                        <li class="controlmargintop floatLeft listStyleNone col-md-12 assignCoupon">
+                                            <input type="radio" name="assignUser" id="exitUser" class="asignRdb" value="exitUser" onclick="RdbExistUser()" /><label>Registered Users</label><br />
+                                        </li>
+                                    </ul>
+                                    <div class="existUser">
+                                        <ul>
+                                            <li class="controlmargintop listStyleNone ">
+                                                <select id="ddlUsers" name="ddlUsers" multiple="multiple" style="width:100%;height:30px;"></select>
+                                                @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorExitUser" })
+                                                @Html.HiddenFor(m => m.EmailId, new { id = "VisibilityID" })
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div id="CSVUsers">
+                                    <ul>
+                                        <li class="controlmargintop floatLeft listStyleNone col-md-12 assignCoupon">
+                                            <input type="radio" name="assignUser" id="importUser" class="asignRdb" value="CSVUser" onclick="RdbCSVUser()" /><label>Import Users From CSV File</label>
+                                        </li>
+                                    </ul>
+                                    <div class="CSVDiv">
+                                        <ul class=" col-md-12 csvUser listyleNone ">
+                                            <li class="selectSVC col-md-3">
+                                                <label>Select CSV File:</label>
+                                            </li>
+                                            <li class="col-md-8 chooseFile">
+                                                <form id="files" method="post" enctype="multipart/form-data">
+                                                    <input type="file" id="uploadID" name="file" accept=".csv" class="heightwidthtext form-control fileUpload col-md-4" />
+                                                    <label class="text-danger errorCSVFile"></label>
+                                                    <input type="submit" id="btnUpload" class="importBtn" value="Upload" name="Upload" onclick="return UploadFile()" />
+                                                    <label class="text-danger errorImportCSVFile"></label>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label id="ImportCSVFileMsg" class="lblMsg" style="  margin-left: 6%!important;color:red!important;"></label>
+                            </div>
+                        </div>
+                    </div><!-- end step2 -->
+
+                    <div class="step stepthree" id="step3">
+                        <div class="">
+                            <div class="row ">
+                                <h4 class="confirmLbl">Confirm and Submit</h4>
+                                <div style="padding: 0 10%;">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class="">
+                                                <label>Partner Name :</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class=" ">
+                                                @Html.LabelFor(m => m.PartnerName, new { @class = "form-control ", id = "PartnernameTxt" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class="">
+                                                <label>Benefit in % :</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class="">
+                                                @Html.LabelFor(m => m.BenefitName, new { @class = "form-control userregtxt", id = "BenefitNameTxt" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class="">
+                                                <label>Course Name :</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class="">
+                                                @Html.LabelFor(m => m.CourseId, new { @class = "form-control userregtxt", id = "CourseName", @style = "height:90px;" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class=" ">
+                                                <label>Valid From/To :</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class="">
+                                                @Html.LabelFor(m => m.ValidFrom, new { @class = "form-control userregtxt", id = "ValidFromTxt", @placeholder = "ValidFrom" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class="">
+                                                <label>No of Courses :</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class="">
+                                                @Html.LabelFor(m => m.AllowedCourses, new { @class = "form-control userregtxt wrapTxt", id = "AllowedCoursesTxt", @placeholder = "AllowedCourses", @style = " word-wrap: break-word!important;" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class=" ">
+                                                <label>No of Coupons :</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class="">
+                                                @Html.LabelFor(m => m.IsActive, new { @class = "form-control userregtxt", id = "NoOfCouponTxt", @placeholder = "NoOfCoupon" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="AssignUserDiv" class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class=" ">
+                                                <label>Assign to Users:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class="">
+                                                @Html.LabelFor(m => m.IsActive, new { @class = "form-control userregtxt wrapTxt", id = "AssignToUserTxt", @placeholder = "Existing users", @style = "height:90px; word-wrap: break-word!important;" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="MultiRedeemDiv" class="row">
+                                        <div class="col-md-2 col-sm-2">
+                                            <div class=" ">
+                                                <label>Multi Redeem:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-6 confirmCouponLbl">
+                                            <div class="">
+                                                @Html.LabelFor(m => m.MultiRedeem, new { @class = "form-control userregtxt wrapTxt", id = "MultiRdmTxt", @placeholder = "Multi Redeem"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @Html.HiddenFor(model => model.PartnerID, new { id = "partnerId" })
+                                @Html.HiddenFor(model => model.BenifitId, new { id = "BenifitId" })
+                                @Html.HiddenFor(model => model.CourseId, new { id = "courseId" })
+                                @Html.HiddenFor(model => model.CreatedBy, new { id = "userId" })
+                                <input type="hidden" name="NoOfCoupons" id="NoOfCouponHidden" />
+                                <input type="hidden" name="courseidList" id="coursesID" />
+                                <input type="hidden" name="assignUserList" id="AssignUID" />
+                                <input type="hidden" name="assignTempUserList" id="TempUIDHidden" />
+                                <input type="hidden" name="CSVFilePath" id="CSVFilePath" />
+                                <div class="form-group formGroupCustom">
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end step3 -->
+                    <div class="hr hr-18 dotted"></div>
+                    <div id="bottom-wizard" class="well">
+                        <div style="text-align:center">
+                            <button type="button" name="backward" class="btn btn-danger" id="back" onclick="Backward(this)">Back</button>
+                            <button type="button" name="backward" class="btn btn-danger" id="cancel" onclick="Cancel(this)">Cancel</button>
+                            <button type="button" name="forward" id="forword" class="btn btn-success" onclick="Forword(this)">Next</button>
+                            <button type="button" name="Skip" id="Skip" class="btn btn-pink" onclick="SkipPage(this)">Skip </button>
+                            <button type="submit" name="Generate" id="GenerateBtn" class="btn btn-success">Generate </button>
+                        </div>
+                    </div><!-- end bottom-wizard -->
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<!-- Modal -->
+
+<div id="SuccessMSG" class="modal fade" backdrop="static">
+    <div class="modal-dialog">
+        <div class="modalPopup">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-7" style="text-align:center">
+                            <label id="SuccessMSGLbl"> </label>
+                            <div class="generatPopupBtn">
+                                <button type="button" name="forward" id="Okbtn" class="btnRegister btnForword" onclick="Cancel(this)">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<link href="~/Content/Multiselct/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/Multiselct/courses-multiselect.js"></script>
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link href="~/Content/learn/css/datepicker.css" rel="stylesheet" />
+<script src="~/Content/learn/js/bootstrap-datepicker.js"></script>
+<script src="~/Scripts/JS/jquery.csv-0.71.js"></script>
+<script src="~/Scripts/JS/jquery.blockUI.js"></script>
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script type="text/javascript">
+   
+    function isIntegerKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if ((charCode >= 48 && charCode <= 57) || charCode == 8 || charCode == 46)
+            return true;
+        return false;
+    }
+    var csvFileData = [];
+    var selectedCourse = [];
+    var selectedUsers = [];
+    var rdBtnExistingUser = '';
+    var userid = '@userId'
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            startDate: '-0d'
+        }).val('');
+   
+        $("#MultiRedeemDiv").addClass('displayNone')
+        var isMultiple = $("#MultiRmdChk")[0].checked;
+        if (userid == '') {
+       
+            var url = "/Account/Login";
+            window.location.href = url;
+        }
+        var dateToday = new Date();
+        $('.existUser').hide();
+        $('.CSVDiv').hide();
+        $('.tmpUser').hide();
+        $('[id*=ddlCourse]').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: '---Select Courses---',
+        });
+        $('[id*=ddlTempUser]').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: '---Select prospective Users---',
+            header: false
+        });
+
+        $("#step2").hide();
+        $("#step3").hide();
+        var aactCoupon = '@actCouponCount';
+        if (aactCoupon != "") {
+            $("#ActCountModel").modal('show');
+        }
+        $("#datepicker1").datepicker({minDate: 0});
+        $("#datepicker2").datepicker({ minDate: 0 });
+        $("#datepicker3").datepicker({ minDate: 0 });
+        $("#step2").hide();
+        $("#step3").hide();
+        $("#GenerateBtn").hide();
+        $("#back").hide();
+        $("#Skip").hide();
+        $("#AssignUserDiv").hide();
+        $("#AssignUserDiv2").hide();
+        $("#IsNotification").hide();
+
+        //Attach click handler to the submit button:
+        $('#GenerateBtn').click(function (event) {
+           
+            event.preventDefault();
+            var CouponCount = $('#maxAllowedCouponTxt')[0].value;;
+            $('#NoOfCouponHidden')[0].value = CouponCount;
+           
+            waitForTime();
+            CouponFormSubmit();
+        });
+        $('#Okbtn').click(function () {
+            CouponFormSubmit();
+        });
+    });
+    function waitForTime() {
+        $.blockUI({ message: '<h4><img src="../Images/loading.gif" />Loading Data Please wait....</h4>' });
+        return true;
+    }
+    function CouponFormSubmit() {
+     
+        // var formData = $(".form-horizontal").serialize();
+        var Couponform = $($('form')[0]).attr('id', 'Couponform')
+        var formData = $(Couponform).serialize();
+        $.ajax({
+            url: "/CouponCode/GenerateCoupon",
+            type: "POST",
+            data: formData,
+            dataType: "json",
+            success: function (resp) {
+                successCoupon(resp);
+            },
+            error: function (data) {
+            }
+
+        });
+        return false;
+    }
+
+    function successCoupon(CouponTag) {
+    
+        setTimeout(function () {
+            $.unblockUI();
+        }, 1);
+        var couponCount = $('#maxAllowedCouponTxt')[0].value;
+        bootbox.dialog({
+            message: " " + couponCount + " " + "Coupons generated successfully.To view coupons search by tag for " + CouponTag,
+            buttons: {
+                "success": {
+
+                    "label": "OK",
+                    "className": "btn-sm btn-primary",
+                    callback: function (event) {
+                        location.href = '/CouponCode/AllCoupons';
+                    }
+                }
+            }
+        });
+    }
+    function Cancel() {
+        window.location.href = "/CouponCode/AllCoupons";
+    }
+    function UploadFile() {
+        var fileInput = $('#uploadID');
+        var isFile = fileInput[0].files.length;
+        if (isFile != 0) {
+            waitForTime();
+            $('.errorImportCSVFile')[0].innerHTML = "";
+            var formData = new FormData();
+
+            var couponCount = $('#maxAllowedCouponTxt')[0].value;
+            if (couponCount == null) {
+                couponCount = 0;
+            }
+            formData.append(fileInput[0].files[0].name, fileInput[0].files[0]);
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: formData,
+                url: "/CouponCode/UploadCSVFile",
+                success: function (response) {
+                    setTimeout(function () {
+                        $.unblockUI();
+                    }, 1);
+                    var resp = JSON.parse(response);
+                    $('#ImportCSVFileMsg')[0].innerHTML = resp.count + " " + "number of users are found in the file. First " + " " + couponCount + " " + "users will be assigned to the Coupons. Click Next to continue or Skip to generate coupons without users assignment.";
+                    $("#CSVFilePath")[0].value = resp.path;
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+                error: function (response) {
+                }
+            });
+        } else {
+            $('.errorCSVFile')[0].innerHTML = "You need to chose the file first.!";
+        }
+        return false;
+    }
+    function RdbExistUser() {
+        $('.errorMsg')[0].innerHTML = "";
+        $('#ImportCSVFileMsg')[0].innerHTML = "";
+        rdBtnExistingUser = "true";
+        $('.tmpUser').hide();
+        $('.existUser').show();
+        $('.CSVDiv').hide();
+        $('#ImportCSVFileMsg').hide();
+        $('#CSVFilePath')[0].value = "";
+        $('#TempUIDHidden')[0].value = null;
+    }
+    function RdbTempUser() {
+        $('.errorMsg')[0].innerHTML = "";
+        $('#ImportCSVFileMsg')[0].innerHTML = "";
+        rdBtnExistingUser = "true";
+        $('.existUser').hide();
+        $('.CSVDiv').hide();
+        $('.tmpUser').show();
+        $('#ImportCSVFileMsg').hide();
+        $('#CSVFilePath')[0].value = "";
+        $('#AssignUID')[0].value = null;
+    }
+
+    function RdbCSVUser() {
+        $('.errorMsg')[0].innerHTML = "";
+        $('#ImportCSVFileMsg')[0].innerHTML = "";
+        rdBtnExistingUser = "false";
+        $('.CSVDiv').show();
+        $('.existUser').hide();
+        $('.tmpUser').hide();
+        $('#ImportCSVFileMsg').show();
+        $('#AssignUID')[0].value = null;
+        $('#TempUIDHidden')[0].value = null;
+
+    }
+    function DisplayNotification() {
+        $("#IsNotification").show();
+    }
+    function HideNotification() {
+        $("#IsNotification").hide();
+    }
+
+    function Backward(ctrl) {
+        if ($(ctrl).parent().parent().parent().find('#step1')[0].style.display === "block") {
+        }
+        else if ($(ctrl).parent().parent().parent().find('#step2')[0].style.display== "block") {
+            $("#step1").show();
+            $("#step2").hide();
+            $("#step3").hide();
+            $("#forword").show();
+            $("#back").hide();
+            $("#GenerateBtn").hide();
+            $("#Skip").hide();
+            $("#cancel").show();
+            $("#ImportCSVFileMsg")[0].innerHTML = "";
+            var allCorse = $('#ddlCourse')[0];
+            for (var i = 0; i < $('#ddlCourse')[0].length; i++) {
+
+                if ($('#ddlCourse')[0][i].selected == true) {
+                   selectedCourse.pop({ id: $('#ddlCourse')[0][i].value, val: $('#ddlCourse')[0][i].innerText })
+                }
+            }
+            $('#userId')[0].value = userid;
+            for (var i = 0; i < $('#ddlUsers')[0].length; i++) {
+
+                if ($('#ddlUsers')[0][i].selected == true) {
+                    selectedUsers.pop({ id: $('#ddlUsers')[0][i].value, val: $('#ddlUsers')[0][i].innerText })
+                }
+            }
+            $('#AssignToUserTxt')[0].innerHTML = "";
+        }
+        else if ($(ctrl).parent().parent().parent().find('#step3')[0].style.display === "block") {
+            if (isMultiple == true) {
+                $("#step2").hide();
+                $("#step1").show();
+                $("#step3").hide();
+
+                $("#forword").show();
+                $("#back").hide();
+                $("#GenerateBtn").hide();
+                $("#Skip").hide();
+                $("#cancel").show();
+                $("#ImportCSVFileMsg")[0].innerHTML = "";
+               
+               }
+            else {
+                $("#step2").show();
+                $("#step1").hide();
+                $("#step3").hide();
+                $("#forword").show();
+                $("#back").show();
+                $("#GenerateBtn").hide();
+                $("#Skip").show();
+                $("#cancel").hide();
+            }
+            var allCorse = $('#ddlCourse')[0];
+            for (var i = 0; i < $('#ddlCourse')[0].length; i++) {
+                if ($('#ddlCourse')[0][i].selected == true) {
+                    selectedCourse.pop({ id: $('#ddlCourse')[0][i].value, val: $('#ddlCourse')[0][i].innerText })
+                }
+            }
+            $('#userId')[0].value = userid;
+            for (var i = 0; i < $('#ddlUsers')[0].length; i++) {
+
+                if ($('#ddlUsers')[0][i].selected == true) {
+                    selectedUsers.pop({ id: $('#ddlUsers')[0][i].value, val: $('#ddlUsers')[0][i].innerText })
+                }
+            }
+            $('#AssignToUserTxt')[0].innerHTML = "";
+        }
+
+    }
+
+    function validateAssign() {
+        var isValid = true;
+        if ($('#exitUser').is(':checked') && $('#importUser').is(':checked')) {
+            isValid = true;
+        }
+        else if ($('#exitUser').is(':checked') || $('#importUser').is(':checked')) {
+            isValid = true;
+        }
+        else {
+            $('.errorMsg')[0].innerHTML = "Please select from below options to assign coupons to the users.";
+            isValid = false;
+        }
+
+        if ($('input:radio[name=assignUser]:checked').val() == "exitUser") {
+            $('.errorMsg')[0].innerHTML = "";
+            $('#ImportCSVFileMsg')[0].innerHTML = "";
+
+            var ddlUsers = $("#ddlUsers option:selected").text();
+
+
+            //   var ddlUsers = $("#ddlUsers")[0].value;
+            if (ddlUsers == "") {
+                $('.errorExitUser')[0].innerHTML = "Please select exiting users.";
+
+                isValid = false;
+            }
+            else {
+                $('.errorExitUser')[0].innerHTML = "";
+            }
+        }
+        else if ($('input:radio[name=assignUser]:checked').val() == "CSVUser") {
+            $('#ImportCSVFileMsg')[0].innerHTML = "";
+            var csv = $('#uploadID')[0].value;
+            var csvpath = $('#CSVFilePath')[0].value;
+            if (csv.length == 0) {
+                $('.errorCSVFile')[0].innerHTML = "Please Select CSV file to Upload.";
+                isValid = false;
+            }
+            else if (csvpath == "") {
+                $('.errorCSVFile')[0].innerHTML = "";
+                $('.errorImportCSVFile')[0].innerHTML = "You need to upload the file first.!";
+                $('#ImportCSVFileMsg')[0].innerHTML = "";
+                isValid = false;
+            }
+            else {
+                $('.errorCSVFile')[0].innerHTML = "";
+                $('.errorImportCSVFile')[0].innerHTML = "";
+            }
+        }
+
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+    function Forword(ctrl) {
+        var isValid = true;
+        if ($(ctrl).parent().parent().parent().find('#step1')[0].style.display == "" || $(ctrl).parent().parent().parent().find('#step1')[0].style.display == "block") {
+            isValid = validateStep1();
+            if (isValid == true) {
+                isMultiple = $("#MultiRmdChk")[0].checked;
+                if (isMultiple == true) {
+                    $("#step2").hide();
+                    $("#step1").hide();
+                    $("#step3").show();
+
+                    $("#forword").hide();
+                    $("#back").show();
+                    $("#back").removeAttr('disabled');
+                    $("#Skip").hide();
+                    $("#GenerateBtn").show();
+                    $("#cancel").hide();
+                    $("#MultiRedeemDiv").removeClass('displayNone')
+                    $("#MultiRdmTxt")[0].innerHTML = "Yes";
+                    $("#AssignUserDiv").hide();
+                    $("#AssignUserDiv2").hide();
+                    $("#cancel").hide();
+                    var partId = $('#ddlPartner')[0];
+                    $('#PartnernameTxt')[0].innerHTML = partId.options[partId.selectedIndex].text
+
+                    $('#BenefitNameTxt')[0].innerHTML = $('#Discounttxt')[0].value
+                    $('#AllowedCoursesTxt')[0].innerHTML = $('#maxAllowedCoursesTxt')[0].value;
+                    $('#ValidFromTxt')[0].innerHTML = $('#datepicker1 ')[0].value + " - " + $('#datepicker2')[0].value;
+                    $('#NoOfCouponTxt')[0].innerHTML = $('#maxAllowedCouponTxt')[0].value;
+
+                    var allCorse = $('#ddlCourse')[0];
+                    for (var i = 0; i < $('#ddlCourse')[0].length; i++) {
+
+                        if ($('#ddlCourse')[0][i].selected == true) {
+                            selectedCourse.push({ id: $('#ddlCourse')[0][i].value, val: $('#ddlCourse')[0][i].innerText })
+                        }
+                    }
+                    var add = '';
+                    var addId = '';
+                    for (var i = 0; i < selectedCourse.length; i++) {
+                        var cousAdd = selectedCourse[i].val;
+                        add = cousAdd + "," + add;
+                        add = add.replace(/,\s*$/, "");
+                        $('#CourseName')[0].innerHTML = add;
+
+
+                    }
+                    for (var i = 0; i < selectedCourse.length; i++) {
+                        var cousAddId = selectedCourse[i].id;
+                        addId = cousAddId + "," + addId;
+                        addId = addId.replace(/,\s*$/, "");
+                    }
+
+                    $('#coursesID')[0].value = addId;
+                    $('#userId')[0].value = userid;
+                    $('#AssignUID')[0].value = null;
+                    $('#CSVFilePath')[0].value = null;
+                    $('#TempUIDHidden')[0].value = null;
+                }
+                else {
+                    $("#step2").show();
+                    $("#step1").hide();
+                    $("#step3").hide();
+                    $("#forword").show();
+                    $("#back").show();
+                    $("#back").removeAttr('disabled');
+                    $("#Skip").show();
+                    $("#GenerateBtn").hide();
+                    $("#cancel").hide();
+                    $("#MultiRdmTxt")[0].innerHTML = "No";
+                }
+               
+               
+                $("#ImportCSVFileMsg")[0].innerHTML = "";
+                $("#NoOfCouponHidden")[0].value = $("#maxAllowedCouponTxt")[0].value;
+                var benifitId = $('#ddlBenifit')[0];
+                $('#BenifitId')[0].value = benifitId.options[benifitId.selectedIndex].value;
+                var pId = $('#ddlPartner')[0];
+                var partnerId = pId.options[pId.selectedIndex].value;
+                
+                if (partnerId != "") {
+                    var tempResponse = '';
+                    $.ajax({
+                        type: "POST",
+                        async: false,
+                        data: JSON.stringify({ "partnerId": partnerId }),
+                        contentType: 'application/json; charset=utf-8',
+                        url: "/CouponCode/UserListOnPartnerSelect",
+                        success: function (response) {
+                            tempResponse = response;
+                            $('#ddlUsers option').each(function (index, option) {
+                                $(option).remove();
+                            });
+                            
+                            for (var cnt = 0; cnt < response.length; cnt++) {
+                                $('#ddlUsers').append("<option value='" + response[cnt].Value + "'>" + response[cnt].Text + "</option>");
+                            }
+                            $('#ddlUsers').multiselect({
+                                nonSelectedText: '---Select existing Users---',
+                                includeSelectAllOption: true
+                            });
+                        },
+                        error: function (response) {
+                        }
+                    });
+                }
+            }
+        }
+        else if ($(ctrl).parent().parent().parent().find('#step2')[0].style.display == "block") {
+            isValid = validateAssign();
+
+            if (isValid == true) {
+                var fileData = $("#uploadID").value;
+                var ddlUsers = $("#ddlUsers").value;
+                if (fileData != "" || ddlUsers != "") {
+                    $("#step3").show();
+                    $("#step2").hide();
+                    $("#step1").hide();
+                    $("#forword").hide();
+                    $("#back").show();
+                    $("#cancel").hide();
+                    $("#Skip").hide();
+                    $("#MultiRedeemDiv").removeClass('displayNone')
+                    $("#MultiRdmTxt")[0].innerHTML = "No";
+                    if (rdBtnExistingUser == "true") {
+                        $("#AssignUserDiv").show();
+                        $("#AssignUserDiv2").hide();
+                    }
+                    if (rdBtnExistingUser == "false") {
+                        $("#AssignUserDiv2").show();
+                        $("#AssignUserDiv").hide();
+                    }
+                    $("#GenerateBtn").show();
+                    var partId = $('#ddlPartner')[0];
+                    $('#PartnernameTxt')[0].innerHTML = partId.options[partId.selectedIndex].text
+
+                    $('#BenefitNameTxt')[0].innerHTML = $('#Discounttxt')[0].value
+                    $('#AllowedCoursesTxt')[0].innerHTML = null;
+                    $('#AllowedCoursesTxt')[0].innerHTML = $('#maxAllowedCoursesTxt')[0].value;
+                    $('#ValidFromTxt')[0].innerHTML = $('#datepicker1 ')[0].value + " - " + $('#datepicker2')[0].value;
+                    $('#NoOfCouponTxt')[0].innerHTML = $('#maxAllowedCouponTxt')[0].value;
+
+                    var allCorse = $('#ddlCourse')[0];
+                    for (var i = 0; i < $('#ddlCourse')[0].length; i++) {
+                        if ($('#ddlCourse')[0][i].selected == true) {
+                            selectedCourse.push({ id: $('#ddlCourse')[0][i].value, val: $('#ddlCourse')[0][i].innerText })
+                        }
+                    }
+                    var add = '';
+                    var addId = '';
+                    for (var i = 0; i < selectedCourse.length; i++) {
+                        var cousAdd = selectedCourse[i].val;
+                        add = cousAdd + "," + add;
+                        add = add.replace(/,\s*$/, "");
+                        $('#CourseName')[0].innerHTML = null;
+                        $('#CourseName')[0].innerHTML = add;
+                    }
+
+                    for (var i = 0; i < selectedCourse.length; i++) {
+                        var cousAddId = selectedCourse[i].id;
+                        addId = cousAddId + "," + addId;
+                        addId = addId.replace(/,\s*$/, "");
+                    }
+
+                    $('#coursesID')[0].value = addId;
+
+                    $('#userId')[0].value = userid;
+                    for (var i = 0; i < $('#ddlUsers')[0].length; i++) {
+
+                        if ($('#ddlUsers')[0][i].selected == true) {
+                            selectedUsers.push({ id: $('#ddlUsers')[0][i].value, val: $('#ddlUsers')[0][i].innerText })
+                        }
+                    }
+                    var addUsers = '';
+                    var addUsersId = '';
+                    for (var i = 0; i < selectedUsers.length; i++) {
+                        var userAdd = selectedUsers[i].val;
+                        addUsers = userAdd + "," + addUsers;
+                        addUsers = addUsers.replace(/,\s*$/, "");
+                        if (rdBtnExistingUser == "true") {
+                            if (addUsers != ",") {
+                                $('#AssignToUserTxt')[0].innerHTML = addUsers;
+                            }
+                        }
+                    }
+
+                    for (var i = 0; i < selectedUsers.length; i++) {
+                        var UserAddId = selectedUsers[i].id;
+                        addUsersId = UserAddId + "," + addUsersId;
+                        addUsersId = addUsersId.replace(/,\s*$/, "");
+                        if (addUsersId != '') {
+                            $('#AssignUID')[0].value = addUsersId;
+                            $('#CSVFilePath')[0].value = "";
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function validateStep1() {
+        var isValid = true;
+        var ddlPartner = $("#ddlPartner")[0].value;
+        var ddlCourse = $("#ddlCourse")[0].value;
+        var benifit = $("#ddlBenifit")[0].value;
+        var fromDate = $("#datepicker1")[0].value;
+        var toDate = $("#datepicker2")[0].value;
+        var discount = $("#Discounttxt")[0].value;
+        var noCoupon = $("#maxAllowedCouponTxt")[0].value;
+        var allowCourses = $("#maxAllowedCoursesTxt")[0].value;
+        var crsLength = $('#ddlCourse')[0].length;
+        var coursecount = 0;
+        for (var i = 0; i < crsLength; i++) {
+            if ($("#ddlCourse")[0][i].selected) {
+                coursecount += 1;
+            }
+        }
+        if (ddlPartner == "") {
+            $('.errorPartner')[0].innerHTML = " Please select a Partner.";
+            isValid = false;
+        }
+        else {
+            $('.errorPartner')[0].innerHTML = "";
+        }
+        if (ddlCourse == "") {
+            $('.errorCourse')[0].innerHTML = "Please select a Course/Courses.";
+            isValid = false;
+        }
+        else {
+            $('.errorCourse')[0].innerHTML = "";
+        }
+        if (benifit == "") {
+            $('.errorBenifit')[0].innerHTML = " Please Select Benefit Type and enter the benefit you want to provide.";
+            isValid = false;
+        }
+        else {
+            $('.errorBenifit')[0].innerHTML = "";
+        }
+        if (allowCourses.length == 0) {
+            $('.errorMaxAllowedCourses')[0].innerHTML = "Please enter maximum allowed courses.";
+            isValid = false;
+        }
+          
+        else if (allowCourses > coursecount) {
+            $('.errorMaxAllowedCourses')[0].innerHTML = "Allowed courses cannot be more than selected courses.";
+            isValid = false;
+        }
+        else {
+            $('.errorMaxAllowedCourses')[0].innerHTML = "";
+        }
+        if (noCoupon.length == 0) {
+            $('.errorMaxCoupon')[0].innerHTML = "Please enter the Number of Coupons to generate.";
+            isValid = false;
+        }
+        else {
+            $('.errorMaxCoupon')[0].innerHTML = "";
+        }
+        if (discount.length == 0) {
+            $('.errorDiscount')[0].innerHTML = " Please enter the discount.";
+            isValid = false;
+        }
+        else {
+            $('.errorDiscount')[0].innerHTML = "";
+        }
+
+        if (fromDate.length == 0) {
+            $('.errorValidFrom')[0].innerHTML = "Please enter Valid ‘From Date’.";
+            isValid = false;
+        }
+        else {
+            $('.errorValidFrom')[0].innerHTML = "";
+        }
+        if (toDate.length == 0) {
+            $('.errorValidTo')[0].innerHTML = "Please enter Valid ‘To Date’";
+            isValid = false;
+        }
+        else {
+            $('.errorValidTo')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function SkipPage(ctrl) {
+
+        //if ($(ctrl).parent().parent().find('.step')[0].style.display == "block") {
+        //    $("#step3").show();
+        //}
+        if ($(ctrl).parent().parent().parent().find('#step2')[0].style.display == "block") {
+            $("#step3").show();
+            $("#step2").hide();
+            $("#step1").hide();
+            $("#forword").hide();
+            $("#back").show();
+            $("#Skip").hide();
+            $("#GenerateBtn").show();
+            $("#AssignUserDiv").hide();
+            $("#AssignUserDiv2").hide();
+            $("#cancel").hide();
+            $("#MultiRedeemDiv").removeClass('displayNone')
+            $("#MultiRdmTxt")[0].innerHTML = "No";
+            var partId = $('#ddlPartner')[0];
+            $('#PartnernameTxt')[0].innerHTML = partId.options[partId.selectedIndex].text
+
+            $('#BenefitNameTxt')[0].innerHTML = $('#Discounttxt')[0].value
+            $('#AllowedCoursesTxt')[0].innerHTML = $('#maxAllowedCoursesTxt')[0].value;
+            $('#ValidFromTxt')[0].innerHTML = $('#datepicker1 ')[0].value + " - " + $('#datepicker2')[0].value;
+            $('#NoOfCouponTxt')[0].innerHTML = $('#maxAllowedCouponTxt')[0].value;
+
+            var allCorse = $('#ddlCourse')[0];
+            for (var i = 0; i < $('#ddlCourse')[0].length; i++) {
+
+                if ($('#ddlCourse')[0][i].selected == true) {
+                    selectedCourse.push({ id: $('#ddlCourse')[0][i].value, val: $('#ddlCourse')[0][i].innerText })
+                }
+            }
+            var add = '';
+            var addId = '';
+            for (var i = 0; i < selectedCourse.length; i++) {
+                var cousAdd = selectedCourse[i].val;
+                add = cousAdd + "," + add;
+                add = add.replace(/,\s*$/, "");
+                $('#CourseName')[0].innerHTML = add;
+
+
+            }
+            for (var i = 0; i < selectedCourse.length; i++) {
+                var cousAddId = selectedCourse[i].id;
+                addId = cousAddId + "," + addId;
+                addId = addId.replace(/,\s*$/, "");
+            }
+
+            $('#coursesID')[0].value = addId;
+            $('#userId')[0].value = userid;
+            $('#AssignUID')[0].value = null;
+            $('#CSVFilePath')[0].value = null;
+            $('#TempUIDHidden')[0].value = null;
+
+
+        }
+        //else if ($(ctrl).parent().parent().find('.step')[2].style.display == "block") {
+
+        //}
+    }
+
+</script>

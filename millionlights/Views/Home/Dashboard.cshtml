@@ -1,0 +1,269 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+            <script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<link href="~/Content/Custom/AceDashboard.css" rel="stylesheet" />
+<div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+
+    </ul>
+</div>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container dynamicTile" style="padding-right: 4%;padding-top: 2%;">
+    <div class="row">
+        <div class="col-sm-4 col-xs-8">
+            <div id="tile5" class="tile">
+
+                <div class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <h3 class="tilecaption"><i class="fa fa-users fa-3x"></i><p style="font-size: 34px;">@ViewBag.TotalUsersCount</p>
+                                <p style="font-size: 18px;">Total Registered Users</p></h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-users fa-3x"></i><p style="font-size: 34px;">@ViewBag.ActiveUsersCount</p>
+                                <p style="font-size: 18px;">Active Users</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-users fa-3x"></i><p style="font-size: 34px;">@ViewBag.InActiveUsersCount</p>
+                                <p style="font-size: 18px;">In-Active Users</p>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <div id="tile6" class="tile">
+
+                <div class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-user fa-3x"></i><p style="font-size: 34px;">@ViewBag.MLUsersCount</p>
+                                <p style="font-size: 18px;">ML Users</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-facebook fa-3x"></i><p style="font-size: 34px;">@ViewBag.FBUsersCount</p>
+                                <p style="font-size: 18px;">Facebook Users</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-twitter fa-3x"></i><p style="font-size: 34px;">@ViewBag.TwitterUsersCount</p>
+                                <p style="font-size: 18px;">Twitter Users</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-linkedin fa-3x"></i><p style="font-size: 34px;">@ViewBag.LinkedInUsersCount</p>
+                                <p style="font-size: 18px;">LinkedIn Users</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-google fa-3x"></i><p style="font-size: 34px;">@ViewBag.GoogleUsersCount</p>
+                                <p style="font-size: 18px;">Google Users</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-windows fa-3x"></i><p style="font-size: 34px;">@ViewBag.MicrosoftUsersCount</p>
+                                <p style="font-size: 18px;">Microsoft Users</p>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <div id="tile7" class="tile">
+
+                <div class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-credit-card fa-3x"></i><p style="font-size: 34px;">@ViewBag.TotalCouponsCount</p>
+                                <p style="font-size: 18px;">Total Coupons</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-credit-card fa-3x"></i><p style="font-size: 34px;">@ViewBag.ActivatedCouponsCount</p>
+                                <p style="font-size: 18px;">Activated Coupons</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-credit-card fa-3x"></i><p style="font-size: 34px;">@ViewBag.PartiallyActivatedCouponsCount</p>
+                                <p style="font-size: 18px;">Partially Activated Coupons</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-credit-card fa-3x"></i><p style="font-size: 34px;">@ViewBag.ExpiredCouponsCount</p>
+                                <p style="font-size: 18px;">Expired Coupons</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-credit-card fa-3x"></i><p style="font-size: 34px;">@ViewBag.InActivatedCouponsCount</p>
+                                <p style="font-size: 18px;">Non-Activated Coupons</p>
+                            </h3>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-xs-8">
+            <div id="tile8" class="tile">
+
+                <div class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-book fa-3x"></i><p style="font-size: 34px;">@ViewBag.TotalCoursesCount</p>
+                                <p style="font-size: 18px;">Total Courses</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-book fa-3x"></i><p style="font-size: 34px;">@ViewBag.TotalActiveCoursesCount</p>
+                                <p style="font-size: 18px;">Active Courses</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-book fa-3x"></i><p style="font-size: 34px;">@ViewBag.TotalInactiveCoursesCount</p>
+                                <p style="font-size: 18px;">In-Active Courses</p>
+                            </h3>
+                        </div>
+                      
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <div id="tile9" class="tile">
+
+                <div class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-shopping-cart fa-3x"></i><p style="font-size: 34px;">@ViewBag.TotalOrdersCount</p>
+                                <p style="font-size: 18px;">Total Orders</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-shopping-cart fa-3x"></i><p style="font-size: 34px;">@ViewBag.OrdersPendingCount</p>
+                                <p style="font-size: 18px;">Pending Orders</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-shopping-cart fa-3x"></i><p style="font-size: 34px;">@ViewBag.OrdersCancelledCount</p>
+                                <p style="font-size: 18px;">Cancelled Orders</p>
+                            </h3>
+                        </div>
+                        <div class="item">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-shopping-cart fa-3x"></i><p style="font-size: 34px;">@ViewBag.OrdersRefunded</p>
+                                <p style="font-size: 18px;">Refunded Orders</p>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-8">
+            <div id="tile10" class="tile">
+
+                <div class="carousel slide" data-ride="carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <h3 class="tilecaption">
+                                <i class="fa fa-rupee fa-3x"></i><p style="font-size: 34px;">@ViewBag.TotalSale</p>
+                                <p style="font-size: 18px;">Total Sales</p>
+                            </h3>
+                        </div>
+                      
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tile").height("179px");
+        $(".carousel").height("179px");
+        $(".item").height("179px");
+
+        $(window).resize(function () {
+            if (this.resizeTO) clearTimeout(this.resizeTO);
+            this.resizeTO = setTimeout(function () {
+                $(this).trigger('resizeEnd');
+            }, 10);
+        });
+
+        $(window).bind('resizeEnd', function () {
+            $(".tile").height($("#tile1").width());
+            $(".carousel").height($("#tile1").width());
+            $(".item").height($("#tile1").width());
+        });
+
+    });
+</script>

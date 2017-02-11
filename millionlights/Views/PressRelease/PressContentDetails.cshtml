@@ -1,0 +1,80 @@
+﻿@{
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+     var msg = ViewBag.message;
+    //var pressData = ViewBag.PressData;
+    var PressHeading = ViewBag.PressPageHeading;
+    var pressdata = ViewBag.pressdata; 
+
+}
+
+<link href="~/PressContents/css/font-awesome.css" rel="stylesheet" />
+<link href="~/PressContents/main.css" rel="stylesheet" />
+<section id="what_new">
+    <div class="container">
+        @if (pressdata!=null)
+        {
+            <div class="row">
+                <h2 class="text-center">@PressHeading</h2>
+                @*@foreach (var data in pressdata)
+                {*@
+                    <div class="col-sm-12">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                @if (!string.IsNullOrEmpty(pressdata.PressImage))
+                                {
+                                    <img class="img-responsive" src="@String.Format("/Images/PressContentsImg/{0}", pressdata.PressImage)" />
+
+                                }
+                                else
+                                {
+                                    <img src="~/Images/noimage378X225.png" id="blah" style="width: 250px; height: 180px; " alt="" />
+
+                                }
+                            </div>
+                            <div class="col-md-8">
+                                <p class="new_title">@pressdata.PressShortDescription</p>
+                                <p>@pressdata.PressLongDescription</p>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                @*}*@
+                @*<ul class="social_team" style="text-align:right">
+                  
+                    <li style="background-color:white"><a id="postToWallWithFBUiPrompt" href=""><i class="icon-facebook"></i></a></li>
+                    <li style="background-color:white"><a href="" target="_blank"><i class="icon-linkedin"></i></a></li>
+                    <li style="background-color:white"><a href="#"><i class=" icon-google"></i></a></li>
+                </ul>*@
+            </div>
+        }
+        else
+        {
+            <h2 class="text-center">Press release are not found....</h2>
+        }
+<br>
+<br>
+        </div>
+    
+</section>

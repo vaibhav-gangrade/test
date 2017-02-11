@@ -1,0 +1,124 @@
+﻿@model Millionlights.Models.VoucherCode
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerList;
+    var courseList = (List<SelectListItem>)ViewBag.CourseList;
+}
+@using (Html.BeginForm("Edit", "VoucherCode", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", onsubmit = "return ValidateVouchers()", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <script src="~/Scripts/JS/VoucherCode.js"></script>
+    <section id="main_content">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class=" box_style_2">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Edit Voucher Code</h3>
+                            </div>
+                        </div>
+                        <div id="message-contact"></div>
+                  
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @*@Html.LabelFor(m => m.VouchCode, new { @class = "col-sm-4 control-label dropDownClass" })*@
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    @Html.HiddenFor(m => m.Id)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.DropDownListFor(m => m.PartnerID, partnerList, "--Select Partner--", new { @class = "form-control style_2", id = "ddlPartner", name = "ddlPartner" })
+                                        @Html.ValidationMessageFor(m => m.PartnerID, "", new { @class = "text-danger ", id = "errorPartnerName" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.DropDownListFor(m => m.CourseId, courseList, new { @class = "form-control style_2", id = "ddlCourse", name = "ddlCourse", @multiple = "multiple" })
+                                        @Html.ValidationMessageFor(m => m.CourseId, "", new { @class = "text-danger ", id = "errorCourseName" })
+                                    </div>
+                                    @Html.HiddenFor(m => m.CourseId, new { id = "VisibilityID" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.VoucherType, new { @class = "form-control style_2", id = "voucherTypeTxt", name = "voucherType", placeholder = "Enter Voucher Type" })
+                                        @Html.ValidationMessageFor(m => m.VoucherType, "", new { @class = "text-danger ", id = "errorVoucherType" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control style_2", id = "expiryDateTxt", name = "expiryDate", placeholder = "Enter Expiry Date" })
+                                        @Html.ValidationMessageFor(m => m.ExpiryDate, "", new { @class = "text-danger ", id = "errorExpiryDate" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.Discount, new { @class = "form-control style_2", id = "discountTxt", name = "discount", placeholder = "Enter Discount" })
+                                        @Html.ValidationMessageFor(m => m.Discount, "", new { @class = "text-danger ", id = "errorDiscount" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="form-group voucherCodePadding">
+                                        @Html.TextBoxFor(m => m.AllowedCourses, new { @class = "form-control style_2", id = "maxAllowedCoursesTxt", name = "maxAllowedCourses", placeholder = "Enter Max Course Value" })
+                                        @Html.ValidationMessageFor(m => m.AllowedCourses, "", new { @class = "text-danger ", id = "errorMaxAllowedCourses" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 Partner-btn-div">
+                                    <input type="button" value="Cancel" class="btnCancel btmMarTop btnFocus" id="submit-cancel" />
+                                    <input type="submit" value="Submit" class="btnRegister btmMarTop btnFocus" id="submit-contact" />
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+<link href="~/Content/Multiselct/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/Multiselct/bootstrap-multiselect.js"></script>
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $('[id*=ddlCourse]').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+    function assignVisibility() {
+        var selected = $("#ddlCourse option:selected");
+        var message = "";
+        selected.each(function () {
+            message += $(this).val() + ';';
+        });
+        $("#VisibilityID").val(message);
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#submit-cancel').click(function () {
+            window.location.href = "/VoucherCode/VoucherList";
+        });
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

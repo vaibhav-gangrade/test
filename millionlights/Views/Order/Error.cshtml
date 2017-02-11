@@ -1,0 +1,51 @@
+﻿@model Millionlights.Models.Transaction
+@{
+    ViewBag.Title = "Error";
+}
+
+<section id="main_content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 studentView">
+                <br />
+                <div class="panel-heading" style="background-color:rgba(254, 139, 0, 1) !important;color:white !important;background-image:none !important;height: 60px !important;padding-top: 22px !important;">
+                    <h3 class="panel-title">Uh Oh! This transaction failed due to an error in the payment gateway. Please contact MillionLights for more information.</h3>
+                </div>
+                <br />
+                <br />
+                <div class="panel panel-info filterable add_bottom_45">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Payment Details</h3>
+                    </div>
+                    <table id="CourseOrderSuccess" class="table table-responsive table-striped gridPadding">
+                        <thead class="theadColor">
+                            <tr>
+                                <th class="courseImg successMag"> Order number</th>
+                                <th class="CoursDetails successMag">Transaction ID</th>
+                                <th class="coursePrice successMag">Course Name</th>
+                                <th class="coursePrice successMag">Price (Rs.)</th>
+                                <th class="orderCouponHead successMag">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="courseVal">@Model.orderNumber</td>
+                                <td class="courseVal">@Model.transactionId</td>
+                                <td class="succcessMargLeft">@Html.Raw(Model.courseName)</td>
+                                <td class="succcessMargLeft">@Model.price</td>
+                                <td class="succcessMargLeft">@Model.status</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p> Please contact MillionLights for more information.</p>
+                <p>
+                    <b>MillionLights</b><br />Address: Kalyani Nagar, Pune<br />Maharashtra, PIN: 411006<br />
+                    Phone: +91 9890122592<br />Email: <u style="color:#488dc6"><a href="mailto:support@Millionlights.org">support@Millionlights.org</a></u><br />
+                    Web: <a href="https://www.millionlights.org/">https://www.millionlights.org/</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+

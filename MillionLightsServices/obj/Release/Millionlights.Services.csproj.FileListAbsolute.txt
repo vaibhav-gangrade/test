@@ -1,0 +1,17 @@
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\MillionLights.Services.dll.config
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\MillionLights.Services.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\MillionLights.Services.pdb
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\EntityFramework.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\Millionights.Models.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\Newtonsoft.Json.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\System.Web.Mvc.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\Microsoft.AspNet.Identity.Core.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\Millionights.Models.pdb
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\EntityFramework.xml
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\System.Web.Mvc.xml
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\bin\Release\Microsoft.AspNet.Identity.Core.xml
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\obj\Release\Millionlights.Services.csprojResolveAssemblyReference.cache
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\obj\Release\MillionLights.Services.dll
+C:\NCTPL\MillionLights\ML\millionlights\MillionLightsServices\obj\Release\MillionLights.Services.pdb

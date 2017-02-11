@@ -1,0 +1,211 @@
+﻿@{
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<script type="text/javascript" src="~/Content/assets/js/slider/jssor.slider.mini.js"></script>
+
+
+@*<link rel="shortcut icon" href="Content/learn/img/favicon.ico" type="image/x-icon" />*@
+<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+
+
+@*<link rel="icon" href="Content/learn/img/favicon.ico" type="image/x-icon">*@
+<link href="~/PressContents/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/PressContents/css/superfish.css" rel="stylesheet" />
+<link href="~/PressContents/css/style.css" rel="stylesheet" />
+<link href="~/PressContents/Content/learn/fontello/css/fontello.css" rel="stylesheet" />
+<link href="~/PressContents/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link href="~/PressContents/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link href="~/PressContents/css/font-awesome.css" rel="stylesheet" />
+<link href="~/PressContents/main.css" rel="stylesheet" />
+
+<section id="title_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Our Leadership Team</h1>
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+    </div>
+
+</section> <!-- end of "title_area" -->
+<section id="team_area">
+    <div class="container">
+        <div class="row">
+            <div class="team_row">
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic1.jpg" alt="parson" class="img-responsive">
+                        </div>
+
+                        <div class="parson_hover" style="background-color: rgba(243, 156, 18,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic2.jpg" alt="parson" class="img-responsive">
+                        </div>
+
+                        <div class="parson_hover" style="background-color:rgba(41, 128, 185,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic3.jpg" alt="parson" class="img-responsive">
+                        </div>
+                        <div class="parson_hover" style="background-color:rgba(192, 57, 43,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic4.jpg" alt="parson" class="img-responsive">
+                        </div>
+
+                        <div class="parson_hover" style="background-color:rgba(39, 174, 96,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end of 1st row -->
+        </div>
+
+        <div class="row">
+            <div class="team_row">
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic1.jpg" alt="parson" class="img-responsive">
+                        </div>
+
+                        <div class="parson_hover" style="background-color: rgba(243, 156, 18,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic2.jpg" alt="parson" class="img-responsive">
+                        </div>
+
+                        <div class="parson_hover" style="background-color:rgba(41, 128, 185,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic3.jpg" alt="parson" class="img-responsive">
+                        </div>
+                        <div class="parson_hover" style="background-color:rgba(192, 57, 43,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="parson_area">
+                        <div class="parson_img">
+                            <img src="../PressContents/img/pic4.jpg" alt="parson" class="img-responsive">
+                        </div>
+
+                        <div class="parson_hover" style="background-color:rgba(39, 174, 96,0.9);">
+                            <h3>Jon Dow</h3>
+                            <p>Team Leader</p>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end of 2nd row -->
+        </div>
+    </div>
+</section>
+
+<section id="promise_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="promise_area">
+                    <h3>Our Primise</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="guarantee_area">
+                    <h3>Our Guarantee</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="ready_area">
+    @*<div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3 class="text-center">Ready to Start ?</h3>
+                <a href="#" class="btn btn-success">let's start with our team</a>
+            </div>
+        </div>
+    </div>*@
+</section>

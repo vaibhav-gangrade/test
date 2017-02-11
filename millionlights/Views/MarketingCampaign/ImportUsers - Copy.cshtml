@@ -1,0 +1,191 @@
+﻿@model Millionlights.Models.Partner
+@{
+    ViewBag.Title = "Import Users";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerID;
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+        <li> <a href="/MarketingCampaign/ImportUsers">Marketing Campaign</a></li>
+        <li class="active">Import Users</li>
+    </ul>
+</div>
+
+<div class="page-header">
+    <h1>
+        Marketing Campaign
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Import Users
+        </small>
+    </h1>
+</div>
+<form id="files" method="post" enctype="multipart/form-data">
+    <section id="main_content">
+        <div @*class="container"*@>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box_style_2">
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="SelectPartner" id="SelectPartner">Select Partner :</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="clearfix">
+                                    @Html.DropDownListFor(model => model.Id, partnerList, "---Select Partner---", new { @style = "width: 50%; margin-left: -14%;", id = "partnerID" })
+                                </div>
+                                <div class="clearfix">
+                                   <label class="text-danger errorImportCSVFile"></label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="CourseCode" id="courseCodelbl">Upload CSV File:</label>
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="clearfix">
+                                    <input type="file" id="uploadID" name="file" accept=".csv" class="heightwidthtext form-control fileUpload col-md-4" />
+                                    <div style="margin-top: 5px;">
+                                        <a href="~/ExcelTemplate/ImportUserTemplate.csv" style="padding-left: 10px;text-decoration: underline;">Download CSV Template</a>
+                                    </div>
+                                </div>
+                                <label class="text-danger CSVFilePath" style="margin-left: -14%;"></label>
+                            </div>
+                        </div>
+                        <label class="text-danger errorImportCSVFile"></label>
+                        <div class="hr hr-18 dotted"></div>
+                        @*<div class="form-group">*@
+                            <div class="col-xs-12 col-sm-12">
+
+                                <div class="well" style="text-align:center;">
+                                    <button id="id-add-attachment" type="button" class="btn btn-sm btn-success" onclick="return UploadFile()">
+                                        <i class="bigger-110"></i>
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        @*</div>*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+</form>
+<script type="text/javascript">
+    function UploadFile() {
+        var isValid = ValidateUser();
+        if (isValid == true) {
+            var partnerList = $('#partnerID')[0].value;
+            var partnerName = $('#partnerID option:selected').text();
+            $('.errorImportCSVFile')[0].innerHTML = "";
+            var formData = new FormData();
+            var fileInput = $('#uploadID');
+            formData.append(fileInput[0].files[0].name, fileInput[0].files[0]);
+            formData.append("partnerValue", partnerList);
+            formData.append("partnerName", partnerName);
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: formData,
+                url: "/MarketingCampaign/UploadBankFile",
+                success: function (response) {
+                    var resp = JSON.parse(response);
+                    var importMessage = '<b>' + "Total Records Uploaded: " + '</b>' + " " + resp.TotalRecordsUploaded + '<br/>' + '<b>' + "Duplicate Records Found:" + '</b>' + " " + resp.DuplicateUserCount + '<br/>' + '<b>' + "Records Inserted Successfully:" + " " + '</b>' + resp.DistinctUserCount;
+                    bootbox.dialog({
+                        message: importMessage,
+                        buttons: {
+                            "success": {
+                                "label": "Ok",
+                                "className": "btn-sm btn-primary",
+                                callback: function () {
+                                    response = null;
+                                    resp = null;
+                                    importMessage = null;
+                                    location.reload();
+                                }
+                            },
+                            "fail": {
+                                "label": "Cancel",
+                                "className": "btn-sm btn-primary",
+                                callback: function () {
+                                    response = null;
+                                    resp = null;
+                                    importMessage = null;
+                                    location.reload();
+                                }
+
+                            },
+
+                        }
+                    });
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+                error: function (response) {
+                    bootbox.dialog({
+                        message: "An error has occured while importing users. Please try again",
+                        buttons: {
+                            "success": {
+                                "label": "Ok",
+                                "className": "btn-sm btn-primary",
+                                callback: function () {
+                                    location.reload();
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+        }
+        return false;
+    }
+    function ValidateUser() {
+        var isValid = true;
+        var partnerList = $('#partnerID')[0].value;
+        if (partnerList.length == 0) {
+            $('.errorImportCSVFile')[0].innerHTML = "Please select a partner..";
+            isValid = false;
+        }
+        else {
+            $('.errorImportCSVFile')[0].innerHTML = "";
+        }
+        if (isValid == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>

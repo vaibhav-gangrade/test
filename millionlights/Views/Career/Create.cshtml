@@ -1,0 +1,163 @@
+﻿@model Millionlights.Models.Career
+
+@{
+    var msg = ViewBag.message;
+
+    int roleID = 0;
+    var userid = Session["UserID"];
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+           <script src="~/Content/assets/js/jquery.js"></script>
+            <script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+
+@using (Html.BeginForm("Create", "Career", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <div class="page-header">
+            <h1>
+                Career
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    Add New Career
+                </small>
+            </h1>
+        </div>
+        @Html.ValidationSummary(true)
+       
+         @Html.LabelFor(model => model.Id, new { @class = "control-label hidden col-md-3" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.JobTitle, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    @Html.TextBoxFor(model => model.JobTitle, new { @class = "form-control style_2", id = "JobTitleTxt", name = "JobTitle", placeholder = "Enter Job Title" })
+                    @Html.ValidationMessageFor(m => m.JobTitle, "", new { @class = "text-danger errorJobTitle" })
+                </div>
+            </div>
+       
+            <div class="form-group">
+                @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    @Html.TextAreaFor(model => model.Location, new { @class = "form-control style_2 TextArea", id = "LocationTxt", name = "Location", placeholder = "Enter Job Location" })
+                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger errorLocation" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Experience, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    @Html.TextBoxFor(model => model.Experience, new { @class = "form-control style_2", id = "ExperienceTxt", name = "Experience", placeholder = "Enter Required Experience" })
+                    @Html.ValidationMessageFor(model => model.Experience, "", new { @class = "text-danger errorExperience" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Qualification, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    <div class="clearfix">
+                        @Html.TextAreaFor(m => m.Qualification, new { @class = "ckeditor col-xs-12 col-sm-9", id = "QualificationTxt", name = "Qualification" })
+                        @Html.ValidationMessageFor(model => model.Qualification, "", new { @class = "text-danger errorQualification" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.JobDescription, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    <div class="clearfix">
+                        @Html.TextAreaFor(m => m.JobDescription, new { @class = "ckeditor col-xs-12 col-sm-9", id = "JobDescriptionTxt", name = "JobDescription" })
+                        @Html.ValidationMessageFor(model => model.JobDescription, "", new { @class = "text-danger errorJobDescription" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TechnicalSkills, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    @Html.TextAreaFor(m => m.TechnicalSkills, new { @class = "ckeditor col-xs-12 col-sm-9", id = "TechnicalSkillsTxt", name = "TechnicalSkills" })
+                    @Html.ValidationMessageFor(model => model.TechnicalSkills, "", new { @class = "text-danger errorTechnicalSkills" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BusinessSkills, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    @Html.TextAreaFor(m => m.BusinessSkills, new { @class = "ckeditor col-xs-12 col-sm-9", id = "BusinessSkillsTxt", name = "BusinessSkills" })
+                    @Html.ValidationMessageFor(model => model.BusinessSkills, "", new { @class = "text-danger errorBusinessSkills" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Responsibilities, new { @class = "control-label col-md-3" })
+                <div class="col-md-6 col-sm-6">
+                    @Html.TextAreaFor(m => m.Responsibilities, new { @class = "ckeditor col-xs-12 col-sm-9", id = "ResponsibilitiesTxt", name = "Responsibilities" })
+                    @Html.ValidationMessageFor(model => model.Responsibilities, "", new { @class = "text-danger errorResponsibilities" })
+                  
+                </div>
+            </div>
+
+            <div class="hr hr-18 dotted"></div>
+            <div class="row well">
+                <div class="col-md-12 Partner-btn-div">
+                    @Html.ActionLink("Cancel", "/Create", null, new { @class = "btn btn-danger" })
+                    <input type="submit" value="Submit" class="btn btn-success" id="submitCareer" />
+                </div>
+            </div>
+        </div>
+}
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ud = '@userid'
+        if (ud == '') {
+            var url = "/Account/Login";
+            window.location.href = url;
+        }
+
+        var successMsg = '@msg';
+        debugger
+        if (successMsg != null && successMsg == 'Success') {
+            bootbox.dialog({
+                message: "Thank you! Your job details have been saved successfully!",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary",
+                        callback: function () {
+                        }
+                    }
+                }
+            });
+        }
+    });
+
+   
+
+    $("#submitCareer").click(function () {
+
+    });
+</script>
+

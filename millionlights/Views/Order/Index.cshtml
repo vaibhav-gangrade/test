@@ -1,0 +1,687 @@
+﻿@model Millionlights.Models.OrderManagement
+@using PagedList.Mvc;
+@{
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    var courselist = (List<SelectListItem>)ViewBag.CourseAvailability;
+    var orderstatuslist = (List<SelectListItem>)ViewBag.AvailOrderStatusList;
+}
+@{
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ui.jqgrid.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<link href="~/Content/Custom/Animation.css" rel="stylesheet" />
+@*<script src="~/Scripts/JS/table2CSVOrderList.js"></script>*@
+<script src="~/Scripts/JS/table2CSV.js"></script>
+<div class="page-content pagecs">
+    <div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home/Dashboard">Home</a>
+            </li>
+            <li> <a href="/Order/Index">Order</a></li>
+            <li class="active">View Orders</li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <div class="page-header">
+            <h1>
+                Orders
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+                    View Order(s)
+                </small>
+               
+            </h1>           
+        </div>
+
+        @*done by Archana 19.01.2017*@
+        @using (Html.BeginForm("ExportCouponData", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <button type="submit" id="btnExportCouponData" title="Export To CSV" class="pull-right ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-pink exportPartner">
+                <i class="ace-icon fa fa-file-excel-o nav-search-icon"></i>Export Coupon Data
+            </button>
+        }
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group ">
+                    <input name="dateRdb" id="dateRdb" type="checkbox" value="dateRdb" class="ace">
+                    <span class="lbl"> Date Range: </span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6" style="display:inline-flex;">
+
+                <div class="col-sm-8">
+                    <input class="form-control" type="text" style="width: 100%; height: 30px;" placeholder="Select register date range From-To" name="date-range-picker" id="id-date-range-picker-1" />
+                    <label class="text-danger errorCodeDate" id="errorCodeDate"></label>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="partnerSelDiv">
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group">
+                    <input name="orderstatusRdb" id="orderstatusRdb" type="checkbox" value="orderstatusRdb" class="ace">
+                    <span class="lbl">Order Status</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="col-sm-8 ">
+                    @Html.DropDownListFor(model => model.OrderStatusID, orderstatuslist, new { @style = "width:100%;height:35px;", id = "OrderStatusId", name = "OrderStatusId"})
+                    <label class="text-danger errorNotStatus" id="errorNotStatus"></label>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" id="partnerSelDiv">
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group">
+                    <input name="coursenameRdb" id="coursenameRdb" type="checkbox" value="coursenameRdb" class="ace">
+                    <span class="lbl">Course Name</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="col-sm-8  courseDDLWidth">
+                    @Html.DropDownListFor(model => model.CourseId, courselist, new { id = "OrderCourseNameId", name = "OrderCourseNameId", @multiple = "multiple" })
+
+                    <label class="text-danger errorCourseName" id="errorCourseName"></label>
+                </div>
+            </div>
+        </div>
+        <label class="text-danger errorRdbSelection" id="errorRdbSelection"></label>
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    <div class="form-group floatRight">
+                        <button type="button" name="UserInfoTxt" id="UserInfoTxt" class="ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple" onclick="Loadingimage();"><i class="ace-icon fa fa-search nav-search-icon"></i>Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="loderimage" class="loading" style="display:none;text-align:center">
+
+            <img src="~/Images/loading1.gif" /><br />
+            <h4 style="text-align:center">Orders Are Loading Please Wait...</h4>
+        </div>
+        @*<div id="OrderTableId" class="col-xs-10">
+            <!-- PAGE CONTENT BEGINS -->
+            <table id="grid-table"></table>
+
+            <div id="grid-pager"></div>
+
+            <script type="text/javascript">
+                var $path_base = "..";//in Ace demo this will be used for editurl parameter
+            </script>
+
+            <!-- PAGE CONTENT ENDS -->
+        </div>*@<!-- /.col -->
+        @using (Html.BeginForm("Index", null, FormMethod.Post, new { id = "export" }))
+        {
+            @Html.HiddenFor(m => m.Csv)
+            <div class="page-content pagecs" id="OrderTableId">
+                <div class="row">
+                    <div class="col-xs-10">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <table id="grid-table"></table>
+
+                        <div id="grid-pager"></div>
+
+                        <script type="text/javascript">
+                            var $path_base = "..";//in Ace demo this will be used for editurl parameter
+                        </script>
+
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<script type="text/javascript">
+    var jqGridData = [];
+    $(document).ready(function () {
+        
+        var test = $('#partnerSelDiv').find("b");
+        var h = test;
+
+
+        $('input[name=date-range-picker]').daterangepicker({
+            'applyClass': 'btn-sm btn-success',
+            'cancelClass': 'btn-sm btn-default',
+            locale: {
+                applyLabel: 'Apply',
+                cancelLabel: 'Cancel',
+            }
+        });
+       
+        $(function () {
+            $('#OrderCourseNameId').multiselect({
+                includeSelectAllOption: true,
+                nonSelectedText: '---Select Courses List ---'
+            });
+        });
+    });
+   
+    function Loadingimage()
+    {
+        var isValid = ValidateSearch();
+        if (isValid == true) {
+            $("#loderimage").css({ display: "block" });
+            $('#OrderTableId').hide();
+            setTimeout(DisplayUserOrders, 1000);
+        }
+    }
+    var grid_data = [];
+    function ValidateSearch() {
+        var isValid = true;
+        var dateRange = $("#id-date-range-picker-1").val()
+        var status = $('#OrderStatusId')[0].value;
+        var selected = $("#OrderCourseNameId option:selected")
+        var coursename = "";
+        selected.each(function () {
+            coursename += $(this).val() + ",";
+        });
+        var dateRdb = document.querySelector('input[id="dateRdb"]:checked');
+        var statusRdb = document.querySelector('input[id="orderstatusRdb"]:checked');
+        var coursenameRdb = document.querySelector('input[id="coursenameRdb"]:checked');
+        $("#errorRdbSelection")[0].innerHTML = "";
+        if (dateRdb == null && statusRdb == null && coursenameRdb == null) {
+            $("#errorRdbSelection")[0].innerHTML = "Please select an option from above to see the Order List";
+            $('#errorCodeDate')[0].innerHTML = "";
+            $('#errorNotStatus')[0].innerHTML = " ";
+            $('#errorCourseName')[0].innerHTML = "";
+            isValid = false;
+        }
+         if (dateRdb != null) {
+            $("#errorRdbSelection")[0].innerHTML = "";
+            if (dateRange.length == 0) {
+                $('#errorCodeDate')[0].innerHTML = "Please select date range.";
+                isValid = false;
+            }
+            else {
+                $('#errorCodeDate')[0].innerHTML = "";
+            }
+        }
+         if (coursenameRdb!=null)
+        {
+            $("#errorRdbSelection")[0].innerHTML = "";
+            
+             if (coursename.length == 0) {
+                $('#errorCourseName')[0].innerHTML = "Please select Course Name.";
+                isValid = false;
+            }
+
+            else {
+                $('#errorCourseName')[0].innerHTML = "";
+            }
+        }
+         if (statusRdb != null) {
+            $("#errorRdbSelection")[0].innerHTML = "";
+            if (status.length == 0) {
+                $('#errorNotStatus')[0].innerHTML = "Please select Order Status.";
+                isValid = false;
+            }
+            else {
+                $('#errorNotStatus')[0].innerHTML = "";
+            }
+           
+        }
+        if (isValid == true) {
+           
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+<script src="../Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+<script src="../Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="../Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+
+
+<link href="~/Content/Multiselct/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/Multiselct/courses-multiselect.js"></script>
+<script src="~/Scripts/JS/jquery.blockUI.js"></script>
+<script type="text/javascript">
+
+    var grid_data = [];
+    function DisplayUserOrders() {
+        var grid_data = [];
+            $('#errorNotStatus')[0].innerHTML = " ";
+            $('#errorCodeDate')[0].innerHTML = " ";
+            $('#errorCourseName')[0].innerHTML = "";
+            var grid_selector = "#grid-table";
+            var pager_selector = "#grid-pager";
+
+            grid_data = GetselectedOrderDetails();
+
+        //resize to fit page size
+        $(window).on('resize.jqGrid', function () {
+            $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+        })
+        //resize on sidebar collapse/expand
+        var parent_column = $(grid_selector).closest('[class*="col-"]');
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                }, 0);
+            }
+        })
+        var totalRecords = grid_data.length;
+        jQuery(grid_selector).jqGrid({
+            data: grid_data,
+            datatype: "local",
+            height: 250,
+            colNames: ['Cancel / Refund', 'OrderNumber', 'Ordered Date', 'Ordered By', 'TotalItems', 'Courses Ordered', 'TotalPrice', 'OrderStatus', 'CouponCode', 'CouponPartnerName'],
+            colModel: [
+                { name: 'Action', index: 'Action', width: 200, sortable: false, formatter: displayButtons },
+                { name: 'OrderNumber', index: 'OrderNumber', width: 200, sorttype: "int" },
+                { name: 'OrderedDatetimeString', index: 'OrderedDatetimeString', width: 200, sorttype: "int" },
+                { name: 'OrderedUserName', index: 'OrderedUserName', width: 250, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                { name: 'TotalItems', index: 'TotalItems', width: 250, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                { name: 'CourseName', index: 'CourseName', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                { name: 'TotalPrice', index: 'TotalPrice', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                { name: 'OrderStatus', index: 'OrderStatus', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" }, unformat: aceSwitch },
+                { name: 'CouponCode', index: 'CouponCode', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                { name: 'CouponPartnerName', index: 'CouponPartnerName', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } }
+            ],
+            viewrecords: true,
+            rowNum: 10,
+            rowList: [10, 20, 30, totalRecords],
+            pager: pager_selector,
+            altRows: true,
+            //toppager: true,
+
+            multiselect: true,
+            //multikey: "ctrlKey",
+            multiboxonly: true,
+
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    styleCheckbox(table);
+
+                    updateActionIcons(table);
+                    updatePagerIcons(table);
+                    enableTooltips(table);
+                }, 0);
+                $(".ui-jqgrid-titlebar").find('#btnExport').remove();
+                $(".ui-jqgrid-titlebar").append('<button type="submit" id="btnExport" title="Export To CSV"  class="pull-right ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-pink exportPartner"><i class="ace-icon fa fa-file-excel-o nav-search-icon"></i>Export</button>');
+
+            },
+            editurl: "/dummy.html",//nothing is saved
+            caption: "Order Details"
+        });
+        $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+        //switch element when editing inline
+        function aceSwitch(cellvalue, options, cell) {
+            setTimeout(function () {
+                $(cell).find('input[type=checkbox]')
+                    .addClass('ace ace-switch ace-switch-5')
+                    .after('<span class="lbl"></span>');
+            }, 0);
+        }
+        //enable datepicker
+        function pickDate(cellvalue, options, cell) {
+            setTimeout(function () {
+                $(cell).find('input[type=text]')
+                        .datepicker({ format: 'dd-mm-yyyy', autoclose: true });
+            }, 0);
+        }
+
+
+        //navButtons
+        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+            { 	//navbar options
+                edit: false,
+                editicon: 'ace-icon fa fa-pencil blue',
+                add: false,
+                addicon: 'ace-icon fa fa-plus-circle purple',
+                del: false,
+                delicon: 'ace-icon fa fa-trash-o red',
+                search: true,
+                searchicon: 'ace-icon fa fa-search orange',
+                refresh: true,
+                refreshicon: 'ace-icon fa fa-refresh green',
+                view: true,
+                viewicon: 'ace-icon fa fa-search-plus grey',
+            },
+            {
+                //edit record form
+                //closeAfterEdit: true,
+                //width: 700,
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_edit_form(form);
+                }
+            },
+            {
+                //new record form
+                //width: 700,
+
+                beforeShowForm: function (e) {
+                    location.href = "/Order/Create";
+                }
+            },
+            {
+                //delete record form
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    if (form.data('styled')) return false;
+
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_delete_form(form);
+
+                    form.data('styled', true);
+                },
+                onClick: function (e) {
+                
+                }
+            },
+            {
+                //search form
+                recreateForm: true,
+                afterShowSearch: function (e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                    style_search_form(form);
+                },
+                afterRedraw: function () {
+                    style_search_filters($(this));
+                }
+                ,
+                multipleSearch: true,
+                /**
+                multipleGroup:true,
+                showQuery: true
+                */
+            },
+            {
+                //view record form
+                recreateForm: true,
+                beforeShowForm: function (e) {
+                    var form = $(e[0]);
+                    form.find('ui-jqdialog').addClass('jqwidth');
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                }
+            }
+        )
+
+        function style_edit_form(form) {
+            form.find('input[name=sdate]').datepicker({ format: 'dd-mm-yyyy', autoclose: true })
+
+            form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+            //don't wrap inside a label element, the checkbox value won't be submitted (POST'ed)
+            //update buttons classes
+            var buttons = form.next().find('.EditButton .fm-button');
+            buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+            buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+            buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+            buttons = form.next().find('.navButton a');
+            buttons.find('.ui-icon').hide();
+            buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+            buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+        }
+
+        function style_delete_form(form) {
+            var buttons = form.next().find('.EditButton .fm-button');
+            buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+            buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+            buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+        }
+
+        function style_search_filters(form) {
+            form.find('.delete-rule').val('X');
+            form.find('.add-rule').addClass('btn btn-xs btn-primary');
+            form.find('.add-group').addClass('btn btn-xs btn-success');
+            form.find('.delete-group').addClass('btn btn-xs btn-danger');
+        }
+        function style_search_form(form) {
+            var dialog = form.closest('.ui-jqdialog');
+            var buttons = dialog.find('.EditTable')
+            buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+            buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+            buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+        }
+
+        function beforeDeleteCallback(e) {
+            var form = $(e[0]);
+            if (form.data('styled')) return false;
+
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+            style_delete_form(form);
+
+            form.data('styled', true);
+        }
+
+        function beforeEditCallback(e) {
+            var form = $(e[0]);
+            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+            style_edit_form(form);
+        }
+
+        function displayButtons(cellvalue, options, rowObject) {
+            var cancel = '<a   onclick="CancelRecord(' + rowObject.OrderID + ');" class="fa fa-ban fa-lg red" title="Cancel Order" style="cursor:pointer"></a>';
+            var refund = '<a class="fa fa-bank fa-lg blue"  onclick="RefundRecord(' + rowObject.OrderID + ');" title="Refund Amount" style="cursor:pointer"></a>';
+            var role = '@roleID';
+            if (role == 3) {
+               if (rowObject.OrderStatusID == 5) {
+                    return "<div style='display:flex;'>" + refund + "</div>"; // refunded
+                }
+                else { return "" }
+            }
+            else {
+                if (rowObject.OrderStatusID == 1 || rowObject.OrderStatusID == 2) {
+                    return "<div style='display:flex;'>" + cancel + "</div>"; //cancelled
+                }
+                else { return "" }
+            }
+        }
+        //it causes some flicker when reloading or navigating grid
+        //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+        //or go back to default browser checkbox styles for the grid
+        function styleCheckbox(table) {
+        }
+        //unlike navButtons icons, action icons in rows seem to be hard-coded
+        //you can change them like this in here if you want
+        function updateActionIcons(table) {
+        }
+
+        //replace icons with FontAwesome icons like above
+        function updatePagerIcons(table) {
+            var replacement =
+            {
+                'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+            };
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                var icon = $(this);
+                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+            })
+        }
+
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+            $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+        }
+
+        $(document).one('ajaxloadstart.page', function (e) {
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+        });
+    }
+    function GetselectedOrderDetails() {
+        $('#OrderTableId').hide();
+        var UsersList = [];
+        var dateRdb = document.querySelector('input[id="dateRdb"]:checked');
+        var statusRdb = document.querySelector('input[id="orderstatusRdb"]:checked');
+        var coursenameRdb = document.querySelector('input[id="coursenameRdb"]:checked');
+        var dateRange = null;
+        if (dateRdb != null) {
+            dateRange = $("#id-date-range-picker-1").val()
+        }
+        var status = null;
+        if (statusRdb != null) {
+            status = $('#OrderStatusId')[0].value;
+        }
+        var CourseName='';
+
+        if (coursenameRdb != null) {
+            var selected = $("#OrderCourseNameId option:selected")
+            selected.each(function () {
+                if (CourseName != '') {
+                    CourseName = $(this).val() + "," + CourseName;
+                }
+                else {
+                    CourseName = $(this).val()
+                }
+            });
+        }
+        var grid_selector = "#grid-table";
+        $(grid_selector).jqGrid('GridUnload');
+        $('.ui-jqdialog').remove();
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/Order/GetOrderDetails",
+            data: "{dateRange:'" + dateRange + "',status:'" + status + "',CourseName:'" + CourseName + "'}",
+            contentType: 'application/json',
+            success: function (response) {
+                debugger
+                if (response != null) {
+                    OrdersList = response;
+                }
+                $("#loderimage").css({ display: "none" });
+                $('#OrderTableId').show();
+            },
+            error: function (response) {
+            }
+        });
+        return OrdersList;
+    }
+
+    function CancelRecord(OrderId) {
+        debugger
+        var cancelOrder='@messages["CancelOrder"]'
+        var confirmdelete = confirm(cancelOrder);
+        debugger
+        if (confirmdelete === true) {
+            var grid_selector = "#grid-table";
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/Order/Cancelled",
+                data: "{OrderID:" + OrderId + "}",
+                contentType: 'application/json',
+                success: function (response) {
+                    //location.reload();
+                    DisplayUserOrders();
+                },
+                error: function (response) {
+                }
+            });
+        }
+    }
+
+    function RefundRecord(OrderId) {
+        var RefundOrder='@messages["RefundOrder"]'
+        var confirmdelete = confirm(RefundOrder);
+        if (confirmdelete === true) {
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/Order/Refunded",
+                data: "{OrderID:" + OrderId + "}",
+                contentType: 'application/json',
+                success: function (response) {
+                    DisplayUserOrders();
+                },
+                error: function (response) {
+                }
+            });
+        }
+    }
+</script>
+<style>
+    .jqwidth {
+        width: 1000px !important;
+    }
+
+    .pagecs {
+        padding: 0px 1px 1px !important;
+    }
+</style>
+<!--Date range picker-->
+<link href="~/Content/assets/css/daterangepicker.css" rel="stylesheet" />
+<script src="~/Content/assets/js/date-time/moment.js"></script>
+<script src="~/Content/assets/js/date-time/daterangepicker.js"></script>
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+<script src="~/Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+<script src="~/Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+<script src="~/Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ui.jqgrid.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<script type="text/javascript">
+    $('#export').submit(function () {
+        jqGridData = $('#grid-table').jqGrid('getGridParam', 'data');
+      
+        var tableValues = $('#grid-table').table2CSV({
+            delivery: 'value',
+            header: ['OrderNumber', 'Ordered Date', 'Ordered By', 'TotalItems', 'Courses Ordered', 'TotalPrice', 'OrderStatus', 'CouponCode', 'CouponPartnerName']
+        });
+        $('#Csv').val(tableValues);
+
+    });
+</script>
+

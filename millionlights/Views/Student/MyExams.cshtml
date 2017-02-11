@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Millionlights.Models.Orders>
+@{
+
+    var orderDetails = ViewBag.OrdersByUserID;
+    var userName = Session["UserName"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+
+    }
+}
+
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+<script src="//cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
+
+<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<link href="~/Content/learn/css/style.css" rel="stylesheet" />
+
+<section id="main_content">
+    <div class="container">
+
+        <div class="row" id="CurrentCourses">
+            <div class="col-sm-2 col-md-2">
+                @if (userName != null && roleID == 1)
+                {
+                    @Html.Partial("_StudentNavigation")
+                }
+            </div>
+            <div class="col-md-10">
+                <h3 class="forgotpwd">Exam content will appear here....</h3>
+            </div>
+        </div>
+    </div>
+</section>

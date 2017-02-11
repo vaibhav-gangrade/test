@@ -1,0 +1,503 @@
+﻿@{
+   // var PartnerList = ViewBag.AllPartner;
+    ViewBag.Title = "Massive Open Online Courses India, MOOCs India";
+    var PartnerList = (List<Millionlights.Models.PartnerImage>)ViewBag.AllPartner;
+     int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+@section ExtraMetaTags
+{
+    @*<meta name="title" content="Massive Open Online Courses India, MOOCs India" />*@
+    <meta name="description" content="MOOCs India- Massive Open Online Courses in India; We have multilingual existing bouquet of 300 + courses in the HE, Skills and Vocational Space." />
+    <meta name="keywords" content="Massive Open Online Courses India, MOOCs India" />
+}
+
+
+<script type="text/javascript" src="~/Content/assets/js/slider/jssor.slider.mini.js"></script>
+
+
+@*<link rel="shortcut icon" href="Content/learn/img/favicon.ico" type="image/x-icon" />*@
+<link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+<!-- REVOLUTION BANNER CSS SETTINGS -->
+<link href="~/Content/learn/rs-plugin/css/settings.css" media="screen" rel="stylesheet">
+<script type="text/javascript">
+    window.jQuery || document.write("<script type='text/javascript' src='../Content/assets/js/jquery.js'>" + "<" + "/script>");
+</script>
+<!-- CSS -->
+
+
+<section id="sub-header" class="homeimgHeight aboutPage" style="height:450px;">
+    <div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 text-center">
+                <h1 id="TextResp" style="font-weight: 600 !important;font-size: 45px; letter-spacing:10px;margin-top:14%;">
+                    Our Story
+                </h1>
+             
+            </div>
+        </div><!-- End row -->
+    </div><!-- End container -->
+</section>
+
+<section>
+    <div class="row" @*style="padding:65px;"*@>
+        <div class="col-sm-4 aboutSection1">
+            <div class="icon" style="height: 60px;">
+                <img src="~/Content/assets/img/slider/About-icon1.png" />
+            </div>
+            <label class="aboutSection1Lbl">Get certified <br/> by recongnized institutions</label>
+        </div>
+        <div class="col-sm-4 aboutSection2">
+            <div class="icon" style="height: 60px;">
+                <img src="~/Content/assets/img/slider/About-icon2.png" />
+            </div>
+            <label class="aboutSection2Lbl aboutpaddingLeft">Study anywhere<br />or on the go </label>
+        </div>
+        <div class="col-sm-4" style="text-align: center; padding: 20px;">
+            <div class="icon" style="height: 60px;">
+                <img src="~/Content/assets/img/slider/About-icon3.png" style="margin-top: 6%;" />
+            </div>
+            <label class="aboutSection3Lbl aboutpaddingLeft">Excellent support <br /> & user experience</label>
+        </div>
+    </div>
+</section>
+
+
+<section id="mainAbout">
+    <div >
+        <div class="row firstrow">
+            <div class="col-sm-12">
+                <div class="col-sm-4">
+                    <div class="about-headerBlock">
+                        <h3>MISSION</h3>
+                        <p>Bringing the best content, curriculum and certification to the underserved market. That is our focus and goal.</p>
+                        <hr />
+                    </div>
+                    @*<div class="box_style_1">
+                        <p>
+                            Millionlights was formed to give Open Access to  content and certification to users across India. We are and will be present on all available screens in India including the Desktop, Mobile and TV.
+                        </p>
+                        <p>
+                            Our vision is to reach out to 50 million Indians in the next 5 years and get them up-skilled with real world skills. We firmly believe that there is a vast swathe of India who is not getting access to better employment opportunities and / or skilling because of restricted access to education. We are creating an ecosystem which will bridge this leading to measurable increase in learning outcomes.
+                        </p>
+                    </div>*@
+                </div>
+                <div class="col-sm-8 paddinnone" style="padding-left: 4%; padding-top:2%;">
+                    <p>
+                        We are a group of educationalists, people with extensive experience at the Policy making level in Government and businessmen with deep connects in the education space.
+                    </p>
+                    <p>
+                        Our vision aligns to the Digital India mission of providing skill based certification and linking that to the Industry Needs.
+                    </p>
+                    <p>
+                        The Million Lights Programme aims to be an all encompassing progamme which will cater to the needs of a massive underserved and often neglected market segment. We believe that plain vanilla certification will not create a knowledge economy. An entire system has to be evolved where certification is the end result of learning outcomes. We propose to add significant value to this process through our teaching methedologies and industry led partnerships.
+                    </p>
+                    <p>
+                        Our foundation <b><a href="http://premchandfoundation.org/" target="_blank">The Munshi Premchand Foundation</a></b>  is committed to provide educational access by leveraging technology in order to put the best of internet-based education within the reach of the millions who are currently deprived.
+                    </p>
+                    </div>
+                </div>
+           
+        </div>
+    </div>
+    <hr />
+    </section>
+
+
+  <section>
+    <div class="row" style="margin-left:-8px;">
+        <!-- Jssor Slider Begin -->
+        <div id="slider2_container" style="display: none; position: relative; margin: 0 auto; width: 1100px; height: 350px; overflow: hidden;">
+
+            <!-- Loading Screen -->
+            <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+                <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+
+                background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
+                </div>
+                <div style="position: absolute; display: block; background: url(../Images/loading.gif) no-repeat center center;
+
+                top: 0px; left: 0px;width: 100%;height:100%;">
+                </div>
+            </div>
+
+            <!-- Slides Container -->
+            <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1200px; height: 442px; overflow: hidden; background-color:lightgrey">
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/PritiSalkade.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px; margin-top:25px;" />
+                    <label class="homepagename" style="letter-spacing:3px;">Priti Salkade</label>
+
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        Best way to learn from home!!! The videos here are Excellent!!!
+                    </p>
+                </div>
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/PrashantSalkade.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
+                    <label class="homepagename" style="letter-spacing:3px;">Prashant Salkade</label>
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        Good work by the team.Very useful for young people.Keep up the good work.
+                    </p>
+                </div>
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/PragyaThakur.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
+                    <label class="homepagename" style="letter-spacing:3px;">Pragya Thakur</label>
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        Took the excel course - was pleasantly surprised at the detailed content and syllabus created by the team - would recommend to anyone who needs to use excel daily.
+                    </p>
+                </div>
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/AbhijitYemal.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
+                    <label class="homepagename" style="letter-spacing:3px;">Abhijit Yemal</label>
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        Great way to make many of them learn through your video....loved your last one...cheers!!!!
+                    </p>
+                </div>
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/RuchiGupta.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
+                    <label class="homepagename" style="letter-spacing:3px;">Ruchi Gupta</label>
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        Learning become easier,with the help of snap shots, practicals,videos, superb!!!
+                    </p>
+                </div>
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/SidDeshmukh.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
+                    <label class="homepagename" style="letter-spacing:3px;">Sid Deshmukh</label>
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        Great and must have offerings.. Our industry from recruiter as well a candidate perspective needs this.. Kudos.. Look forward to viral success.
+                    </p>
+                </div>
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/VikrantSood.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
+                    <label class="homepagename" style="letter-spacing:3px;">Vikrant Sood</label>
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        The AutoCAD beginners course offered is very good!!! It explains the concept very well in simple language and coupled with great video guides it makes for a very good learning experience.. The best part is we can take the course anytime as per our convenience.
+                    </p>
+                </div>
+                <div>
+                    <img class="img-circle" src="~/Images/FBSliderImages/ZeishanZeeshan.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
+                    <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
+                    <label class="homepagename" style="letter-spacing:3px;">Zeishan Zeeshan</label>
+                    <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
+                        The AutoCAD beginners course is very helpful. Its easy to understand. Very well organised, for a beginner it is very simple to learn easily without any help. One of the best thing about this course that we can learn it whenever we want. If I can learn you can...........
+                    </p>
+                </div>
+            </div>
+
+            <!--#region Bullet Navigator Skin Begin -->
+            <!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
+            <style>
+                .jssorb05 {
+                    position: absolute;
+                }
+
+                    .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
+                        position: absolute;
+                        /* size of bullet elment */
+                        width: 16px;
+                        height: 16px;
+                        background: url(../Content/assets/img/slider/b05.png) no-repeat;
+                        overflow: hidden;
+                        cursor: pointer;
+                    }
+
+                    .jssorb05 div {
+                        background-position: -7px -7px;
+                    }
+
+                        .jssorb05 div:hover, .jssorb05 .av:hover {
+                            background-position: -37px -7px;
+                        }
+
+                    .jssorb05 .av {
+                        background-position: -67px -7px;
+                    }
+
+                    .jssorb05 .dn, .jssorb05 .dn:hover {
+                        background-position: -97px -7px;
+                    }
+            </style>
+            <style>
+                .jssora11l, .jssora11r {
+                    display: block;
+                    position: absolute;
+                    /* size of arrow element */
+                    width: 37px;
+                    height: 37px;
+                    cursor: pointer;
+                    background: url(../Content/assets/img/slider/a11.png) no-repeat;
+                    overflow: hidden;
+                }
+
+                .jssora11l {
+                    background-position: -11px -41px;
+                }
+
+                .jssora11r {
+                    background-position: -71px -41px;
+                }
+
+                .jssora11l:hover {
+                    background-position: -131px -41px;
+                }
+
+                .jssora11r:hover {
+                    background-position: -191px -41px;
+                }
+
+                .jssora11l.jssora11ldn {
+                    background-position: -251px -41px;
+                }
+
+                .jssora11r.jssora11rdn {
+                    background-position: -311px -41px;
+                }
+            </style>
+            <!-- Arrow Left -->
+            <span u="arrowleft" class="jssora11l" style="top: 123px; left: 8px;">
+            </span>
+            <!-- Arrow Right -->
+            <span u="arrowright" class="jssora11r" style="top: 123px; right: 8px;">
+            </span>
+            <!--#endregion Arrow Navigator Skin End -->
+            <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
+        </div>
+        <!-- Jssor Slider End -->
+    </div><!--container -->
+
+</section>
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+<script type="text/javascript">
+
+    //Specify the slider's width (in pixels)
+    var sliderwidth = "1150px"
+    //Specify the slider's height
+    var sliderheight = "150px"
+    //Specify the slider's slide speed (larger is faster 1-10)
+    var slidespeed = 2
+    //configure background color:
+    slidebgcolor = "#EAEAEA"
+
+    //Specify the slider's images
+    var leftrightslide = new Array()
+    var finalslide = ''
+    var partners = "";
+    if ('@PartnerList.Count()' > 0)
+    {
+        @foreach (var partners in PartnerList)
+         {
+            if (partners.DisplayOnHomePage == true)
+            {
+                var physicalPath = Request.MapPath("/Images/Partner/" + partners.Id + "/" + partners.ImageLink + "");
+                if (System.IO.File.Exists(physicalPath))
+                {
+                     @:leftrightslide.push('<a href="http://"><img src="../images/Partner/@partners.Id/@partners.ImageLink"  border=1></a>');
+                }
+            }
+        }
+
+    }
+    //Specify gap between each image (use HTML):
+    var imagegap = "<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"
+
+    //Specify pixels gap between each slideshow rotation (use integer):
+    var slideshowgap = 100
+    ////NO NEED TO EDIT BELOW THIS LINE////////////
+
+    var copyspeed = slidespeed
+    leftrightslide = '<nobr>' + leftrightslide.join(imagegap) + '</nobr>'
+    var iedom = document.all || document.getElementById
+    if (iedom)
+        document.write('<span id="temp" style="visibility:hidden;position:absolute;top:-100px;left:-9000px">' + leftrightslide + '</span>')
+    var actualwidth = ''
+    var cross_slide, ns_slide
+
+    function fillup() {
+        if (iedom) {
+            cross_slide = document.getElementById ? document.getElementById("test2") : document.all.test2
+            cross_slide2 = document.getElementById ? document.getElementById("test3") : document.all.test3
+            cross_slide.innerHTML = cross_slide2.innerHTML = leftrightslide
+            actualwidth = document.all ? cross_slide.offsetWidth : document.getElementById("temp").offsetWidth
+            cross_slide2.style.left = actualwidth + slideshowgap + "px"
+        }
+        else if (document.layers) {
+            ns_slide = document.ns_slidemenu.document.ns_slidemenu2
+            ns_slide2 = document.ns_slidemenu.document.ns_slidemenu3
+            ns_slide.document.write(leftrightslide)
+            ns_slide.document.close()
+            actualwidth = ns_slide.document.width
+            ns_slide2.left = actualwidth + slideshowgap
+            ns_slide2.document.write(leftrightslide)
+            ns_slide2.document.close()
+        }
+        lefttime = setInterval("slideleft()", 30)
+    }
+    window.onload = fillup
+
+    function slideleft() {
+        if (iedom) {
+            if (parseInt(cross_slide.style.left) > (actualwidth * (-1) + 8))
+                cross_slide.style.left = parseInt(cross_slide.style.left) - copyspeed + "px"
+            else
+                cross_slide.style.left = parseInt(cross_slide2.style.left) + actualwidth + slideshowgap + "px"
+
+            if (parseInt(cross_slide2.style.left) > (actualwidth * (-1) + 8))
+                cross_slide2.style.left = parseInt(cross_slide2.style.left) - copyspeed + "px"
+            else
+                cross_slide2.style.left = parseInt(cross_slide.style.left) + actualwidth + slideshowgap + "px"
+
+        }
+        else if (document.layers) {
+            if (ns_slide.left > (actualwidth * (-1) + 8))
+                ns_slide.left -= copyspeed
+            else
+                ns_slide.left = ns_slide2.left + actualwidth + slideshowgap
+
+            if (ns_slide2.left > (actualwidth * (-1) + 8))
+                ns_slide2.left -= copyspeed
+            else
+                ns_slide2.left = ns_slide.left + actualwidth + slideshowgap
+        }
+    }
+
+
+    if (iedom || document.layers) {
+        with (document) {
+            document.write('<table border="0" cellspacing="0" cellpadding="0"><td>')
+            if (iedom) {
+                write('<div class=hidden-xs id=partnerSlide style="position:relative;width:' + sliderwidth + ';height:' + sliderheight + ';overflow:hidden;margin-left:10%;padding-top:25px;">')
+                write('<div style="position:absolute;width:' + sliderwidth + ';height:' + sliderheight + ';">')
+                write('<div id="test2" style="position:absolute;left:0px;top:0px"></div>')
+                write('<div id="test3" style="position:absolute;left:-1000px;top:0px"></div>')
+                write('</div></div>')
+            }
+            else if (document.layers) {
+                write('<ilayer width=' + sliderwidth + ' height=' + sliderheight + ' name="ns_slidemenu" bgColor=' + slidebgcolor + '>')
+                write('<layer name="ns_slidemenu2" left=0 top=0 onMouseover="copyspeed=0" onMouseout="copyspeed=slidespeed"></layer>')
+                write('<layer name="ns_slidemenu3" left=0 top=0 onMouseover="copyspeed=0" onMouseout="copyspeed=slidespeed"></layer>')
+                write('</ilayer>')
+            }
+            document.write('</td></table>')
+        }
+    }
+</script>
+
+<style>
+    #test3 img:hover {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        transform: scale(1.1);
+        cursor: default;
+        -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+        box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+    }
+
+    #test2 img:hover {
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -o-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        transform: scale(1.1);
+        cursor: default;
+        -webkit-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+        -moz-box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+        box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+    }
+</style>   
+<script>
+    //JQuery for slider
+    jQuery(document).ready(function ($) {
+        var options = {
+            $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+            $AutoPlaySteps: 1,                                  //[Optional] Steps to go for each navigation request (this options applys only when slideshow disabled), the default value is 1
+            $AutoPlayInterval: 2000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+            $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
+
+            $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+            $SlideEasing: $JssorEasing$.$EaseOutQuint,          //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
+            $SlideDuration: 800,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+            $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+            //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+            //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+            $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+            $DisplayPieces: 1,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+            $ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+            $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+            $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
+            $DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+
+            $ArrowNavigatorOptions: {                           //[Optional] Options to specify and enable arrow navigator or not
+                $Class: $JssorArrowNavigator$,                  //[Requried] Class to create arrow navigator instance
+                $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                $AutoCenter: 2,                                 //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                $Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                $Scale: false                                   //Scales bullets navigator or not while slider scale
+            },
+
+            $BulletNavigatorOptions: {                                //[Optional] Options to specify and enable navigator or not
+                $Class: $JssorBulletNavigator$,                       //[Required] Class to create navigator instance
+                $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                $AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                $Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                $Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
+                $SpacingX: 12,                                   //[Optional] Horizontal space between each item in pixel, default value is 0
+                $SpacingY: 4,                                   //[Optional] Vertical space between each item in pixel, default value is 0
+                $Orientation: 1,                                //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+                $Scale: false                                   //Scales bullets navigator or not while slider scale
+            }
+        };
+        //Make the element 'slider1_container' visible before initialize jssor slider.
+
+        $("#slider2_container").css("display", "block");
+        var jssor_slider2 = new $JssorSlider$("slider2_container", options);
+
+        //responsive code begin
+        //you can remove responsive code if you don't want the slider scales while window resizes
+
+        function ScaleSlider2() {
+            var parentWidth = jssor_slider2.$Elmt.parentNode.clientWidth;
+            if (parentWidth) {
+                jssor_slider2.$ScaleWidth(parentWidth - 0);
+            }
+            else
+                window.setTimeout(ScaleSlider2, 30);
+        }
+        ScaleSlider2();
+        $(window).bind("load", ScaleSlider2);
+        $(window).bind("resize", ScaleSlider2);
+        $(window).bind("orientationchange", ScaleSlider2);
+    });
+
+        </script>

@@ -1,0 +1,192 @@
+﻿@model Millionlights.Models.Course
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LMSCourseId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LMSCourseId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CourseLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CourseLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Objective)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Objective)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExamObjective)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExamObjective)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Financial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Financial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Community)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Community)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnableForLMS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnableForLMS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnableForCertification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnableForCertification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnableForPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnableForPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageLink)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageLink)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Certification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Certification)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

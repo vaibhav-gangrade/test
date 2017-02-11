@@ -1,0 +1,60 @@
+﻿<div class="row">
+    <div class="col-md-3 col-sm-3 " style="padding:20px;">
+        <a href="/Home/Index">
+            <img src="~/Content/assets/img/slider/header-logo.png" class="img-responsive" style="margin-top: 2%; padding-left: 40px;" />
+        </a>
+    </div>
+    <div class="col-md-9 col-sm-9 dashBLbl">
+        <div class="col-md-2 col-sm-2" style="margin-top:-1%;padding-left:43%;">
+            <a style="color:white !important;" href="/Home/UserDashboard">DASHBOARD</a>
+               @*@Html.ActionLink("DASHBOARD", "../Home/UserDashboard", "Home", new { @style = "color:white !important;" })*@</div>
+        <div class="col-md-1 col-sm-1" style="margin-top:-2.5%; float:right; line-height:10px;" id="threeDotMenu">
+            <a data-toggle="dropdown" href="#" @*class="dropdown-toggle"*@ style="color:white !important;float:right;font-weight:bold;" id="anchartag">
+                <div style="font-size:30px;">.</div>
+                <div style="font-size:30px;">.</div>
+                <div style="font-size:30px;">.</div>
+            </a>
+            <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close" id="menuID">
+                <li> @Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("About Us", "massive-open-online-courses-India", "Home")</li>
+                <li><a href="/PressRelease/Press">Press Release</a></li>
+                <li>@Html.ActionLink("Courses", "AllCourses", "Course")</li>
+                <li>@Html.ActionLink("Activate Coupon", "ActivateCoupon", "CouponCode")</li>
+                <li><a href="http://blog.millionlights.org/" target="_blank">Blog</a></li>
+                <li><a href="~/Home/Contact">Contact Us</a></li>
+                <li><a href="https://www.millionlights.org/MobileApp/index.html" target="_blank">Mobile App</a></li>
+                <li><a href="http://www.millionlights.tv" target="_blank">ML - TV</a></li>
+                <li>@Html.ActionLink("Feedback", "UserFeedback", "Home")</li>
+                <li>@Html.ActionLink("Logout", "LoginOut", "UserRegister")</li>
+            </ul>
+
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+           $("#anchartag")
+        .mouseover(function () {
+            $("#menuID").show();
+          })
+          .mouseout(function () {
+              $("#menuID").hide();
+          });
+                $("#menuID")
+        .mouseover(function () {
+            $(this).show();
+        })
+          .mouseout(function () {
+              $(this).hide();
+          });
+                $("#milionlogo").click(function () {
+                    location.href = "/Home/Index";
+
+           });
+    });
+
+
+</script>

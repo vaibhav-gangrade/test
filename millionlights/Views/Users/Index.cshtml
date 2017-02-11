@@ -1,0 +1,1028 @@
+﻿@model Millionlights.Models.UserDetails
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userRegistered = ViewBag.RegisteredUsers;
+    var userRole = (List<SelectListItem>)ViewBag.UserRoleList;
+    var partnerList = (List<SelectListItem>)ViewBag.PartnerID;
+    var userId = Session["UserID"];
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+@{
+    var messages = (Dictionary<string, string>)ViewBag.Messages;
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
+<link rel="stylesheet" href="~/Content/assets/css/jquery-ui.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ui.jqgrid.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+<link href="~/Content/assets/css/daterangepicker.css" rel="stylesheet" />
+<link href="~/Content/Custom/Animation.css" rel="stylesheet" />
+<script src="~/Content/assets/js/date-time/moment.js"></script>
+<script src="~/Content/assets/js/date-time/daterangepicker.js"></script>
+<div class="breadcrumbs breadCrumbAlign" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+        <li> <a href="/Users/Index">Users</a></li>
+        <li class="active">View</li>
+    </ul>
+</div>
+    <div>
+        <div class="row" id="UserDetailsTableId">
+            <div class="page-header">
+                <h1>
+                    Users
+                    <small>
+                        <i class="ace-icon fa fa-angle-double-right"></i>
+                        Search and View Users
+                    </small>
+                </h1>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                @Html.DropDownListFor(model => model.PartnerId, partnerList, "---Select Partner---", new { @style = "width:105%; ", id = "partnerID" })
+                @Html.ValidationMessageFor(model => model.PartnerId, "", new { @class = "text-danger", @style = "padding-left:5%;", id = "erroPartner" })
+            </div>
+        </div>
+        @Html.ValidationMessageFor(m => m.IsActive, "", new { @class = "text-danger errorMaxCoupon", id = "errorUserType" })
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.FirstName, userRole, "---Select UserRole---", new { @style = "width:100%;", id="roleId" })
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group">
+                    <input class="form-control" type="text" style="width:100%; height:30px;" placeholder="Select register date range From-To" name="date-range-picker" id="id-date-range-picker-1" />
+                </div>
+            </div>
+
+        </div>
+        <div class="row" style="margin-top:1%;">
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group ">
+                    <input type="text" placeholder="City" id="cityId" style="width:100%; height:30px;">
+                    <input type="hidden" id="HdcityId" name="city" />
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group ">
+                    <input type="text" placeholder="State" id="stateId" style="width:100%; height:30px;">
+                    <input type="hidden" id="HdstateId" name="state" />
+                    
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group ">
+                    <input type="text" placeholder="Country" id="countryId"  style="width:100%; height:30px;">
+                    <input type="hidden"  name="country" />
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <div class="form-group ">
+                    <button type="button" name="UserInfoTxt" id="UserInfoTxt" class="ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-purple" onclick="ShowLoader();"><i class="ace-icon fa fa-search nav-search-icon"></i>Search</button>
+                 </div>
+            </div>
+        </div>
+        <div id="loderimage" class="loading" style="display:none;text-align:center">
+
+            <img src="~/Images/loading1.gif" /><br />
+            <h4 style="text-align:center">Users Are Loading Please Wait...</h4>
+        </div>
+    </div>
+
+@using (Html.BeginForm("Index", null, FormMethod.Post, new { id = "export" }))
+{
+    @Html.HiddenFor(x => x.Csv)
+    <div id="Userdetailsdata" class="page-content pagecs">
+        <div class="row">
+            <div id="dvData" class="col-xs-10">
+                <!-- PAGE CONTENT BEGINS -->
+                <table id="grid-table"></table>
+                <div id="grid-pager"></div>
+                <script type="text/javascript">
+                    var $path_base = "..";
+                </script>
+
+                <!-- PAGE CONTENT ENDS -->
+            </div><!-- /.col -->
+
+        </div>
+    </div>
+}
+    <script type="text/javascript">
+        window.jQuery || document.write("<script type='text/javascript' src='~/Content/assets/js/jquery.js'>" + "<" + "/script>");
+    </script>
+    <script src="../Content/assets/js/date-time/bootstrap-datepicker.js"></script>
+    <script src="../Content/assets/js/jqGrid/jquery.jqGrid.src.js"></script>
+    <script src="../Content/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+<script src="~/Content/assets/js/bootbox.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var userid = '@userId'
+            if (userid == '') {
+                var url = "/Account/Login";
+                window.location.href = url;
+            }
+            
+            $("#id-date-range-picker-1").val('');
+            $(".PartnerList").hide();
+            $('input[name=date-range-picker]').daterangepicker({
+                'applyClass': 'btn-sm btn-success',
+                'cancelClass': 'btn-sm btn-default',
+                locale: {
+                    applyLabel: 'Apply',
+                    cancelLabel: 'Cancel',
+                }
+            })
+        });
+        
+       
+        function searchUsers() {
+            var grid_data = [];
+            var grid_selector = "#grid-table";
+            var pager_selector = "#grid-pager";
+            setInterval(grid_data = GetUserDetails(), 2000);
+                
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+                    //resize to fit page size
+                    $(window).on('resize.jqGrid', function () {
+                        $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+                    })
+                    //resize on sidebar collapse/expand
+                    var parent_column = $(grid_selector).closest('[class*="col-"]');
+                    $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                        if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                            //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                            setTimeout(function () {
+                                $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                            }, 0);
+                        }
+                    })
+                    var totalRecords = grid_data.length;
+
+                    jQuery(grid_selector).jqGrid({
+                        data: grid_data,
+                        datatype: "local",
+                        height: 250,
+                        colNames: ['Action', 'UserId', 'FullName', 'EmailId',  'PhoneNumber', 'PartnerName','Role','City','State', 'Country', 'Registered On'],
+                        colModel: [
+                            { name: 'Action', index: 'Action', sortable: false, formatter: displayButtons },
+                            { name: 'UserId', index: 'UserId', hidden:true },
+                            { name: 'FullName', index: 'FullName', },
+                            //{ name: 'UserName', index: 'UserName', },
+                            { name: 'EmailId', index: 'EmailId', },
+                            { name: 'PhoneNumber', index: 'PhoneNumber', width: 150, unformat: aceSwitch },
+                            { name: 'Name', index: 'Name', width: 150, unformat: aceSwitch },
+                            { name: 'RoleName', index: 'RoleName', },
+                            { name: 'City', index: 'City', },
+                            { name: 'State', index: 'State', },
+                            { name: 'Country', index: 'Country', },
+                            { name: 'RegisteredDatetimeString', index: 'RegisteredDatetimeString', width: 150, unformat: aceSwitch },
+                            //{ name: 'IsActive', index: 'IsActive', width: 150, unformat: aceSwitch }
+                        ],
+                        gridview: true,
+                        loadonce:true,
+                        viewrecords: true,
+                        rowNum: 10,
+                        rowList: [10, 20, 30, totalRecords],
+                        pager: pager_selector,
+                        altRows: true,
+                        //toppager: true,
+
+                        multiselect: true,
+                        //multikey: "ctrlKey",
+                        multiboxonly: true,
+
+                        loadComplete: function () {
+                            var table = this;
+                            setTimeout(function () {
+                                styleCheckbox(table);
+
+                                updateActionIcons(table);
+                                updatePagerIcons(table);
+                                enableTooltips(table);
+                            }, 0);
+                            $(".ui-jqgrid-titlebar").find('#btnExport').remove();
+                            $(".ui-jqgrid-titlebar").append('<button type="submit" id="btnExport" title="Export To CSV"  class="pull-right ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-pink exportPartner"><i class="ace-icon fa fa-file-excel-o nav-search-icon"></i>Export</button>');
+                        },
+
+                        editurl: "/dummy.html",//nothing is saved
+                        caption: "Users Details"
+                    });
+                    $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+                    //switch element when editing inline
+                    function aceSwitch(cellvalue, options, cell) {
+                        setTimeout(function () {
+                            $(cell).find('input[type=checkbox]')
+                                .addClass('ace ace-switch ace-switch-5')
+                                .after('<span class="lbl"></span>');
+                        }, 0);
+                    }
+                    //enable datepicker
+                    function pickDate(cellvalue, options, cell) {
+                        setTimeout(function () {
+                            $(cell).find('input[type=text]')
+                                    .datepicker({ format: 'dd-mm-yyyy', autoclose: true });
+                        }, 0);
+                    }
+
+                    jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                        { 	//navbar options
+                            edit: false,
+                            editicon: 'ace-icon fa fa-pencil blue',
+                            add: true,
+                            addicon: 'ace-icon fa fa-plus-circle purple',
+                            del: false,
+                            delicon: 'ace-icon fa fa-trash-o red',
+                            search: true,
+                            searchicon: 'ace-icon fa fa-search orange',
+                            refresh: true,
+                            refreshicon: 'ace-icon fa fa-refresh green',
+                            view: true,
+                            viewicon: 'ace-icon fa fa-search-plus grey',
+                            
+                        },
+                        {
+                            //edit record form
+                            //closeAfterEdit: true,
+                            //width: 700,
+                            recreateForm: true,
+                            beforeShowForm: function (e) {
+                                var form = $(e[0]);
+                                form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                style_edit_form(form);
+                            }
+                        },
+                        {
+                            //new record form
+                            //width: 700,
+                            beforeShowForm: function (e) {
+                                debugger
+                                location.href = "/Users/Create";
+                            }
+                        },
+                        {
+                            //delete record form
+                            recreateForm: true,
+                            beforeShowForm: function (e) {
+                                ReadTablesRows();
+                            },
+                            onClick: function (e) {
+                             
+                            }
+                        },
+                        {
+                            //search form
+                            recreateForm: true,
+                            afterShowSearch: function (e) {
+                                var form = $(e[0]);
+                                form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                style_search_form(form);
+                            },
+                            afterRedraw: function () {
+                                style_search_filters($(this));
+                            }
+                            ,
+                            multipleSearch: true,
+                        },
+                        {
+                            //view record form
+                            recreateForm: true,
+                            beforeShowForm: function (e) {
+                                var form = $(e[0]);
+                                form.find('ui-jqdialog').addClass('jqwidth');
+                                form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                            }
+                        }
+                    )
+                    
+                    function style_edit_form(form) {
+                        //enable datepicker on "sdate" field and switches for "stock" field
+                        form.find('input[name=sdate]').datepicker({ format: 'dd-mm-yyyy', autoclose: true })
+
+                        form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+                        //update buttons classes
+                        var buttons = form.next().find('.EditButton .fm-button');
+                        buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                        buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+                        buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+                        buttons = form.next().find('.navButton a');
+                        buttons.find('.ui-icon').hide();
+                        buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+                        buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+                    }
+
+                    function style_delete_form(form) {
+                        var buttons = form.next().find('.EditButton .fm-button');
+                        buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                        buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+                        buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+                    }
+
+                    function style_search_filters(form) {
+                        form.find('.delete-rule').val('X');
+                        form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                        form.find('.add-group').addClass('btn btn-xs btn-success');
+                        form.find('.delete-group').addClass('btn btn-xs btn-danger');
+                    }
+                    function style_search_form(form) {
+                        var dialog = form.closest('.ui-jqdialog');
+                        var buttons = dialog.find('.EditTable')
+                        buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+                        buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+                        buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+                    }
+
+                    function beforeDeleteCallback(e) {
+                        var form = $(e[0]);
+                        if (form.data('styled')) return false;
+
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                        style_delete_form(form);
+
+                        form.data('styled', true);
+                    }
+
+                    function beforeEditCallback(e) {
+                        var form = $(e[0]);
+                        form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                        style_edit_form(form);
+                    }
+
+                    function displayButtons(cellvalue, options, rowObject) {
+                        var disableDiv = '';
+                        var edit = '<a href="#" title="Edit" id="edit_' + rowObject.UserId + '" onclick="EditUser(' + rowObject.UserId + ')" class="ace-icon fa fa-pencil fa-lg blue"></a>';
+                        if (rowObject.IsActive == true) {
+
+                            var disable = '&nbsp;&nbsp;&nbsp;<a href="#" title="Disable" onclick="EnableDisable(this,' + rowObject.UserId + ',' + rowObject.IsActive + ')"   class="ace-icon fa  fa-check-square-o fa-lg blue"></a>';
+
+                            disableDiv = disable;
+
+                        }
+
+                        else {
+
+                            var enable = '&nbsp;&nbsp;&nbsp;<a href="#" title="Enable" onclick="EnableDisable(this,' + rowObject.UserId + ',' + rowObject.IsActive + ')"  class="ace-icon fa fa-square-o fa-lg red"></a>';
+
+                            disableDiv = enable;
+                        }
+                        return "<div style='display:flex;'>" + edit + disableDiv + "</div>";
+                    }
+
+                    //it causes some flicker when reloading or navigating grid
+                    //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+                    //or go back to default browser checkbox styles for the grid
+                    function styleCheckbox(table) {
+                    }
+
+
+                    //unlike navButtons icons, action icons in rows seem to be hard-coded
+                    //you can change them like this in here if you want
+                    function updateActionIcons(table) {
+                    }
+
+                    //replace icons with FontAwesome icons like above
+                    function updatePagerIcons(table) {
+                        var replacement =
+                        {
+                            'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                            'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                            'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                            'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                        };
+                        $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                            var icon = $(this);
+                            var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                            if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                        })
+
+                        var buttonAdd = '<td onclick="SendCredentials()" class="ui-pg-button ui-corner-all send_grid" title="" id="send_grid-table" data-original-title="Send credentials to user(s)"><div class="ui-pg-div"><span class="ui-icon ace-icon fa fa-share red"></span></div></td>';
+                        if ($('.ui-pg-table:not(.navtable) > tbody > tr').find('#grid-pager_left').find('table.ui-pg-table >tbody >tr').find('.send_grid').length == 0) {
+                            $('.ui-pg-table:not(.navtable) > tbody > tr').find('#grid-pager_left').find('table.ui-pg-table >tbody >tr').append(buttonAdd);
+                        }
+                    }
+
+                    function enableTooltips(table) {
+                        $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+                        $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+                    }
+                    $(document).one('ajaxloadstart.page', function (e) {
+                        $(grid_selector).jqGrid('GridUnload');
+                        $('.ui-jqdialog').remove();
+                    });
+        }
+
+        function SendCredentials() {
+            var model = "[";
+            $('#grid-table > tbody  > tr').each(function () {
+                if ($(this).attr('aria-selected') != undefined) {
+                    var selectedId = $($(this)[0].cells['1']).find('.fa-pencil')[0].id;
+                    var SearchUserModel =
+                    {
+                        "Id": selectedId.split('_')[1],
+                    };
+                    model = model + JSON.stringify(SearchUserModel) + ",";
+                }
+            });
+
+            model = model.substring(0, model.length - 1);
+            if (model == "") {
+                model = "[]";
+            }
+            else {
+                model = model + "]";
+            }
+            if (model.length !=1) {
+                var conf = confirm("Are you sure you want to send credentials to the selected user(s)?");
+                if (conf === true) {
+                    $.ajax({
+                        type: "POST",
+                        async: false,
+                        data: model,
+                        contentType: 'application/json; charset=utf-8',
+                        url: "/Users/SendCredentials",
+                        success: function (response) {
+                            if (response == "true") {
+                                bootbox.dialog({
+                                    message: "Success! The email has been sent successfully to the selected receipient(s)!",
+                                    buttons: {
+                                        "success": {
+                                            "label": "OK",
+                                            "className": "btn-sm btn-primary",
+                                            callback: function () {
+                                                location.href = '/Users/Index';
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                                bootbox.dialog({
+                                    message: "We are really sorry, the email cant sent due to some internal issues. Please try later!",
+                                    buttons: {
+                                        "success": {
+                                            "label": "OK",
+                                            "className": "btn-sm btn-primary",
+                                            callback: function () {
+                                                location.href = '/Users/Index';
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        error: function (response) {
+
+                        }
+                    });
+                }
+                
+            }
+            else {
+                bootbox.dialog({
+                    message: "Please select atleast one record to resend password.",
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary"
+                        }
+                    }
+                });
+                return false;
+            }
+            
+        }
+        function EditUser(id) {
+            var url = '@Url.Action("Edit", "Users", new { id = -1 })';
+            window.location.href = url.replace('-1', id);
+        }
+
+        function GetUserDetails() {
+            if ($('#self').is(':checked')) {
+                var radioval = $('#self')[0].value;
+               
+            }
+            else if ($('#partner').is(':checked')){
+                var radioval = $('#partnerID')[0].value;
+            }
+            var role = $("#roleId").val();
+            if (role == "") {
+                role = 0;
+            }
+            var partner = $("#partnerID").val();
+            if (partner == "") {
+                partner = 0;
+            }
+            var daterange = $("#id-date-range-picker-1").val();
+            var city = $("#cityId").val();
+            var state = $("#stateId").val();
+            var country = $("#countryId").val();
+            var UsersList = [];
+            UsersList.length = 0;
+            var grid_selector = "#grid-table";
+            $(grid_selector).jqGrid('GridUnload');
+            $('.ui-jqdialog').remove();
+            $.ajax({
+                type: "POST",
+                async: false,
+                contentType: 'application/json',
+                url: "/Users/GetUserDetails",
+                data: "{role:'" + role + "',daterange:'" + daterange + "',city:'" + city + "',state:'" + state + "',country:'" + country + "',radioval:'" + radioval + "',partner:'" + partner + "'}",
+                success: function (response) {
+                    UsersList.length = 0;
+                    if (response != null) {
+                        for (var i = 0; i < response.length; i++) {
+                            var resp = JSON.parse(JSON.stringify(response[i]));
+                            UsersList.push(resp);
+                        }
+                        $("#loderimage").css({ display: "none" });
+                        $('#UserDetailsTableId').show();
+                    }
+                },
+                error: function (response) {
+                }
+            });
+            return UsersList;
+        }
+
+        function EnableDisable(obj, id, status) {
+            var checkboxObj = $(obj);
+            if (status == true) {
+                var disable = '@messages["Disable"]'
+                
+                var conf = confirm(disable);
+
+                if (conf === true) {
+                    $.ajax({
+
+                        type: "POST",
+
+                        async: false,
+
+                        url: "/Users/Disabled",
+
+                        data: "{id:'" + id + "',status:'" + status + "'}",
+
+                        contentType: 'application/json',
+
+                        success: function (response) {
+
+                            searchUsers();
+                        },
+
+                        error: function (response) {
+                        }
+
+                    });
+                }
+
+            }
+
+            else {
+                var enable='@messages["Enable"]'
+                var conf = confirm(enable);
+                
+                if (conf === true) {
+                    $.ajax({
+
+                        type: "POST",
+
+                        async: false,
+
+                        url: "/Users/Disabled",
+
+                        data: "{id:'" + id + "',status:'" + status + "'}",
+
+                        contentType: 'application/json',
+
+                        success: function (response) {
+                            searchUsers();
+                        },
+
+                        error: function (response) {
+                        }
+
+                    });
+                }
+            }
+        }
+        function deleteRecord(UserId) {
+            var deleteRecord='@messages["DeleteRecord"]'
+            var confirmdelete = confirm(deleteRecord);
+            if (confirmdelete === true) {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "/Users/Disabled",
+                    data: "{id:" + UserId + ",status:" + true + "}",
+                    contentType: 'application/json',
+                    success: function (response) {
+                    },
+                    error: function (response) {
+                    }
+                });
+            }
+            searchUsers();
+        }
+
+        function ReadTablesRows() {
+            var model = "[";
+            $('#grid-table > tbody  > tr').each(function () {
+                if ($(this).attr('aria-selected') != undefined) {
+                    var selectedId = $($(this)[0].cells['1']).find('.fa-pencil')[0].id;
+                    var SearchUserModel =
+                    {
+                        "Id": selectedId.split('_')[1],
+                    };
+                    model = model + JSON.stringify(SearchUserModel) + ",";
+                }
+            });
+
+            model = model.substring(0, model.length - 1);
+            if (model == "") {
+                model = "[]";
+            }
+            else {
+                model = model + "]";
+            }
+            DeleteMultipleUsers(model);
+        }
+        function DeleteMultipleUsers(model) {
+            var deleteSelectRecord='@messages["DeleteSelectRecord"]'
+            var conf = confirm(deleteSelectRecord);
+            if (conf === true) {
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    data: model,
+                    contentType: 'application/json; charset=utf-8',
+                    url: "/Users/DeleteMultipleUsers",
+                    success: function (response) {
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+            }
+            searchUsers();
+        }
+
+        function RdbpartnerList() {
+            $(".PartnerList").show();
+        }
+        function RdbselfReg() {
+            $(".PartnerList").hide();
+        }
+
+        function ValidateUser() {
+            var isValid = true;
+            var partnerList = $('#partnerID')[0].value;
+            var partner = document.querySelector('input[id="partner"]:checked');
+            //else
+            if (partner != null) {
+                if (partnerList.length == 0) {
+                    $('#erroPartner')[0].innerHTML = "Please select a partner.";
+                    isValid = false;
+                }
+                else {
+                    $("#erroPartner")[0].innerHTML = "";
+                }
+            }
+            else {
+                $("#errorUserType")[0].innerHTML = "";
+            }
+            if (isValid == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function searchEmpty() {
+            var grid_data = [];
+            jQuery(function ($) {
+                var grid_selector = "#grid-table";
+                var pager_selector = "#grid-pager";
+
+                //resize to fit page size
+                $(window).on('resize.jqGrid', function () {
+                    $(grid_selector).jqGrid('setGridWidth', $(".page-content").width());
+                })
+                //resize on sidebar collapse/expand
+                var parent_column = $(grid_selector).closest('[class*="col-"]');
+                $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+                    if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+                        //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
+                        setTimeout(function () {
+                            $(grid_selector).jqGrid('setGridWidth', parent_column.width());
+                        }, 0);
+                    }
+                })
+                jQuery(grid_selector).jqGrid({
+                    data: grid_data,
+                    datatype: "local",
+                    height: 250,
+                    colNames: ['Action', 'UserId', 'FullName', 'EmailId', 'PhoneNumber', 'PartnerName', 'Role', 'City', 'State', 'Country', 'Registered On'],
+                    colModel: [
+                        { name: 'Action', index: 'Action', sortable: false, formatter: displayButtons },
+                        { name: 'UserId', index: 'UserId', hidden: true },
+                        { name: 'FullName', index: 'FullName', },
+                        { name: 'EmailId', index: 'EmailId', },
+                        { name: 'PhoneNumber', index: 'PhoneNumber', width: 150, unformat: aceSwitch },
+                { name: 'Name', index: 'Name', width: 150, unformat: aceSwitch },
+                        { name: 'RoleName', index: 'RoleName', },
+                        { name: 'City', index: 'City', },
+                        { name: 'State', index: 'State', },
+                        { name: 'Country', index: 'Country', },
+                        { name: 'RegisteredDatetimeString', index: 'RegisteredDatetimeString', width: 150, unformat: aceSwitch },
+                      
+                    ],
+
+                    viewrecords: true,
+                    rowNum: 10,
+                    rowList: [10, 20, 30],
+                    pager: pager_selector,
+                    altRows: true,
+                    //toppager: true,
+
+                    multiselect: true,
+                    //multikey: "ctrlKey",
+                    multiboxonly: true,
+
+                    loadComplete: function () {
+                        var table = this;
+                        setTimeout(function () {
+                            styleCheckbox(table);
+
+                            updateActionIcons(table);
+                            updatePagerIcons(table);
+                            enableTooltips(table);
+                        }, 0);
+                        $(".ui-jqgrid-titlebar").find('#btnExport').remove();
+                        $(".ui-jqgrid-titlebar").append('<button type="submit" id="btnExport" title="Export To CSV"  class="pull-right ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-pink exportPartner"><i class="ace-icon fa fa-file-excel-o nav-search-icon"></i>Export</button>');
+                    },
+
+                    editurl: "/dummy.html",//nothing is saved
+                    caption: "Users"
+                });
+                $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+                //switch element when editing inline
+                function aceSwitch(cellvalue, options, cell) {
+                    setTimeout(function () {
+                        $(cell).find('input[type=checkbox]')
+                            .addClass('ace ace-switch ace-switch-5')
+                            .after('<span class="lbl"></span>');
+                    }, 0);
+                }
+                //enable datepicker
+                function pickDate(cellvalue, options, cell) {
+                    setTimeout(function () {
+                        $(cell).find('input[type=text]')
+                                .datepicker({ format: 'dd-mm-yyyy', autoclose: true });
+                    }, 0);
+                }
+                //navButtons
+                jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                    { 	//navbar options
+                        edit: false,
+                        editicon: 'ace-icon fa fa-pencil blue',
+                        add: true,
+                        addicon: 'ace-icon fa fa-plus-circle purple',
+                        del: false,
+                        delicon: 'ace-icon fa fa-trash-o red',
+                        search: true,
+                        searchicon: 'ace-icon fa fa-search orange',
+                        refresh: true,
+                        refreshicon: 'ace-icon fa fa-refresh green',
+                        view: true,
+                        viewicon: 'ace-icon fa fa-search-plus grey'
+                    },
+                    {
+                        //edit record form
+                        //closeAfterEdit: true,
+                        //width: 700,
+                        recreateForm: true,
+                        beforeShowForm: function (e) {
+                            var form = $(e[0]);
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                            style_edit_form(form);
+                        }
+                    },
+                    {
+                        //new record form
+                        //width: 700,
+                        beforeShowForm: function (e) {
+                            debugger
+                            location.href = "/Users/Create";
+                        }
+                    },
+                    {
+                        //delete record form
+                        recreateForm: true,
+                        beforeShowForm: function (e) {
+                            ReadTablesRows();
+                        },
+                        onClick: function (e) {
+                           
+                        }
+                    },
+                    {
+                        //search form
+                        recreateForm: true,
+                        afterShowSearch: function (e) {
+                            var form = $(e[0]);
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                            style_search_form(form);
+                        },
+                        afterRedraw: function () {
+                            style_search_filters($(this));
+                        }
+                        ,
+                        multipleSearch: true,
+                    },
+                    {
+                        //view record form
+                        recreateForm: true,
+                        beforeShowForm: function (e) {
+                            var form = $(e[0]);
+                            form.find('ui-jqdialog').addClass('jqwidth');
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                        }
+                    }
+                )
+
+                function style_edit_form(form) {
+                    form.find('input[name=sdate]').datepicker({ format: 'dd-mm-yyyy', autoclose: true })
+
+                    form.find('input[name=stock]').addClass('ace ace-switch ace-switch-5').after('<span class="lbl"></span>');
+                    //update buttons classes
+                    var buttons = form.next().find('.EditButton .fm-button');
+                    buttons.addClass('btn btn-sm').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                    buttons.eq(0).addClass('btn-primary').prepend('<i class="ace-icon fa fa-check"></i>');
+                    buttons.eq(1).prepend('<i class="ace-icon fa fa-times"></i>')
+
+                    buttons = form.next().find('.navButton a');
+                    buttons.find('.ui-icon').hide();
+                    buttons.eq(0).append('<i class="ace-icon fa fa-chevron-left"></i>');
+                    buttons.eq(1).append('<i class="ace-icon fa fa-chevron-right"></i>');
+                }
+
+                function style_delete_form(form) {
+                    var buttons = form.next().find('.EditButton .fm-button');
+                    buttons.addClass('btn btn-sm btn-white btn-round').find('[class*="-icon"]').hide();//ui-icon, s-icon
+                    buttons.eq(0).addClass('btn-danger').prepend('<i class="ace-icon fa fa-trash-o"></i>');
+                    buttons.eq(1).addClass('btn-default').prepend('<i class="ace-icon fa fa-times"></i>')
+                }
+
+                function style_search_filters(form) {
+                    form.find('.delete-rule').val('X');
+                    form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                    form.find('.add-group').addClass('btn btn-xs btn-success');
+                    form.find('.delete-group').addClass('btn btn-xs btn-danger');
+                }
+                function style_search_form(form) {
+                    var dialog = form.closest('.ui-jqdialog');
+                    var buttons = dialog.find('.EditTable')
+                    buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'ace-icon fa fa-retweet');
+                    buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'ace-icon fa fa-comment-o');
+                    buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'ace-icon fa fa-search');
+                }
+
+                function beforeDeleteCallback(e) {
+                    var form = $(e[0]);
+                    if (form.data('styled')) return false;
+
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_delete_form(form);
+
+                    form.data('styled', true);
+                }
+
+                function beforeEditCallback(e) {
+                    var form = $(e[0]);
+                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                    style_edit_form(form);
+                }
+
+                function displayButtons(cellvalue, options, rowObject) {
+                    var disableDiv = '';
+                    var edit = '<a href="#" title="Edit" id="edit_' + rowObject.UserId + '" onclick="EditUser(' + rowObject.UserId + ')" class="ace-icon fa fa-pencil fa-lg blue"></a>';
+                    if (rowObject.IsActive == true) {
+
+                        var disable = '&nbsp;&nbsp;&nbsp;<a href="#" title="Disable" onclick="EnableDisable(this,' + rowObject.UserId + ',' + rowObject.IsActive + ')"   class="ace-icon fa  fa-check-square-o fa-lg blue"></a>';
+
+                        disableDiv = disable;
+
+                    }
+
+                    else {
+
+                        var enable = '&nbsp;&nbsp;&nbsp;<a href="#" title="Enable" onclick="EnableDisable(this,' + rowObject.UserId + ',' + rowObject.IsActive + ')"  class="ace-icon fa fa-square-o fa-lg red"></a>';
+
+                        disableDiv = enable;
+                    }
+                    return "<div style='display:flex;'>" + edit + disableDiv + "</div>";
+                }
+
+                //it causes some flicker when reloading or navigating grid
+                //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+                //or go back to default browser checkbox styles for the grid
+                function styleCheckbox(table) {
+                }
+                function updateActionIcons(table) {
+                }
+                //replace icons with FontAwesome icons like above
+                function updatePagerIcons(table) {
+                    var replacement =
+                    {
+                        'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                        'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                        'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                        'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
+                    };
+                    $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                        var icon = $(this);
+                        var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                        if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                    })
+                }
+
+                function enableTooltips(table) {
+                    $('.navtable .ui-pg-button').tooltip({ container: 'body' });
+                    $(table).find('.ui-pg-div').tooltip({ container: 'body' });
+                }
+                $(document).one('ajaxloadstart.page', function (e) {
+                    $(grid_selector).jqGrid('GridUnload');
+                    $('.ui-jqdialog').remove();
+                });
+            });
+        }
+
+        function ShowLoader()
+        {
+            var isValid = ValidateUser();
+            debugger
+            if (isValid == true) {
+                $("#loderimage").css({ display: "block" });
+                $('#UserDetailsTableId').hide();
+                setTimeout(searchUsers, 1000);
+            }
+        }
+        
+    </script>
+<script type="text/javascript">
+    $('#export').submit(function () {
+        $('#Csv').val($('#grid-table').table2CSV({ header: ['Full Name', 'Email', 'Phone', 'Partner', 'Role', 'City', 'State', 'Country', 'Registered On'], delivery: 'value' }));
+    });
+</script>
+<script src="~/Scripts/JS/table2CSV.js"></script>
+    <style>
+        .jqwidth {
+            width: 1000px !important;
+        }
+
+        .pagecs {
+            padding: 0px 1px 1px !important;
+        }
+        .txtboxsize {
+            width: 280px;
+            height: 30px;
+            margin-left: 20px;
+        }
+    </style>
+
+

@@ -1,0 +1,516 @@
+﻿@model PagedList.IPagedList<Millionlights.Models.UsersCertificate>
+@using PagedList.Mvc;
+<link href="~/Content/learn/css/datepicker.css" rel="stylesheet" />
+<script src="~/Content/learn/js/bootstrap-datepicker.js"></script>
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<style>
+    .datepicker {
+        z-index: 1151 !important;
+    }
+</style> 
+@{
+    var IsSuccess = ViewBag.IsSuccess;
+}
+<div id="fb-root"></div>
+
+<div class="table-responsive fontText" id="CertificateTab">
+    <table id="CertificateTabGridview" class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Course Name</th>
+                <th>Date</th>
+                <th>View Certificate</th>
+                <th>Add Certificate</th>
+                <th>Share Certificate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.FullName
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.CourseName
+                    </td>
+                    <td>
+                        @item.IssuedDateString
+                    </td>
+                    <td>
+                        <a href="#" style="color:#488dc6;" onclick="CheckEvidence('@item.CertificatePath','@item.Id','@item.CourseID','view')">View Certificate</a>
+                    </td>
+                    <td>
+                        <div><a href="#" rel="nofollow" onclick="CheckEvidence('https://www.linkedin.com/profile/add?_ed=0_-jC6n2zx9sgwZAnN2pxOpec75f3dYLvjm5QuhUDwl00J-aRcCdrc3AhiDaqDnloqaSgvthvZk7wTBMS3S-m0L6A6mLjErM6PJiwMkk6nYZylU7__75hCVwJdOTZCAkdv&pfCertificationName=@item.CourseNameEncode&pfCertificationUrl=https://www.millionlights.org/@item.CertificationID&pfLicenseNo=1234546&pfCertStartDate=@item.CertiStartDateString&trk=onsite_longurl','@item.Id','@item.CourseID','linkedin')"><img src="~/Images/UsersImg/LinkIn.png" alt="LinkedIn Add to Profile button"></a></div>
+                    </td>
+                    <td>
+                        <button id="postToWallWithFBUiPrompt" type="button" style="background-color: white; background: transparent; border: none !important; font-size: 0;" onclick="javascript:postToWallUsingFBUi('@item.CertificatePath','@item.Id','@item.CourseID','@item.CourseName','@item.IssuedDateString','@item.CourseImage','@item.CourseShortDesc','facebook','@item.CoursePartner');">
+                            <img src="~/Images/UsersImg/FB.png" alt="Facebook Add to Profile button">
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id='CertificatePaging' style="text-align:center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+        of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("CertificateTab", new { page }))
+    </div>
+</div><!-- End col-md-8  -->
+<div id="EvidenceAlertModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Evidence to view certificate is not uploaded</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="hideDiv">
+                                <p>
+                                    Evidence needs to be uploaded to Download/Share the certificate, Do you want to upload the evidence documents?
+                                </p>
+                            </div>
+                            <div id="DeactivateAccount" class="rightAlign">
+                                <input type="button" value="NO" id="CancelDeactivateBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="NoButton()" />
+                                <input type="button" value="YES" id="DeactivateBtn" class="btnRegister btnForword" style="padding: 9px 35px 6px 35px !important;" onclick="YesButton()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="UploadEvidenceModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    @using (Html.BeginForm("SaveEvidenceDetails", "UserRegister", FormMethod.Post, new { encType = "multipart/form-data", id = "Evidenceform", role = "form", onsubmit = "return ValidateEvidence();" }))
+                    {
+                        <div id="login" class="col-sm-7">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Upload Evidence</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <label>First Name</label>
+                                        <input id="FirstNmTxt" name="firstName" type="text" placeholder="First Name" class="form-control" />
+                                        <label class="text-danger errorFirstNm"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Address</label>
+                                        <input id="AddressTxt" name="address" type="text" placeholder="Address" class="form-control" />
+                                        <label class="text-danger errorAddress"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Select Evidence</label>
+                                        <select id="EvidenceDDL" name="evidenceDDL" class="form-control"></select>
+                                        <label class="text-danger errorDDL"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Evidence Issue Date</label>
+                                        <input id="EvidenceIssueDateTxt" name="issueDate" type="text" placeholder="Evidence Issue Date" class="form-control datepicker" />
+                                        <label class="text-danger errorEvidenceIssueDate"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Upload Evidence Image</label>
+                                        <div>
+                                            <input id="EvidenceFile" name="EvidenceFile" type="file" placeholder="Upload Evidence Image" class="form-control" />
+                                            <label class="text-danger errorEvidenceFile"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <label>Last Name</label>
+                                        <input id="LastNaTxt" name="lastName" type="text" placeholder="Last Name" class="form-control" />
+                                        <label class="text-danger errorLastNm"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Upload Profile Image</label>
+                                        <input id="ImageFile" name="ImageFile" type="file" placeholder="Upload Profile Image" class="form-control" />
+                                        <label class="text-danger errorImageFile"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Evidence Number</label>
+                                        <input id="EvidenceNumberTxt" name="evidenceNo" type="text" placeholder="Evidence Number" class="form-control" />
+                                        <label class="text-danger errorEvidenceNumber"></label>
+                                    </div>
+                                    <div class="row">
+                                        <label>Evidence Expiry Date</label>
+                                        <input id="EvidenceExpiryDateTxt" name="expiryDate" type="text" placeholder="Evidence Expiry Date" class="form-control datepicker" />
+                                        <label class="text-danger errorEvidenceExpiryDate"></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 rightAlign">
+                                    <input type="button" value="Cancel" id="CancelDeactivateBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelButton()" />
+                                    <input type="submit" value="Save" id="DeactivateBtn" class="btnRegister btnForword" style="padding: 9px 35px 6px 35px !important;" />
+                                </div>
+                                <br />
+                                <input type="hidden" name="CourseIdHidden" id="CourseIdHidden" />
+                                <input type="hidden" name="CertificateIdHidden" id="CertificateIdHidden" />
+                            </div>
+                            
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="SuccessAlertModel" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="">
+            <div class="container">
+                <div class="row">
+                    <div class="">
+                        <div id="login" class="col-sm-5">
+                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Success</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="hideDiv">
+                                <p>
+                                    Your evidence has been uploaded successfully. We will need sometime to validate the details and allow you to Add/View/Share the certificate. Please have a patience. Thanks!!
+                                </p>
+                            </div>
+                            <div id="DeactivateAccount" class="rightAlign">
+                                <input type="button" value="OK" id="DeactivateBtn" class="btnRegister btnForword" style="padding: 9px 35px 6px 35px !important;" onclick="SuccessButton()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+<script>
+    $(function () {
+        $('#CertificatePaging').on('click', 'a', function () {
+            $.ajax({
+                url: this.href,
+                type: 'GET',
+                cache: false,
+                success: function (result) {
+                    $('#CertificateTab').html(result);
+                }
+            });
+            return false;
+        });
+    });
+
+    $(document).ready(function () {
+        BindEvidenceList();
+
+        var IsSuccess="@IsSuccess";
+        if (IsSuccess != "False")
+        {
+        }
+    });
+
+    function BindEvidenceList() {
+        $.ajax({
+            type: "POST",
+            async: false,
+            data: {},
+            contentType: 'application/json; charset=utf-8',
+            url: "/UserRegister/GetEvidenceList",
+            success: function (response) {
+                $("#EvidenceDDL").append("<option value='0'>-- Select Evidence --</option>");
+                for (var i = 0; i < response.length; i++) {
+                    var data = JSON.parse(response[i]);
+                    $("#EvidenceDDL").append("<option value=\"" + data.Id + "\">" + data.EvidenceName + "</option>");
+                }
+
+            },
+            error: function (response) {
+            }
+        });
+    }
+    var certId = null;
+    var cId = null;
+    var result = null;
+    function CheckEvidence(url, certificateId, courseId, buttontype) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            data: JSON.stringify({ "certificateId": certificateId, "courseId": courseId }),
+            contentType: 'application/json; charset=utf-8',
+            url: "/UserRegister/CheckEvidence",
+            success: function (response) {
+                result = response;
+                if (response == true) {
+                    if (buttontype != "facebook") {
+                        var tab = window.open(url, '_blank');
+                        tab.focus();
+                    }
+                }
+                else {
+                    $('#EvidenceAlertModel').modal('show');
+                    certId = certificateId;
+                    cId = courseId;
+                    $('.errorFirstNm')[0].innerHTML = "";
+                    $('.errorLastNm')[0].innerHTML = "";
+                    $('.errorAddress')[0].innerHTML = "";
+                    $('.errorDDL')[0].innerHTML = "";
+                    $('.errorImageFile')[0].innerHTML = "";
+                    $('.errorEvidenceFile')[0].innerHTML = "";
+                }
+            },
+            error: function (response) {
+            }
+        });
+    }
+
+    function NoButton() {
+        $('#EvidenceAlertModel').modal('hide');
+    }
+    function YesButton() {
+        $('#EvidenceAlertModel').modal('hide');
+        $('#UploadEvidenceModel').modal('show');
+        $('#CourseIdHidden').val(cId);
+        $('#CertificateIdHidden').val(certId);
+        $("#EvidenceIssueDateTxt").datepicker({
+            beforeShow: function () {
+                $("#EvidenceIssueDateTxt").css({
+                    "position": "relative",
+                    "z-index": 999999
+                });
+            }
+        });
+        $("#EvidenceExpiryDateTxt").datepicker();
+    }
+    function CancelButton() {
+        $('#UploadEvidenceModel').modal('hide');
+    }
+    function SuccessButton() {
+        $('#SuccessAlertModel').modal('hide');
+    }
+    function ValidateEvidence() {
+        var firstName = $('#FirstNmTxt')[0].value;
+        var lastName = $('#LastNaTxt')[0].value;
+        var address = $('#AddressTxt')[0].value;
+        var evidence = $('#EvidenceDDL').val();
+        var evidenceNo = $('#EvidenceNumberTxt')[0].value;
+        var issueDate = $('#EvidenceIssueDateTxt')[0].value;
+        var expiryDate = $('#EvidenceExpiryDateTxt')[0].value;
+        var profilePath = $("input[id='ImageFile']")[0].files;
+        var evidencePath = $("input[id='EvidenceFile']")[0].files;
+        var isValid = true;
+
+        if (firstName.length == 0) {
+            $('.errorFirstNm')[0].innerHTML = "Please enter first name";
+            isValid = false;
+        }
+        else {
+            $('.errorFirstNm')[0].innerHTML = "";
+        }
+        if (lastName.length == 0) {
+            $('.errorLastNm')[0].innerHTML = "Please enter last name";
+            isValid = false;
+        }
+        else {
+            $('.errorLastNm')[0].innerHTML = "";
+        }
+        if (address.length == 0) {
+            $('.errorAddress')[0].innerHTML = "Please enter address";
+            isValid = false;
+        }
+        else {
+            $('.errorAddress')[0].innerHTML = "";
+        }
+        if (evidence == 0) {
+            $('.errorDDL')[0].innerHTML = "Please select evidence";
+            isValid = false;
+        }
+        else {
+            $('.errorDDL')[0].innerHTML = "";
+        }
+        if (evidenceNo.length == 0) {
+            $('.errorEvidenceNumber')[0].innerHTML = "Please enter evidence number";
+            isValid = false;
+        }
+        else {
+            $('.errorEvidenceNumber')[0].innerHTML = "";
+        }
+        if (profilePath == null) {
+            $('.errorImageFile')[0].innerHTML = "Please upload profile image";
+            isValid = false;
+        }
+        else if (profilePath.length==1) {
+            if (profilePath['0'].type == "image/jpeg" || profilePath['0'].type == "image/png") {
+            $('.errorImageFile')[0].innerHTML = "";
+            }
+            else {
+                $('.errorImageFile')[0].innerHTML = "Please upload JPEG or PNG file";
+                isValid = false;
+            }
+        }
+        else {
+            $('.errorImageFile')[0].innerHTML = "Please upload JPEG or PNG file";
+            isValid = false;
+        }
+        if (evidencePath == null) {
+            $('.errorEvidenceFile')[0].innerHTML = "Please upload evidence image";
+            isValid = false;
+        }
+        else if (evidencePath.length == 1) {
+            if (evidencePath['0'].type == "image/jpeg" || evidencePath['0'].type == "image/png") {
+                $('.errorEvidenceFile')[0].innerHTML = "";
+            }
+            else {
+                $('.errorEvidenceFile')[0].innerHTML = "Please upload JPEG or PNG file";
+                isValid = false;
+            }
+        }
+        else {
+            $('.errorEvidenceFile')[0].innerHTML = "Please upload JPEG or PNG file";
+            isValid = false;
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            $('#UploadEvidenceModel').modal('hide');
+            setTimeout(function(){
+                $('#SuccessAlertModel').modal('show');
+            }, 2000);
+            return true;
+        }
+    }
+
+    var APP_ID = "806929762735402";
+    // Facebook Deveoper account: Archana
+    //var APP_ID = "389441631447093";
+
+    window.fbAsyncInit = initFacebook;
+
+    function initFacebook() {
+        FB.init({
+            appId: APP_ID,
+            status: true, // check login status
+            cookie: false, // enable cookies to allow the server to access the session
+            xfbml: true  // parse XFBML
+        });
+
+        FB.getLoginStatus(onFacebookLoginStatus);
+    };
+
+    function onFacebookLoginStatus(response) {
+        //nothing to do
+    }
+
+    (function () {
+        var e = document.createElement('script');
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+    }());
+
+    function postToWallUsingFBUi(certPath, certificateId, courseId, cname, date, imgName, shortDesc, buttonType, partner) {
+        if (buttonType == "facebook") {
+            CheckEvidence(certPath, certificateId, courseId, buttonType);
+        }
+        if (result == true) {
+            var picUrl = '';
+            if (imgName != '178x100_2.png') {
+                picUrl = 'https://www.millionlights.org/Images/CourseImg/' + courseId + '/' + imgName;
+            }
+            else {
+                picUrl = 'https://www.millionlights.org/Images/noimage378X225.png';
+            }
+
+            var path = 'https://www.millionlights.org' + certPath;
+            var partner = 'Certification By: ' + partner;
+            var data =
+            {
+                method: 'feed',
+                message: "Posted using FB.ui and picture.",
+                display: 'iframe',
+                caption: partner,
+                name: 'certified course: '+cname,
+                picture: picUrl,
+                link: path,
+                redirect_uri : path,
+                description: "Certificate issue date:" + date,
+                actions: [{ name: 'action_links text!', link: 'https://www.millionlights.org/' }]
+            }
+            FB.ui(data, onPostToWallCompleted);
+        }
+    }
+
+    function onPostToWallCompleted(response) {
+        if (response) {
+            if (response.error) {
+                bootbox.dialog({
+                    message: response.error.message,
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary"
+                        }
+                    }
+                });
+            }
+            else {
+                if (response.id) {
+                    bootbox.dialog({
+                        message: "Shared the course successfully",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+                else if (response.post_id) {
+                    bootbox.dialog({
+                        message: "Shared the course successfully",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+                else {
+                    bootbox.dialog({
+                        message: "OOPs, Sharing failed. Please try again.",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+
+            }
+        }
+        else {
+            // user cancelled
+            bootbox.dialog({
+                message: "Posting has been cancelled.",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary"
+                    }
+                }
+            });
+        }
+    }
+</script>
+

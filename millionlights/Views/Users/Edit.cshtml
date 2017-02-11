@@ -1,0 +1,166 @@
+﻿@model Millionlights.Models.UserDetails
+@{
+    ViewBag.Title = "Edit";
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+
+@using (Html.BeginForm("Edit", "Users", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", onsubmit = "return ValidateEditUser()", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <section id="main_content">
+        <div @*class="container"*@>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box_style_2">
+                        <div class="form-horizontal">
+                            <h4>User Details</h4>
+                            <hr />
+                            @Html.ValidationSummary(true)
+                            <div class="box_style_2">
+                                @Html.HiddenFor(model => model.UserDetailsId)
+
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                        <div class="regformPadding">
+                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control ", id = "firstnameTxt", @placeholder = "First Name" })
+                                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger ", id = "errorFirstname" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5">
+                                        <div class="regformPadding">
+                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control ", id = "lastnameTxt", @placeholder = "Last Name" })
+                                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger ", id = "errorlastname" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                        <div class="regformPadding">
+                                            @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control ", id = "addressTxt", @placeholder = "Address Line1" })
+                                            @Html.ValidationMessageFor(m => m.AddressLine1, "", new { @class = "text-danger ", id = "erroraddress" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5">
+                                        <div class="regformPadding">
+                                            @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control ", @placeholder = "Address Line2" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                        <div class="regformPadding">
+                                            @Html.TextBoxFor(model => model.City, new { @class = "form-control ", id = "cityTxt", @placeholder = "City" })
+                                            @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger ", id = "errorcity" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5">
+                                        <div class="regformPadding">
+                                            @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control ", id = "zipcodeTxt", @placeholder = "Zip Code" })
+                                        </div>
+                                    </div>
+                                    <label class="text-danger" id="errorzip"></label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-md-offset-1">
+                                        <div class="regformPadding">
+                                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control ", id = "phoneTxt", @placeholder = "Phone Number" })
+                                            <label class="text-danger" id="errorphone"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="formRegGroupCustom userregdiv">
+                                    @Html.TextBoxFor(model => model.RegisteredDatetime, new { @class = "displayNone" })
+                                </div>
+                                <div class="formRegGroupCustom">
+                                    @Html.TextBoxFor(model => model.UserId, new { @class = "form-control displayNone" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 Partner-btn-div">
+                                    @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger" })
+                                    <input type="submit" value="Submit" class="btn btn-success" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+    </section>
+
+}
+<script>
+    function ValidateEditUser() {
+        var isValid = true;
+        var firstname = $('#firstnameTxt')[0].value;
+        var address = $('#addressTxt')[0].value;
+        var city = $('#cityTxt')[0].value;
+        var phone = $('#phoneTxt')[0].value;
+        var lastname = $('#lastnameTxt')[0].value;
+        var zipcode = $('#zipcodeTxt')[0].value;
+        var phNoRegx = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
+        var zipcodeRegex = /^[0-9-+ ]+$/;
+        if (firstname.length == 0) {
+            $('#errorFirstname')[0].innerHTML = "Please enter first name.";
+            isValid = false;
+        }
+        else {
+            $('#errorFirstname')[0].innerHTML = "";
+        }
+        if (phone.length == 0) {
+            $('#errorphone')[0].innerHTML = "Please enter phone number.";
+            isValid = false;
+        }
+        else if (!phone.match(phNoRegx)) {
+            $('#errorphone')[0].innerHTML = "Please valid 10 digit phone number.";
+            isValid = false;
+        }
+        else {
+            $('#errorphone')[0].innerHTML = "";
+        }
+        if (lastname.length == 0) {
+            $('#errorlastname')[0].innerHTML = "Please enter lastname.";
+            isValid = false;
+        }
+        else {
+            $('#errorlastname')[0].innerHTML = "";
+        }
+        if (zipcode.length >0 && zipcode.length != 6) {
+            $('#errorzip')[0].innerHTML = "Zipcode must be 6 digits.";
+            isValid = false;
+        }
+        else {
+            $('#errorzip')[0].innerHTML = "";
+        }
+        if (isValid == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>

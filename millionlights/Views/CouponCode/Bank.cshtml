@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Bank";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    int roleID = 0;
+    if (Session["RoleID"] != null)
+    {
+        roleID = int.Parse(Session["RoleID"].ToString());
+    }
+    if (roleID != 0)
+    {
+        if (roleID == 1 || roleID == 3)
+        {
+            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            <script src="~/Content/assets/js/jquery.js"></script>
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<div class="breadcrumbs breadCrumbAlign breadCrumbWd" id="breadcrumbs">
+    <script type="text/javascript">
+        try { ace.settings.check('breadcrumbs', 'fixed') } catch (e) { }
+    </script>
+
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="/Home/Dashboard">Home</a>
+        </li>
+        <li> <a href="/CouponCode/Bank">Marketing Campaign</a></li>
+        <li class="active">Import Users</li>
+    </ul>
+</div>
+
+<h2>Import Users</h2>
+
+<div class="" style="margin-bottom:10%">
+    <ul class=" col-md-12 csvUser listyleNone ">
+        <li class="selectSVC col-md-3">
+            <label>Select CSV File:</label>
+        </li>
+        <li class="col-md-8 chooseFile">
+            <form id="files" method="post" enctype="multipart/form-data">
+                <input type="file" id="uploadID" name="file" accept=".csv" class="heightwidthtext form-control fileUpload col-md-4" />
+                <label class="text-danger errorCSVFile"></label>
+                <input type="submit" id="btnUpload" class="importBtn" value="Import" name="Import" onclick="return UploadFile()" />
+                <label class="text-danger errorImportCSVFile"></label>
+            </form>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript">
+    function UploadFile() {
+        $('.errorImportCSVFile')[0].innerHTML = "";
+        var formData = new FormData();
+        var fileInput = $('#uploadID');
+        formData.append(fileInput[0].files[0].name, fileInput[0].files[0]);
+        $.ajax({
+            type: "POST",
+            async: false,
+            data: formData,
+            url: "/CouponCode/UploadBankFile",
+            success: function (response) {
+                var resp = JSON.parse(response);
+                $('#ImportCSVFileMsg')[0].innerHTML = resp.count + " " + "number of users are found in the file. First " + " " + couponCount + " " + "users will be assigned to the Coupons. Click Next to continue or Skip to generate coupons without users assignment.";
+                $("#CSVFilePath")[0].value = resp.path;
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+            error: function (response) {
+            }
+        });
+        return false;
+    }
+</script>
