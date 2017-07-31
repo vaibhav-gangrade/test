@@ -1,0 +1,11 @@
+.vs/
+millionlights/bin/
+millionlights/obj/
+MillionLights.Models/bin/
+MillionLights.Models/obj/
+MillionLightsServices/bin/
+MillionLightsServices/obj/
+MandrillEmailService/bin/
+MandrillEmailService/obj/
+packages/Newtonsoft.Json.8.0.1/
+*.cache

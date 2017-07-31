@@ -2784,6 +2784,8 @@
     <Content Include="Views\PressRelease\PressContents.cshtml" />
     <Content Include="Views\UserRegister\RefCodes.cshtml" />
     <Content Include="Views\Course\AllCourses.cshtml" />
+    <Content Include="Views\Career\Career.cshtml" />
+    <Content Include="Views\Career\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
