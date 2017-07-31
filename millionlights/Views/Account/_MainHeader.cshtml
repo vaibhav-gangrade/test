@@ -8,139 +8,63 @@
         roleID = int.Parse(Session["RoleID"].ToString());
     }
 }
-@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>*@
-<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
-<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
-<div id="MainHeaderId">
-    <header>
+
+    <header class="header clearfix">
         <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-3 col-xs-3">
-                    <a href="/Home/Index" id="logo">
-                        @*<a id="logo"></a>*@
-                    </a>
+            <nav class="yamm navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html"><img src="~/coursat/images/logo.png" alt=""></a>
                 </div>
-                <div class="col-md-9 col-sm-9 col-xs-9">
-                    <div class=" pull-right" id="log">
-                        @if (userName == null)
-                        {
-                            <input type="text" placeholder="Coupon Code / Referral Code" class="actCoupontxt activeCodeTextWidth hidden-xs couponTextChange" id="actCoupontxt" onkeypress="ActivateCouponEnterClickEvent(event)" />
-                            <a class="actCoupon hidden-xs " id="apply" onclick="ActivateCoupon();">Activate</a>
-                            @ViewBag.User
-
-                            <a id="login_top" href="/Account/Login" class="button_top btnsignin signInbtn">Sign in</a>
-                            @Html.ActionLink("Sign Up", "UserRegister", new { controller = "UserRegister" }, new { @class = "button_top btnSignin signUpBg btnsignUp hidden-xs" })
-                        }
-                        else
-                        {
-                            <label class="lblUserName ">Welcome! @userName</label>
-                            @Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { @class = "button_top btnSignin signUpBg btnFocus", id = "logoutBtn" })
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header><!-- End header -->
-    <nav style="margin-top: -12px;">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12" style="min-height:0px !important;">
-                    <div id="mobnav-btn"></div>
-                    <input type="hidden" id="CartCount" name="CartCount" />
-                    <ul class="sf-menu">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        @if (userName != null)
-                        {
-                            <li>@Html.ActionLink("Dashboard", "UserDashboard", "Home")</li>
-                            if (roleID == 1 || roleID == 3)
-                            {
-                                <li class="mega_drop_down">
-                                    <a href="#">ADMIN</a>
-                                    <div class="mobnav-subarrow"></div>
-                                    <div class="sf-mega">
-                                        <div class="col-md-3 col-sm-5">
-                                            <h5>Masters</h5>
-                                            <ul class="mega_submenu">
-                                                <li><a href="~/Partner/Index">Partners</a></li>
-                                            </ul>
-                                            <h5>Order Management</h5>
-                                            <ul class="mega_submenu">
-                                                <li>@Html.ActionLink("Orders", "Index", "Order")</li>
-                                            </ul>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="coming-soon.html">Mobile App</a></li>
+                        <li><a href="courses-2.html">Courses</a></li>
+                        <li class="dropdown megamenu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">About Us</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="yamm-content">
+                                        <div class="row-fluid">
+                                            <div class="col-md-3 col-sm-6 col-xs-12 firstcolumn">
+                                                <ul class="box">
+                                                    <li><a href="about-1.html">About us 1</a></li>
+                                                    <li><a href="about-2.html">About us 2</a></li>
+                                                    <li><a href="about-3.html">About us 3</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3 col-sm-5">
-                                            <h5>Users</h5>
-                                            <ul class="mega_submenu">
-                                                <li>@Html.ActionLink("Users", "Index", "Users")</li>
-                                            </ul>
-                                            <h5>Marketing Campaing</h5>
-                                            <ul class="mega_submenu">
-                                                <li>@Html.ActionLink("Import Users", "Bank", "CouponCode")</li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-3 col-sm-5">
-                                            <h5>Coupon Management</h5>
-                                            <ul class="mega_submenu">
-                                                <li>@Html.ActionLink("View Coupons", "AllCoupons", "CouponCode")</li>
-                                                <li>@Html.ActionLink("Generate Coupons", "CreateCoupon", "CouponCode")</li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-3 col-sm-5">
-                                            <h5>Course Management</h5>
-                                            <ul class="mega_submenu">
-                                                <li>@Html.ActionLink("Courses", "Index", "Course")</li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-3 col-sm-5">
-
-                                        </div>
-
                                     </div>
                                 </li>
-                            }
-
-                            <li id="courselist">
-                                <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">My Account</a>
-                            </li>
-                        }
-                        <li>@Html.ActionLink("Courses", "AllCourses", "Course")</li>
-                        @if (userName == null)
-                        {
-                            <li class="visible-xs activeCouponResize" id="activeCouponResizeID">@Html.ActionLink("Activate Coupon", "ActivateCoupon", "CouponCode")</li>
-                        }
-                        @if (userName != null)
-                        {
-                            <li>@Html.ActionLink("Activate Coupon", "ActivateCoupon", "CouponCode")</li>
-                            <li class="pull-right" id="Cart">
-                                <a href="/Order/Details" id="cartItemCount"></a>
-                            </li>
-                        }
-
-                        <li class="normal_drop_down">
-                            <a id="AboutUsId" class="sf-with-ul" href="/Home/massive-open-online-courses-India">About Us</a>
-                            <div class="mobnav-subarrow"></div>
-                            <ul class="normal_drop_down">
-                                <li><a href="/PressRelease/Press">Press Release</a></li>
-                                <li><a href="~/Career/Career">Career</a></li>
                             </ul>
                         </li>
-                        <li><a href="http://blog.Millionlights.org/" target="_blank">Blog</a></li>
-                        <li><a href="~/Home/Contact">Contact Us</a></li>
-                        <li><a href="https://www.millionlights.org/MobileApp/index.html" target="_blank">Mobile App</a></li>
-                        @if (userName == null)
-                        {
-                            <li><a href="http://www.millionlights.tv" target="_blank">ML - TV</a></li>
-                        }
+                        <li><a href="index-3.html">Blog</a></li>
+                        <li><a href="contact-3.html">Contact</a></li>
+                        <li class="noborder">
+                            <div id="dmsearch" class="dmsearch">
+                                <form id="searchform" action="#" method="get">
+                                    <div class="dm-search-container">
+                                        <input id="s" class="dmsearch-input" type="text" name="s" value="" placeholder="Search">
+                                    </div>
+                                    <input id="CourseID" class="dmsearch-submit" type="submit" value="">
+                                    <span class="fa fa-search"></span>
+                                </form> <!-- end searchform -->
+                            </div><!-- end search -->
+                        </li>
+                        <li class="dropdown megamenu active yamm-fw"><a href="login.html">Login</a></li>
                     </ul>
+                </div><!--/.nav-collapse -->
+            </nav><!-- end nav -->
+        </div><!-- end container -->
+    </header><!-- end header -->
 
-                </div>
-            </div><!-- End row -->
-        </div><!-- End container -->
-    </nav><!-- End header -->
-    <!-- Modal HTML -->
-</div>
-<script src="~/Content/assets/js/bootbox.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
 
     var currentCourses = '';
     var cartName = "CourseDetails";
@@ -209,7 +133,7 @@
             });
         }
     }
-</script>
+    </script>
 
 
 

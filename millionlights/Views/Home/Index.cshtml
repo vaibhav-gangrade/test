@@ -48,884 +48,350 @@
     <meta name="keywords" content="Free Online courses India, Free Online IT Courses in India, Pune" />
     <meta name="description" content="We, at Millionlights offer Free online Courses with Certificates  in India. Our team consists of senior people from Academia and the government." />
 }
-    <script type="text/javascript" src="~/Content/assets/js/slider/jssor.slider.mini.js"></script>
-    <link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
-    <section id="sub-header" class="homeimgHeight sub-header-Home" style="height:360px;padding:55px 0 60px 0 !important;">
-        <div>
-            <div class=" row">
-                <div class="col-md-10 col-md-offset-1 text-center">
-                    <h1 id="TextResp" style="font-weight: 600 !important;font-size: 45px; letter-spacing:5px;">
-                        EASIER LEARNING-EVERYDAY
-                    </h1>
-                    <p class="lead boxed " style="letter-spacing: 5px;margin-top: 2%;font-size:20px !important;">Learn new skills & get certified!</p>
-                    <form action="#" method="get" id="search-form" style="padding-left:9%;padding-top:4%;">
-                        <div class="input-group" style="width: 90%; border: 3px solid #87faed">
-                            <input type="text" placeholder="Search course" id="search" class="form-control style-2 typeahead scrollable">
-                            <span class="input-group-btn">
-                                <button class="btn" type="submit" id="CourseID"><i class="icon-search"></i></button>
-                            </span>
-                        </div><!-- /input-group -->
-                    </form>
-                </div>
-            </div><!-- End row -->
-        </div><!-- End container -->
-    </section>
-    <section>
-        <div class="row">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-2 userCountSection">
-                <div class="icon" style="height: 60px;"><i style="font-size: 40px;" class="icon-users"></i></div>
-                <label class="userTimer"></label><br />
-                <label class="userCountSectionLbl">USERS</label>
-            </div>
-            <div class="col-sm-2 courseCountSection">
-                <div class="icon" style="height: 60px;"><i style="font-size: 40px;" class="icon-book-open"></i></div>
-                <label class="courseTimer"></label><br />
-                <label class="courseCountSectionLbl">COURSES</label>
-            </div>
-            <div class="col-sm-2 certcountsection" style="margin-top: 10px; text-align: center;">
-                <div class="icon" style="height: 60px;"><i style="font-size: 40px;" class="icon-graduation-cap"></i></div>
-                <label class="certTimer"></label><br />
-                <label class="certCountSectionLbl">CERTIFICATIONS</label>
-            </div>
-            <div class="col-sm-3"></div>;
-        </div>
-    </section>
-    <section>
-        <div class="row" style="margin-left:-8px;">
-            <!-- Jssor Slider Begin -->
-            <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1100px; height: 380px; overflow: hidden;">
-                <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1200px; height: 442px;
-            overflow: hidden;">
-                    <div style="background: url(../Content/assets/img/slider/home/Banners-1.jpg); ">
-                        <div class="col-sm-2" style="width: 28%; height: 40px; margin-top: 1.0%; ">
-                            @if (promo != null && promo.IsPromoEnabled == true)
-                            {
-                                <label style="margin-left:5%; margin-top:1%;font-size:30px; font-weight:bold">@promo.Promotext</label>
-                            }
-                            else
-                            {
-                                <label style="margin-left:5%; margin-top:1%; font-size: 30px; font-weight: bold"></label>
-                            }
-
-                        </div>
-                    </div>
-                    <div style="background: url(../Content/assets/img/slider/home/Banners-2.jpg);">
-                        <div class="col-sm-2" style="width: 28%; height: 40px; margin-top: 1.0%; ">
-                            @if (promo != null && promo.IsPromoEnabled == true)
-                            {
-                                <label style="margin-left:5%; margin-top:1%;font-size:30px; font-weight:bold">@promo.Promotext</label>
-                            }
-                            else
-                            {
-                                <label style="margin-left:5%; margin-top:1%;font-size:30px; font-weight:bold"></label>
-                            }
-                        </div>
-
-                    </div>
-                    <div style="background: url(../Content/assets/img/slider/home/Banners-3.jpg);">
-                        <div class="col-sm-2" style="width: 28%; height: 40px; margin-top: 1.0%; ">
-                            @if (promo != null && promo.IsPromoEnabled == true)
-                            {
-                                <label style="margin-left:5%; margin-top:1%;font-size:30px; font-weight:bold">@promo.Promotext</label>
-                            }
-                            else
-                            {
-                                <label style="margin-left:5%; margin-top:1%;font-size:30px; font-weight:bold"></label>
-                            }
-                        </div>
-
-                    </div>
-                    <div style="background: url(../Content/assets/img/slider/home/Banners-4.jpg);">
-
-                        <div class="col-sm-2" style="width: 28%; height: 40px; margin-top: 1.0%; ">
-                            @if (promo != null && promo.IsPromoEnabled == true)
-                            {
-                                <label style="margin-left:5%; margin-top:1%;font-size:30px; font-weight:bold">@promo.Promotext</label>
-                            }
-                            else
-                            {
-                                <label style="margin-left:5%; margin-top:1%;font-size:30px; font-weight:bold"></label>
-                            }
-                        </div>
-
-                    </div>
-                </div>
-
-                <style>
-                    .jssorb05 {
-                        position: absolute;
-                    }
-
-                        .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
-                            position: absolute;
-                            /* size of bullet elment */
-                            width: 16px;
-                            height: 16px;
-                            background: url(../Content/assets/img/slider/b05.png) no-repeat;
-                            overflow: hidden;
-                            cursor: pointer;
-                        }
-
-                        .jssorb05 div {
-                            background-position: -7px -7px;
-                        }
-
-                            .jssorb05 div:hover, .jssorb05 .av:hover {
-                                background-position: -37px -7px;
-                            }
-
-                        .jssorb05 .av {
-                            background-position: -67px -7px;
-                        }
-
-                        .jssorb05 .dn, .jssorb05 .dn:hover {
-                            background-position: -97px -7px;
-                        }
-                </style>
-                <!-- bullet navigator container -->
-                <div u="navigator" class="jssorb05" style="bottom: 16px; right: 6px;">
-                    <!-- bullet navigator item prototype -->
-                    <div u="prototype"></div>
-                </div>
-
-                <style>
-                    .jssora11l, .jssora11r {
-                        display: block;
-                        position: absolute;
-                        /* size of arrow element */
-                        width: 37px;
-                        height: 37px;
-                        cursor: pointer;
-                        background: url(../Content/assets/img/slider/a11.png) no-repeat;
-                        overflow: hidden;
-                    }
-
-                    .jssora11l {
-                        background-position: -11px -41px;
-                    }
-
-                    .jssora11r {
-                        background-position: -71px -41px;
-                    }
-
-                    .jssora11l:hover {
-                        background-position: -131px -41px;
-                    }
-
-                    .jssora11r:hover {
-                        background-position: -191px -41px;
-                    }
-
-                    .jssora11l.jssora11ldn {
-                        background-position: -251px -41px;
-                    }
-
-                    .jssora11r.jssora11rdn {
-                        background-position: -311px -41px;
-                    }
-                </style>
-                <!-- Arrow Left -->
-                <span u="arrowleft" class="jssora11l" style="top: 123px; left: 8px;">
-                </span>
-                <!-- Arrow Right -->
-                <span u="arrowright" class="jssora11r" style="top: 123px; right: 8px;">
-                </span>
-                <!--#endregion Arrow Navigator Skin End -->
-                <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
-            </div>
-            <!-- Jssor Slider End -->
-        </div>
-    </section>
-    <br />
-    <div>
-        <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="background-image: linear-gradient(to bottom,#f5f5f5 0,#1dd7b2 100%) !important;">
-                    <h4 class="panel-title" style="text-align:center;font-weight: bold;">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Free Courses<i class="indicator icon-plus pull-right"></i></a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse ">
-                    <div class="panel-body">
-                        <section id="main_content_gray">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-12 text-center" style="padding-top:3%;">
-                                        <h2>Latest Courses</h2>
-                                    </div>
-                                </div><!-- End row -->
-                                <div class="row ib-container" id="ib-container">
-
-                                    @foreach (var course in freeCourses)
-                                    {
-                                        var tempVal = 0;
-                                        var courseImg = tempVal.ToString();
-                                        if (freeCourses.Count > 0 && freeCount < 8)
-                                        {
-                                            <article class="paddingLeftRightZero">
-                                                <div class="col-item marginBottomZero">
-                                                    <div class="photo">
-                                                        <a href="#">
-                                                            @if (course.CourseImageLink != null)
-                                                            {
-                                                                var physicalPath = Request.MapPath("/Images/CourseImg/" + course.Id + "/" + course.CourseImageLink + "");
-                                                                if (System.IO.File.Exists(physicalPath))
-                                                                {
-                                                                    if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                    {
-                                                                        <a id="@course.Id" href="#" onclick="window.open('@course.EDXCourseLink')">
-                                                                        <img src="@String.Format("/Images/CourseImg/{0}/{1}", course.Id, course.CourseImageLink)" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <a id="@course.Id" href="" class="imagedetailClass">
-                                                                        <img src="@String.Format("/Images/CourseImg/{0}/{1}", course.Id, course.CourseImageLink)" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                    {
-                                                                        <a id="@course.Id" href="#" onclick="window.open('@course.EDXCourseLink')">
-                                                                        <img src="@String.Format("/Images/CourseImg/{0}/{1}", course.Id, course.CourseImageLink)" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <a id="@course.Id" href="" class="imagedetailClass">
-                                                                        <img src="~/Images/noimage378X225.png" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                {
-                                                                    <a id="@course.Id" href="#" onclick="window.open('@course.EDXCourseLink')">
-                                                                    <img src="@String.Format("/Images/CourseImg/{0}/{1}", course.Id, course.CourseImageLink)" alt="" style="height:151px;"></a>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <a id="@course.Id" href="" class="imagedetailClass">
-                                                                    <img src="~/Images/noimage378X225.png" alt="" style="height:151px;"></a>
-                                                                }
-                                                            }
-                                                        </a>
-                                                        @{
-                                                            string courseCatName = course.CategoryName;
-                                                            string tempCourseCatName = string.Empty;
-                                                            if (courseCatName.Length > 21)
-                                                            {
-                                                                tempCourseCatName = courseCatName.Substring(0, 20);
-                                                            }
-                                                            else
-                                                            {
-                                                                tempCourseCatName = courseCatName;
-                                                            }
-                                                        }
-                                                        @if (courseCatName.Length > 21)
-                                                        {
-                                                            <div class="cat_row">
-                                                                <a href="#">
-                                                                    @tempCourseCatName<span title="@courseCatName">...</span>
-                                                                </a>
-                                                                <span class="pull-right">
-
-                                                                    <i class="icon-clock"></i>@course.Duration (Days)
-                                                                </span>
-                                                            </div>
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="cat_row">
-                                                                <a href="#">
-                                                                    @tempCourseCatName
-                                                                </a>
-                                                                <span class="pull-right">
-
-                                                                    <i class="icon-clock"></i>@course.Duration (Days)
-                                                                </span>
-                                                            </div>
-                                                        }
-
-                                                    </div>
-                                                    <div class="info" style="padding-bottom: 5px;">
-                                                        <div class="row">
-                                                            <div class="course_info col-md-12 col-sm-12">
-                                                                <div id="shortdiv" style="height:50px;">
-                                                                    @{
-                                                                        string courseName = course.CourseName;
-                                                                        string tempCourseName = string.Empty;
-                                                                        if (courseName.Length > 32)
-                                                                        {
-                                                                            tempCourseName = courseName.Substring(0, 31);
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            tempCourseName = courseName;
-                                                                        }
-                                                                    }
-                                                                    @if (courseName.Length > 32)
-                                                                    {
-                                                                        <div>
-                                                                            <h4>@tempCourseName <span title="@courseName">...</span></h4>
-
-                                                                        </div>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <div>
-                                                                            <h4>@tempCourseName</h4>
-                                                                        </div>
-                                                                    }
-                                                                </div>
-
-                                                                <div class="activateCoupan-shortDesc"><p>@course.ShortDescription</p></div>
-                                                                <div class="rating">
-                                                                    @{
-                                                                        int filled = 5 - course.CourseRatings;
-                                                                    }
-
-                                                                    @for (int i = 0; i < course.CourseRatings; i++)
-                                                                    {
-                                                                        <i class="icon-star"></i>
-                                                                    }
-                                                                    @for (int i = 0; i < filled; i++)
-                                                                    {
-                                                                        <i class="icon-star-empty"></i>
-                                                                    }
-                                                                </div>
-                                                                <div class="price pull-right">
-                                                                    @if (course.BasePrice == 0)
-                                                                    {
-                                                                        <p>Free</p>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <p>Rs.@course.BasePrice</p>
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @if (course.Availability == "Starting Soon")
-                                                        {
-                                                            <div class="separator clearfix" style="background-color: seashell;height: 36px;">
-                                                                <p style="font-weight: bold; font-size: 14px;">Starting Soon....</p>
-                                                            </div>
-                                                            <div class="separator clearfix" style="text-align: center;">
-                                                                <a class="signupbg btnsignUp detailClass respDetails" style=" padding:6px 10px 3px 5px !important;" id="@course.Id"><i class="icon-list"></i>Details</a>
-                                                            </div>
-                                                            <hr style="margin-top: 10px !important;margin-bottom: 10px !important;" />
-
-                                                            <ul class="social_team" style="text-align: center;">
-                                                                <li><a id="postToWallWithFBUiPrompt" href="" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.EncodedDescription','@course.Id', '@course.EncodedImageLink');return false;"><i class="icon-facebook"></i></a></li>
-                                                                <li><a href="" onclick="ShareOnLinkedIn('@tempCourseName','@course.EncodedDescription');return false;" target="_blank"><i class="icon-linkedin"></i></a></li>
-                                                                <li>
-                                                                    <a href="#" class="g-interactivepost"
-                                                                       data-contenturl= '@course.CourseDirectURL'
-                                                                       data-contentdeeplinkid="/pages"
-                                                                       data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
-                                                                       data-cookiepolicy="single_host_origin"
-                                                                       data-prefilltext='@course.EncodedDescription'
-                                                                       data-calltoactionlabel="READ"
-                                                                       data-calltoactionurl='@course.CourseDirectURL'
-                                                                       data-calltoactiondeeplinkid="/pages/create">
-                                                                        <i class="icon-google"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a id="dsdsd" href="" onclick="CourseEmailText('@course.Id', '@tempCourseName');return false;"><i class="icon-email"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="separator clearfix" style="background-color: aliceblue; height: 36px;">
-                                                                <p style="font-weight: bold;font-size:14px;">Active</p>
-                                                            </div>
-                                                            <div class="separator clearfix" style="text-align: center;">
-                                                                @if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                {
-                                                                    <a class="actCoupon enrollClass" style="padding: 6px 10px 3px 5px !important; background-color: grey; pointer-events: none; cursor: default; " href="" id="@course.Id"><i class=" icon-export-4"></i>Enrolled</a>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <a class="actCoupon enrollClass" style="padding: 6px 10px 3px 5px !important;" href="" id="@course.Id"><i class=" icon-export-4"></i>Enroll</a>
-                                                                }
-                                                                <a class="signupbg btnsignUp detailClass respDetails" style=" padding:6px 10px 3px 5px !important;" id="@course.Id"><i class="icon-list"></i>Details</a>
-                                                            </div>
-                                                            <hr style="margin-top: 10px !important;margin-bottom: 10px !important;" />
-
-                                                            <ul class="social_team" style="text-align: center;">
-                                                                <li><a id="postToWallWithFBUiPrompt" href="" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.EncodedDescription','@course.Id', '@course.EncodedImageLink');return false;"><i class="icon-facebook"></i></a></li>
-                                                                <li><a href="" onclick="ShareOnLinkedIn('@tempCourseName','@course.EncodedDescription');return false;" target="_blank"><i class="icon-linkedin"></i></a></li>
-                                                                <li>
-                                                                    <a href="#" class="g-interactivepost"
-                                                                       data-contenturl='@course.CourseDirectURL'
-                                                                       data-contentdeeplinkid="/pages"
-                                                                       data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
-                                                                       data-cookiepolicy="single_host_origin"
-                                                                       data-prefilltext='@course.EncodedDescription'
-                                                                       data-calltoactionlabel="READ"
-                                                                       data-calltoactionurl='@course.CourseDirectURL'
-                                                                       data-calltoactiondeeplinkid="/pages/create">
-                                                                        <i class="icon-google"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a id="dsdsd" href="" onclick="CourseEmailText('@course.Id', '@tempCourseName');return false;"><i class="icon-email"></i></a>
-                                                                    @*<a id="dsdsd" href="mailto:?subject=@courseName&body=@course.EmailCourseName"><i class="icon-email"></i></a>*@
-                                                                </li>
-                                                            </ul>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </article>
-                                            freeCount++;
-                                        }
-                                     }
-                                </div>
-                                <!-- End row -->
-                            </div><!-- End container -->
-                        </section>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading" style="background-image: linear-gradient(to bottom,#f5f5f5 0,#1dd7b2 100%) !important;">
-                    <h4 class="panel-title" style="text-align:center;font-weight: bold;">
-                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> Paid Courses<i class="indicator pull-right icon-plus"></i></a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse" style="height: auto;">
-                    <div class="panel-body">
-                        <section id="main_content_gray">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-12 text-center" style="padding-top:3%;">
-                                        <h2>Latest Courses</h2>
-                                    </div>
-                                </div><!-- End row -->
-                                <div class="row ib-container" id="ib-container">
-
-                                    @foreach (var course in paidCourses)
-                                    {
-                                        var tempVal = 0;
-                                        var courseImg = tempVal.ToString();
-                                        if (paidCourses.Count > 0 && paidCount < 8)
-                                        {
-                                            <article class="paddingLeftRightZero">
-                                                <div class="col-item marginBottomZero">
-                                                    <div class="photo">
-                                                        <a href="#">
-                                                            @if (course.CourseImageLink != null)
-                                                            {
-                                                                var physicalPath = Request.MapPath("/Images/CourseImg/" + course.Id + "/" + course.CourseImageLink + "");
-                                                                if (System.IO.File.Exists(physicalPath))
-                                                                {
-                                                                    if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                    {
-                                                                        <a id="@course.Id" href="#" onclick="window.open('@course.EDXCourseLink')"><img src="@String.Format("/Images/CourseImg/{0}/{1}", course.Id, course.CourseImageLink)" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <a id="@course.Id" href="" class="imagedetailClass"><img src="@String.Format("/Images/CourseImg/{0}/{1}", course.Id, course.CourseImageLink)" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                    {
-                                                                        <a id="@course.Id" href="#" onclick="window.open('@course.EDXCourseLink')"><img src="~/Images/noimage378X225.png" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <a id="@course.Id" href="" class="imagedetailClass"><img src="~/Images/noimage378X225.png" alt="" style="height:151px;"></a>
-                                                                    }
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                {
-                                                                    <a id="@course.Id" href="#" onclick="window.open('@course.EDXCourseLink')"><img src="~/Images/noimage378X225.png" alt="" style="height:151px;"></a>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <a id="@course.Id" href="" class="imagedetailClass"><img src="~/Images/noimage378X225.png" alt="" style="height:151px;"></a>
-                                                                }
-                                                            }
-                                                        </a>
 
 
-                                                        @{
-                                                            //string courseCatName = course.Category;
-                                                            string courseCatName = course.CategoryName;
-                                                            string tempCourseCatName = string.Empty;
-                                                            if (courseCatName.Length > 21)
-                                                            {
-                                                                tempCourseCatName = courseCatName.Substring(0, 20);
-                                                            }
-                                                            else
-                                                            {
-                                                                tempCourseCatName = courseCatName;
-                                                            }
-                                                        }
-                                                        @if (courseCatName.Length > 21)
-                                                        {
-                                                            <div class="cat_row">
-                                                                <a href="#">
-                                                                    @courseCatName
-                                                                </a>
-                                                                <span class="pull-right">
-                                                                    <i class=" icon-clock"></i>@course.Duration (Days)
-                                                                </span>
-                                                            </div>
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="cat_row">
-                                                                <a href="#">
-                                                                    @tempCourseCatName
-                                                                </a>
-                                                                <span class="pull-right">
-
-                                                                    <i class=" icon-clock"></i>@course.Duration (Days)
-                                                                </span>
-                                                            </div>
-                                                        }
-
-
-
-                                                    </div>
-                                                    <div class="info" style="padding-bottom: 5px;">
-                                                        <div class="row">
-                                                            <div class="course_info col-md-12 col-sm-12">
-                                                                <div id="shortdiv" style="height:50px;">
-                                                                    @{
-                                                        string courseName = course.CourseName;
-                                                        string tempCourseName = string.Empty;
-                                                        if (courseName.Length > 32)
-                                                        {
-                                                            tempCourseName = courseName.Substring(0, 31);
-                                                        }
-                                                        else
-                                                        {
-                                                            tempCourseName = courseName;
-                                                        }
-                                                                    }
-                                                                    @if (courseName.Length > 32)
-                                                                    {
-                                                                        <div>
-                                                                            @*<h4>@tempCourseName <span title="@courseName">...</span></h4>*@
-                                                                            <h4>@courseName</h4>
-                                                                        </div>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <div>
-                                                                            <h4>@tempCourseName</h4>
-                                                                        </div>
-                                                                    }
-                                                                </div>
-
-                                                                <div class="activateCoupan-shortDesc"><p>@course.ShortDescription</p></div>
-                                                                <div class="rating">
-                                                                    @{
-                                                                        int filled = 5 - course.CourseRatings;
-                                                                    }
-
-                                                                    @for (int i = 0; i < course.CourseRatings; i++)
-                                                                    {
-                                                                        <i class="icon-star"></i>
-                                                                    }
-                                                                    @for (int i = 0; i < filled; i++)
-                                                                    {
-                                                                        <i class="icon-star-empty"></i>
-                                                                    }
-                                                                </div>
-                                                                <div class="price pull-right">
-                                                                    @if (course.BasePrice == 0)
-                                                                    {
-                                                                        <p>Free</p>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <p>Rs.@course.BasePrice</p>
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @if (course.Availability == "Starting Soon")
-                                                        {
-                                                            <div class="separator clearfix" style="background-color: seashell;height: 36px;">
-                                                                <p style="font-weight: bold; font-size: 14px;">Starting Soon....</p>
-                                                            </div>
-                                                            <div class="separator clearfix" style="text-align: center;">
-                                                                <a class="signupbg btnsignUp detailClass respDetails" style=" padding:6px 10px 3px 5px !important;" id="@course.Id"><i class="icon-list"></i>Details</a>
-                                                            </div>
-                                                            <hr style="margin-top: 10px !important;margin-bottom: 10px !important;" />
-                                                            <ul class="social_team" style="text-align:center;">
-                                                                <li><a id="postToWallWithFBUiPrompt" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.EncodedDescription','@course.Id', '@course.EncodedImageLink');return false;" href=""><i class="icon-facebook"></i></a></li>
-                                                                <li><a href="" onclick="ShareOnLinkedIn('@tempCourseName','@course.EncodedDescription');return false;" target="_blank"><i class="icon-linkedin"></i></a></li>
-                                                                <li>
-                                                                    <a href="#" class="g-interactivepost"
-                                                                       data-contenturl='@course.CourseDirectURL'
-                                                                       data-contentdeeplinkid="/pages"
-                                                                       data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
-                                                                       data-cookiepolicy="single_host_origin"
-                                                                       data-prefilltext='@course.EncodedDescription'
-                                                                       data-calltoactionlabel="READ"
-                                                                       data-calltoactionurl='@course.CourseDirectURL'
-                                                                       data-calltoactiondeeplinkid="/pages/create">
-                                                                        <i class="icon-google"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a id="dsdsd" href="" onclick="CourseEmailText('@course.Id', '@tempCourseName');return false;"><i class="icon-email"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="separator clearfix" style="background-color: aliceblue; height: 36px;">
-                                                                <p style="font-weight: bold;font-size:14px;">Active</p>
-                                                            </div>
-                                                            <div class="separator clearfix" style="text-align: center;">
-                                                                @if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
-                                                                {
-                                                                    <a class="actCoupon enrollClass" style="padding: 6px 10px 3px 5px !important; background-color: grey; pointer-events: none; cursor: default; " href="" id="@course.Id"><i class=" icon-export-4"></i>Enrolled</a>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <a class="actCoupon enrollClass" style="padding: 6px 10px 3px 5px !important;" href="" id="@course.Id"><i class=" icon-export-4"></i>Enroll</a>
-                                                                }
-                                                                <a class="signupbg btnsignUp detailClass respDetails" style="padding:6px 10px 3px 5px !important;" id="@course.Id"><i class="icon-list"></i>Details</a>
-                                                            </div>
-                                                            <hr style="margin-top: 10px !important;margin-bottom: 10px !important;" />
-                                                            <ul class="social_team" style="text-align:center;">
-                                                                <li><a id="postToWallWithFBUiPrompt" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.EncodedDescription','@course.Id', '@course.EncodedImageLink');return false;" href=""><i class="icon-facebook"></i></a></li>
-                                                                <li><a href="" onclick="ShareOnLinkedIn('@tempCourseName','@course.EncodedDescription');return false;" target="_blank"><i class="icon-linkedin"></i></a></li>
-                                                                <li>
-                                                                    <a href="" class="g-interactivepost"
-                                                                       data-contenturl= '@course.CourseDirectURL'
-                                                                       data-contentdeeplinkid="/pages"
-                                                                       data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
-                                                                       data-cookiepolicy="single_host_origin"
-                                                                       data-prefilltext='@course.EncodedDescription'
-                                                                       data-calltoactionlabel="READ"
-                                                                       data-calltoactionurl='@course.CourseDirectURL'
-                                                                       data-calltoactiondeeplinkid="/pages/create">
-                                                                        <i class="icon-google"></i>
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a id="dsdsd" href="" onclick="CourseEmailText('@course.Id', '@tempCourseName');return false;"><i class="icon-email"></i></a>
-                                                                </li>
-                                                            </ul>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </article>
-                                                        paidCount++;
-                                        }
-                                    }
-                                </div>
-                            </div><!-- End container -->
-                        </section>
+<!-- RS SLIDER -->
+<link rel="stylesheet" type="text/css" href="~/coursat/rs-plugin/css/settings.css" media="screen" />
+ <body>
+    <div id="loader">
+        <div class="loader-container">
+            <div class="wow zoomIn" data-wow-duration="1s" data-wow-offset="100">
+                <div class="wow rubberBand" data-wow-delay="2000ms" data-wow-duration="1s">
+                    <div class="wow pulse" data-wow-delay="100ms" data-wow-iteration="infinite" data-wow-duration="1s">
+                        <img src="~/coursat/images/smalllogo.png" alt="" class="loader-site">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <a href="~/Course/AllCourses" class="button_medium_outline pull-right">View all courses</a>
-        </div>
-    </div>
+    <section id="parallax2" class="section-white search-wrapper dark-wrapper" data-stellar-background-ratio="0.5" data-stellar-offset-parent="true">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row relative">
 
-    <section>
+                <div class="col-md-4 col-sm-6">
+                    <div class="fun-fact-2 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.6s">
+                        <i class="fa fa-user"></i>
+                        <h4 class="stat-count">2464</h4>
+                        <p>HAPPY CUSTOMERS</p>
+                    </div><!-- end fun-fact-2 -->
+                </div><!-- end col -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="fun-fact-2 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.8s">
+                        <i class="fa fa-folder-o"></i>
+                        <h4 class="stat-count">5485</h4>
+                        <p>COURSES</p>
+                    </div><!-- end fun-fact-2 -->
+                </div><!-- end col -->
+                <div class="col-md-4 col-sm-6">
+                    <div class="fun-fact-2 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.4s">
+                        <i class="fa fa-graduation-cap"></i>
+                        <h4 class="stat-count">65641</h4>
+                        <p>CERTIFICATION</p>
+                    </div><!-- end fun-fact-2 -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </section><!-- end section-white -->
 
-        <div class="row" style="margin-left:-8px;">
-            <!-- Jssor Slider Begin -->
-            <div id="slider2_container" style="display: none; position: relative; margin: 0 auto; width: 1100px; height: 350px; overflow: hidden;">
-
-                <!-- Loading Screen -->
-                <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-                    <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-
-                background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
-                    </div>
-                    <div style="position: absolute; display: block; background: url(../Images/loading.gif) no-repeat center center;
-
-                top: 0px; left: 0px;width: 100%;height:100%;">
-                    </div>
-                </div>
-
-                <!-- Slides Container -->
-                <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1200px; height: 442px; overflow: hidden; background-color:lightgrey">
-
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/PritiSalkade.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px; margin-top:25px;" />
-                        <label class="homepagename" style="letter-spacing:3px;">Priti Salkade</label>
-
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            Best way to learn from home!!! The videos here are Excellent!!!
-                        </p>
-                    </div>
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/PrashantSalkade.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
-                        <label class="homepagename" style="letter-spacing:3px;">Prashant Salkade</label>
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            Good work by the team.Very useful for young people.Keep up the good work.
-                        </p>
-                    </div>
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/PragyaThakur.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
-                        <label class="homepagename" style="letter-spacing:3px;">Pragya Thakur</label>
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            Took the excel course - was pleasantly surprised at the detailed content and syllabus created by the team - would recommend to anyone who needs to use excel daily.
-                        </p>
-                    </div>
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/AbhijitYemal.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
-                        <label class="homepagename" style="letter-spacing:3px;">Abhijit Yemal</label>
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            Great way to make many of them learn through your video....loved your last one...cheers!!!!
-                        </p>
-                    </div>
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/RuchiGupta.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
-                        <label class="homepagename" style="letter-spacing:3px;">Ruchi Gupta</label>
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            Learning become easier,with the help of snap shots, practicals,videos, superb!!!
-                        </p>
-                    </div>
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/SidDeshmukh.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
-                        <label class="homepagename" style="letter-spacing:3px;">Sid Deshmukh</label>
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            Great and must have offerings.. Our industry from recruiter as well a candidate perspective needs this.. Kudos.. Look forward to viral success.
-                        </p>
-                    </div>
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/VikrantSood.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
-                        <label class="homepagename" style="letter-spacing:3px;">Vikrant Sood</label>
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            The AutoCAD beginners course offered is very good!!! It explains the concept very well in simple language and coupled with great video guides it makes for a very good learning experience.. The best part is we can take the course anytime as per our convenience.
-                        </p>
-                    </div>
-                    <div>
-                        <img class="img-circle" src="~/Images/FBSliderImages/ZeishanZeeshan.jpg" style="margin-left: 38%; margin-top: 4%; width: 13%;" alt="">
-                        <img src="~/Content/assets/img/slider/facebook-icon.png" style="width:50px;height:50px; margin-left:-25px;margin-top:25px" />
-                        <label class="homepagename" style="letter-spacing:3px;">Zeishan Zeeshan</label>
-                        <p class="homepagepara" style="width: 40%; margin-left: 26%;letter-spacing:3px;">
-                            The AutoCAD beginners course is very helpful. Its easy to understand. Very well organised, for a beginner it is very simple to learn easily without any help. One of the best thing about this course that we can learn it whenever we want. If I can learn you can...........
-                        </p>
-                    </div>
-                </div>
-
-                <style>
-                    .jssorb05 {
-                        position: absolute;
-                    }
-
-                        .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
-                            position: absolute;
-                            /* size of bullet elment */
-                            width: 16px;
-                            height: 16px;
-                            background: url(../Content/assets/img/slider/b05.png) no-repeat;
-                            overflow: hidden;
-                            cursor: pointer;
-                        }
-
-                        .jssorb05 div {
-                            background-position: -7px -7px;
-                        }
-
-                            .jssorb05 div:hover, .jssorb05 .av:hover {
-                                background-position: -37px -7px;
-                            }
-
-                        .jssorb05 .av {
-                            background-position: -67px -7px;
-                        }
-
-                        .jssorb05 .dn, .jssorb05 .dn:hover {
-                            background-position: -97px -7px;
-                        }
-                </style>
-                <style>
-                    .jssora11l, .jssora11r {
-                        display: block;
-                        position: absolute;
-                        /* size of arrow element */
-                        width: 37px;
-                        height: 37px;
-                        cursor: pointer;
-                        overflow: hidden;
-                    }
-
-                    .jssora11l {
-                        background-position: -11px -41px;
-                    }
-
-                    .jssora11r {
-                        background-position: -71px -41px;
-                    }
-
-                    .jssora11l:hover {
-                        background-position: -131px -41px;
-                    }
-
-                    .jssora11r:hover {
-                        background-position: -191px -41px;
-                    }
-
-                    .jssora11l.jssora11ldn {
-                        background-position: -251px -41px;
-                    }
-
-                    .jssora11r.jssora11rdn {
-                        background-position: -311px -41px;
-                    }
-                </style>
-                <!-- Arrow Left -->
-                <span u="arrowleft" class="jssora11l" style="top: 123px; left: 8px;">
-                </span>
-                <!-- Arrow Right -->
-                <span u="arrowright" class="jssora11r" style="top: 123px; right: 8px;">
-                </span>
-                <!--#endregion Arrow Navigator Skin End -->
-                <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
+    <section class="slider-section">
+        <div class="tp-banner-container">
+            <div class="tp-banner">
+                <ul>
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/slider_01.jpg" data-saveperformance="off" data-title="Slide">
+                        <img src="~/coursat/upload/slider_01.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+                        <div class="tp-caption text-center skewfromleft randomrotateout tp-resizeme"
+                             data-x="center"
+                             data-y="165"
+                             data-speed="1000"
+                             data-start="800"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            <img src="~/coursat/upload/slider_logo_01.png" alt="">
+                        </div>
+                        <div class="tp-caption slider_01 text-center skewfromright randomrotateout tp-resizeme"
+                             data-x="center"
+                             data-y="240"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            Coursat, Online Courses Template <hr>
+                        </div>
+                        <div class="tp-caption slider_02 text-center skewfromright randomrotateout tp-resizeme"
+                             data-x="center"
+                             data-y="330"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            We Will Help You To Learn
+                        </div>
+                        <div class="tp-caption slider_03 text-center randomrotateout tp-resizeme"
+                             data-x="center"
+                             data-y="395"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adipiscing condimentum tristique<br> vel, eleifend sed turpis.
+                        </div>
+                    </li>
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/slider_02.jpg" data-saveperformance="off" data-title="Slide">
+                        <img src="~/coursat/upload/slider_02.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+                        <div class="tp-caption slider_01 text-left skewfromright randomrotateout tp-resizeme"
+                             data-x="left"
+                             data-y="240"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            Coursat, Online Courses Template <hr>
+                        </div>
+                        <div class="tp-caption slider_02 text-center skewfromright randomrotateout tp-resizeme"
+                             data-x="left"
+                             data-y="330"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            TRULY RESPONSIVE
+                        </div>
+                        <div class="tp-caption slider_03 text-left randomrotateout tp-resizeme"
+                             data-x="left"
+                             data-y="395"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adip<br>iscing condimentum tristique vel, eleifend sed turpis.
+                        </div>
+                    </li>
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/slider_03.jpg" data-saveperformance="off" data-title="Slide">
+                        <img src="~/coursat/upload/slider_03.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+                        <div class="tp-caption slider_01 text-center skewfromright randomrotateout tp-resizeme"
+                             data-x="center"
+                             data-y="240"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            Coursat, Responsive Courses Template <hr>
+                        </div>
+                        <div class="tp-caption slider_02 text-center skewfromright randomrotateout tp-resizeme"
+                             data-x="center"
+                             data-y="330"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            Learning Management System
+                        </div>
+                        <div class="tp-caption slider_03 text-center randomrotateout tp-resizeme"
+                             data-x="center"
+                             data-y="395"
+                             data-speed="1000"
+                             data-start="1400"
+                             data-easing="Power3.easeInOut"
+                             data-splitin="none"
+                             data-splitout="none"
+                             data-elementdelay="0.1"
+                             data-endelementdelay="0.1"
+                             data-endspeed="1000"
+                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adipiscing condimentum tristique<br> vel, eleifend sed turpis.
+                        </div>
+                    </li>
+                </ul>
             </div>
-            <!-- Jssor Slider End -->
-        </div><!--container -->
+        </div>
     </section>
 
-    @*<link rel="shortcut icon" href="Content/learn/img/favicon.ico" type="image/x-icon" />*@
-    <link rel="apple-touch-icon" type="image/x-icon" href="img/apple-touch-icon-57x57-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
-    <!-- REVOLUTION BANNER CSS SETTINGS -->
-    <link href="~/Content/learn/rs-plugin/css/settings.css" media="screen" rel="stylesheet">
-    <!-- CSS -->
-    <div id="fb-root"></div>
+    <section class="section-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                        <h4>Latest Courses</h4>
+                        <hr>
+                        <p>Check Out Our Latest Professional Courses</p>
+                    </div><!-- end title -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+            <div id="owl-courses" class="section-container">
+                <div class="course-item">
+                    <div class="owl-image">
+                        <a href="course-single-1.html" title=""><img src="~/coursat/upload/course_01.png" alt="" class="img-responsive"></a>
+                        <span class="course-badge"><i class="fa fa-spoon"></i></span>
+                    </div><!-- end image -->
+                    <div class="course-desc">
+                        <h5><a href="course-single-1.html" title="">Cooking Lessons</a></h5>
+                        <span class="meta">Food & Cooking</span>
+                        <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut, vivamus at elit qiuis urna adipiscing iaculis vitae velit in neque.</p>
+                        <div class="course-big-meta clearfix">
+                            <div class="pull-left">
+                                <a href="#" class="owl-button">Details</a>
+                            </div><!-- end left -->
+                            <div class="pull-right">
+                                <p>$200</p>
+                            </div><!-- end right -->
+                        </div><!-- end course-big-meta -->
+                    </div><!-- end desc -->
+                </div><!-- end item -->
+                <div class="course-item">
+                    <div class="owl-image">
+                        <a href="course-single-1.html" title=""><img src="~/coursat/upload/course_02.png" alt="" class="img-responsive"></a>
+                        <span class="course-badge"><i class="fa fa-camera"></i></span>
+                    </div><!-- end image -->
+                    <div class="course-desc">
+                        <h5><a href="course-single-1.html" title="">Photography Lessons</a></h5>
+                        <span class="meta">Food & Cooking</span>
+                        <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut, vivamus at elit qiuis urna adipiscing iaculis vitae velit in neque.</p>
+                        <div class="course-big-meta clearfix">
+                            <div class="pull-left">
+                                <a href="#" class="owl-button">Details</a>
+                            </div><!-- end left -->
+                            <div class="pull-right">
+                                <p>$350</p>
+                            </div><!-- end right -->
+                        </div><!-- end course-big-meta -->
+                    </div><!-- end desc -->
+                </div><!-- end item -->
+                <div class="course-item">
+                    <div class="owl-image">
+                        <a href="course-single-1.html" title=""><img src="~/coursat/upload/course_03.png" alt="" class="img-responsive"></a>
+                        <span class="course-badge"><i class="fa fa-flask"></i></span>
+                    </div><!-- end image -->
+                    <div class="course-desc">
+                        <h5><a href="course-single-1.html" title="">Web Design Lessons</a></h5>
+                        <span class="meta">Food & Cooking</span>
+                        <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut, vivamus at elit qiuis urna adipiscing iaculis vitae velit in neque.</p>
+                        <div class="course-big-meta clearfix">
+                            <div class="pull-left">
+                                <a href="#" class="owl-button">Details</a>
+                            </div><!-- end left -->
+                            <div class="pull-right">
+                                <p>$500</p>
+                            </div><!-- end right -->
+                        </div><!-- end course-big-meta -->
+                    </div><!-- end desc -->
+                </div><!-- end item -->
+                <div class="course-item">
+                    <div class="owl-image">
+                        <a href="course-single-1.html" title=""><img src="~/coursat/upload/course_01.png" alt="" class="img-responsive"></a>
+                        <span class="course-badge"><i class="fa fa-spoon"></i></span>
+                    </div><!-- end image -->
+                    <div class="course-desc">
+                        <h5><a href="course-single-1.html" title="">Cooking Lessons</a></h5>
+                        <span class="meta">Food & Cooking</span>
+                        <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut, vivamus at elit qiuis urna adipiscing iaculis vitae velit in neque.</p>
+                        <div class="course-big-meta clearfix">
+                            <div class="pull-left">
+                                <a href="#" class="owl-button">Details</a>
+                            </div><!-- end left -->
+                            <div class="pull-right">
+                                <p>$200</p>
+                            </div><!-- end right -->
+                        </div><!-- end course-big-meta -->
+                    </div><!-- end desc -->
+                </div><!-- end item -->
+                <div class="course-item">
+                    <div class="owl-image">
+                        <a href="course-single-1.html" title=""><img src="~/coursat/upload/course_02.png" alt="" class="img-responsive"></a>
+                        <span class="course-badge"><i class="fa fa-camera"></i></span>
+                    </div><!-- end image -->
+                    <div class="course-desc">
+                        <h5><a href="course-single-1.html" title="">Cooking Lessons</a></h5>
+                        <span class="meta">Food & Cooking</span>
+                        <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut, vivamus at elit qiuis urna adipiscing iaculis vitae velit in neque.</p>
+                        <div class="course-big-meta clearfix">
+                            <div class="pull-left">
+                                <a href="#" class="owl-button">Details</a>
+                            </div><!-- end left -->
+                            <div class="pull-right">
+                                <p>$350</p>
+                            </div><!-- end right -->
+                        </div><!-- end course-big-meta -->
+                    </div><!-- end desc -->
+                </div><!-- end item -->
+                <div class="course-item">
+                    <div class="owl-image">
+                        <a href="course-single-1.html" title=""><img src="~/coursat/upload/course_03.png" alt="" class="img-responsive"></a>
+                        <span class="course-badge"><i class="fa fa-flask"></i></span>
+                    </div><!-- end image -->
+                    <div class="course-desc">
+                        <h5><a href="course-single-1.html" title="">Cooking Lessons</a></h5>
+                        <span class="meta">Food & Cooking</span>
+                        <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut, vivamus at elit qiuis urna adipiscing iaculis vitae velit in neque.</p>
+                        <div class="course-big-meta clearfix">
+                            <div class="pull-left">
+                                <a href="#" class="owl-button">Details</a>
+                            </div><!-- end left -->
+                            <div class="pull-right">
+                                <p>$500</p>
+                            </div><!-- end right -->
+                        </div><!-- end course-big-meta -->
+                    </div><!-- end desc -->
+                </div><!-- end item -->
+            </div><!-- end owl-carousel -->
+        </div><!-- end container -->
+    </section><!-- end section-white -->
+  </body>     
+         
 
-<script type="text/javascript">
-        window.jQuery || document.write("<script type='text/javascript' src='../Content/assets/js/jquery.js'>" + "<" + "/script>");
-</script>
-<script type="text/javascript">
+         <!-- CSS -->
+         @*<div id="fb-root"></div>*@
+
+         <script type="text/javascript">
+             window.jQuery || document.write("<script type='text/javascript' src='../Content/assets/js/jquery.js'>" + "<" + "/script>");
+         </script>
+         <script type="text/javascript">
 
         //Specify the slider's width (in pixels)
         var sliderwidth = "1150px"
@@ -1031,54 +497,54 @@
                 document.write('</td></table>')
             }
         }
-</script>
+         </script>
 
-<script type="text/javascript" src="https://platform.linkedin.com/in.js">
-    api_key:75cxqdj7v4gd8f
-    authorize:false
-    onLoad:onLinkedInLoad
-    scope:w_share
-</script>
+         <script type="text/javascript" src="https://platform.linkedin.com/in.js">
+             api_key: 75cxqdj7v4gd8f
+             authorize: false
+             onLoad: onLinkedInLoad
+             scope: w_share
+         </script>
 
-<script type="text/javascript">
-    (function() {
-        var po = document.createElement('script'); po.type = 'text/javascript';
-        po.async = true;
-        po.src = 'https://apis.google.com/js/client:plusone.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(po, s);
-    })();
-</script>
+         <script type="text/javascript">
+                 (function () {
+                     var po = document.createElement('script'); po.type = 'text/javascript';
+                     po.async = true;
+                     po.src = 'https://apis.google.com/js/client:plusone.js';
+                     var s = document.getElementsByTagName('script')[0];
+                     s.parentNode.insertBefore(po, s);
+                 })();
+         </script>
 
-<script type="text/javascript">
-    var substringMatcher = function (strs) {
-        return function findMatches(q, cb) {
-            var matches, substringRegex;
+         <script type="text/javascript">
+             var substringMatcher = function (strs) {
+                 return function findMatches(q, cb) {
+                     var matches, substringRegex;
 
-            // an array that will be populated with substring matches
-            matches = [];
+                     // an array that will be populated with substring matches
+                     matches = [];
 
-            // regex used to determine if a string contains the substring `q`
-            substrRegex = new RegExp(q, 'i');
+                     // regex used to determine if a string contains the substring `q`
+                     substrRegex = new RegExp(q, 'i');
 
-            // iterate through the pool of strings and for any string that
-            // contains the substring `q`, add it to the `matches` array
-            $.each(strs, function (i, str) {
-                if (substrRegex.test(str)) {
-                    // the typeahead jQuery plugin expects suggestions to a
-                    // JavaScript object, refer to typeahead docs for more info
-                    matches.push({ value: str });
-                }
-            });
+                     // iterate through the pool of strings and for any string that
+                     // contains the substring `q`, add it to the `matches` array
+                     $.each(strs, function (i, str) {
+                         if (substrRegex.test(str)) {
+                             // the typeahead jQuery plugin expects suggestions to a
+                             // JavaScript object, refer to typeahead docs for more info
+                             matches.push({ value: str });
+                         }
+                     });
 
-            cb(matches);
-        }
-    }
-</script>
-<!-- OTHER JS -->
-<script src="~/Content/assets/js/bootbox.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
-<script type="text/javascript">
+                     cb(matches);
+                 }
+             }
+         </script>
+         <!-- OTHER JS -->
+         @*<script src="~/Content/assets/js/bootbox.js"></script>
+         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>*@
+         <script type="text/javascript">
     var cartName = "CourseDetails";
     var currentCourses = '';
     function getCurrentCartItems() {
@@ -1533,9 +999,9 @@
         //responsive code end
     });
 
-</script>
+         </script>
 
-<script type="text/javascript">
+         <script type="text/javascript">
     (function ($) {
         $.fn.countTo = function (options) {
             // merge the default plugin settings with the custom options
@@ -1613,109 +1079,109 @@
             }
         });
     });
-</script>
+         </script>
 
-<!--Blur Effect-->
-<link href="~/Blur/css/style.css" rel="stylesheet" />
-<script src="~/Content/assets/js/ace/elements.typeahead.js"></script>
-<script src="~/Content/assets/js/typeahead.jquery.js"></script>
-<script type="text/javascript">
-    var courseList = [];
-    $(function () {
+         <!--Blur Effect-->
+         @*<link href="~/Blur/css/style.css" rel="stylesheet" />
+         <script src="~/Content/assets/js/ace/elements.typeahead.js"></script>
+         <script src="~/Content/assets/js/typeahead.jquery.js"></script>*@
+         @*<script type="text/javascript">
+             var courseList = [];
+             $(function () {
 
-        var $container = $('#ib-container'),
-            $articles = $container.children('article'),
-            timeout;
+                 var $container = $('#ib-container'),
+                     $articles = $container.children('article'),
+                     timeout;
 
-        $articles.on('mouseenter', function (event) {
+                 $articles.on('mouseenter', function (event) {
 
-            var $article = $(this);
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
+                     var $article = $(this);
+                     clearTimeout(timeout);
+                     timeout = setTimeout(function () {
 
-                if ($article.hasClass('active')) return false;
+                         if ($article.hasClass('active')) return false;
 
-                $articles.not($article.removeClass('blur').addClass('active'))
-                            .removeClass('active')
-                            .addClass('blur');
+                         $articles.not($article.removeClass('blur').addClass('active'))
+                             .removeClass('active')
+                             .addClass('blur');
 
-            }, 65);
+                     }, 65);
 
-        });
+                 });
 
-        $container.on('mouseleave', function (event) {
+                 $container.on('mouseleave', function (event) {
 
-            clearTimeout(timeout);
-            $articles.removeClass('active blur');
-        });
+                     clearTimeout(timeout);
+                     $articles.removeClass('active blur');
+                 });
 
-    });
+             });
 
-    $('#search').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-        name: 'course',
-        displayKey: 'value',
-        source: substringMatcher(getCourse())
-    });
-    function getCourse() {
-        var bindCourseList = [];
-        $.ajax({
-            type: "POST",
-            async: true,
-            data: "",
-            contentType: 'application/json; charset=utf-8',
-            url: "/Course/GetCourses",
-            success: function (response) {
-                for (var i = 0; i < response.length; i++) {
-                    courseList.push({ cid: response[i][0].Value, cname: response[i][1].Value });
-                    var courseName = response[i][0].Value;
-                    bindCourseList.push(courseName);
-                }
-                return bindCourseList;
-            },
-            error: function (response) {
-                localStorage.clear();
-            }
-        });
+             $('#search').typeahead({
+                 hint: true,
+                 highlight: true,
+                 minLength: 1
+             }, {
+                     name: 'course',
+                     displayKey: 'value',
+                     source: substringMatcher(getCourse())
+                 });
+             function getCourse() {
+                 var bindCourseList = [];
+                 $.ajax({
+                     type: "POST",
+                     async: true,
+                     data: "",
+                     contentType: 'application/json; charset=utf-8',
+                     url: "/Course/GetCourses",
+                     success: function (response) {
+                         for (var i = 0; i < response.length; i++) {
+                             courseList.push({ cid: response[i][0].Value, cname: response[i][1].Value });
+                             var courseName = response[i][0].Value;
+                             bindCourseList.push(courseName);
+                         }
+                         return bindCourseList;
+                     },
+                     error: function (response) {
+                         localStorage.clear();
+                     }
+                 });
 
-        return bindCourseList;
-    }
+                 return bindCourseList;
+             }
 
 
-</script>
-<style type="text/css">
-    div.input-group > .twitter-typeahead {
-        width: 100% !important;
-    }
+         </script>*@
+         @*<style type="text/css">
+             div.input-group > .twitter-typeahead {
+                 width: 100% !important;
+             }
 
-    .input-group .form-control {
-        float: none !important;
-    }
+             .input-group .form-control {
+                 float: none !important;
+             }
 
-    div.tt-dataset-course {
-        margin-left: 1% !important;
-        margin-top: 1% !important;
-    }
+             div.tt-dataset-course {
+                 margin-left: 1% !important;
+                 margin-top: 1% !important;
+             }
 
-    span .tt-dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 0px;
-        z-index: 100;
-        display: none;
-        right: none !important;
-        color: black;
-        margin-top: 0.4%;
-        width: 100%;
-        text-align: left;
-        background-color: white !important;
-    }
-</style>
-<script src="~/Content/assets/js/bootbox.js"></script>
-<script>
+             span .tt-dropdown-menu {
+                 position: absolute;
+                 top: 100%;
+                 left: 0px;
+                 z-index: 100;
+                 display: none;
+                 right: none !important;
+                 color: black;
+                 margin-top: 0.4%;
+                 width: 100%;
+                 text-align: left;
+                 background-color: white !important;
+             }
+         </style>
+         <script src="~/Content/assets/js/bootbox.js"></script>*@
+         <script>
     var APP_ID = "806929762735402";
     // Facebook Deveoper account: Archana
     //var APP_ID = "389441631447093";
@@ -1915,4 +1381,4 @@
                 alert(err);
             });
     }
-</script>
+         </script>
