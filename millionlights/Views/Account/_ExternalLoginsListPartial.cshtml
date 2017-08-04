@@ -17,26 +17,25 @@
     }
     else
     {
-        <form action="/Account/ExternalLogin" method="post">
+        <form action="~/Views/Account/ExternalLogin" method="post">
             <input type="hidden" name="couponCode" id="couponCode" />
             @Html.AntiForgeryToken()
             <div id="socialLoginList" class="socialiconsplace">
                 <p>
                     @foreach (AuthenticationDescription p in loginProviders)
-                    {
-
+                    {                  
                         if (p.AuthenticationType == "LinkedIn")
                         {
                             Session["UserName"] = null;
-                            <button onclick="CheckCoupon();" type="submit" class="icon-linkedin btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
+                            <button onclick="CheckCoupon();" type="submit" class="fa fa-linkedin btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
                         if (p.AuthenticationType == "Google")
                         {
                             Session["UserName"] = null;
-                            <button onclick="CheckCoupon();" type="submit" class="icon-google btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
+                            <button onclick="CheckCoupon();" type="submit" class="fa fa-google-plus btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
                         if (p.AuthenticationType == "Facebook")
                         {
                             Session["UserName"] = null;
-                            <button onclick="CheckCoupon();" type="submit" class="icon-facebook btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
+                            <button onclick="CheckCoupon();" type="submit" class="fa fa-facebook btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
                             @*if (p.AuthenticationType == "Twitter")
                                 {
                                     Session["UserName"] = null;

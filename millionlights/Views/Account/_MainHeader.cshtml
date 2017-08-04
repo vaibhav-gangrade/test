@@ -23,32 +23,34 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="index.html">Home</a></li>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li><a href="coming-soon.html">Mobile App</a></li>
-                        <li><a href="courses-2.html">Courses</a></li>
+                        <li>@Html.ActionLink("Courses", "AllCourses", "Course")</li>
                         <li class="dropdown megamenu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">About Us</a>
+                            <a href="/Home/massive-open-online-courses-India" class="dropdown-toggle" data-toggle="dropdown" id="AboutUsId">About Us</a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <div class="yamm-content">
                                         <div class="row-fluid">
                                             <div class="col-md-3 col-sm-6 col-xs-12 firstcolumn">
                                                 <ul class="box">
-                                                    <li><a href="about-1.html">About us 1</a></li>
-                                                    <li><a href="about-2.html">About us 2</a></li>
-                                                    <li><a href="about-3.html">About us 3</a></li>
+                                                    <li><a href="/PressRelease/Press">Press Release</a></li>
+                                                    <li><a href="~/Career/Career">Career</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
-                        </li>
+                        </li>             
                         <li><a href="index-3.html">Blog</a></li>
                         <li><a href="contact-3.html">Contact</a></li>
+                        <li class="dropdown megamenu active yamm-fw">
+                            <a href="/Account/Login">Login</a>
+                        </li>
                         <li class="noborder">
                             <div id="dmsearch" class="dmsearch">
-                                <form id="searchform" action="#" method="get">
+                                <form id="search-form" action="#" method="get">
                                     <div class="dm-search-container">
                                         <input id="s" class="dmsearch-input" type="text" name="s" value="" placeholder="Search">
                                     </div>
@@ -57,7 +59,7 @@
                                 </form> <!-- end searchform -->
                             </div><!-- end search -->
                         </li>
-                        <li class="dropdown megamenu active yamm-fw"><a href="login.html">Login</a></li>
+                   
                     </ul>
                 </div><!--/.nav-collapse -->
             </nav><!-- end nav -->
@@ -76,7 +78,7 @@
         }
     }
     $(document).ready(function () {
-        debugger
+        
         $(".couponTextChange").change(function () {
             var couponCode = $('#actCoupontxt')[0].value;
             if (couponCode == "") {

@@ -15,18 +15,48 @@
     var extProviderName = ViewBag.ExtProviderName;
     var IsAccountDeactivated = ViewBag.AccountDeactivateFlag;
 }
-<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
-<section id="login_bg" style="margin-top: -20px;">
+@*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />*@
+<link rel="stylesheet" type="text/css" href="~/coursat/style.css">
+
+
+<section class="section-white"  id="login_bg" >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div id="login">
+                    <form action="~/Views/Account/ExternalLogin" method="post">
+        
+                        <div class="widget-title">
+                            <h4>Login Area</h4>
+                            <hr>
+                            <div class="oauthRow row" style="text-align:center;">
+                                @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
+                            </div>
+                        </div>
+                        <input id="UserLoginName" type="text" class=" form-control " placeholder="Email-Id" onkeypress="LoginEnterClick(event)">
+                        <span class="input-icon"><i class=" icon-user"></i></span>
+                        <div class="form-group marginloginpwdTxt">
+                            <input id="UserPaddword" type="password" class=" form-control" placeholder="Password" onkeypress="LoginEnterClick(event)">
+                            <a href="#" style="margin-left: 1%;" onclick="ForgotPwd()">Forgot Password?</a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <button type="submit" id="btnLoginClick" href="#" class="button_fullwidth" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">
+                            Login
+                        </button>
+                        <hr>
+                        <h4><a href="#" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()" class="button_fullwidth-2">Create an Account</a></h4>
+                    </form>
+                </div>
+            </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end section-white -->
+
+@*<section id="login_bg" style="margin-top: -20px;">
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" style="margin-top: 5%; margin-bottom: 5%;">
-                <div id="login">
-                    <p class="text-center">
-                        <a href="/Account/Login">
-                            <img src="/Content/assets/img/slider/header-logo.png" class="img-responsive" style="padding-left:13%;" />
-                        </a>
-                    </p>
-                    <hr>
+                <div id="login">                
                     <form action="/Account/ExternalLogin" method="post">
 
                         <div class="oauthRow row">
@@ -55,9 +85,9 @@
             </div>
         </div>
     </div>
-</section><!-- End login -->
+</section><!-- End login -->*@
 
-<div id="forgotModel" class="modal fade">
+@*<div id="forgotModel" class="modal fade">
     <div class="modal-dialog">
         <div class="">
             <div class="container">
@@ -79,8 +109,8 @@
             </div>
         </div>
     </div>
-</div><!-- /.modal -->
-<script src="~/Content/assets/js/bootbox.js"></script>
+</div>*@
+@*<script src="~/Content/assets/js/bootbox.js"></script>*@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 <script type="text/javascript">
     var cartCount = 0;
@@ -139,15 +169,12 @@
                 }
             });
         }
-        debugger
         if ((localStorage.CouponCode != "null") && (localStorage.CouponCode != undefined)
             && (localStorage.CouponCode != "undefined") && (localStorage.CouponCode != "")) {
-            debugger
             window.localStorage.removeItem(cartName);
             currentItems = null;
             $('#actCoupontxt')[0].value = localStorage.CouponCode.trim();
             var couponText = $('#actCoupontxt')[0].value;
-            debugger
             //if (couponText.length == 15) {
             if (couponText.length !=8) {
                 $.ajax({
@@ -157,7 +184,7 @@
                     data: JSON.stringify({ "couponText": couponText }),
                     contentType: 'application/json; charset=utf-8',
                     success: function (response) {
-                        debugger
+                        
                         var resp = JSON.parse(response);
 
                         if (resp.IsUserId == true) {
@@ -197,7 +224,7 @@
                     data: JSON.stringify({ "referralCodeText": couponText }),
                     contentType: 'application/json; charset=utf-8',
                     success: function (response) {
-                        debugger
+                        
                         var resp = JSON.parse(response);
 
                         if (resp.InvalidCoupon == true) {
@@ -290,7 +317,7 @@
     }
 
     function LoginBtnClick() {
-        debugger
+        
         var data = null;
         if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
             currentCourses = JSON.parse(window.localStorage[cartName]);
@@ -320,7 +347,7 @@
             contentType: 'application/json; charset=utf-8',
             url: "/UserRegister/Login",
             success: function (response) {
-                debugger
+                
                 var resp = JSON.parse(response);
                 var URL = getParameterByName('RedirectUrl');
                 if (resp.isLogin == "true") {
@@ -330,13 +357,13 @@
                         window.localStorage.removeItem(cartName);
                     }
                     else {
-                        debugger
+                        
                         if ((localStorage.CouponCode != "null") && (localStorage.CouponCode != "") &&
                             (localStorage.CouponCode != "undefined") && (localStorage.CouponCode != undefined))
                             if (localStorage.CouponCode.trim().length == 8) {  // For Referral code done by Archana 29.11.2016
 
                                 if (!ApplyReferralCode(resp.userId)) {
-                                    debugger
+                                    
                                     bootbox.dialog({
                                         message: $('.errorReferralCode')[0].innerHTML,
                                         buttons: {
@@ -371,7 +398,7 @@
                                 });
                             }
                         else if (resp.enrollCourse == "true") {
-                            debugger
+                            
                             var courseId = resp.couresId;
                             var remCourses = removeItem(currentCourses, courseId);
                             window.localStorage[cartName] = JSON.stringify(remCourses);
@@ -400,7 +427,7 @@
                             });
                         }
                         else if (currentCourses.length > 0) {
-                            debugger
+                            
                             for (var i = 0; i < currentCourses.length; i++) {
                                 if (currentCourses[i] != null) {
                                     if (currentCourses[i].CourseUserId == resp.userId) {
@@ -443,12 +470,12 @@
     }
 
     function ApplyReferralCode(useridTemp) {
-        debugger
+        
         var isValid = true;
         var ud = useridTemp;
         var refCode = localStorage.CouponCode.trim(); // $('#ReferralCode')[0].value;
         {
-            debugger
+            
             $('.errorReferralCode')[0].innerHTML = "";
             $.ajax({
                 type: "POST",
@@ -457,7 +484,7 @@
                 contentType: 'application/json; charset=utf-8',
                 url: "/UserRegister/CheckReferralCode",
                 success: function (response) {
-                    debugger
+                    
                     var resp = JSON.parse(response);
                     if (resp.RefCodeFound == false) {
                         $('.errorReferralCode')[0].innerHTML = "Sorry, we couldn't find the referral code. Please try valid code.";
@@ -493,7 +520,7 @@
                                     "label": "Ok",
                                     "className": "btn-sm btn-primary",
                                     callback: function () {
-                                        debugger
+                                        
 
                                         localStorage.clear();
                                         localStorage.CouponCode = null;

@@ -41,7 +41,7 @@
         $('.errorpassword')[0].innerHTML = "";
     }
 
-    debugger;
+    ;
     if (email.length > 0 || phone.length > 0) {
         $.ajax({
             type: "POST",
@@ -50,7 +50,7 @@
             contentType: 'application/json; charset=utf-8',
             url: "/UserRegister/CheckEmailNPhoneExist",
             success: function (response) {
-                debugger
+                
                 var resp = JSON.parse(response);
                 if (resp.EmailExist == true) {
                     $('.errorEmailId')[0].innerHTML = "Email Id already Exists.";
@@ -109,7 +109,7 @@
         localStorage.CouponCode = "";
     }
     if (refCode.length > 0 && isValid == true) {
-        debugger
+        
         //    $('.errorRefCode')[0].innerHTML = "Please Enter Referral Code";
         //    isValid = false;
         //}
@@ -126,7 +126,7 @@
                 contentType: 'application/json; charset=utf-8',
                 url: "/UserRegister/CheckReferralCode",
                 success: function (response) {
-                    debugger
+                    
                     var resp = JSON.parse(response);
                     if (resp.RefCodeFound == false) {
                         $('.errorRefCode')[0].innerHTML = "Sorry, we couldn't find the referral code. Please try valid code.";

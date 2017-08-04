@@ -1,5 +1,5 @@
 jQuery.fn.table2CSV = function (options) {
-    debugger
+    
     var options = jQuery.extend({
         separator: ',',
         header: [],

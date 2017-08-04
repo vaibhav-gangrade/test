@@ -1,5 +1,5 @@
 jQuery.fn.table2CSV = function (options) {
-    debugger
+    
     var options = jQuery.extend({
         separator: ',',
         header: [],
@@ -29,7 +29,7 @@ jQuery.fn.table2CSV = function (options) {
 
     // actual data
     for (var i = 0; i < jqGridData.length; i++) {
-        debugger
+        
         var tmpRow = [];
        {
             tmpRow[tmpRow.length] = formatData(jqGridData[i].OrderNumber);

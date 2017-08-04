@@ -331,7 +331,7 @@
         var couponCode = null;
         var currentItems = getCurrentCartItems();
         var enrolledCount = 0;
-        debugger
+        
         if ('@isExternalReferralCode' == 'True') {
             $('#actCoupontxt')[0].value = '@ViewBag.CouponCode';
             activateCoupon();
@@ -573,14 +573,14 @@
         var userId = '@userId';
 
         if ('@userName' == "" || '@userName' == null) { // Code for 3 dot menu Archana
-            debugger
+            
             ActivateCouponFor3DotMenu();
         }
         else {
             if (couponCode.length == 8) {  // For Referral code done by Archana 29.11.2016
 
                 if (!ApplyReferralCode(userId, couponCode)) {
-                    debugger
+                    
                     bootbox.dialog({
                         message: $('.errorReferralCode')[0].innerHTML,
                         buttons: {
@@ -615,7 +615,7 @@
     }
 
     function ActivateCouponFor3DotMenu() {
-        debugger
+        
         var couponCode = $('#actCoupontxt')[0].value;
         if (couponCode != "") {
             localStorage.CouponCode = couponCode.trim();
@@ -636,12 +636,12 @@
     }
 
     function ApplyReferralCode(userIdTemp, couponCodeTemp) {
-        debugger
+        
         var isValid = true;
         var ud = userIdTemp;
         var refCode = couponCodeTemp; // $('#ReferralCode')[0].value;
         {
-            debugger
+            
             $('.errorReferralCode')[0].innerHTML = "";
             $.ajax({
                 type: "POST",
@@ -650,7 +650,7 @@
                 contentType: 'application/json; charset=utf-8',
                 url: "/UserRegister/CheckReferralCode",
                 success: function (response) {
-                    debugger
+                    
                     var resp = JSON.parse(response);
                     if (resp.RefCodeFound == false) {
                         $('.errorReferralCode')[0].innerHTML = "Sorry, we couldn't find the referral code. Please try valid code.";
@@ -686,7 +686,7 @@
                                     "label": "Ok",
                                     "className": "btn-sm btn-primary",
                                     callback: function () {
-                                        debugger
+                                        
                                         localStorage.CouponCode = null;
                                         localStorage.clear();
                                         localStorage.value = "MyProfile";
