@@ -83,7 +83,7 @@
     
 }
  
-<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
+@*<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>*@
 <script src="~/Scripts/ProgressBar/jquery.blockUI.js"></script>
 <script type="text/javascript">
 
@@ -275,8 +275,8 @@
         var ordAmount = 0;
         if (confirm("Please confirm the order?") == true) {
             //Block the background to prevent the duplicate orders
-            $.blockUI();
-            setTimeout($.unblockUI, 50000);
+           // $.blockUI();
+           // setTimeout($.unblockUI, 50000);
             //
             var courseVal = '';
             process = true;

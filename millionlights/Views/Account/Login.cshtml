@@ -21,11 +21,10 @@
 
 <section class="section-white"  id="login_bg" >
     <div class="container">
-        <div class="row">
+        <div class="row" style="background-color:whitesmoke;">
             <div class="col-md-4 col-md-offset-4">
                 <div id="login">
-                    <form action="~/Views/Account/ExternalLogin" method="post">
-        
+                    <form action="/Account/ExternalLogin" method="post">        
                         <div class="widget-title">
                             <h4>Login Area</h4>
                             <hr>
@@ -40,9 +39,11 @@
                             <a href="#" style="margin-left: 1%;" onclick="ForgotPwd()">Forgot Password?</a>
                         </div>
                         <div class="clearfix"></div>
-                        <button type="submit" id="btnLoginClick" href="#" class="button_fullwidth" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">
+                        @*<a id="btnLoginClick" href="#" class="button_fullwidth btn btn-block btn-primary" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">
                             Login
-                        </button>
+                        </a>*@
+                        <a id="btnLoginClick" href="#" class="button_fullwidth btn btn-block btn-primary" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">Log in</a>
+
                         <hr>
                         <h4><a href="#" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()" class="button_fullwidth-2">Create an Account</a></h4>
                     </form>
@@ -52,53 +53,19 @@
     </div><!-- end container -->
 </section><!-- end section-white -->
 
-@*<section id="login_bg" style="margin-top: -20px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" style="margin-top: 5%; margin-bottom: 5%;">
-                <div id="login">                
-                    <form action="/Account/ExternalLogin" method="post">
 
-                        <div class="oauthRow row">
-                            @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
-                        </div>
-                        <div class="login-or"><hr class="hr-or"><span class="span-or">or</span></div>
-
-                        <div class="form-group">
-                            <input id="UserLoginName" type="text" class=" form-control " placeholder="Email-Id" onkeypress="LoginEnterClick(event)">
-                            <span class="input-icon"><i class=" icon-user"></i></span>
-                        </div>
-                        <div class="form-group marginloginpwdTxt">
-                            <input id="UserPaddword" type="password" class=" form-control" placeholder="Password" onkeypress="LoginEnterClick(event)">
-                            <span class="input-icon"><i class="icon-lock"></i></span>
-                        </div>
-                        <p class="small">
-                            <a href="#" style="margin-left: 1%;" onclick="ForgotPwd()">Forgot Password?</a>
-                        </p>
-                        <label id="lblPwdError" class="colorRed"></label>
-                        <a id="btnLoginClick" href="#" class="button_fullwidth" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">Log in</a>
-                        <label id="errorReferralCode" class="errorReferralCode  hidden"></label>
-
-                        <a href="#" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()" class="button_fullwidth-2">Register</a>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section><!-- End login -->*@
-
-@*<div id="forgotModel" class="modal fade">
+<div id="forgotModel" class="modal fade">
     <div class="modal-dialog">
         <div class="">
             <div class="container">
                 <div class="row">
                     <div class="">
-                        <div id="login" class="col-sm-5">
+                        <div id="login" class="col-sm-5" style="background-color:whitesmoke;">
                             <div class="form-group retiveEmldiv"><label class="retiveEmlLbl">Retrieve Password</label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
                             <div class="dispalyNo"><label class="forgotEmailLbl">Enter your Email</label></div>
                             <div class="form-group dispalyNo">
                                 <input id="forgotEmail" type="text" class=" form-control " placeholder="Email-Id">
-                                <span class="input-icon"><i class=" icon-user"></i></span>
+                                <span class="input-icon"><i class=" fa-fa-user"></i></span>
                             </div>
                             <div><label id="emailValMsg" class="colorRed"></label></div>
                             <div><label id="FPwdSuccessLbl" class="colorRed" style="font-size:small !important;"></label></div>
@@ -109,7 +76,7 @@
             </div>
         </div>
     </div>
-</div>*@
+</div>
 @*<script src="~/Content/assets/js/bootbox.js"></script>*@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 <script type="text/javascript">

@@ -6,11 +6,8 @@
     var termsCond = ViewBag.TermsAndCondition;
     var userId = Session["UserID"];
 }
-<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
 <script src="~/Scripts/JS/UserRegister.js"></script>
-<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
 <style type="text/css">
     .tooltip {
         display: inline;
@@ -46,41 +43,37 @@
     {*@
 <section id="login_bg">
     <div class="container">
-        <div class="row">
+        <div class="row" style="margin:20px;background-color:whitesmoke">
             <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 loginLogo">
                 <div id="login">
-                    <p class="text-center">
-                        <a href="/UserRegister/UserRegister">
-                            <img src="/Content/assets/img/slider/header-logo.png" class="img-responsive" style="padding-left:13%;" />
-                        </a>
-                    </p>
-                    <hr>
-                    <div class="oauthRow row">
-                        @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
-                    </div>
-                    <div class="login-or"><hr class="hr-or"><span class="span-or">or</span></div>
                     @using (Html.BeginForm())
                     {
-                        <form action="/Account/ExternalLogin" method="post" onsubmit="return RegisterDialog()">
-                            @*<div class="oauthRow row">
+                        <form action="/Account/ExternalLogin" method="post">
+                            <div class="widget-title">
+                                <h4>Login</h4>
+                                <div class="oauthRow row" style="text-align:center;">
                                     @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
-                                </div>*@
-                            <div class="form-group ">
+                                </div>
+                            </div>
+                            <div class="form-group marginloginpwdTxt">
                                 @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control ", id = "UEmail", @placeholder = "Email", onkeypress = "return Validate(event)" })
                                 @Html.ValidationMessageFor(m => m.EmailId, "", new { @class = "text-danger errorCheckEmailId" })
+                                <span class="input-icon"><i class=" fa-fa-user"></i></span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group marginloginpwdTxt">
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control ", id = "Upassword", @placeholder = "Password", onkeypress = "return Validate(event)" })
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger errorCheckPwd" })
                             </div>
-                            <div class="form-group">
+                            <div class="form-group marginloginpwdTxt">
                                 @Html.PasswordFor(m => m.Password, new { @class = "form-control ", id = "password2", @placeholder = "Confirm Password", onkeypress = "return Validate(event)" })
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger errorCheckConfrmPwd" })
                             </div>
                             <div id="pass-info" class="clearfix"></div>
                             <label id="lblPwdError" class="colorRed"></label>
-                            <input type="button" value="Create an account" id="Regbtn" class="button_fullwidth" onclick="RegisterDialog()" />
-                            <a href="#" class="button_fullwidth-2" onclick="LoginBtnCLick();" onkeypress="LoginEnterClick();">Login</a>
+                            <input type="button" value="Create an account" id="Regbtn" class="button_fullwidth btn btn-block btn-primary" onclick="RegisterDialog()" />
+                            <a href="#" class="button_fullwidth-2 btn btn-block btn-primary"  onclick="LoginBtnCLick();" onkeypress="LoginEnterClick();">Login</a>
+                            <hr>
+
                         </form>
                     }
                 </div>
@@ -96,12 +89,11 @@
             <div class="container">
                 <div class="row">
                     <div class="">
-                        <div id="login" class="col-sm-7">
+                        <div id="login" class="col-sm-7" style="background-color:whitesmoke;">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-
                             <p class="text-center">
                                 <a href="/UserRegister/UserRegister">
-                                    <img src="/Content/assets/img/slider/header-logo.png" />
+                                    <img src="~/coursat/images/logo.png" />
                                 </a>
                             </p>
                             <hr>
@@ -210,13 +202,13 @@
 
                             </div>
 
-                            <div>
+                            @*<div>
                                 @Html.TextBoxFor(m => m.UserType, new { visible = "false", @class = "displayNone" })
                                 @Html.TextBoxFor(m => m.ProviderKey, new { visible = "false", @class = "displayNone" })
-                            </div>
+                            </div>*@
                             <div class="form-group formGroupCustom">
                                 <div class="col-md-12 btmMarTop">
-                                    <input type="submit" class="button_fullwidth" value="REGISTER" onclick="RegisterUser();" />
+                                    <input type="submit" class="button_fullwidth btn-block btn-primary" value="REGISTER" onclick="RegisterUser();" />
                                 </div>
                             </div>
                             @*}*@
@@ -228,8 +220,8 @@
     </div>
 </div><!-- /.modal -->
 
-<link href="~/Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
-<script src="~/Content/assets/js/bootbox.js"></script>
+@*<link href="~/Content/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />*@
+@*<script src="~/Content/assets/js/bootbox.js"></script>*@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 
 <script type="text/javascript">
@@ -444,7 +436,6 @@
         }
         else if (emailid.length > 0) {
 
-            debugger;
             $.ajax({
                 type: "POST",
                 async: false,
@@ -490,7 +481,7 @@
         }
 
         if (isValid == true && pwd == confrmpwd) {
-            debugger
+            
             $('#emailIdTxt')[0].value = $('#UEmail')[0].value;
             $('#passwordTxt')[0].value = $('#Upassword')[0].value;
             $('#confirmpassTxt')[0].value = $('#password2')[0].value;
@@ -536,7 +527,6 @@
     }
 
     function RegisterDialog() {
-        debugger
         if (ValidateReg()) {
             $("#RegisterModel").show();
             return false;

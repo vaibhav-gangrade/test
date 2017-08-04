@@ -24,7 +24,6 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li><a href="coming-soon.html">Mobile App</a></li>
                         <li>@Html.ActionLink("Courses", "AllCourses", "Course")</li>
                         <li class="dropdown megamenu">
                             <a href="/Home/massive-open-online-courses-India" class="dropdown-toggle" data-toggle="dropdown" id="AboutUsId">About Us</a>
@@ -43,10 +42,17 @@
                                 </li>
                             </ul>
                         </li>             
-                        <li><a href="index-3.html">Blog</a></li>
                         <li><a href="contact-3.html">Contact</a></li>
                         <li class="dropdown megamenu active yamm-fw">
+                        @if (userName == null)
+                        {
                             <a href="/Account/Login">Login</a>
+                        }
+                        else
+                        {
+                            @*<label class="lblUserName ">Welcome! @userName</label>*@
+                            @Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })
+                        }
                         </li>
                         <li class="noborder">
                             <div id="dmsearch" class="dmsearch">

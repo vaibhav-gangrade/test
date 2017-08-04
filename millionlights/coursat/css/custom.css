@@ -2,3 +2,20 @@
     color: #FC0;
     margin-top: 10px;
 }
+.btnExternal {
+    border-radius: 5px;
+    background: rgb(102, 102, 255);
+    color: white;
+    width: 40px;
+    height: 30px;
+    border: 1px solid;
+    padding-right: 5px;
+}
+
+.btnColor {
+    font-size: 13px !important;
+    font-weight: 400;
+    color: #964741 !important;
+    border-radius: 3px !important;
+    text-transform: none !important
+}

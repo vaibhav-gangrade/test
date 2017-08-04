@@ -17,7 +17,7 @@
     }
     else
     {
-        <form action="~/Views/Account/ExternalLogin" method="post">
+        <form action="/Account/ExternalLogin" method="post">
             <input type="hidden" name="couponCode" id="couponCode" />
             @Html.AntiForgeryToken()
             <div id="socialLoginList" class="socialiconsplace">
@@ -31,7 +31,7 @@
                         if (p.AuthenticationType == "Google")
                         {
                             Session["UserName"] = null;
-                            <button onclick="CheckCoupon();" type="submit" class="fa fa-google-plus btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
+                            <button onclick="CheckCoupon();" type="submit" class="fa fa-google btnExternal" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"></button>}
                         if (p.AuthenticationType == "Facebook")
                         {
                             Session["UserName"] = null;
