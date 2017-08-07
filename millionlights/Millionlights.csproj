@@ -927,6 +927,13 @@
     <Content Include="coursat\upload\device_01.png" />
     <Content Include="coursat\upload\device_02.png" />
     <Content Include="coursat\upload\faqs_parallax.jpg" />
+    <Content Include="coursat\upload\fit_economy1.jpg" />
+    <Content Include="coursat\upload\fit_electrical-eng1.jpg" />
+    <Content Include="coursat\upload\fit_health-eng1.jpg" />
+    <Content Include="coursat\upload\fit_human-r.jpg" />
+    <Content Include="coursat\upload\fit_leadership.jpg" />
+    <Content Include="coursat\upload\fit_struct-eng3.jpg" />
+    <Content Include="coursat\upload\fit_transport.jpg" />
     <Content Include="coursat\upload\gallery_01.png" />
     <Content Include="coursat\upload\gallery_02.png" />
     <Content Include="coursat\upload\gallery_03.png" />
