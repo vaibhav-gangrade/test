@@ -2,6 +2,8 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <TypeScriptEnabled>false</TypeScriptEnabled>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>
@@ -34,6 +36,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -42,6 +46,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>false</ExcludeGeneratedDebugSymbol>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="aes">
@@ -89,7 +94,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="MCPG.CCA.Util">
-      <HintPath>..\..\..\..\..\Akshat\CCAvenue\ASP.Net_Kit_Version_3.5\ASP.Net_Kit_Version_3.5\NON_SEAMLESS_KIT\libs\MCPG.CCA.Util.dll</HintPath>
+      <HintPath>..\packages\MCPG.CCA.Util\MCPG.CCA.Util.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -144,10 +149,8 @@
       <HintPath>..\packages\MVC4.Video.2.0.0\lib\net40\MVCVideo.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin.Security.Providers, Version=1.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.Security.Providers.1.18\lib\net45\Owin.Security.Providers.dll</HintPath>
@@ -304,98 +307,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="**\*.ts" Exclude="$(GlobalExclude)" />
     <Content Include="BingSiteAuth.xml" />
-    <Content Include="bin\aes.dll" />
-    <Content Include="bin\Antlr3.Runtime.dll" />
-    <Content Include="bin\Antlr3.Runtime.pdb" />
-    <Content Include="bin\DotNetOpenAuth.Core.dll" />
-    <Content Include="bin\DotNetOpenAuth.Core.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="bin\DotNetOpenAuth.OAuth2.Client.dll" />
-    <Content Include="bin\DotNetOpenAuth.OAuth2.Client.xml" />
-    <Content Include="bin\DotNetOpenAuth.OAuth2.ClientAuthorization.dll" />
-    <Content Include="bin\DotNetOpenAuth.OAuth2.ClientAuthorization.xml" />
-    <Content Include="bin\DotNetOpenAuth.OAuth2.dll" />
-    <Content Include="bin\DotNetOpenAuth.OAuth2.xml" />
-    <Content Include="bin\EntityFramework.BulkInsert.dll" />
-    <Content Include="bin\EntityFramework.BulkInsert.pdb" />
-    <Content Include="bin\EntityFramework.dll" />
-    <Content Include="bin\EntityFramework.MappingAPI.dll" />
-    <Content Include="bin\EntityFramework.MappingAPI.pdb" />
-    <Content Include="bin\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.xml" />
-    <Content Include="bin\EntityFramework.xml" />
-    <Content Include="bin\MCPG.CCA.Util.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
-    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Owin.xml" />
-    <Content Include="bin\Microsoft.Owin.dll" />
-    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
-    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Cookies.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="bin\Microsoft.Owin.Security.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Facebook.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Google.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.OAuth.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Twitter.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.xml" />
-    <Content Include="bin\Microsoft.Owin.xml" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Millionights.Models.dll" />
-    <Content Include="bin\Millionights.Models.pdb" />
-    <Content Include="bin\Millionlights.dll" />
-    <Content Include="bin\Millionlights.EmailService.dll" />
-    <Content Include="bin\Millionlights.EmailService.pdb" />
-    <Content Include="bin\Millionlights.pdb" />
-    <Content Include="bin\MillionLights.Services.dll" />
-    <Content Include="bin\MillionLights.Services.pdb" />
-    <Content Include="bin\MVCVideo.dll" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Newtonsoft.Json.xml" />
-    <Content Include="bin\Owin.dll" />
-    <Content Include="bin\Owin.Security.Providers.dll" />
-    <Content Include="bin\PagedList.dll" />
-    <Content Include="bin\PagedList.Mvc.dll" />
-    <Content Include="bin\PagedList.Mvc.xml" />
-    <Content Include="bin\PagedList.xml" />
-    <Content Include="bin\System.Net.Http.Extensions.dll" />
-    <Content Include="bin\System.Net.Http.Extensions.xml" />
-    <Content Include="bin\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\System.Net.Http.Primitives.dll" />
-    <Content Include="bin\System.Net.Http.Primitives.xml" />
-    <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
-    <Content Include="bin\System.Web.Http.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.xml" />
-    <Content Include="bin\System.Web.Http.xml" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Mvc.xml" />
-    <Content Include="bin\System.Web.Optimization.dll" />
-    <Content Include="bin\System.Web.Optimization.xml" />
-    <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
-    <Content Include="bin\System.Web.WebPages.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.xml" />
-    <Content Include="bin\WebGrease.dll" />
     <Content Include="Blur\css\demo.css" />
     <Content Include="Blur\css\fonts\BebasNeue-webfont.svg" />
     <Content Include="Blur\css\fonts\Dharma Type Font License.txt" />
@@ -1793,9 +1706,6 @@
     <Content Include="Blur\css\fonts\BebasNeue-webfont.woff" />
     <Content Include="ExcelTemplate\ImportUserTemplate.csv" />
     <Content Include="Content\learn\img\favicons\manifest.json" />
-    <Content Include="bin\Millionlights.dll.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Millionlights.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Millionlights.designer.cs</LastGenOutput>
@@ -1867,12 +1777,14 @@
     <None Include="Properties\PublishProfiles\millionlights-beta %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\millionlights-beta %285%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %286%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %287%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %288%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %289%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta.pubxml" />
     <None Include="Properties\PublishProfiles\MillionLights-Beta1 %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\MillionLights-Beta1.pubxml" />
     <None Include="Properties\PublishProfiles\Millionlights2015 %2810%29.pubxml" />
     <None Include="Properties\PublishProfiles\Millionlights2015 %2811%29.pubxml" />
     <None Include="Properties\PublishProfiles\Millionlights2015 %2812%29.pubxml" />
@@ -1884,6 +1796,14 @@
     <None Include="Properties\PublishProfiles\Millionlights2015 %2818%29.pubxml" />
     <None Include="Properties\PublishProfiles\Millionlights2015 %2819%29.pubxml" />
     <None Include="Properties\PublishProfiles\MillionLights2015 %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2820%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2821%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2822%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2823%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2824%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2825%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2826%29.pubxml" />
+    <None Include="Properties\PublishProfiles\Millionlights2015 %2827%29.pubxml" />
     <None Include="Properties\PublishProfiles\Millionlights2015 %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\Millionlights2015 %284%29.pubxml" />
     <None Include="Properties\PublishProfiles\Millionlights2015 %285%29.pubxml" />
@@ -1912,6 +1832,9 @@
     <None Include="Properties\PublishProfiles\millionlightsTest - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlightsTest - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MillionlightsTest.pubxml" />
+    <None Include="Properties\PublishProfiles\ml-dev3 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ml-dev3 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\ml-dev4 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\MLAzure.pubxml" />
     <None Include="Properties\PublishProfiles\MLProfile.pubxml" />
     <None Include="Properties\Settings.settings">
