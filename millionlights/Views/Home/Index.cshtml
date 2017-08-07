@@ -3,13 +3,10 @@
 @using System.Collections;
 @{
     var freeCourses = ViewBag.FreeCourses;
-    var paidCourses = ViewBag.PaidCourses;
     var freeCourseCounterTemp = ViewBag.FreeCoursesCounter;
-    var paidCoursesCounterTemp = ViewBag.PaidCoursesCounter;
     var userCount = ViewBag.UserCount;
     var courseCount = ViewBag.CoursesCount;
     var promo = ViewBag.Video;
-    ViewBag.Title = "Free online Courses in India | IT Courses India with Certificates, Pune";
     var userName = Session["UserName"];
     var userId = Session["UserID"];
     var isRegister = Session["IsRegister"];
@@ -43,8 +40,8 @@
 @section ExtraMetaTags
 {
     <meta name="robots" content="INDEX, FOLLOW">
-    <meta name="keywords" content="Free Online courses India, Free Online IT Courses in India, Pune" />
-    <meta name="description" content="We, at Millionlights offer Free online Courses with Certificates  in India. Our team consists of senior people from Academia and the government." />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
 }
 <link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
 
@@ -99,153 +96,13 @@
             <div class="tp-banner">
                 <ul>
                     <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_economy1.jpg" data-saveperformance="off" data-title="Slide">
-                        <img src="~/coursat/upload/fit_economy1.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" >
-                        @*<div class="tp-caption text-center skewfromleft randomrotateout tp-resizeme"
-                             data-x="center"
-                             data-y="165"
-                             data-speed="1000"
-                             data-start="800"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            <img src="~/coursat/upload/slider_logo_01.png" alt="">
-                        </div>*@
-                        @*<div class="tp-caption slider_01 text-center skewfromright randomrotateout tp-resizeme"
-                             data-x="center"
-                             data-y="240"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            Coursat, Online Courses Template <hr>
-                        </div>
-                        <div class="tp-caption fit_electrical-eng1 text-center skewfromright randomrotateout tp-resizeme"
-                             data-x="center"
-                             data-y="330"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            We Will Help You To Learn
-                        </div>
-                        <div class="tp-caption slider_03 text-center randomrotateout tp-resizeme"
-                             data-x="center"
-                             data-y="395"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adipiscing condimentum tristique<br> vel, eleifend sed turpis.
-                        </div>*@
+                       <img src="~/coursat/upload/fit_economy1.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" style="width:50%;height:50%;">
                     </li>
                     <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_electrical-eng1.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_electrical-eng1.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" >
-                        @*<div class="tp-caption fit_economy1 text-left skewfromright randomrotateout tp-resizeme"
-                             data-x="left"
-                             data-y="240"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            Coursat, Online Courses Template <hr>
-                        </div>
-                        <div class="tp-caption slider_02 text-center skewfromright randomrotateout tp-resizeme"
-                             data-x="left"
-                             data-y="330"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            TRULY RESPONSIVE
-                        </div>
-                        <div class="tp-caption fit_health-eng1 text-left randomrotateout tp-resizeme"
-                             data-x="left"
-                             data-y="395"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adip<br>iscing condimentum tristique vel, eleifend sed turpis.
-                        </div>*@
                     </li>
                     <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_health-eng1.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_health-eng1.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover">
-                        @*<div class="tp-caption slider_01 text-center skewfromright randomrotateout tp-resizeme"
-                             data-x="center"
-                             data-y="240"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            Coursat, Responsive Courses Template <hr>
-                        </div>
-                        <div class="tp-caption slider_02 text-center skewfromright randomrotateout tp-resizeme"
-                             data-x="center"
-                             data-y="330"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            Learning Management System
-                        </div>
-                        <div class="tp-caption slider_03 text-center randomrotateout tp-resizeme"
-                             data-x="center"
-                             data-y="395"
-                             data-speed="1000"
-                             data-start="1400"
-                             data-easing="Power3.easeInOut"
-                             data-splitin="none"
-                             data-splitout="none"
-                             data-elementdelay="0.1"
-                             data-endelementdelay="0.1"
-                             data-endspeed="1000"
-                             style="z-index: 9; max-width: auto; max-height: auto; white-space: nowrap;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adipiscing condimentum tristique<br> vel, eleifend sed turpis.
-                        </div>*@
                     </li>
                     <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_human-r.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_human-r.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" >
