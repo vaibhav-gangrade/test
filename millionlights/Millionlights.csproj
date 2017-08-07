@@ -699,6 +699,7 @@
     <Content Include="coursat\images\apple-touch-icon.png" />
     <Content Include="coursat\images\bg.jpg" />
     <Content Include="coursat\images\dummy.png" />
+    <Content Include="coursat\images\edulogo.jpg" />
     <Content Include="coursat\images\favicon.ico" />
     <Content Include="coursat\images\logo%402x.png" />
     <Content Include="coursat\images\logo.png" />
