@@ -15,19 +15,17 @@
     var extProviderName = ViewBag.ExtProviderName;
     var IsAccountDeactivated = ViewBag.AccountDeactivateFlag;
 }
-@*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />*@
 <link rel="stylesheet" type="text/css" href="~/coursat/style.css">
 
 
 <section class="section-white"  id="login_bg" >
     <div class="container">
-        <div class="row" style="background-color:whitesmoke;">
+        <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div id="login">
                     <form action="/Account/ExternalLogin" method="post">        
                         <div class="widget-title">
-                            <h4>Login Area</h4>
-                            <hr>
+                            <h4>Login</h4>
                             <div class="oauthRow row" style="text-align:center;">
                                 @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
                             </div>
@@ -39,13 +37,10 @@
                             <a href="#" style="margin-left: 1%;" onclick="ForgotPwd()">Forgot Password?</a>
                         </div>
                         <div class="clearfix"></div>
-                        @*<a id="btnLoginClick" href="#" class="button_fullwidth btn btn-block btn-primary" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">
-                            Login
-                        </a>*@
-                        <a id="btnLoginClick" href="#" class="button_fullwidth btn btn-block btn-primary" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">Log in</a>
 
+                        <a id="btnLoginClick" href="#" class="button_fullwidth btn btn-block btn-primary" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">Log in</a>
+                        <a href="#" class="button_fullwidth btn btn-block btn-primary" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()" class="button_fullwidth-2">Create an Account</a>
                         <hr>
-                        <h4><a href="#" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()" class="button_fullwidth-2">Create an Account</a></h4>
                     </form>
                 </div>
             </div>
@@ -60,7 +55,7 @@
             <div class="container">
                 <div class="row">
                     <div class="">
-                        <div id="login" class="col-sm-5" style="background-color:whitesmoke;">
+                        <div id="login" class="col-sm-5">
                             <div class="form-group retiveEmldiv"><label class="retiveEmlLbl">Retrieve Password</label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
                             <div class="dispalyNo"><label class="forgotEmailLbl">Enter your Email</label></div>
                             <div class="form-group dispalyNo">

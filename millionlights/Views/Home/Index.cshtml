@@ -44,6 +44,8 @@
     <meta name="description" content="" />
 }
 <link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<script src="~/Content/assets/js/jquery.js"></script>
+
 
 <!-- RS SLIDER -->
 <link rel="stylesheet" type="text/css" href="~/coursat/rs-plugin/css/settings.css" media="screen" />
@@ -95,25 +97,25 @@
         <div class="tp-banner-container">
             <div class="tp-banner">
                 <ul>
-                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_economy1.jpg" data-saveperformance="off" data-title="Slide">
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="~/coursat/upload/fit_economy1.jpg" data-saveperformance="off" data-title="Slide">
                        <img src="~/coursat/upload/fit_economy1.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" style="width:50%;height:50%;">
                     </li>
-                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_electrical-eng1.jpg" data-saveperformance="off" data-title="Slide">
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="~/coursat/upload/fit_electrical-eng1.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_electrical-eng1.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" >
                     </li>
-                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_health-eng1.jpg" data-saveperformance="off" data-title="Slide">
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="~/coursat/upload/fit_health-eng1.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_health-eng1.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover">
                     </li>
-                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_human-r.jpg" data-saveperformance="off" data-title="Slide">
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="~/coursat/upload/fit_human-r.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_human-r.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" >
                     </li>
-                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_leadership.jpg" data-saveperformance="off" data-title="Slide">
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="~/coursat/upload/fit_leadership.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_leadership.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover" >
                     </li>
-                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_struct-eng3.jpg" data-saveperformance="off" data-title="Slide">
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="~/coursat/upload/fit_struct-eng3.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_struct-eng3.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover">
                     </li>
-                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="upload/fit_transport.jpg" data-saveperformance="off" data-title="Slide">
+                    <li data-transition="slidevertical" data-slotamount="1" data-masterspeed="500" data-thumb="~/coursat/upload/fit_transport.jpg" data-saveperformance="off" data-title="Slide">
                         <img src="~/coursat/upload/fit_transport.jpg" alt="fullslide1" data-bgposition="center top" data-bgfit="cover">
                     </li>
 
@@ -143,7 +145,6 @@
                     var courseImg = tempVal.ToString();
                     if (freeCourses.Count > 0 && freeCount < 8)
                     {
-                       <article class="paddingLeftRightZero">
                            <div class="course-item">
                                             <div class="owl-image">
                                                         <a href="#">
@@ -197,46 +198,51 @@
                                                                 }
                                                             }
                                                         </a>
-                                                        @{
-                                                            string courseCatName = course.CategoryName;
-                                                            string tempCourseCatName = string.Empty;
-                                                            if (courseCatName.Length > 21)
+                                                       
+
+                                                    </div>
+                                                       
+                                                    <div class="course-desc">
+                                                        <div>
+                                                            @{
+                                                                string courseCatName = course.CategoryName;
+                                                                string tempCourseCatName = string.Empty;
+                                                                if (courseCatName.Length > 21)
+                                                                {
+                                                                    tempCourseCatName = courseCatName.Substring(0, 20);
+                                                                }
+                                                                else
+                                                                {
+                                                                    tempCourseCatName = courseCatName;
+                                                                }
+                                                            }
+                                                            @if (courseCatName.Length > 21)
                                                             {
-                                                                tempCourseCatName = courseCatName.Substring(0, 20);
+                                                                <div class="cat_row">
+                                                                    <a href="#">
+                                                                        @tempCourseCatName<span title="@courseCatName">...</span>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="cat_row">
+                                                                    <span class="">
+                                                                        <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
+                                                                    </span>
+                                                                </div>
                                                             }
                                                             else
                                                             {
-                                                                tempCourseCatName = courseCatName;
+                                                                <div class="cat_row">
+                                                                    <a href="#">
+                                                                        @tempCourseCatName
+                                                                    </a>
+                                                                </div>
+                                                                <div class="cat_row">
+                                                                    <span class="">
+                                                                        <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
+                                                                    </span>
+                                                                </div>
                                                             }
-                                                        }
-                                                        @if (courseCatName.Length > 21)
-                                                        {
-                                                            <div class="cat_row">
-                                                                <a href="#">
-                                                                    @tempCourseCatName<span title="@courseCatName">...</span>
-                                                                </a>
-                                                                <span class="pull-right">
-
-                                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
-                                                                </span>
-                                                            </div>
-                                                        }
-                                                        else
-                                                        {
-                                                            <div class="cat_row">
-                                                                <a href="#">
-                                                                    @tempCourseCatName
-                                                                </a>
-                                                                <span class="pull-right">
-
-                                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
-                                                                </span>
-                                                            </div>
-                                                        }
-
-                                                    </div>
-                                                        @*<div class="info course-desc" style="padding-bottom: 5px;">*@
-                                                    <div class="course-desc">
+                                                        </div>
                                                         <div id="shortdiv">
                                                             @{
                                                                 string courseName = course.CourseName;
@@ -265,7 +271,7 @@
                                                             }
                                                         </div>
                                                         <div class="activateCoupan-shortDesc"><p>@course.ShortDescription</p></div>
-                                                        <div class="row" style="background-color: #ffffff; padding: 20px;">
+                                                        <div class="row" style="background-color: #ffffff; padding:0px 20px;">
                                                             <div class="rating pull-left">
                                                                 @{
                                                                     int filled = 5 - course.CourseRatings;
@@ -300,29 +306,11 @@
                                                                     <p style="font-weight: bold; font-size: 14px;margin-top: 5px;text-align: center;">Starting Soon....</p>
                                                                 </div>
 
-                                                                <div class="separator clearfix" style="text-align: center;">
-                                                                    <a class="signupbg btnsignUp detailClass respDetails" style=" padding:6px 10px 3px 5px !important;" href="" id="@course.Id"><i class="fa fa-list"></i> Details</a>
+                                                                <div class="course-big-meta clearfix">
+                                                                    <a class="owl-button detailClass respDetails pull-left" style="text-align: center; padding: 6px 6px !important;" href="" id="@course.Id">
+                                                                    Details</a>
                                                                 </div>
                                                                 <hr style="margin-top: 10px !important;margin-bottom: 10px !important;" />
-                                                                <div class="row widget about-widget wow fadeIn" data-wow-duration="1s" data-wow-delay="0.4s">
-                                                                    <ul class="social" style="margin-left: 35%;">
-                                                                        <li class="facebook"><a id="postToWallWithFBUiPrompt" href="" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.EncodedDescription','@course.Id', '@course.EncodedImageLink');return false;"><i class="fa fa-facebook"></i></a></li>
-                                                                        <li class="linkedin"><a href="" onclick="ShareOnLinkedIn('@tempCourseName','@course.EncodedDescription');return false;" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                                                                        <li class="twitter"><a id="dsdsd" href="" onclick="CourseEmailText('@course.Id', '@tempCourseName');return false;"><i class="fa fa-envelope"></i></a></li>
-                                                                        <li class="google">
-                                                                            <a href="#" class="g-interactivepost"
-                                                                               data-contenturl='@course.CourseDirectURL'
-                                                                               data-contentdeeplinkid="/pages"
-                                                                               data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
-                                                                               data-
-                                                                               iepolicy="single_host_origin"
-                                                                               data-prefilltext='@course.EncodedDescription'
-                                                                               data-calltoactionlabel="READ"
-                                                                               data-calltoactionurl='@course.CourseDirectURL'
-                                                                               data-calltoactiondeeplinkid="/pages/create"><i class="fa fa-google-plus"></i></a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
                                                             }
                                                             else
                                                             {
@@ -330,48 +318,28 @@
                                                                     <p style="font-weight: bold;font-size: 14px; text-align: center;margin-top: 5px;">Active</p>
                                                                 </div>
 
-                                                                <div class="separator clearfix" style="text-align:center;">
+                                                                <div class="course-big-meta clearfix">
                                                                     @if (course.IsCourseEnrolled != null && course.IsCourseEnrolled == true)
                                                                     {
-                                                                        <a class="actCoupon enrollClass" style="padding: 6px 10px 3px 5px !important; background-color: grey; pointer-events: none; cursor: default; " href="" id="@course.Id"><i class=" icon-export-4"></i> Enrolled</a>
+                                                                        <a class="owl-button enrollClass pull-left" style="text-align: center; padding: 6px 6px !important; background-color: grey; pointer-events: none; cursor: default; " href="" id="@course.Id">
+                                                                    Enrolled</a>
                                                                     }
                                                                     else
                                                                     {
-                                                                        <a class="actCoupon enrollClass" style="padding: 6px 10px 3px 5px !important;" href="" id="@course.Id"><i class="fa fa-share-square-o" aria-hidden="true"></i> Enroll</a>
+                                                                        <a class="owl-button enrollClass pull-left" style="text-align: center; padding: 6px 6px !important;" href="" id="@course.Id">
+                                                                    Enroll</a>
                                                                     }
-                                                                    <a class="signupbg btnsignUp detailClass respDetails" style=" padding:6px 10px 3px 5px !important;" href="" id="@course.Id"><i class="fa fa-list"></i> Details</a>
-                                                                </div>
-                                                                <hr style="margin-top: 10px !important;margin-bottom: 10px !important;" />
-
-                                                                <div class="row widget about-widget wow fadeIn" data-wow-duration="1s" data-wow-delay="0.4s">
-
-                                                                    <ul class="social" style="margin-left: 35%;">
-                                                                        <li class="facebook"><a id="postToWallWithFBUiPrompt" href="" onclick="javascript:postToWallUsingFBUi('@tempCourseName','@course.BasePrice','@course.EncodedDescription','@course.Id', '@course.EncodedImageLink');return false;"><i class="fa fa-facebook"></i></a></li>
-                                                                        <li class="linkedin"><a href="" onclick="ShareOnLinkedIn('@tempCourseName','@course.EncodedDescription');return false;" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                                                                        <li class="twitter"><a id="dsdsd" href="" onclick="CourseEmailText('@course.Id', '@tempCourseName');return false;"><i class="fa fa-envelope"></i></a></li>
-                                                                        <li class="google">
-                                                                            <a href="#" class="g-interactivepost"
-                                                                               data-contenturl='@course.CourseDirectURL'
-                                                                               data-contentdeeplinkid="/pages"
-                                                                               data-clientid="30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com"
-                                                                               data-cookiepolicy="single_host_origin"
-                                                                               data-prefilltext='@course.EncodedDescription'
-                                                                               data-calltoactionlabel="READ"
-                                                                               data-calltoactionurl='@course.CourseDirectURL'
-                                                                               data-calltoactiondeeplinkid="/pages/create"><i class="fa fa-google"></i></a>
-                                                                        </li>
-                                                                    </ul>
+                                                                    <a class="owl-button detailClass respDetails pull-right" style="text-align: center; padding: 6px 6px !important;" href="" id="@course.Id">
+                                                                    Details</a>
                                                                 </div>
                                                             }
                                                         </div><!-- end course-big-meta -->
                                                         </div>
                                                     </div>
-                                            </article>
                                             freeCount++;
                                             }
                                            }
-                                 </div>
-                                 <!-- End row -->
+                                 </div><!-- End row -->
                              </div><!-- End container -->
                          </section>
              </div>
@@ -879,7 +847,7 @@
                 "title": "LinkedIn Developers Resources",
                 "description": "Leverage LinkedIn's APIs to maximize engagement",
                 "submitted-url": "https://www.millionlights.org",
-                "submitted-image-url": "https://example.com/logo.png"
+                "submitted-image-url": "https://example.com/edulogo.jpg"
             },
             "visibility": {
                 "code": "anyone"

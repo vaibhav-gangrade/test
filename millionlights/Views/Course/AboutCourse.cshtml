@@ -29,16 +29,18 @@
     var pageDesc = ViewBag.PageDesc;
     var pageImg = ViewBag.PageImg;
 }
-<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
-<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>
-<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+@*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />*@
+@*<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>*@
+<script src="~/coursat/js/jquery.min.js"></script>
+
+@*<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />*@
 <h1 itemprop="name" style="display:none;">@pageTitle</h1>
 @*<img itemprop="image" style="display:none;" src="https://www.gstatic.com/images/icons/gplus-64.png" />*@
 <meta property="og:image" content="@pageImg" />
 <p itemprop="description" style="display:none;">@pageDesc</p>
 
 <section id="sub-header">
-    <div>
+    <div class="col-md-12">
         @if (courseDetails != null)
         {
             <div class="row">
@@ -46,9 +48,9 @@
                     <h2 style="font-weight: 200 !important;font-size: 30px !important;">
                         @courseDetails.CourseName
                     </h2>
-                    <div id="ratemebtn">
+                    @*<div id="ratemebtn">
                         <a href="" class="pull-right button_fullwidth-3" onclick="CourseRatings('@courseDetails.Id','@courseDetails.CourseName'); return false;">Rate the course</a>
-                    </div>
+                    </div>*@
                     <div id="enrollbtn">
                         <a href="" class="pull-right button_fullwidth-3 enrollCourse" style="display:none;" id="@courseDetails.Id">
                             Enroll
