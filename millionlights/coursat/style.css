@@ -334,7 +334,6 @@
 	    padding-bottom: 33px;
 	    font-size: 14px !important;
 	    font-weight: 700;
-	    text-transform: uppercase;
 	    color:#565966 !important;
 	    padding-top: 35px;
 	}
@@ -702,7 +701,6 @@
 		width: 220px;
 		color:#babbbe;
 		height: 35px;
-		text-transform: uppercase;
 		margin: 0;
 		border:1px solid #d8d8da;
 		padding:0 0 0 13px;
@@ -1057,7 +1055,6 @@
 	    font-weight: bold;
 	    font-family: Open Sans;
 	    text-align: center;
-	    text-transform: uppercase;
 	}
 
 	.time_circles > div > span {
@@ -1103,7 +1100,6 @@
 	}
 	.page-title-wrapper .section-title p {
 		font-size: 35px !important;
-		text-transform: uppercase;
 		color:#ffffff;
 		line-height: 45px;
 	}
@@ -2204,13 +2200,11 @@
 	    line-height: 1.42857;
 	    margin-bottom: 15px;
 	    padding: 6px 12px;
-	    text-transform: uppercase;
 	    width: 100%;
 	}
 	.btn {
 		font-size:12px;
 		border-radius: 0;
-		text-transform: uppercase;
 	}
 	.form-control:focus {
 		box-shadow: none;
@@ -2540,7 +2534,6 @@
 		font-weight:600;
 		font-size:45px;
 		letter-spacing: 0;
-		text-transform: uppercase;
 		line-height:45px;
 		font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 		background-color:#fff;

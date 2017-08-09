@@ -13,24 +13,24 @@
         <div class="container">
             <nav class="yamm navbar navbar-default">
                 <div class="navbar-header" style="margin-top:-24px;">             
-                    <a class="navbar-brand" href="index.html"><img src="~/coursat/images/edulogo.jpg" style="width: 110px;margin-top:10px;" alt=""></a>
+                    <a class="navbar-brand" href="/Home/Index"><img src="~/coursat/images/edulogo.jpg" style="width: 110px;margin-top:10px;" alt=""></a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("Courses", "AllCourses", "Course")</li>
-                        <li class="dropdown megamenu">
-                            <a href="#" id="AboutUsId">About Us</a>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "AllCourses" ? "active" : "")">@Html.ActionLink("Courses", "AllCourses", "Course")</li>
+                        <li class="dropdown megamenu @(ViewContext.RouteData.Values["Action"].ToString() == "Press" ? "active" : "")">
+                            <a href="/PressRelease/Press" id="AboutUsId">About Us</a>
                         </li>             
-                        <li><a href="#">Contact</a></li>
-                        <li class="dropdown megamenu active yamm-fw">
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"><a href="/Home/Contact">Contact</a></li>
+                        <li class="dropdown megamenu @(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")">
                         @if (userName == null)
                         {
                             <a href="/Account/Login">Login</a>
                         }
                         else
                         {
-                            @*<label class="lblUserName ">Welcome! @userName</label>*@
+                            <label class="lblUserName ">Welcome! @userName</label>
                             @Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })
                         }
                         </li>
@@ -38,7 +38,7 @@
                             <div id="dmsearch" class="dmsearch">
                                 <form id="search-form" action="#" method="get">
                                     <div class="dm-search-container">
-                                        <input id="search" class="dmsearch-input" type="text" name="s" value="" placeholder="Search">
+                                        <input id="search" class="dmsearch-input" type="text" value="" placeholder="Search">
                                     </div>
                                     <input id="CourseID" class="dmsearch-submit" type="submit" value="">
                                     <span class="fa fa-search"></span>

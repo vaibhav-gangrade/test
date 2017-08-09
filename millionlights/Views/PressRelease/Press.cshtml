@@ -35,25 +35,15 @@
 
 
 @*<link rel="icon" href="Content/learn/img/favicon.ico" type="image/x-icon">*@
-<link href="~/PressContents/css/bootstrap.min.css" rel="stylesheet" />
+@*<link href="~/PressContents/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/PressContents/css/superfish.css" rel="stylesheet" />
 <link href="~/PressContents/css/style.css" rel="stylesheet" />
 <link href="~/PressContents/Content/learn/fontello/css/fontello.css" rel="stylesheet" />
 <link href="~/PressContents/Content/learn/css/color_scheme.css" rel="stylesheet" />
 <link href="~/PressContents/Content/Custom/CustomStyle.css" rel="stylesheet" />
 <link href="~/PressContents/css/font-awesome.css" rel="stylesheet" />
-<link href="~/PressContents/main.css" rel="stylesheet" />
+<link href="~/PressContents/main.css" rel="stylesheet" />*@
 
-
-<section @*class="parallax-window"*@ data-parallax="scroll" style="background:url(../PressContents/img/top-banner.jpg);height:300px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center" style="padding-top:10%;color:#fff;">Press</h1>
-            </div>
-        </div>
-    </div><!-- End container -->
-</section>
 
 @*<section id="contactus_area">
     <div class="container">
@@ -86,132 +76,67 @@
     </div>
 </section>*@
 
-<section id="what_new">
+<section id="blog_parallax" class="section-white page-title-wrapper" data-stellar-background-ratio="1" data-stellar-offset-parent="true">
     <div class="container">
-        @if (pressData.Count > 0)
-        {
+        <div class="relative">
             <div class="row">
-                <h2 class="text-center">@PressHeading</h2>
-                @foreach (var data in pressData)
-                {
-                    <div class="col-md-6">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                            <img src="~/coursat/upload/fit_economy1.jpg" style="width:100%;height:100%;" alt="fullslide1" data-bgposition="center top" >
+                    </div><!-- end title -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end relative -->
+    </div><!-- end container -->
+</section><!-- end section-white -->
+<section class="section-white">
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-md-8 col-sm-12 pull-right">
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                @if (!string.IsNullOrEmpty(data.PressImage))
-                                {
-                                    <img class="img-responsive" src="@String.Format("/Images/PressContentsImg/{0}",data.PressImage)" />
-
-                                }
-                                else
-                                {
-                                    <img src="~/Images/noimage378X225.png" id="blah" style="width: 250px; height: 180px; " alt="" />
-
-                                }
-                            </div>
-                            <div class="col-md-6">
-                                <p class="new_title">@data.PressShortDescription</p>
-                                @{
-                                string longdescription = data.PressLongDescription;
-                                string templogdesc = string.Empty;
-                                var Id = data.Id;
-                                if (longdescription.Length > 200)
-                                {
-                                    templogdesc = longdescription.Substring(0, 199);
-                                }
-                                else
-                                {
-                                    templogdesc = longdescription;
-                                }
-                                <p>@templogdesc</p>
-                                }
-                                @*@if (longdescription.Length > 50 )
-                                {*@
-                                    <div>
-                                       
-                                        @*<h4>@templogdesc <span title="@longdescription">...</span></h4><br />*@
-                                        <a id="@data.Id" href="/PressRelease/PressContentDetails/@Id" class="detailClass">Read more....</a>
-                                   </div>
-                                @*}
-                                else
-                                {
-                                    <div>
-                                        <h4>@templogdesc</h4>
-                                    </div>
-                                }*@
-                            </div>
-                        </div>
-
+                <div class="blog-entry">
+                    <div class="blog-title">
+                        <h3>About Us</h3>
                     </div>
-                }
-                @*<div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <img class="img-responsive" src="../PressContents/img/press_1.jpg" alt="">
-                            </div>
-                            <div class="col-md-6">
-                                <p class="new_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                        </div>
-                    </div>*@
-            </div>
-        }
-        else
-        {
-            <h2 class="text-center">Press release are not configured yet. Please visit later....</h2>
-        }
-        <br>
-        <br>
+                    <div class="blog-desc" >
+                        <p style="margin-top: 10px;">EduNetworks is an independent training firm with more than 4 years of experience in the fields of management and human resources. Since 2008, we have been successfully providing our clients with business and professional solutions, as well as expertise in the organization, management and development of human resources</p>
+                        <p>EduNetworks offers an impressive range of training, consulting and research services. Our experienced multilingual consultants provide these services to a large number of organizations, both private and public. We pride ourselves on our track record and long-standing relationships with our clients, many of whom have been with us since we started business. </p>
+                        <p>Our training programs have attracted more than 5000 participants from around 1,800 organizations, and our client base is steadily growing. EduNetworks has established itself as a leader in the field of organization and human resources consulting. Our experienced professionals have successfully completed consulting assignments and research studies in these fields for most of the major organizations in the region.</p>
+                    </div><!-- end blog-desc -->
+                </div><!-- end blog -->                               
+            </div><!-- end content -->
+            <div id="sidebar" class="col-md-4 col-sm-12 pull-left">
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4>Our Mission</h4>
+                    </div><!-- end widget-title -->
+                    <div class="cat-widget">
+                            <p><b>Building on 4 years of experience, we continue to be the preferred choice for training and consulting services by:</b></p>
+                            <p>Commit to the highest professional standards of quality, operational excellence and integrity.
+</p>
+                            <p>Rely on full-time, multi-lingual consultants who have international work experience coupled with in-depth cross-cultural and industry-specific knowledge of the region.</p>
+                            <p>Provide innovative and practical solutions to our valued clients, based on best practices and current research.
+</p>
+                            <p>Depend on loyal and hard working personnel who are competent, highly motivated and committed to their own development.
+</p>
+                            <p>Utilize the latest and most effective technology in our pursuit of innovation and continuous improvement.
+</p>
+                    <p>Maintain a healthy return on our shareholders investment in pursuit of growth, community service and added value to our clients.
+</p>
+              
+                    </div><!-- end latest-course -->
+                </div><!-- end widget -->
+                
+                
+                                
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end section-white -->
 
-        @*<div class="row">*@
 
-            @*<div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img class="img-responsive" src="../PressContents/img/press_1.jpg" alt="">
-                        </div>
-                        <div class="col-md-6">
-                            <p class="new_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </div>
-                    </div>
-                </div>*@
-            @*<div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img class="img-responsive" src="../PressContents/img/press_1.jpg" alt="">
-                        </div>
-                        <div class="col-md-6">
-                            <p class="new_title">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmo</p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                                proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                        </div>
-                    </div>
-                </div>*@
-        @*</div>*@
-    </div>
-</section>
+
+
 
 @*<section id="press_releases_area">
     <div class="container">
