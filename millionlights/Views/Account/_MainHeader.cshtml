@@ -8,6 +8,7 @@
         roleID = int.Parse(Session["RoleID"].ToString());
     }
 }
+<link rel="stylesheet" type="text/css" href="~/coursat/css/custom.css">
 
     <header class="header clearfix">
         <div class="container">
@@ -23,17 +24,7 @@
                             <a href="/PressRelease/Press" id="AboutUsId">About Us</a>
                         </li>             
                         <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"><a href="/Home/Contact">Contact</a></li>
-                        <li class="dropdown megamenu @(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")">
-                        @if (userName == null)
-                        {
-                            <a href="/Account/Login">Login</a>
-                        }
-                        else
-                        {
-                            <label class="lblUserName ">Welcome! @userName</label>
-                            @Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })
-                        }
-                        </li>
+                       
                         <li class="noborder">
                             <div id="dmsearch" class="dmsearch">
                                 <form id="search-form" action="#" method="get">
@@ -44,6 +35,32 @@
                                     <span class="fa fa-search"></span>
                                 </form> <!-- end searchform -->
                             </div><!-- end search -->
+                        </li>
+                        <li class="dropdown megamenu @(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")">
+                            @if (userName == null)
+                            {
+                                <a href="/Account/Login">Login</a>
+                            }
+                            else
+                            {
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:28px;">
+                                 <span class="user-span">@userName.ToString().Substring(0,1).ToUpper()</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="yamm-content">
+                                            <div class="row-fluid">
+                                                <div class="col-md-3 col-sm-6 col-xs-12 firstcolumn">
+                                                    <ul class="box">
+                                                        <li><label class="lblUserName ">@userName</label></li>
+                                                        <li>@Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
                         </li>
                    
                     </ul>

@@ -31,15 +31,19 @@
                             </div>
                         </div>
                         <input id="UserLoginName" type="text" class=" form-control " placeholder="Email-Id" onkeypress="LoginEnterClick(event)">
-                        <span class="input-icon"><i class=" icon-user"></i></span>
+                        <span class="input-icon"><i class=" fa-fa-user"></i></span>
                         <div class="form-group marginloginpwdTxt">
                             <input id="UserPaddword" type="password" class=" form-control" placeholder="Password" onkeypress="LoginEnterClick(event)">
                             <a href="#" style="margin-left: 1%;" onclick="ForgotPwd()">Forgot Password?</a>
+                            <label id="lblPwdError" class="colorRed"></label>
+
                         </div>
                         <div class="clearfix"></div>
+                        <label id="errorReferralCode" class="errorReferralCode  hidden"></label>
 
                         <a id="btnLoginClick" href="#" class="button_fullwidth btn btn-block btn-primary" onclick="LoginBtnClick()" onkeypress="LoginEnterClick(event)">Log in</a>
-                        <a href="#" class="button_fullwidth btn btn-block btn-primary" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()" class="button_fullwidth-2">Create an Account</a>
+                        <a href="#" class="button_fullwidth-2 btn btn-block btn-primary" onclick="RegisterBtnClick()" onkeypress="RegisterEnterClick()">Create an Account</a>
+
                         <hr>
                     </form>
                 </div>
@@ -64,7 +68,7 @@
                             </div>
                             <div><label id="emailValMsg" class="colorRed"></label></div>
                             <div><label id="FPwdSuccessLbl" class="colorRed" style="font-size:small !important;"></label></div>
-                            <div class="rightAlign dispalyNo"><input type="button" value="Resend" id="Regbtn" class="btnRegister btnForword" onclick="forgotPWDResend()" /></div>
+                            <div class="rightAlign dispalyNo"><input type="button" value="Resend" id="Regbtn" class="btnRegister btnForword pull-right" onclick="forgotPWDResend()" /></div>
                         </div>
                     </div>
                 </div>

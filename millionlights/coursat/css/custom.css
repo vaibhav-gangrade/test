@@ -19,3 +19,16 @@
     border-radius: 3px !important;
     text-transform: none !important
 }
+
+.user-span {
+    display: block;
+    height: 32px;
+    width: 32px;
+    line-height: 32px;
+    -moz-border-radius: 30px;
+    border-radius: 16.2px;
+    background-color: #0f1a9a;
+    color: white;
+    text-align: center;
+    font-size: 1.3em;
+}
