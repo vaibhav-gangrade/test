@@ -213,7 +213,7 @@
                                                                 </div>
                                                             }
                                                         </div>
-                                                        <div id="shortdiv">
+                                                        <div id="shortdiv" style="height: 60px;">
                                                             @{
                                                                 string courseName = course.CourseName;
                                                                 string tempCourseName = string.Empty;
@@ -240,8 +240,8 @@
                                                                 </div>
                                                             }
                                                         </div>
-                                                        <div class="activateCoupan-shortDesc"><p>@course.ShortDescription</p></div>
-                                                        <div class="row" style="background-color: #ffffff; padding:0px 20px;">
+                                                        <div class="activateCoupan-shortDesc" style="height: 60px;"><p>@course.ShortDescription</p></div>
+                                                        <div class="row" style="background-color: #ffffff; padding:10px 20px;">
                                                             <div class="rating pull-left">
                                                                 @{
                                                                     int filled = 5 - course.CourseRatings;
@@ -280,7 +280,6 @@
                                                                     <a class="owl-button detailClass respDetails pull-left" style="text-align: center; padding: 6px 6px !important;" href="" id="@course.Id">
                                                                     Details</a>
                                                                 </div>
-                                                                <hr style="margin-top: 10px !important;margin-bottom: 10px !important;" />
                                                             }
                                                             else
                                                             {
@@ -320,9 +319,9 @@
          <div id="fb-root"></div>
 
          <!-- OTHER JS -->
-
-
-         <script type="text/javascript">
+<script src="~/Content/assets/js/bootbox.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
+<script type="text/javascript">
     var cartName = "CourseDetails";
     var currentCourses = '';
     function getCurrentCartItems() {
