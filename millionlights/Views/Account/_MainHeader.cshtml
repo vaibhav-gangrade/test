@@ -14,7 +14,7 @@
         <div class="container">
             <nav class="yamm navbar navbar-default">
                 <div class="navbar-header" style="margin-top:-24px;">             
-                    <a class="navbar-brand" href="/Home/Index"><img src="~/coursat/images/edulogo.jpg" style="width: 110px;margin-top:10px;" alt=""></a>
+                    <a class="navbar-brand" href="/Home/Index"><img src="/coursat/images/edulogo.jpg" style="width: 110px;margin-top:10px;" alt=""></a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -29,37 +29,36 @@
                             <div id="dmsearch" class="dmsearch">
                                 <form id="search-form" action="#" method="get">
                                     <div class="dm-search-container">
-                                        <input id="search" class="dmsearch-input" type="text" value="" placeholder="Search">
+                                        <input id="search" class="dmsearch-input form-control style-2 typeahead scrollable" type="text" value="" placeholder="Search">
                                     </div>
                                     <input id="CourseID" class="dmsearch-submit" type="submit" value="">
                                     <span class="fa fa-search"></span>
                                 </form> <!-- end searchform -->
                             </div><!-- end search -->
                         </li>
-                        <li class="dropdown megamenu @(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")">
+                        <li class="dropdown megamenu" style="position:relative;border:0 !important;">
                             @if (userName == null)
                             {
                                 <a href="/Account/Login">Login</a>
                             }
                             else
                             {
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding:28px;">
-                                 <span class="user-span">@userName.ToString().Substring(0,1).ToUpper()</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <div class="yamm-content">
-                                            <div class="row-fluid">
-                                                <div class="col-md-3 col-sm-6 col-xs-12 firstcolumn">
-                                                    <ul class="box">
-                                                        <li><label class="lblUserName ">@userName</label></li>
-                                                        <li>@Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })</li>
-                                                    </ul>
+                                <div style="">
+                                    <a href="#" >
+                                        <span class="user-span">@userName.ToString().Substring(0, 1).ToUpper()</span>
+                                    </a>
+                                        <ul class="dropdown-menu" style="top:66px;">
+                                            <li>
+                                                <i class="fa fa-sort-up icon-cog" style="position:fixed;top: 58px; right:69px; font-size: 1.8em;opacity: 1;"></i>
+                                                <div class="yamm-content" style="border: 2px solid #f5f5f5;">
+                                                    <div class="box" style="left:-117px;display:block">
+                                                        <label class="lblUserName" style="padding-left:18px;">Welcome @userName</label>
+                                                        @Html.RouteLink("LOGOUT", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                            </li>
+                                        </ul>
+                                </div>
                             }
                         </li>
                    
@@ -68,7 +67,7 @@
             </nav><!-- end nav -->
         </div><!-- end container -->
     </header><!-- end header -->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
     <script type="text/javascript">
 
     var currentCourses = '';
@@ -118,7 +117,19 @@
                 }
             }
         }
-    });
+        });
+        $("#CourseID").click(function () {
+
+            var searchTextFind = $('#search')[0].value;
+            var searchTextCat = searchTextFind.split("in category");
+            var searchText = searchTextCat[0];
+
+
+            if (searchText != "") {
+                window.location.href = "/Course/AllCourses?id=0&type=none&courseName=" + searchText;
+                return false;
+            }
+        });
     function ActivateCoupon() {
         var couponCode = $('#actCoupontxt')[0].value;
         if (couponCode != "") {

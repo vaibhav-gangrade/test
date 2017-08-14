@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-<script src="~/Content/assets/js/bootbox.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 <script type="text/javascript">
     var cartCount = 0;
@@ -405,7 +405,7 @@
                                             $('#cartItemCount')[0].innerHTML = "My Cart (" + cartCount + ")";
                                         }
                                         var courseIdTD = "<td style='vertical-align:middle;'><a href='' class='icon-minus-circled' id='" + currentCourses[i].CourseId + "'></a></td>";
-                                        var courseImageTD = "<td class='courseVal'><img src='" + currentCourses[i].CourseImage + "' class='imgOrderDetails' alt=''></td>";
+                                        var courseImageTD = "<td class='courseVal'> <img src='" + currentCourses[i].CourseImage + "' class='imgOrderDetails' alt=''></td>";
                                         var titleDescriptionTD = "<td class='courseVal'><label>" + currentCourses[i].CourseName + "</label> <br />" + currentCourses[i].CourseDescription + "</td>";
                                         var basePriceTD = "<td class='prceValueTD'><label id='lblPrice'>" + currentCourses[i].CoursePrice + "</label></td>";
                                         var courseDetailsRowTD = "<tr>" + courseIdTD + courseImageTD + titleDescriptionTD + basePriceTD + "</tr>";
