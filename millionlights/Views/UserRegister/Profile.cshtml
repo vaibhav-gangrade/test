@@ -19,7 +19,7 @@
         if (roleID == 1 || roleID == 3)
         {
             Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            <script src="~/Content/assets/js/jquery.js"></script>
+            <script src="~/coursat/js/jquery.min.js"></script>
         }
         else
         {
@@ -32,17 +32,17 @@
     }
     var WalletAmount = ViewBag.WalletAmount;
     var ReferralCodeToShare = ViewBag.ReferralCodeToShare;
- 
-    
+
+
 }
-<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+@*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/learn/css/jquery.switch.css">
 <link href="~/Content/learn/css/style.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
 <link rel="stylesheet" href="~/Content/assets/css/jquery.gritter.css" />
 <link rel="stylesheet" href="~/Content/assets/css/bootstrap-editable.css" />
-<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
-<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />*@
+@*<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />*@
 <section id="main_content">
     <div class="container">
         <div class="row">
@@ -787,57 +787,7 @@
     </div>
 </div>
 
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="//cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
-<script src="~/Scripts/Online/1.10.7-js-jquery.dataTables.min.js"></script>
-<script src="~/Scripts/Online/responsive-1.0.6-js-dataTables.responsive.min.js"></script>
-<script src="~/Scripts/Online/plug-ins-1.10.7-integration-bootstrap-3-dataTables.bootstrap.js"></script>
 
-@if (roleID != 0)
-{
-    if (roleID == 1 || roleID == 3)
-    {
-        Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-        <!-- ace scripts - for user profile photo -->
-        <script src="~/Content/assets/js/jquery.gritter.js"></script>
-        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
-        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
-        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
-        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
-        //added by suraj to fix sidebar menu issue
-        <script src="~/Content/assets/js/bootstrap.js"></script>
-        <script src="~/Content/assets/js/jquery.gritter.js"></script>
-        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
-        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
-        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
-        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
-        <script src="~/Content/assets/js/ace/ace.js"></script>
-    }
-    else
-    {
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        <!-- ace scripts - for user profile photo -->
-        <script src="~/Content/assets/js/bootstrap.js"></script>
-        <script src="~/Content/assets/js/jquery.gritter.js"></script>
-        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
-        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
-        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
-        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
-        <script src="~/Content/assets/js/ace/ace.js"></script>
-    }
-}
-else
-{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    <script src="~/Content/assets/js/bootstrap.js"></script>
-    <script src="~/Content/assets/js/jquery.gritter.js"></script>
-    <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
-    <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
-    <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
-    <script src="~/Content/assets/js/ace/elements.aside.js"></script>
-    <script src="~/Content/assets/js/ace/ace.js"></script>
-}
-<script src="~/Content/assets/js/bootbox.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {

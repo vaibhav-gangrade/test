@@ -12,7 +12,7 @@
         if (roleID == 1 || roleID == 3)
         {
             Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            <script src="~/Content/assets/js/jquery.js"></script>
+            @*<script src="~/Content/assets/js/jquery.js"></script>*@
         }
         else
         {
@@ -28,7 +28,7 @@
 @{
     var messages = (Dictionary<string, string>)ViewBag.Messages;
 }
-@*<script src="~/Content/assets/js/bootbox.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script type="text/javascript">
     function ContactUsQuery() {
         var isValid = ValidateContact();
@@ -38,11 +38,11 @@
             var fullName = firstName + " " + lastName;
             var queryEmail = $('#email_contact')[0].value;
             var message = $('#message_contact')[0].value;
-            var phoneNumber = $('#phone_contact')[0].value;
+            //var phoneNumber = $('#phone_contact')[0].value;
             $.ajax({
                 type: "POST",
                 async: false,
-                data: JSON.stringify({ "queryEmail": queryEmail, "fullName": fullName, "message": message, "phoneNumber": phoneNumber }),
+                data: JSON.stringify({ "queryEmail": queryEmail, "fullName": fullName, "message": message }),
                 contentType: 'application/json; charset=utf-8',
                 url: "/MarketingCampaign/CustomersQuery",
                 success: function (response) {
@@ -65,9 +65,7 @@
         var firstName = $('#name_contact')[0].value;
         var lastName = $('#lastname_contact')[0].value;
         var email = $('#email_contact')[0].value;
-        var phoneNumber = $('#phone_contact')[0].value;
         var message = $('#message_contact')[0].value;
-        var verify = $('#verify_contact')[0].value;
 
         if (firstName.length == 0) {
             bootbox.dialog({
@@ -131,19 +129,19 @@
                     isvalid = false;
 
                 }
-            else
-                if (phoneNumber.length == 0) {
-                    bootbox.dialog({
-                        message: "Please Enter Phone Number.",
-                        buttons: {
-                            "success": {
-                                "label": "OK",
-                                "className": "btn-sm btn-primary"
-                            }
-                        }
-                    });
-                    isvalid = false;
-                }
+            //else
+            //    if (phoneNumber.length == 0) {
+            //        bootbox.dialog({
+            //            message: "Please Enter Phone Number.",
+            //            buttons: {
+            //                "success": {
+            //                    "label": "OK",
+            //                    "className": "btn-sm btn-primary"
+            //                }
+            //            }
+            //        });
+            //        isvalid = false;
+            //    }
                 else
                     if (message.length == 0) {
                         bootbox.dialog({
@@ -157,35 +155,35 @@
                         });
                         isvalid = false;
                     }
-                    else
-                        if (verify.length == 0) {
-                            bootbox.dialog({
-                                message: "Please Enter Verification code.",
-                                buttons: {
-                                    "success": {
-                                        "label": "OK",
-                                        "className": "btn-sm btn-primary"
-                                    }
-                                }
-                            });
-                            isvalid = false;
-                        }
-                        else
-                            if (verify.length > 0) {
-                                if (verify != 4) {
-                                    bootbox.dialog({
-                                        message: "Please Enter Correct Verification code.",
-                                        buttons: {
-                                            "success": {
-                                                "label": "OK",
-                                                "className": "btn-sm btn-primary"
-                                            }
-                                        }
-                                    });
-                                    isvalid = false;
-                                }
+                    //else
+                    //    if (verify.length == 0) {
+                    //        bootbox.dialog({
+                    //            message: "Please Enter Verification code.",
+                    //            buttons: {
+                    //                "success": {
+                    //                    "label": "OK",
+                    //                    "className": "btn-sm btn-primary"
+                    //                }
+                    //            }
+                    //        });
+                    //        isvalid = false;
+                    //    }
+                    //    else
+                    //        if (verify.length > 0) {
+                    //            if (verify != 4) {
+                    //                bootbox.dialog({
+                    //                    message: "Please Enter Correct Verification code.",
+                    //                    buttons: {
+                    //                        "success": {
+                    //                            "label": "OK",
+                    //                            "className": "btn-sm btn-primary"
+                    //                        }
+                    //                    }
+                    //                });
+                    //                isvalid = false;
+                    //            }
 
-                            }
+                    //        }
         return isvalid;
     }
     function isNumberKey(evt) {
@@ -287,7 +285,7 @@
     </div>
 </section>*@
 
-    <section id="contact_parallax" class="section-white page-title-wrapper" data-stellar-background-ratio="1" data-stellar-offset-parent="true">
+    @*<section id="contact_parallax" class="section-white page-title-wrapper" data-stellar-background-ratio="1" data-stellar-offset-parent="true">
         <div class="container">
             <div class="relative">
                 <div class="row">
@@ -305,14 +303,14 @@
                 </div><!-- end row -->
             </div><!-- end relative -->
         </div><!-- end container -->
-    </section><!-- end section-white -->
+    </section><!-- end section-white -->*@
 
 
 
 
 
 
-    <section class="section-white">
+    @*<section class="section-white">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -360,7 +358,7 @@
                 </div><!-- end col -->
             </div>
         </div><!-- end container -->
-    </section><!-- end section-white -->
+    </section>*@<!-- end section-white -->
 }
 else
 {
@@ -436,7 +434,7 @@ else
 </section>*@
         <section class="section-white">
             <div class="container">
-                <div class="row">
+                @*<div class="row">
                     <div class="col-md-12">
                         <div class="section-title text-center">
                             <h4>Quick Contact</h4>
@@ -444,21 +442,21 @@ else
                             <p>We Wanna Hear From You Soon!</p>
                         </div><!-- end title -->
                     </div><!-- end col -->
-                </div><!-- end row -->
+                </div><!-- end row -->*@
                 <div class="row section-container">
                     <div class="col-md-8">
                         <form class="row contact_form">
                             <div class="col-md-6 col-sm-6">
-                                <input type="text" class="form-control" placeholder="Your Name">
+                                <input type="text" class="form-control style_2" id="name_contact" name="name_contact" placeholder="Your Name">
                             </div>
                             <div class="col-md-6 col-sm-6">
-                                <input type="email" class="form-control" placeholder="Your Email">
+                                <input type="email" id="email_contact" name="email_contact" class="form-control style_2" placeholder="Your Email">
                             </div>
                             <div class="col-md-12 col-sm-6">
                                 <textarea class="form-control" placeholder="Message"></textarea>
                             </div>
                             <div class="col-md-12 col-sm-6">
-                                <button class="btn btn-primary btn-block">Send Message</button>
+                                <button id="submit-contact" type="button" class="btn btn-primary btn-block" onclick="ContactUsQuery()" >Send Message</button>
                             </div>
                         </form>
                     </div>
@@ -468,7 +466,7 @@ else
                             @*<i class="fa fa-envelope"></i>
                             <small>- 7oroof@7oroof.com</small>*@
                             <i class="fa fa-phone"></i>
-                            <small>- 011 025 0089 / 011 795 3771</small>
+                            <small> 011 025 0089 / 011 795 3771</small>
                         </div><!-- end contact-widget -->
                         <div class="contact-widget">
                             <h4>Business Hours :</h4>

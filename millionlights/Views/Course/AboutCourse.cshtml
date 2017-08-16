@@ -29,144 +29,156 @@
     var pageDesc = ViewBag.PageDesc;
     var pageImg = ViewBag.PageImg;
 }
-@*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />*@
-@*<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>*@
+
 <script src="~/coursat/js/jquery.min.js"></script>
 
-@*<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />*@
 <h1 itemprop="name" style="display:none;">@pageTitle</h1>
 @*<img itemprop="image" style="display:none;" src="https://www.gstatic.com/images/icons/gplus-64.png" />*@
 <meta property="og:image" content="@pageImg" />
 <p itemprop="description" style="display:none;">@pageDesc</p>
 
-<section id="sub-header">
-    <div class="col-md-12">
-        @if (courseDetails != null)
-        {
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h2 style="font-weight: 200 !important;font-size: 30px !important;">
-                        @courseDetails.CourseName
-                    </h2>
-                    @*<div id="ratemebtn">
-                        <a href="" class="pull-right button_fullwidth-3" onclick="CourseRatings('@courseDetails.Id','@courseDetails.CourseName'); return false;">Rate the course</a>
-                    </div>*@
-                    <div id="enrollbtn">
-                        <a href="" class="pull-right button_fullwidth-3 enrollCourse" style="display:none;" id="@courseDetails.Id">
-                            Enroll
-                        </a>                      
-                        <a class="pull-right button_fullwidth-3  viewCourse " style="display:none;" onclick="window.open('@courseDetails.EDXCourseLink')">
-                            View Course
-                        </a>     
-                    </div>
-
-                    <p class="lead">@courseDetails.ShortDescription</p>
-                </div>
-            </div><!-- End row -->
-
-            <div class="row" id="sub-header-features">
-                <div class="col-md-6" id="longDescp">
-                    <h2>A brief summary</h2>
-                    <div>
-                        @Html.Raw(HttpUtility.HtmlDecode(courseDetails.LongDescription))
-                    </div>
-                    <p class="whiteColor"><h2>Instructor:</h2>@courseDetails.Instructor</p>
-                    <p class="whiteColor"></p>
-                </div>
-                <div class="col-md-6" id="abtObj">
-                    <h2>What you will learn</h2>
-                    @Html.Raw(HttpUtility.HtmlDecode(courseDetails.Objective))
-                    <div>
-                        @if (courseDetails.BasePrice == 0)
-                        {
-                            <h2>Course Fee: Free</h2>
-                        }
-                        else
-                        {
-                            <h2>Course Fee: Rs. @courseDetails.BasePrice</h2>
-                        }
-
-                    </div>
-                    <div>
-                        @if (courseDetails.CourseCertificationName == null || courseDetails.EnableForCertification == false)
-                        {
-                            <h2>Certification By: Not Certified</h2>
-                        }
-                        else
-                        {
-                            <h2>Certification By: @courseDetails.CourseCertificationName</h2>
-                        }
-                    </div>
-                </div>
-
-            </div><!-- End row -->
-
-        }
-    </div><!-- End container -->
-</section>
-<section id="main_content" class="style_2">
+@*<section id="course_parallax_2" class="section-white page-title-wrapper" data-stellar-background-ratio="1" data-stellar-offset-parent="true">
     <div class="container">
-        @if (courseContents != null)
-        {
-            var count = 0;
-            foreach (var courseContent in courseContents)
-            {
-                if (count < 6 && courseDetails.Id == courseContents[count].CourseId)
-                {
-                    var imagenumber = courseContents[count].ChapterNumber;
-                    <article class="row">
-                        <div class="col-md-3 col-sm-3 hidden-xs text-center">
-                            <img src="@String.Format("/Content/learn/img/smallchapter{0}.png", 2)" alt="" style="display:none; width:40%;">
-                            <img src="@String.Format("/Content/learn/img/smallchapter{0}.png", imagenumber)" alt="" style="width:40%;">
+        <div class="relative">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title text-center">
+                        <h4>Our Courses</h4>
+                        <hr>
+                        <p>Developing Mobile Apps</p>
+                        <ol class="breadcrumb">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Courses</a></li>
+                            <li class="active">Single Course</li>
+                        </ol>
+                    </div><!-- end title -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end relative -->
+    </div><!-- end container -->
+</section>*@<!-- end section-white -->
+<section class="section-white">
+    <div class="container">
+        <div class="row">
+            <div id="content" class="col-md-12 col-sm-12">
+                <div class="course-long-desc section-container row">
+                    <div class="col-md-8">
+                        <div class="widget-title">
+                            <h4>Course Overview</h4>
+                        </div><!-- end widget-title -->
+                   
+                        <div>
+                            @Html.Raw(HttpUtility.HtmlDecode(courseDetails.LongDescription))
                         </div>
-                        <div class="col-md-9 col-sm-9">
-                            <h3>@courseContent.ChapterName</h3>
-                            <p>@courseContent.ChapterDescription</p>
-
-                            <ul class="data-lessons">
-                                <li class="po-markup">
-                                    <a class="po-link" href="javascript:void(0)"><i class="icon-calendar"></i>Available dates</a>
-                                    <div class="po-content hidden">
-                                        <div class="po-title"><strong>Available dates</strong></div> <!-- ./po-title -->
-                                        <div class="po-body">
-                                            <ul class="list_po_body"><li><i class="icon-ok"></i>Self Paced</li></ul>
-                                        </div>
-                                    </div><!-- ./po-content -->
-                                </li>
-                                <li class="po-markup">
-                                    <a class="po-link" href="javascript:void(0)"><i class="icon-clock"></i>Duration</a>
-                                    <div class="po-content hidden">
-                                        <div class="po-title"><strong>Duration</strong></div> <!-- ./po-title -->
-                                        <div class="po-body">
-                                            <p class="no_margin">Duration:@courseDetails.Duration days</p>
-                                            <p class="no_margin">Learning hours:@courseDetails.Hours</p>
-                                            <p class="no_margin">No. of sessions:@courseDetails.NoOfSessions</p>
-                                        </div><!-- ./po-body -->
-                                    </div><!-- ./po-content -->
-                                </li>
-                                <li class="po-markup">
-                                    <a class="po-link" href="javascript:void(0)"><i class="icon-doc-text-inv"></i>Available doc</a>
-                                    <div class="po-content hidden">
-                                        <div class="po-title"><strong>Available doc</strong></div> <!-- ./po-title -->
-                                        <div class="po-body">
-                                            Not Available
-                                        </div><!-- ./po-body -->
-                                    </div><!-- ./po-content -->
-                                </li>
-                            </ul>
+                        <div class="col-md-12 col-md-12">
+                            @if (courseContents != null)
+                            {
+                                var count = 0;
+                                foreach (var courseContent in courseContents)
+                                {
+                                    if (count < 6 && courseDetails.Id == courseContents[count].CourseId)
+                                    {
+                                        var imagenumber = courseContents[count].ChapterNumber;
+                                        <article class="row">
+                                            <div class="col-md-3 col-sm-3 hidden-xs text-center">
+                                                <img src="@String.Format("/Content/learn/img/smallchapter{0}.png", 2)" alt="" style="display:none; width:40%;">
+                                                <img src="@String.Format("/Content/learn/img/smallchapter{0}.png", imagenumber)" alt="" style="width:40%;">
+                                            </div>
+                                            <div class="col-md-9 col-sm-9">
+                                                <h3>@courseContent.ChapterName</h3>
+                                                <p>@courseContent.ChapterDescription</p>
+                                            </div>
+                                        </article>
+                                        count++;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <h4>We are adding the courses contents, please visit later to view the course.</h4>
+                            }
                         </div>
-                    </article>
-                    count++;
-                }
-            }
-        }
-        else
-        {
-            <h4>We are adding the courses contents, please visit later to view the course.</h4>
-        }
-    </div>
 
-</section>
+                    </div>
+                    <div id="sidebar" class="col-md-4">
+                        <div class="widget course-widget">
+                            <div class="widget-title">
+                                <h4>Course Details</h4>
+                            </div><!-- end widget-title -->
+                            <div class="course-widget">
+                                <ul>
+                                    <li>Course Category :
+                                     @{
+                                           string courseCatName = courseDetails.CategoryName;
+                                           string tempCourseCatName = string.Empty;
+                                           if (courseCatName.Length > 21)
+                                           {
+                                               tempCourseCatName = courseCatName.Substring(0, 20);
+                                           }
+                                           else
+                                           {
+                                               tempCourseCatName = courseCatName;
+                                           }
+                                       }
+                                       @if (courseCatName.Length > 21)
+                                       {
+                                               <a href="#">
+                                                   @tempCourseCatName<span title="@courseCatName">...</span>
+                                               </a>
+                                       }
+                                       else
+                                       {
+                                               <a href="#">
+                                                   @tempCourseCatName
+                                               </a>
+                                       }
+                                    <li>Course Duration : <a href="#"><strong> @courseDetails.Duration (Days)</strong></a>
+                                    <li>Certification : <a href="#">
+                                      @if (courseDetails.CourseCertificationName == null || courseDetails.EnableForCertification == false)
+                                      {
+                                          <strong>Not Certified</strong>
+                                      }
+                                      else
+                                      {
+                                        <strong> @courseDetails.CourseCertificationName</strong>
+                                      }
+                                      </a>
+                                    <li>Instructor : <a href="#"><strong>@courseDetails.Instructor</strong></a>
+                                    <li>Cost :
+                                     @if (courseDetails.BasePrice == 0)
+                                     {
+                                         <span> Free</span>
+                                     }
+                                     else
+                                     {
+                                         <strong> Rs. @courseDetails.BasePrice</strong>
+                                     }
+ 
+                                </ul>
+
+                                <div id="enrollbtn">
+                                    <a href="" class="btn btn-block btn-primary enrollCourse" id="@courseDetails.Id">
+                                        Join Course
+                                    </a>
+                                </div>
+                                    <div style="margin-left: 105px;">
+                                        <ul class="social">
+                                            <li class="facebook"><a href="https://www.facebook.com/pages/Edunetworks-Consulting/200456993320125" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                            <li class="twitter"><a href="https://twitter.com/edunetworks" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                            <li class="google"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                            <li class="linkedin"><a href="https://www.linkedin.com/company-beta/2598941/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                        </ul>
+                                    </div>
+
+                            </div><!-- end latest-course -->
+                        </div><!-- end widget -->
+                    </div>
+                </div><!-- end desc -->
+
+            </div><!-- end content -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end section-white -->
 
 <section id="join">
     <div class="container">
@@ -180,7 +192,7 @@
         </div>
     </div>
 </section>
-<script src="~/Content/assets/js/bootbox.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 <script type="text/javascript">
     var cartName = "CourseDetails";

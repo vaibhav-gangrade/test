@@ -560,8 +560,7 @@
                 contentType: 'application/json; charset=utf-8',
                 url: "/Course/AboutCourseData",
                 success: function (response) {
-
-                    location.href = "/Course/AboutCourse/"+coursName+"/";
+                    location.href = "/Course/AboutCourse?id=" + courseId + "&type=" + "&pe=" + prevElement;
                 },
                 error: function (response) {
                 }
@@ -646,12 +645,12 @@
     }
 
     //$("#CourseID").click(function () {
-
+    
     //    var searchTextFind = $('#search')[0].value;
     //    var searchTextCat = searchTextFind.split("in category");
     //    var searchText = searchTextCat[0];
-
-
+    
+    
     //    if (searchText != "") {
     //        window.location.href = "/Course/AllCourses?id=0&type=none&courseName=" + searchText;
     //        return false;
