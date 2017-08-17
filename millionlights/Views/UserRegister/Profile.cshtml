@@ -35,442 +35,330 @@
 
 
 }
-@*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
-<link rel="stylesheet" href="~/Content/learn/css/jquery.switch.css">
-<link href="~/Content/learn/css/style.css" rel="stylesheet" />
-<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />
-<link rel="stylesheet" href="~/Content/assets/css/jquery.gritter.css" />
-<link rel="stylesheet" href="~/Content/assets/css/bootstrap-editable.css" />
-<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />*@
-@*<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />*@
+<link rel="stylesheet" type="text/css" href="~/coursat/fonts/font-awesome-4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/stroke.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/animate.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/carousel.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/prettyPhoto.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/style.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/custom.css">
+
 <section id="main_content">
     <div class="container">
         <div class="row">
             @if (roleID == 2)
             {
-                <div class="col-md-12">
-                    <!--  Tabs -->
-                    <ul class="nav nav-tabs custom-tabs" id="mytabs">
-                        <li class="active" id="ProfileId"><a href="#profile" data-toggle="tab">Profile</a></li>
-                        <li id="MycourseId"><a id="AnchorMycourseId" href="#courses" data-toggle="tab">My Courses</a></li>
-                        <li id="MyordersId"><a href="#orders" data-toggle="tab">My Orders</a></li>
-                        <li id="MycouponsId"><a href="#coupons" data-toggle="tab">My Coupons</a></li>
-                        <li id="MyNoteId"><a href="#note" data-toggle="tab">My Notifications</a></li>
-                        <li id="MyCertId"><a href="#certificate" data-toggle="tab">My Certificate</a></li>
-                        <li id="MyRefCodeId"><a href="#refCodes" data-toggle="tab">My Referral Codes</a></li>
-                    </ul>
-                    <div class="tab-content Profilepages-tabs" style="margin-bottom: 2%;">
-                        <div class="tab-pane fade in active" id="profile">
-                            <div class="row">
-                                <aside class="col-md-4">
-                                    <div class=" box_style_1 profile">
-                                        @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
-                                        @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
-                                        <form id="files" method="post" enctype="multipart/form-data">
-                                            <p class="text-center">
-                                                <span class="profile-pictures">
-                                                    @if (Model.ImageURL != null)
-                                                    {
-                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
-                                                    }
-                                                    else
-                                                    {
-                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
-                                                    }
-                                                </span>
-                                            </p>
-                                        </form>
-                                        <div style="margin-bottom: 20px !important;height: 50px;width: 282px;display:inline-flex;border: aliceblue solid 1px;">
-                                            <div>
-                                                <img src="~/Images/Wallet.png" />
-                                            </div>
-                                            <div>
-                                                <p>
-                                                    @{
-                                                        string totalWalletAmount=null;
-                                                       if (WalletAmount!=null){
-                                                           totalWalletAmount = WalletAmount;
-                                                       }
-                                                       else
-                                                       {
-                                                           totalWalletAmount = "0.00";
-                                                       }
-                                                    }
-                                                    <b><span id="finalWalletAmt">Rs. @totalWalletAmount </span></b>
-                                                    <br />
-                                                    Your Wallet Balance
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div style="height: 32px;text-align: right;margin-top: -20px;">
-                                            <a href="#" onclick="ShowReferralCodePopup()">Have a Referral Code?</a>
-                                        </div>
-                                        <div style="height: 36px;background-color: #F5F8F9;margin-bottom: 7px;padding-left: 4px;">
-                                            <p style="padding-top: 9px;font-size: 16px;font-weight: 800;">My Account</p>
-                                        </div>
-                                        <ul>
-                                            <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
-                                            <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
-                                            <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
-                                            <li>Country<strong class="pull-right">@Model.Country</strong></li>
-                                            <li>City<strong class="pull-right">@Model.City</strong></li>
-                                            <li id="profile">
-                                                <img src="~/Content/learn/img/edit-profile.jpg" alt="">
-                                                <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
-
-                                                <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
-                                                <div style="text-align:center;">
-                                                    <a class="actCoupon" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                    </div><!-- End box-sidebar -->
-                                </aside><!-- End aside -->
-                                <div class="col-md-8">
-                                    <div id="EditProfileUser">
-                                        @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
-                                        {
-                                            @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
-                                            <div class="box_style_2">
-
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
-                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
-                                                        </div>
+                <section class="section-white">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="widget about-widget">
+                                    <div class="accordion-toggle-2">
+                                        <div class="panel-group" id="accordion">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title active" id="ProfileId">
+                                                        <a class="accordion-toggle" href="#profile" data-toggle="collapse" data-parent="#accordion1">
+                                                            <h3><i class="indicator fa fa-minus"></i>Profile</h3>
+                                                        </a>
                                                     </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
-                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
-                                                            @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt  ">
-                                                            @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
-                                                            @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
-                                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group  marginTxt">
-                                                            @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
-                                                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
-                                                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
-                                                            @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginloginpwdTxt ">
-                                                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
-                                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginloginpwdTxt ">
-                                                            @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
-                                                            @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="Partner-btn-div marginTxt">
-                                                    <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus" />
-                                                    <input type="submit" value="Submit" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div><!-- End col-md-8 -->
-                            </div><!-- End row -->
-                        </div><!-- End tab-pane -->
-                        @if (roleID == 2)
-                        {
-                            <div class="tab-pane fade" id="courses">
-                                <section id="main_content">
-                                    <div class="container">
-                                        <div class="row" id="CurrentCourses">
-                                            <div class="col-md-10 studentView">
-                                                <h1 class="chapter_course no_margin_rop col-md-12">All Courses</h1>
-                                                @{Html.RenderAction("AllCourseTab", "UserRegister");}
-                                            </div><!-- End col-md-8  -->
-                                        </div><!-- End row -->
-                                    </div><!-- End container -->
-                                </section>
-                            </div><!-- End tab-pane -->
-                            <div class="tab-pane fade" id="orders">
-                                @{Html.RenderAction("OrderTab", "UserRegister");}
-                            </div><!-- End tab-pane -->
-                            <div class="tab-pane fade" id="coupons">
-                                @{Html.RenderAction("CoupanTab", "UserRegister");}
-                            </div><!-- End tab-pane -->
-                            <div class="tab-pane fade" id="note">
-                                <section id="main_content">
-                                    <div class="container">
-                                        <div class="row" id="notification">
-                                            <div class="col-md-10 studentView">
-                                                <h1 class="chapter_course no_margin_rop col-md-12">Notifications</h1>
-                                                @{Html.RenderAction("AllNotification", "Notification");}
-                                            </div><!-- End col-md-8  -->
-                                        </div><!-- End row -->
-                                    </div><!-- End container -->
-                                </section>
-                            </div>
-                            if (roleID == 2)
-                            {
-                                <div class="tab-pane fade" id="certificate">
-                                    <section id="main_content">
-                                        <div class="container">
-                                            <div class="row" id="notification">
-                                                <div class="col-md-10 studentView">
-                                                    <h1 class="chapter_course no_margin_rop col-md-12">Certificates</h1>
-                                                    @{Html.RenderAction("CertificateTab", "UserRegister");}
-                                                </div><!-- End col-md-8  -->
-                                            </div><!-- End row -->
-                                        </div><!-- End container -->
-                                    </section>
-                                </div>
-                            }
-                            if (roleID == 2)
-                            {
-                                <div class="tab-pane fade" id="refCodes">
-                                    <section id="main_content">
-                                        <div class="container">
-                                            <div class="row" id="">
-                                                <div class="col-md-10 studentView">
-                                                    <h1 class="chapter_course no_margin_rop col-md-12">Share/Search My Referral Code(s)</h1>
-                                                   
-
-                                                    <div id="MyCourseTab">
-                                                       
-                                                                <div class="strip_single_course">
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                          
-                                                                               
-                                                                               
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12 col-sm-12" style="text-align:left;">
-                                                                                        <label>
-                                                                                            <b>My Code : </b>
-                                                                                            @if (@ReferralCodeToShare != null)
-                                                                                            {
-                                                                                                <span>@ReferralCodeToShare</span>
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                <span>No code to share</span>
-                                                                                            }
-                                                                                        </label>
-                                                                                    </div>
-                                                                                </div>
+                                                <div id="profile" class="panel-collapse collapse in">
+                                                    <div class="panel-body">
+                                                        <div class="row">
+                                                            <aside class="col-md-12">
+                                                                <div class=" box_style_1 profile" id="profile1">
+                                                                    @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
+                                                                    @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
+                                                                    <form id="files" method="post" enctype="multipart/form-data">
+                                                                        <p class="text-center">
+                                                                            <span class="profile-pictures">
+                                                                                @if (Model.ImageURL != null)
+                                                                                {
+                                                                                    <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
+                                                                                }
+                                                                            </span>
+                                                                        </p>
+                                                                    </form>
+                                                                    <div style="margin-bottom: 20px !important;height: 50px;width: 246px;display:inline-flex;border: aliceblue solid 1px;">
+                                                                        <div>
+                                                                            <p>
+                                                                                @{
+                                                                                    string totalWalletAmount = null;
+                                                                                    if (WalletAmount != null)
+                                                                                    {
+                                                                                        totalWalletAmount = WalletAmount;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        totalWalletAmount = "0.00";
+                                                                                    }
+                                                                                }
+                                                                                <b><span id="finalWalletAmt">Rs. @totalWalletAmount </span></b>
                                                                                 <br />
-                                                                                <div class="row">
-                                                                                    <div>
-                                                                                        <div class="form-group rdbRefCodeShow">
-                                                                                            <input type="radio" name="ShareCode" id="ShareCode" class="refCodeSelectionClasss" value="ShareCode" /><label>&nbsp;&nbsp; Code</label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div style="display:inline-flex;">
-                                                                                        <div class="form-group rdbRefCodeShow">
-                                                                                            <input type="radio" name="ShareCode" id="SearchCode" class="refCodeSelectionClasss" value="SearchCode" /><label>&nbsp;&nbsp;Search My Codes History</label>
-                                                                                        </div>
-                                                                                        <div style="margin: -6px 0px 0px 10px;">
-                                                                                            <select class="" id="ddlSearchRefCode" name="ddlSearchRefCode" style="width:100%;height:35px;">
-                                                                                                <option value="1">When I am a Sender</option>
-                                                                                                <option value="2">When I am a Receiver</option>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div>
-                                                                                    <label id="errorNoSearchShareCode" class="errorNoSearchShareCode text-danger"></label>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12" style="text-align:center;">
-                                                                                        <button id="submit-contact" type="button" class="button_medium btn btn-success" style="width:10%" onclick="ReadRadioBtnSelection()">
-                                                                                            OK
-                                                                                        </button>
-                                                                                    </div>
-                                                                                </div>
-                                                                          
+                                                                                Your Wallet Balance
+                                                                            </p>
                                                                         </div>
                                                                     </div>
-                                                                </div><!-- end strip single course -->
-                                                          
-                                                       
-                                                    </div>
+                                                                    <div style="height: 32px;text-align: right;margin-top: -20px;">
+                                                                        <a href="#" onclick="ShowReferralCodePopup()">Have a Referral Code?</a>
+                                                                    </div>
+                                                                    <div style="height: 36px;background-color: #F5F8F9;margin-bottom: 7px;padding-left: 4px;">
+                                                                        <p style="padding-top: 9px;font-size: 16px;font-weight: 800;text-align:center;">My Account</p>
+                                                                    </div>
+                                                                    <ul class="">
+                                                                        <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
+                                                                        <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
+                                                                        <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
+                                                                        <li>Country<strong class="pull-right">@Model.Country</strong></li>
+                                                                        <li>City<strong class="pull-right">@Model.City</strong></li>
+                                                                        <li id="profile">
+                                                                            <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
 
+                                                                            <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
+                                                                            <div>
+                                                                                <a class="actCoupon" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
+                                                                            </div>
 
-                                                </div><!-- End col-md-8  -->
-                                            </div><!-- End row -->
-                                        </div><!-- End container -->
-                                    </section>
-                                    <section id="main_contentRefCodes" style="display:none;">
-                                        <div class="container">
-                                            <div class="row" id="notification">
-                                                <div class="col-md-10 studentView">
-                                                    <h1 class="chapter_course no_margin_rop col-md-12">Referral Codes</h1>
-                                                    @{Html.RenderAction("RefCodesTab", "UserRegister");}
-                                                </div><!-- End col-md-8  -->
-                                            </div><!-- End row -->
-                                        </div><!-- End container -->
-                                    </section>
-                                </div>
-                            }
-                            @*if (roleID == 2)
-                            {
-                                <div class="tab-pane fade" id="refCodes">
-                                    <section id="main_content">
-                                        <div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class=" box_style_2">
-                                                        <div class="row">
+                                                                        </li>
+                                                                    </ul>
+                                                                </div><!-- End box-sidebar -->
+                                                            </aside><!-- End aside -->
                                                             <div class="col-md-12">
-                                                                <h3>Share/Search My Referral Code(s)</h3>
-                                                            </div>
-                                                        </div>
-                                                        <hr />
-                                                        <div id="message-contact"></div>
-                                                        <div class="row">
-                                                            <div class="col-md-12 col-sm-12" style="text-align:center;">
-                                                               <label><b>My Code: </b>
-                                                                @if (@ReferralCodeToShare != null)
-                                                                {
-                                                                    <span>@ReferralCodeToShare</span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span>No code to share</span>
-                                                                }
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <br />
-                                                        <div class="row">
-                                                            <div>
-                                                                <div class="form-group rdbRefCodeShow">
-                                                                    <input type="radio" name="ShareCode" id="ShareCode" class="refCodeSelectionClasss" value="ShareCode"/><label>Share My Code</label>
+                                                                <div id="EditProfileUser">
+                                                                    @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                                                                    {
+                                                                        @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
+                                                                        <div class="box_style_2">
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginTxt ">
+                                                                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
+                                                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginTxt ">
+                                                                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
+                                                                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginTxt ">
+                                                                                        @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
+                                                                                        @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginTxt  ">
+                                                                                        @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
+                                                                                        @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginTxt ">
+                                                                                        @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
+                                                                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group  marginTxt">
+                                                                                        @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
+                                                                                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginTxt ">
+                                                                                        @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
+                                                                                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginTxt ">
+                                                                                        @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
+                                                                                        @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginloginpwdTxt ">
+                                                                                        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
+                                                                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                                <div class="col-md-8 col-sm-8">
+                                                                                    <div class="form-group marginloginpwdTxt ">
+                                                                                        @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
+                                                                                        @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-2 col-sm-2"></div>
+                                                                            </div>
+                                                                            <div class="Partner-btn-div marginTxt">
+                                                                                <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus" />
+                                                                                <input type="submit" value="Save" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
+                                                                            </div>
+                                                                        </div>
+                                                                    }
                                                                 </div>
-                                                            </div>
-                                                            <div style="display:inline-flex;">
-                                                                <div class="form-group rdbRefCodeShow">
-                                                                    <input type="radio" name="ShareCode" id="SearchCode" class="refCodeSelectionClasss" value="SearchCode"/><label>Search My Codes History</label>
-                                                                </div>
-                                                                <div style="margin: -6px 0px 0px 10px;">
-                                                                    <select class="" id="ddlSearchRefCode" name="ddlSearchRefCode" style="width:100%;height:35px;">
-                                                                        <option value="1">When I am a Sender</option>
-                                                                        <option value="2">When I am a Receiver</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                            </div><!-- End col-md-12 -->
                                                         </div>
-                                                        <div>
-                                                            <label id="errorNoSearchShareCode" class="errorNoSearchShareCode text-danger"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title" id="MycourseId">
+                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" id="AnchorMycourseId" href="#courses">
+                                                            <h3> <i class="indicator fa fa-plus"></i> Courses</h3>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div id="courses" class="panel-collapse collapse">
+                                                    <div class="panel-body"  style="height:250px;overflow-y:auto;">
+                                                        <div class="col-md-12 studentView">
+                                                            @{Html.RenderAction("AllCourseTab", "UserRegister");}
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12" style="text-align:center;">
-                                                                <button id="submit-contact" type="button" class="button_medium" style="background-color: #008278 !important" onclick="ReadRadioBtnSelection()">
-                                                                    <i class="bigger-110"></i>
-                                                                    OK
-                                                                </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+
+                                        </div>
+                                    </div><!-- accordion -->
+                                </div><!-- end widget -->
+                            </div><!-- end col -->
+                            <div class="col-md-6">
+                                <div class="widget about-widget">
+                                    <div class="accordion-toggle-2">
+                                        <div class="panel-group" id="accordion">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title" id="MyNoteId">
+                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#note">
+                                                            <h3><i class="indicator fa fa-plus"></i> Notifications</h3>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div id="note" class="panel-collapse collapse">
+                                                    <div class="panel-body" style="height:250px;overflow-y:auto;">
+                                                        <div class="row" id="notification">
+                                                            <div class="col-md-12 studentView" style="width: 150%;">
+                                                                @{Html.RenderAction("AllNotification", "Notification");}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <br>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title" id="MyCertId">
+                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#certificate">
+                                                            <h3><i class="indicator fa fa-plus"></i> Certificate</h3>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div id="certificate" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        <div class="row" id="notification">
+                                                            <div class="col-md-12 studentView">
+                                                                @{Html.RenderAction("CertificateTab", "UserRegister");}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
                                         </div>
-                                    </section>
-                                    <section id="main_contentRefCodes" style="display:none;">
-                                        <div class="container">
-                                            <div class="row" id="notification">
-                                                <div class="col-md-10 studentView">
-                                                    <h1 class="chapter_course no_margin_rop col-md-12">Referral Codes</h1>
-                                                    @{Html.RenderAction("RefCodesTab", "UserRegister");}
-                                                </div><!-- End col-md-8  -->
-                                            </div><!-- End row -->
-                                        </div><!-- End container -->
-                                    </section>
+                                    </div>
                                 </div>
-                            }*@
-                        }
-                    </div><!-- End col-md-8-->
-                </div>
-            }
-            else
-            {
-                <div class="col-md-11">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="widget about-widget">
+                                    <div class="accordion-toggle-2">
+                                        <div class="panel-group" id="accordion" style="margin-top: -20px;">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title" id="MyordersId">
+                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#orders">
+                                                            <h3><i class="indicator fa fa-plus"></i> Orders</h3>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div id="orders" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        @{Html.RenderAction("OrderTab", "UserRegister");}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               </div><!-- end row -->
+                           </div><!-- end container -->
+             </section><!-- end section-white -->
+           }
+           else
+           {
+                <div class="col-md-6">
                     <!--  Tabs -->
                     <ul class="nav nav-tabs custom-tabs" id="mytabs">
                         <li class="active" id="ProfileId"><a href="#profile" data-toggle="tab">Profile</a></li>
                     </ul>
                     <div class="tab-content Profilepages-tabs">
-                        <div class="tab-pane fade in active" id="profile">
+                        <div class="tab-pane fade in active">
                             <div class="row">
-                                <aside class="col-md-4">
-                                    <div class=" box_style_1 profile">
+                                <aside class="col-md-12">
+                                    <div class=" box_style_1 profile" id="profile1"> 
                                         @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
                                         @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
                                         <!-- #section:pages/profile.picture -->
@@ -506,7 +394,7 @@
                                         </ul>
                                     </div><!-- End box-sidebar -->
                                 </aside><!-- End aside -->
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <div id="EditProfileUser">
                                         @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
                                         {
@@ -616,7 +504,7 @@
                                                 </div>
                                                 <div class="Partner-btn-div marginTxt">
                                                     <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus" />
-                                                    <input type="submit" value="Submit" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
+                                                    <input type="submit" value="Save" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
                                                 </div>
                                             </div>
                                         }
@@ -835,14 +723,15 @@
             });
         }
         $("#editProfile").click(function () {
-            $("#EditProfileUser").show();
+            $("#profile1").replaceWith($("#EditProfileUser").html());
         });
 
         $("#cancelbtn").click(function () {
-            $("#EditProfileUser").hide();
+            $("#profile1").show();
+            //$("#EditProfileUser").replaceWith($("#profile1").show());
         });
         $('#OrdersGridview').DataTable();
-        $('#CouponsGridview').DataTable();
+        //$('#CouponsGridview').DataTable();
 
         var coupanId = 0;
         $('.ViewCoupan').click(function () {
@@ -885,11 +774,11 @@
                 $("#orders").addClass("in");
 
             }
-            else if (currentTab == "MyCoupons") {
-                $("#MycouponsId").addClass("active");
-                $("#coupons").addClass("active");
-                $("#coupons").addClass("in");
-            }
+            //else if (currentTab == "MyCoupons") {
+            //    $("#MycouponsId").addClass("active");
+            //    $("#coupons").addClass("active");
+            //    $("#coupons").addClass("in");
+            //}
             else if (currentTab == "MyProfile") {
                 $("#ProfileId").addClass("active");
                 $("#profile").addClass("active");
@@ -905,11 +794,11 @@
                 $("#certificate").addClass("active");
                 $("#certificate").addClass("in");
             }
-            else if (currentTab == "MyRefCodes") {
-                $("#MyRefCodeId").addClass("active");
-                $("#refCodes").addClass("active");
-                $("#refCodes").addClass("in");
-            }
+            //else if (currentTab == "MyRefCodes") {
+            //    $("#MyRefCodeId").addClass("active");
+            //    $("#refCodes").addClass("active");
+            //    $("#refCodes").addClass("in");
+            //}
         }
         else {
             $("#ProfileId").addClass("active");

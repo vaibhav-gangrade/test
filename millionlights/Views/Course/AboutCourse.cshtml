@@ -12,7 +12,7 @@
         if (roleID == 1 || roleID == 3)
         {
             Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            <script src="~/Content/assets/js/jquery.js"></script>
+            @*<script src="~/Content/assets/js/jquery.js"></script>*@
         }
         else
         {
@@ -155,12 +155,28 @@
                                      }
  
                                 </ul>
+                                @if (courseDetails.Availability == "Starting Soon")
+                                {
+                                    <div class="separator clearfix" style="background-color: seashell;height: 36px;">
+                                        <p style="font-weight: bold; font-size: 14px;margin-top: 5px;text-align: center;">Starting Soon....</p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    @*@if (courseDetails.IsCourseEnrolled != null && courseDetails.IsCourseEnrolled == true)
+                                    {
+                                        <a class="owl-button enrollClass pull-left" style="text-align: center; padding: 6px 6px !important; background-color: grey; pointer-events: none; cursor: default; " href="" id="@courseDetails.Id">
+                                            Enrolled
+                                        </a>
+                                    }
+                                    else*@
+                                    {
+                                        <a href="" class="btn btn-block btn-primary enrollCourse" id="@courseDetails.Id">
+                                            Join Course
+                                        </a>
+                                    }
 
-                                <div id="enrollbtn">
-                                    <a href="" class="btn btn-block btn-primary enrollCourse" id="@courseDetails.Id">
-                                        Join Course
-                                    </a>
-                                </div>
+                                }
                                     <div style="margin-left: 105px;">
                                         <ul class="social">
                                             <li class="facebook"><a href="https://www.facebook.com/pages/Edunetworks-Consulting/200456993320125" target="_blank"><i class="fa fa-facebook"></i></a></li>
@@ -182,14 +198,8 @@
 
 <section id="join">
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center">
-                <div class="row">
-                    <div class="col-md-2 hidden-sm hidden-xs"> </div>
-                    <div class="col-md-8"><a href="AllCourses" class="button_big">View All Courses</a> </div>
-                </div>
-            </div>
-        </div>
+     <div class="col-md-12 col-md-12" style="background-color:#df4a43;margin-bottom:5px;text-align:center;color:white;"><a href="AllCourses" class="button_big">View All Courses</a>
+     </div>
     </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
