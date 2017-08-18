@@ -52,12 +52,17 @@
                         <br />
                         <li> &nbsp;&nbsp;Duration: @course.Duration Days (@course.Hours hours)</li>
                     </ul>
-                    <div class="floatRight" style="margin-bottom:5px;">
-                        <input type="button" class="btn btn-danger" value="Rate This Course" onclick="CourseRatings('@course.Id','@course.CourseName');" />
-                        <input type="submit" class="btn btn-success" value="View Course" onclick="window.open('@course.EDXCourseLink')"/>
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-md-4 ">
+                            <input type="button" class="btn btn-block btn-primary" value="Rate This Course" onclick="CourseRatings('@course.Id','@course.CourseName');" />
+                            </div>
+                        <div class="col-md-4">
+                            <input type="submit" class="btn btn-block btn-primary pull-right col-md-4" value="View Course" onclick="window.open('@course.EDXCourseLink')" />
+                        </div>
                     </div>
                 </div>
             </div>
+             <hr />
         </div><!-- end strip single course -->
         }
     }

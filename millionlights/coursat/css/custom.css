@@ -38,3 +38,12 @@
     background: transparent;
     -webkit-text-stroke: 1px #f5f5f5;
 }
+
+#login {
+    background-color: white;
+}
+.rightAlign {
+    text-align: right !important;
+    margin-bottom: 14px;
+    margin-top: -12px;
+}
