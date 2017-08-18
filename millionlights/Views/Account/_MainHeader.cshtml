@@ -64,11 +64,11 @@
                                                     <span id="courselist">
                                                         <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">My Account</a>
                                                     </span>
-                                                    @Html.RouteLink("Logout", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })
                                                     <span id="Cart">
                                                         <a href="/Order/Details" id="cartItemCount"></a>
                                                     </span>
-</div>
+                                                    @Html.RouteLink("Logout", new { action = "LoginOut", controller = "UserRegister" }, new { id = "logoutBtn" })
+                                                </div>
                                                 </div>
                                             </li>
                                         </ul>

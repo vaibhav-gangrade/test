@@ -1,7 +1,7 @@
 ﻿@model Millionlights.Models.ContactUs
 
 @{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "";
     int roleID = 0;
     if (Session["RoleID"] != null)
     {
@@ -12,7 +12,8 @@
         if (roleID == 1 || roleID == 3)
         {
             Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            @*<script src="~/Content/assets/js/jquery.js"></script>*@
+            <script src="~/coursat/js/jquery.min.js"></script>
+
         }
         else
         {
@@ -34,15 +35,15 @@
         var isValid = ValidateContact();
         if (isValid == true) {
             var firstName = $('#name_contact')[0].value;
-            var lastName = $('#lastname_contact')[0].value;
-            var fullName = firstName + " " + lastName;
+            //var lastName = $('#lastname_contact')[0].value;
+            var fullName = firstName ;
             var queryEmail = $('#email_contact')[0].value;
             var message = $('#message_contact')[0].value;
-            //var phoneNumber = $('#phone_contact')[0].value;
+            var phoneNumber = $('#phone_contact')[0].value;
             $.ajax({
                 type: "POST",
                 async: false,
-                data: JSON.stringify({ "queryEmail": queryEmail, "fullName": fullName, "message": message }),
+                data: JSON.stringify({ "queryEmail": queryEmail, "fullName": fullName, "message": message, "phoneNumber": phoneNumber }),
                 contentType: 'application/json; charset=utf-8',
                 url: "/MarketingCampaign/CustomersQuery",
                 success: function (response) {
@@ -63,9 +64,11 @@
     function ValidateContact() {
         var isvalid = true;
         var firstName = $('#name_contact')[0].value;
-        var lastName = $('#lastname_contact')[0].value;
+        //var lastName = $('#lastname_contact')[0].value;
         var email = $('#email_contact')[0].value;
+        var phoneNumber = $('#phone_contact')[0].value;
         var message = $('#message_contact')[0].value;
+        var verify = $('#verify_contact')[0].value;
 
         if (firstName.length == 0) {
             bootbox.dialog({
@@ -79,18 +82,18 @@
             });
             isvalid = false;
         }
-        else if (lastName.length == 0) {
-            bootbox.dialog({
-                message: "Please Enter Last Name.",
-                buttons: {
-                    "success": {
-                        "label": "OK",
-                        "className": "btn-sm btn-primary"
-                    }
-                }
-            });
-            isvalid = false;
-        }
+        //else if (lastName.length == 0) {
+        //    bootbox.dialog({
+        //        message: "Please Enter Last Name.",
+        //        buttons: {
+        //            "success": {
+        //                "label": "OK",
+        //                "className": "btn-sm btn-primary"
+        //            }
+        //        }
+        //    });
+        //    isvalid = false;
+        //}
         else
             if (email.length == 0) {
                 bootbox.dialog({
@@ -129,19 +132,19 @@
                     isvalid = false;
 
                 }
-            //else
-            //    if (phoneNumber.length == 0) {
-            //        bootbox.dialog({
-            //            message: "Please Enter Phone Number.",
-            //            buttons: {
-            //                "success": {
-            //                    "label": "OK",
-            //                    "className": "btn-sm btn-primary"
-            //                }
-            //            }
-            //        });
-            //        isvalid = false;
-            //    }
+            else
+                if (phoneNumber.length == 0) {
+                    bootbox.dialog({
+                        message: "Please Enter Phone Number.",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                    isvalid = false;
+                }
                 else
                     if (message.length == 0) {
                         bootbox.dialog({
@@ -155,35 +158,35 @@
                         });
                         isvalid = false;
                     }
-                    //else
-                    //    if (verify.length == 0) {
-                    //        bootbox.dialog({
-                    //            message: "Please Enter Verification code.",
-                    //            buttons: {
-                    //                "success": {
-                    //                    "label": "OK",
-                    //                    "className": "btn-sm btn-primary"
-                    //                }
-                    //            }
-                    //        });
-                    //        isvalid = false;
-                    //    }
-                    //    else
-                    //        if (verify.length > 0) {
-                    //            if (verify != 4) {
-                    //                bootbox.dialog({
-                    //                    message: "Please Enter Correct Verification code.",
-                    //                    buttons: {
-                    //                        "success": {
-                    //                            "label": "OK",
-                    //                            "className": "btn-sm btn-primary"
-                    //                        }
-                    //                    }
-                    //                });
-                    //                isvalid = false;
-                    //            }
+                    else
+                        if (verify.length == 0) {
+                            bootbox.dialog({
+                                message: "Please Enter Verification code.",
+                                buttons: {
+                                    "success": {
+                                        "label": "OK",
+                                        "className": "btn-sm btn-primary"
+                                    }
+                                }
+                            });
+                            isvalid = false;
+                        }
+                        else
+                            if (verify.length > 0) {
+                                if (verify != 4) {
+                                    bootbox.dialog({
+                                        message: "Please Enter Correct Verification code.",
+                                        buttons: {
+                                            "success": {
+                                                "label": "OK",
+                                                "className": "btn-sm btn-primary"
+                                            }
+                                        }
+                                    });
+                                    isvalid = false;
+                                }
 
-                    //        }
+                            }
         return isvalid;
     }
     function isNumberKey(evt) {
@@ -201,7 +204,7 @@
 
     }
 </script>
-@*<style type="text/css">
+<style type="text/css">
     ul#aceContact-info {
         list-style: none;
         margin: 0 0 20px 0;
@@ -214,10 +217,10 @@
         padding: 30px;
         position: relative;
     }
-</style>*@
+</style>
 @if(userName!="" && roleID==1)
 {
-    @*<section id="main_content">
+    <section id="main_content">
     <div>
         <div class="row">
             <div class="col-md-4">
@@ -283,215 +286,13 @@
             </div>
         </div>
     </div>
-</section>*@
+</section>     
 
-    @*<section id="contact_parallax" class="section-white page-title-wrapper" data-stellar-background-ratio="1" data-stellar-offset-parent="true">
-        <div class="container">
-            <div class="relative">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="section-title text-center">
-                            <h4>Contact Us</h4>
-                            <hr>
-                            <p>We Wanna Hear From You </p>
-                            <ol class="breadcrumb">
-                                <li><a href="#">Home</a></li>
-                                <li class="active">Contact</li>
-                            </ol>
-                        </div><!-- end title -->
-                    </div><!-- end col -->
-                </div><!-- end row -->
-            </div><!-- end relative -->
-        </div><!-- end container -->
-    </section><!-- end section-white -->*@
-
-
-
-
-
-
-    @*<section class="section-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-title text-center">
-                        <h4>Quick Contact</h4>
-                        <hr>
-                        <p>We Wanna Hear From You Soon!</p>
-                    </div><!-- end title -->
-                </div><!-- end col -->
-            </div><!-- end row -->
-            <div class="row section-container">
-                <div class="col-md-8">
-                    <form class="row contact_form">
-                        <div class="col-md-6 col-sm-6">
-                            <input type="text" class="form-control" placeholder="Your Name">
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <input type="email" class="form-control" placeholder="Your Email">
-                        </div>
-                        <div class="col-md-12 col-sm-6">
-                            <textarea class="form-control" placeholder="Message"></textarea>
-                        </div>
-                        <div class="col-md-12 col-sm-6">
-                            <button class="btn btn-primary btn-block">Send Message</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-4">
-                    <div class="contact-widget">
-                        <h4>Contact Information :</h4>
-                        <i class="fa fa-envelope"></i>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adipiscing condimentum tristique.</p>
-                        <small>- 7oroof@7oroof.com</small>
-                        <small>- 002 01065370701</small>
-                    </div><!-- end contact-widget -->
-                    <div class="contact-widget">
-                        <h4>Business Hours :</h4>
-                        <i class="fa fa-clock-o"></i>
-                        <p>
-                            Monday – Friday : 9am to 20 pm<br>
-                            Saturday : 9am to 17 pm<br>
-                            Sunday : day off
-                        </p>
-                    </div><!-- end contact-widget -->
-                </div><!-- end col -->
-            </div>
-        </div><!-- end container -->
-    </section>*@<!-- end section-white -->
-    <section class="section-white">
-        <div class="container">
-            @*<div class="row">
-                    <div class="col-md-12">
-                        <div class="section-title text-center">
-                            <h4>Quick Contact</h4>
-                            <hr>
-                            <p>We Wanna Hear From You Soon!</p>
-                        </div><!-- end title -->
-                    </div><!-- end col -->
-                </div><!-- end row -->*@
-            <div class="row section-container">
-                <div class="col-md-8">
-                    <form class="row contact_form">
-                        <div class="col-md-6 col-sm-6">
-                            <input type="text" class="form-control style_2" id="name_contact" name="name_contact" placeholder="Your Name">
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                            <input type="email" id="email_contact" name="email_contact" class="form-control style_2" placeholder="Your Email">
-                        </div>
-                        <div class="col-md-12 col-sm-6">
-                            <textarea class="form-control" placeholder="Message"></textarea>
-                        </div>
-                        <div class="col-md-12 col-sm-6">
-                            <button id="submit-contact" type="button" class="btn btn-primary btn-block" onclick="ContactUsQuery()">Send Message</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-4">
-                    <div class="contact-widget">
-                        <h4>Contact Information :</h4>
-                        @*<i class="fa fa-envelope"></i>
-                            <small>- 7oroof@7oroof.com</small>*@
-                        <i class="fa fa-phone"></i>
-                        <small> 011 025 0089 / 011 795 3771</small>
-                    </div><!-- end contact-widget -->
-                    <div class="contact-widget">
-                        <h4>Business Hours :</h4>
-                        <i class="fa fa-clock-o"></i>
-                        <p>
-                            Monday – Friday : 9am to 20 pm<br>
-                            Saturday : 9am to 17 pm<br>
-                            Sunday : day off
-                        </p>
-                    </div><!-- end contact-widget -->
-                </div><!-- end col -->
-            </div>
-        </div><!-- end container -->
-    </section><!-- end section-white -->
-}
+  }
 else
 {
-    @*<section id="main_content">
-    <div>
-<div class="row">
-    <div class="col-md-4" style="padding-left: 10%;padding-top: 2%;">
-		<h3>Address</h3>
-		<ul id="contact-info">
-			<li><i class="icon-phone"></i> +91 9890122592</li>
-			<li><i class=" icon-email"></i> <a href="mailto:support@Millionlights.org"> support@Millionlights.org</a></li>
-		</ul>
-		<hr>
-	</div>
-	<div class="col-md-8" style="padding-right:8%;">
-		<div class=" box_style_2">
-			<div class="row">
-				<div class="col-md-12">
-					<h3>Contact Us</h3>
-				</div>
-			</div>
-			<div id="message-contact"></div>
-			
-				<div class="row">
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-							<input type="text" class="form-control style_2" id="name_contact" name="name_contact" placeholder="Enter Name">
-                            <span class="input-icon"><i class="icon-user"></i></span>
-						</div>
-					</div>
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-							<input type="text" class="form-control style_2" id="lastname_contact" name="lastname_contact" placeholder="Enter Last Name">
-                            <span class="input-icon"><i class="icon-user"></i></span>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-							<input type="email" id="email_contact" name="email_contact" class="form-control style_2" placeholder="Enter Email">
-                            <span class="input-icon"><i class="icon-email"></i></span>
-						</div>
-					</div>
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-                            <input type="text" id="phone_contact" name="phone_contact" class="form-control style_2" placeholder="Enter Phone number" onkeypress="return isNumberKey(event)">
-                            <span class="input-icon"><i class="icon-phone"></i></span>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-                            <textarea rows="5" id="message_contact" name="message_contact" class="form-control contact-message" placeholder="Write your message"></textarea>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-                        <p class="allowmargin"><input type="text" id="verify_contact" class="form-control" placeholder="Are you human? 3 + 1 ="></p>
-                        <button id="submit-contact" type="button" class="button_medium" style="background-color: #008278 !important" onclick="ContactUsQuery()">
-                            <i class="bigger-110"></i>
-                            Submit
-                        </button>
-					</div>
-				</div>
-                    @Html.ValidationMessageFor(m => m.PhoneNo, "", new { id = "successMessage" })
-		</div>
-	</div>
-</div>
-</div>
-</section>*@
-        <section class="section-white">
+        <section class="section-white" style="padding:30px;">
             <div class="container">
-                @*<div class="row">
-                    <div class="col-md-12">
-                        <div class="section-title text-center">
-                            <h4>Quick Contact</h4>
-                            <hr>
-                            <p>We Wanna Hear From You Soon!</p>
-                        </div><!-- end title -->
-                    </div><!-- end col -->
-                </div><!-- end row -->*@
                 <div class="row section-container">
                     <div class="col-md-8">
                         <form class="row contact_form">
@@ -501,14 +302,24 @@ else
                             <div class="col-md-6 col-sm-6">
                                 <input type="email" id="email_contact" name="email_contact" class="form-control style_2" placeholder="Your Email">
                             </div>
+                            <div class="col-md-6 col-sm-6">
+                                <input type="text" id="phone_contact" name="phone_contact" class="form-control style_2" placeholder="Your Phone" onkeypress="return isNumberKey(event)">
+                            </div>
+                            <div class="col-md-6 col-sm-6 allowmargin">
+                                <input type="text" class="form-control style_2" id="verify_contact" name="name_contact" placeholder="Are you human? 3 + 1 =">
+                            </div>
                             <div class="col-md-12 col-sm-6">
-                                <textarea class="form-control" placeholder="Message"></textarea>
+                                <textarea rows="5" id="message_contact" name="message_contact" class="form-control contact-message" placeholder="Message"></textarea>
                             </div>
                             <div class="col-md-12 col-sm-6">
                                 <button id="submit-contact" type="button" class="btn btn-primary btn-block" onclick="ContactUsQuery()" >Send Message</button>
                             </div>
+                            <div class="col-md-12 col-sm-6" style="margin-top: 15px;text-align: center;">
+                                @Html.ValidationMessageFor(m => m.PhoneNo, "", new { id = "successMessage" })
+                            </div>
                         </form>
                     </div>
+
                     <div class="col-md-4">
                         <div class="contact-widget">
                             <h4>Contact Information :</h4>

@@ -12,7 +12,7 @@
          <div class="strip_single_course">
             <div class="row">
                 <div class="col-md-4">
-                    <div class="photo mrgBottom">
+                    <div class="photo mrgBottom" style="border: solid 1px #7a7c82;">
                         @if (course.CourseImageLink != null)
                         {
                             var physicalPath = Request.MapPath("/Images/CourseImg/" + course.Id + "/" + course.CourseImageLink + "");
@@ -52,7 +52,7 @@
                         <br />
                         <li> &nbsp;&nbsp;Duration: @course.Duration Days (@course.Hours hours)</li>
                     </ul>
-                    <div class="floatRight">
+                    <div class="floatRight" style="margin-bottom:5px;">
                         <input type="button" class="btn btn-danger" value="Rate This Course" onclick="CourseRatings('@course.Id','@course.CourseName');" />
                         <input type="submit" class="btn btn-success" value="View Course" onclick="window.open('@course.EDXCourseLink')"/>
                     </div>
@@ -61,12 +61,12 @@
         </div><!-- end strip single course -->
         }
     }
-    <div id='AllCoursePaging' style="text-align:center">
+    @*<div id='AllCoursePaging' style="text-align:center">
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
         of @Model.PageCount
 
         @Html.PagedListPager(Model, page => Url.Action("AllCourseTab", new { page }))
-    </div>
+    </div>*@
 </div>
 
 @*<div id="CourseRatingsModel" class="modal fade" data-keyboard="false" data-backdrop="static">

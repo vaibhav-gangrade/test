@@ -26,10 +26,15 @@
                     <form action="/Account/ExternalLogin" method="post">        
                         <div class="widget-title">
                             <h4>Login</h4>
-                            <div class="oauthRow row" style="text-align:center;">
-                                @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
-                            </div>
                         </div>
+                                @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
+                        @*<div style="margin-left: 105px;">
+                            <ul class="social">
+                                <li class="facebook"><a href="https://www.facebook.com/pages/Edunetworks-Consulting/200456993320125" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                <li class="twitter"><a href="https://twitter.com/edunetworks" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li class="linkedin"><a href="https://www.linkedin.com/company-beta/2598941/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                            </ul>
+                        </div>*@
                         <input id="UserLoginName" type="text" class=" form-control " placeholder="Email-Id" onkeypress="LoginEnterClick(event)">
                         <span class="input-icon"><i class=" fa-fa-user"></i></span>
                         <div class="form-group marginloginpwdTxt">
@@ -417,8 +422,7 @@
                         }
                         else {
                             //ML Changes
-                            window.location.href = "/Home/UserDashboard";
-                            //window.location.href = "/Course/AllCourses";
+                            window.location.href = "/UserRegister/Profile/" + resp.userId;
                         }
                     }
                 }
