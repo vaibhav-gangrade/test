@@ -1,6 +1,7 @@
 ﻿@model Millionlights.Models.CourseCategory
 
 @{
+    ViewBag.Title = "Edit Course Category";
     int roleID = 0;
     var userid = Session["UserID"];
     if (Session["RoleID"] != null)

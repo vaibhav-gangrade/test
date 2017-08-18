@@ -1,6 +1,7 @@
 ﻿@model Millionlights.Models.OrderManagement
 @using PagedList.Mvc;
 @{
+    ViewBag.Title = "Orders";
     int roleID = 0;
     if (Session["RoleID"] != null)
     {

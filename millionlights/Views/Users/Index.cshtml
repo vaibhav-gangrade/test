@@ -1,5 +1,6 @@
 ﻿@model Millionlights.Models.UserDetails
 @{
+    ViewBag.Title = "Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var userRegistered = ViewBag.RegisteredUsers;
     var userRole = (List<SelectListItem>)ViewBag.UserRoleList;

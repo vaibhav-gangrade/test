@@ -40,17 +40,17 @@ namespace Millionlights
         }
         protected void Application_BeginRequest()
         {
-            if (!Context.Request.IsSecureConnection)
-                Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
+            //if (!Context.Request.IsSecureConnection)
+            //    Response.Redirect(Context.Request.Url.ToString().Replace("http:", "https:"));
 
-            if (!Request.Url.Host.StartsWith("www") && !Request.Url.IsLoopback)
-            {
-                UriBuilder builder = new UriBuilder(Request.Url);
-                builder.Host = "www." + Request.Url.Host;
-                Response.StatusCode = 301;
-                Response.AddHeader("Location", builder.ToString());
-                Response.End();
-            }
+            //if (!Request.Url.Host.StartsWith("www") && !Request.Url.IsLoopback)
+            //{
+            //    UriBuilder builder = new UriBuilder(Request.Url);
+            //    builder.Host = "www." + Request.Url.Host;
+            //    Response.StatusCode = 301;
+            //    Response.AddHeader("Location", builder.ToString());
+            //    Response.End();
+            //}
         }
     }
 }
