@@ -2,7 +2,6 @@
 
 @*<h4>Use another service to log in.</h4>
     <hr />*@
-@*<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>*@
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();   
 if (loginProviders.Count() == 0)

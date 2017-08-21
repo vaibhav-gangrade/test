@@ -52,13 +52,9 @@
                         <h4>Login</h4>
                     </div>
                     @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
-
                     @using (Html.BeginForm())
                     {
                         <form action="/Account/ExternalLogin" method="post">
-                            @*<div class="widget-title">
-                                <h4>Login</h4>
-                            </div>*@
                             <div class="form-group marginloginpwdTxt">
                                 @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control ", id = "UEmail", @placeholder = "Email", onkeypress = "return Validate(event)" })
                                 @Html.ValidationMessageFor(m => m.EmailId, "", new { @class = "text-danger errorCheckEmailId" })
