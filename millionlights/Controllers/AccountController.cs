@@ -541,8 +541,8 @@ namespace Millionlights.Controllers
 
                     if (coupCode.Equals("null") || coupCode.Equals("") || coupCode.Equals("undefined"))
                     {
-                        return RedirectToAction("UserDashboard", "Home");
-                        //return RedirectToAction("Profile", "UserRegister", new { id = user.UserId });
+                        //return RedirectToAction("UserDashboard", "Home");
+                        return RedirectToAction("Profile", "UserRegister", new { id = user.UserId });
                     }
                     else
                     {
@@ -754,7 +754,7 @@ namespace Millionlights.Controllers
             catch (Exception ex)
             {
                 
-                throw;
+                throw ex;
             }
 
         }

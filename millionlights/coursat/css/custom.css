@@ -3,7 +3,7 @@
 }
 .btnExternal {
     border-radius: 5px;
-    background: rgb(102, 102, 255);
+    /*background: rgb(102, 102, 255);*/
     color: white;
     width: 40px;
     height: 30px;
@@ -46,4 +46,7 @@
     text-align: right !important;
     margin-bottom: 14px;
     margin-top: -12px;
+}
+.section-white {
+    padding: 38px;
 }
