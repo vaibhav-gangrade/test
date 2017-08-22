@@ -45,7 +45,7 @@ namespace Millionlights.Models
        public const string ContactUsSMSMsg = "Thank you for contacting Edunetworks. We will get back to you soon.";
        public const string AssignedCouponSMSMsg = "Dear {0}, Congratulations!! you can enroll {1} courses from {2} use coupon Code : {3} to get discount : {4} percent On above courses.";
        //public const string ResetPasswordLink = "http://localhost:8094/Account/ResetMyPassword?verificationId={0}";
-        public const string ResetPasswordLink = "http://ml-dev2.azurewebsites.net/Account/ResetMyPassword?verificationId={0}";
+        public const string ResetPasswordLink = "http://ml-dev5.azurewebsites.ne/Account/ResetMyPassword?verificationId={0}";
         //public const string ResetPasswordLink = "https://www.millionlights.org/Account/ResetMyPassword?verificationId={0}";
         public const string RefCodeSharedSuccessMsgFromSenderToReceiver = "Your friend {0} has invited you to join the online course on Millionlights. Use {1} code to register and earn Rs. {2} off on any course and get certified.";
        public const string RefCodeRedeemBenefitSuccessMsgToReceiver = "Referral code {0} successfully applied. Rs.{1} has been added to your wallet. Share your referral code and keep earning more credits to your wallet.";
