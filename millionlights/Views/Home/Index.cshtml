@@ -90,6 +90,50 @@
             </div>
         </div>
     </section>
+     <section class="section-white service-relative-wrapper background">
+         <div class="container">
+             <div class="service-relative">
+                 <div class="row">
+                     <div class="col-md-4 col-sm-6 col-xs-12">
+                         <div class="service-style-1">
+                             <div class="icon-normal wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s">
+                                 <i class="icon icon-Book"></i>
+                             </div><!-- end icon-wrap -->
+                             <div class="title-wrap">
+                                 <h5 class="service-title">Learn Anything Online</h5>
+                                 <hr>
+                                 <p>Lorem ipsum dolor sit amet, consectetur adipiing elit. Integer lorem quam, adipiscing vel condimentum tristique.</p>
+                             </div><!-- end title-wrap -->
+                         </div><!-- end title -->
+                     </div><!-- end col -->
+                     <div class="col-md-4 col-sm-6 col-xs-12">
+                         <div class="service-style-1">
+                             <div class="icon-normal wow fadeIn" data-wow-duration="1s" data-wow-delay="0.4s">
+                                 <i class="icon icon-Users"></i>
+                             </div><!-- end icon-wrap -->
+                             <div class="title-wrap">
+                                 <h5 class="service-title">Talk To Our Instructors</h5>
+                                 <hr>
+                                 <p>Lorem ipsum dolor sit amet, consectetur adipiing elit. Integer lorem quam, adipiscing vel condimentum tristique.</p>
+                             </div><!-- end title-wrap -->
+                         </div><!-- end title -->
+                     </div><!-- end col -->
+                     <div class="col-md-4 col-sm-6 col-xs-12">
+                         <div class="service-style-1">
+                             <div class="icon-normal wow fadeIn" data-wow-duration="1s" data-wow-delay="0.6s">
+                                 <i class="icon icon-MessageLeft"></i>
+                             </div><!-- end icon-wrap -->
+                             <div class="title-wrap">
+                                 <h5 class="service-title">Speak With Others</h5>
+                                 <hr>
+                                 <p>Lorem ipsum dolor sit amet, consectetur adipiing elit. Integer lorem quam, adipiscing vel condimentum tristique.</p>
+                             </div><!-- end title-wrap -->
+                         </div><!-- end title -->
+                     </div><!-- end col -->
+                 </div><!-- end row -->
+             </div><!-- end background service-absolute -->
+         </div><!-- end container -->
+     </section><!-- end section-white -->
 
      <div>   
           <section class="section-grey">
@@ -644,18 +688,18 @@
         + ";expires=" + expire.toGMTString() + "; path=/";
     }
 
-    //$("#CourseID").click(function () {
+    $("#CourseID").click(function () {
     
-    //    var searchTextFind = $('#search')[0].value;
-    //    var searchTextCat = searchTextFind.split("in category");
-    //    var searchText = searchTextCat[0];
+        var searchTextFind = $('#search')[0].value;
+        var searchTextCat = searchTextFind.split("in category");
+        var searchText = searchTextCat[0];
     
     
-    //    if (searchText != "") {
-    //        window.location.href = "/Course/AllCourses?id=0&type=none&courseName=" + searchText;
-    //        return false;
-    //    }
-    //});
+        if (searchText != "") {
+            window.location.href = "/Course/AllCourses?id=0&type=none&courseName=" + searchText;
+            return false;
+        }
+    });
 
          </script>
 
@@ -861,4 +905,74 @@
                 alert(err);
             });
     }
+</script>
+<link href="~/Blur/css/style.css" rel="stylesheet" />
+<script src="~/Content/assets/js/ace/elements.typeahead.js"></script>
+<script src="~/Content/assets/js/typeahead.jquery.js"></script>
+<script type="text/javascript">
+    var courseList = [];
+    $(function () {
+
+        var $container = $('#ib-container'),
+            $articles = $container.children('article'),
+            timeout;
+
+        $articles.on('mouseenter', function (event) {
+
+            var $article = $(this);
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+
+                if ($article.hasClass('active')) return false;
+
+                $articles.not($article.removeClass('blur').addClass('active'))
+                    .removeClass('active')
+                    .addClass('blur');
+
+            }, 65);
+
+        });
+
+        $container.on('mouseleave', function (event) {
+
+            clearTimeout(timeout);
+            $articles.removeClass('active blur');
+        });
+
+    });
+
+    $('#search').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    }, {
+            name: 'course',
+            displayKey: 'value',
+            source: substringMatcher(getCourse())
+        });
+    function getCourse() {
+        var bindCourseList = [];
+        $.ajax({
+            type: "POST",
+            async: true,
+            data: "",
+            contentType: 'application/json; charset=utf-8',
+            url: "/Course/GetCourses",
+            success: function (response) {
+                for (var i = 0; i < response.length; i++) {
+                    courseList.push({ cid: response[i][0].Value, cname: response[i][1].Value });
+                    var courseName = response[i][0].Value;
+                    bindCourseList.push(courseName);
+                }
+                return bindCourseList;
+            },
+            error: function (response) {
+                localStorage.clear();
+            }
+        });
+
+        return bindCourseList;
+    }
+
+
 </script>
