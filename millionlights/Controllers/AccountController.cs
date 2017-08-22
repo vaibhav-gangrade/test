@@ -627,7 +627,7 @@ namespace Millionlights.Controllers
                             ConfigurationManager.AppSettings["SenderEmail"],
                              ConfigurationManager.AppSettings["Telephone"],
                               ConfigurationManager.AppSettings["EmailId"],
-                            "Your Millionlights Registration Is Successful",
+                            "Your Edunetworks Registration Is Successful",
                             regTemplate,
                             firstName,
                             email
@@ -937,11 +937,11 @@ namespace Millionlights.Controllers
                                     user.EmailId,
                                    null);
                                 TempData["IsSuccess"] = true;
-                                TempData["ResetPasswordMessage"] = "Password Reset Successfully. You will be redirecting to login page.";
+                                TempData["ResetPasswordMessage"] = "Password Reset Successfully. You will be redirected to login page.";
                             }
                             catch (Exception)
                             {
-                                TempData["ResetPasswordMessage"] = "Sorry, An error has occured while resetting the password. Please try again or contact the MillionLights support team.";
+                                TempData["ResetPasswordMessage"] = "Sorry, An error has occured while resetting the password. Please try again or contact the Edunetworks support team.";
                             }
                         }
                         else

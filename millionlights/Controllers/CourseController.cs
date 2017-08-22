@@ -2780,7 +2780,7 @@ namespace Millionlights.Controllers
                 {
                     p.IsCourseEnrolled = true;
                     p.GoogleCourseDescription = System.Uri.EscapeDataString(p.ShortDescription);
-                    p.EmailCourseName = "Hello, I have enrolled for the online course " + p.CourseName.Trim() + " , from Millionlights. This course might interest you too. Please have a look on Millionlights.org";
+                    p.EmailCourseName = "Hello, I have enrolled for the online course " + p.CourseName.Trim() + " , from Edunetworks. This course might interest you too. Please have a look on Edunetworks.com";
                     p.hrefUrl = item.EDXCourseLink;
                 }
                 else
@@ -2788,7 +2788,7 @@ namespace Millionlights.Controllers
                     p.hrefUrl = "/Course/AboutCourse/" + System.Uri.EscapeDataString(item.CourseName.Trim());
                     p.IsCourseEnrolled = false;
                     p.GoogleCourseDescription = System.Uri.EscapeDataString(p.ShortDescription);
-                    p.EmailCourseName = "Hello, I came across the online course " + p.CourseName.Trim() + " , from Millionlights. This course might interest you. Please have a look on Milionlights.org";
+                    p.EmailCourseName = "Hello, I came across the online course " + p.CourseName.Trim() + " , from Edunetworks. This course might interest you. Please have a look on Edunetworks.com";
 
                 }
 
