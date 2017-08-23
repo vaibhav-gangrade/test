@@ -1,6 +1,8 @@
+
 .rating {
     color: #FC0;
 }
+
 .btnExternal {
     border-radius: 5px;
     /*background: rgb(102, 102, 255);*/
@@ -27,7 +29,7 @@
     line-height: 32px;
     -moz-border-radius: 30px;
     border-radius: 16.2px;
-    background-color: #0f1a9a;
+    background-color: #df4a43;
     color: white;
     text-align: center;
     font-size: 1.3em;

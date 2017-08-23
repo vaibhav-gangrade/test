@@ -60,7 +60,10 @@
                                                 <div class="box" style="left:-117px;display:block">
                                                     <label class="lblUserName" style="text-align:center;text-decoration:underline;">@userName</label>
                                                     @*@Html.ActionLink("Dashboard", "UserDashboard", "Home")*@
-                                                    @Html.RouteLink("Dashboard", new { action = "Profile", controller = "UserRegister" }, new { id = userid })
+                                                    @*@Html.RouteLink("Dashboard", new { action = "Profile", controller = "UserRegister" }, new { id = userid })*@
+                                                    <span id="courselist">
+                                                        <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">Dashboard</a>
+                                                    </span>
                                                     <span id="courselist">
                                                         <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">My Account</a>
                                                     </span>
