@@ -6,6 +6,7 @@
     var UserProfileImg = Session["ImagePath"];
     
 }
+<link rel="stylesheet" type="text/css" href="~/coursat/css/custom.css">
 <div id="navbar" class="navbar navbar-default" style="background: #f8f8f8 !important;">
     <script type="text/javascript">
         try { ace.settings.check('navbar', 'fixed') } catch (e) { }
@@ -39,9 +40,9 @@
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
                 <!-- #section:basics/navbar.user_menu -->
-                <li class="light-blue" style="height: 88px; !important">
+                @*<li class="light-blue" >*@
                     <a data-toggle="dropdown" href="#" id="profileAnchor">
-                        @if (UserProfileImg != null)
+                        @*@if (UserProfileImg != null)
                         {
                             <img class="nav-user-photo" src="@String.Format("/Images/UsersImg/{0}", UserProfileImg)" alt="Jason's Photo" style="margin: 8px 0 0;max-width: 68px;"/>
                         }
@@ -54,16 +55,17 @@
                             @userName
                         </span>
 
-                        <i class="ace-icon fa fa-caret-down"></i>
+                        <i class="ace-icon fa fa-caret-down"></i>*@
+                        <span class="user-span">@userName.ToString().Substring(0, 1).ToUpper()</span>
                     </a>
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close righttoggle" id="DDLMenue">
-                        <li>
+                        @*<li>
                             <a href="/Home/Settings">
                                 <i class="ace-icon fa fa-cog"></i>
                                 Settings
                             </a>
-                        </li>
+                        </li>*@
 
                         <li>
                             <a href="/UserRegister/Profile?id=@UserId" >
@@ -78,7 +80,7 @@
                             @Html.ActionLink("Logout", "LoginOut", "UserRegister")
                         </li>
                     </ul>
-                </li>
+                @*</li>*@
 
                 <!-- /section:basics/navbar.user_menu -->
             </ul>
@@ -91,10 +93,13 @@
 <script>
     $(document).ready(function () {
         $("#profileAnchor").mouseover(function () {
-            $('#DDLMenue').show();
+            
+                $('#DDLMenue').show();
         });
-        $("#profileAnchor").mouseout(function () {
-            $('#DDLMenue').hide();
+    $("#profileAnchor").mouseout(function () {
+        //setTimeout(function () {
+           // $('#DDLMenue').hide();
+        //}, 1000);
         });
         $("#DDLMenue").mouseover(function () {
             $(this).show();
