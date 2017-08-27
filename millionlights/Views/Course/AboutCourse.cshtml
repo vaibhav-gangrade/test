@@ -12,7 +12,6 @@
         if (roleID == 1 || roleID == 3)
         {
             Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            @*<script src="~/Content/assets/js/jquery.js"></script>*@
         }
         else
         {
@@ -155,39 +154,37 @@
                                      }
  
                                 </ul>
-                                @if (courseDetails.Availability == "Starting Soon")
-                                {
-                                    <div class="separator clearfix" style="background-color: seashell;height: 36px;">
-                                        <p style="font-weight: bold; font-size: 14px;margin-top: 5px;text-align: center;">Starting Soon....</p>
-                                    </div>
-                                }
-                                else
-                                {
-                                    @*@if (courseDetails.IsCourseEnrolled != null && courseDetails.IsCourseEnrolled == true)
-                                    {
-                                        <a class="owl-button enrollClass pull-left" style="text-align: center; padding: 6px 6px !important; background-color: grey; pointer-events: none; cursor: default; " href="" id="@courseDetails.Id">
-                                            Enrolled
-                                        </a>
-                                    }
-                                    else*@
-                                    {
-                                        <a href="" class="btn btn-block btn-primary enrollCourse" id="@courseDetails.Id">
-                                            Join Course
-                                        </a>
-                                    }
+                                    <div style="margin-bottom:15px;">
+                                        @if (courseDetails.Availability == "Starting Soon")
+                                        {
+                                            <div class="separator clearfix" style="background-color: seashell;height: 36px;">
+                                                <p style="font-weight: bold; font-size: 14px;margin-top: 5px;text-align: center;">Starting Soon....</p>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            {
+                                                <a href="" class="btn btn-block btn-primary enrollCourse" id="@courseDetails.Id">
+                                                    Join Course
+                                                </a>
+                                            }
 
-                                }
-                                    <div style="margin-left: 105px;">
-                                        <ul class="social">
-                                            <li class="facebook"><a href="https://www.facebook.com/pages/Edunetworks-Consulting/200456993320125" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                                            <li class="twitter"><a href="https://twitter.com/edunetworks" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                                            <li class="google"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                            <li class="linkedin"><a href="https://www.linkedin.com/company-beta/2598941/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                                        </ul>
+                                        }
                                     </div>
+                                <div class="" id="ratemebtn" style="margin-bottom:15px;">
+                                    <a href="" class="btn btn-block btn-primary button_fullwidth-3" onclick="CourseRatings('@courseDetails.Id','@courseDetails.CourseName'); return false;">Rate the course</a>
+                                </div>
 
                             </div><!-- end latest-course -->
                         </div><!-- end widget -->
+                        <div class="widget about-widget wow fadeIn col-md-offset-3 col-md-6 col-md-offset-3" data-wow-duration="1s" data-wow-delay="0.4s">
+                            <ul class="social">
+                                <li class="facebook"><a href="https://www.facebook.com/pages/Edunetworks-Consulting/200456993320125" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                                <li class="twitter"><a href="https://twitter.com/edunetworks" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                <li class="google"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li class="linkedin"><a href="https://www.linkedin.com/company-beta/2598941/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div><!-- end desc -->
 
@@ -198,7 +195,7 @@
 
 <section id="join">
     <div class="container">
-     <div class="col-md-12 col-md-12" style="background-color:#df4a43;margin-bottom:5px;text-align:center;color:white;"><a href="AllCourses" class="button_big">View All Courses</a>
+     <div class="col-md-12 col-md-12" style="background-color:#df4a43;margin-bottom:25px;text-align:center;"><a href="AllCourses" class="button_big" style="color:white;">View All Courses</a>
      </div>
     </div>
 </section>
@@ -209,7 +206,6 @@
     var currentCourses = '';
 
     $(document).ready(function () {
-        debugger
         var peVal = '@pe';
         if (peVal == "1") {
             $('#enrollbtn').hide();
@@ -242,8 +238,7 @@
         }
 
         if (uId != null || uId != '') {
-            debugger
-            if ($.cookie("AboutCourseID") != null) {
+               if ($.cookie("AboutCourseID") != null) {
                 data = $.cookie("AboutCourseID");
                 $.ajax({
                     type: "POST",
@@ -271,7 +266,6 @@
 
 
         }
-        debugger
         //New Way
         var data = "";
         $('.enrollCourse').click(function () {
@@ -408,6 +402,7 @@
             color: black !important;
         }
 </style>
+
 <div id="CourseRatingsModel" class="modal fade" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
         <div class="">
@@ -415,7 +410,12 @@
                 <div class="row">
                     <div class="">
                         <div id="login" class="col-sm-5">
-                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Submit Course Ratings</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="form-group retiveEmldiv">
+                            <label class="retiveEmlLbl"><b>Submit Course Ratings</b></label>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <hr />
+                            </div>
+                        
                             <div class="hideDiv aligntextcenter">
                                 <label>Course Name</label>
                                 <input id="CourseNameTxt" name="CourseNameTxt" type="text" class="form-control" disabled="disabled" />
@@ -427,17 +427,17 @@
                                 <label class="text-danger errorRatings"></label>
                                 <br />
                             </div>
-                            <div class="hideDiv aligntextcenter" style="margin:4px 0px 4px 0px;">
-                                <label>Comments</label>
+                            <div class="form-group hideDiv aligntextcenter" style="margin:4px 0px 4px 0px;">
+                                <div style="font-weight: 700;">Comments</div>
                                 <textarea id="rating-comments" rows="4" cols="50" style="resize:none;"></textarea>
                                 <label class="text-danger errorRatingsComments"></label>
                                 <br />
                             </div>
                             <br />
-                            <div id="ButtonsId" class="aligntextcenter">
+                            <div id="ButtonsId" class="aligntextcenter" style="text-align: center;margin-bottom: 15px;">
                                 <input type="hidden" name="CourseIdHidden" id="CourseIdHidden" />
-                                <input type="button" value="Cancel" id="CancelRatingsBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelRatingsButton()" />
-                                <input type="button" value="Save" id="SaveRatingsBtn" class="btnRegister btnForword" style="padding: 9px 35px 6px 35px !important;" onclick="SubmitRatingsButton()" />
+                                <input type="button" value="Cancel" id="CancelRatingsBtn" class="actCoupon btn" style="padding: 9px 35px 6px 35px !important;background: #F66;" onclick="CancelRatingsButton()" />
+                                <input type="button" value="Save" id="SaveRatingsBtn" class="btnRegister btnForword btn" style="padding: 9px 35px 6px 35px !important;background: #30d9a4 !important;" onclick="SubmitRatingsButton()" />
                             </div>
                         </div>
                     </div>

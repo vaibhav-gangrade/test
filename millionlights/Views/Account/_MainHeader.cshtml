@@ -35,7 +35,7 @@
                             <div id="dmsearch" class="dmsearch">
                                 <form id="search-form" action="#" method="get">
                                     <div class="dm-search-container">
-                                        <input id="search" class="form-control style-2 typeahead scrollable dmsearch-input" type="text" placeholder="Search">
+                                        <input id="search" class="form-control style-2 typeahead scrollable" type="text" placeholder="Search">
                                     </div>
                                     <input id="CourseID" class="dmsearch-submit" type="submit" value="">
                                     <span class="fa fa-search"></span>
@@ -60,7 +60,10 @@
                                                 <div class="box" style="left:-117px;display:block">
                                                     <label class="lblUserName" style="text-align:center;text-decoration:underline;">@userName</label>
                                                     @*@Html.ActionLink("Dashboard", "UserDashboard", "Home")*@
-                                                    @Html.RouteLink("Dashboard", new { action = "Profile", controller = "UserRegister" }, new { id = userid })
+                                                    @*@Html.RouteLink("Dashboard", new { action = "Profile", controller = "UserRegister" }, new { id = userid })*@
+                                                    <span id="courselist">
+                                                        <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">Dashboard</a>
+                                                    </span>
                                                     <span id="courselist">
                                                         <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">My Account</a>
                                                     </span>
@@ -165,7 +168,75 @@
     }
     </script>
 
+<script src="~/Content/assets/js/ace/elements.typeahead.js"></script>
+<script src="~/Content/assets/js/typeahead.jquery.js"></script>
+<script type="text/javascript">
+    var courseList = [];
+    $(function () {
 
+        var $container = $('#ib-container'),
+            $articles = $container.children('article'),
+            timeout;
+
+        $articles.on('mouseenter', function (event) {
+
+            var $article = $(this);
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+
+                if ($article.hasClass('active')) return false;
+
+                $articles.not($article.removeClass('blur').addClass('active'))
+                    .removeClass('active')
+                    .addClass('blur');
+
+            }, 65);
+
+        });
+
+        $container.on('mouseleave', function (event) {
+
+            clearTimeout(timeout);
+            $articles.removeClass('active blur');
+        });
+
+    });
+
+    $('#search').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    }, {
+            name: 'course',
+            displayKey: 'value',
+            source: substringMatcher(getCourse())
+        });
+    function getCourse() {
+        var bindCourseList = [];
+        $.ajax({
+            type: "POST",
+            async: true,
+            data: "",
+            contentType: 'application/json; charset=utf-8',
+            url: "/Course/GetCourses",
+            success: function (response) {
+                for (var i = 0; i < response.length; i++) {
+                    courseList.push({ cid: response[i][0].Value, cname: response[i][1].Value });
+                    var courseName = response[i][0].Value;
+                    bindCourseList.push(courseName);
+                }
+                return bindCourseList;
+            },
+            error: function (response) {
+                localStorage.clear();
+            }
+        });
+
+        return bindCourseList;
+    }
+
+
+</script>
 
 
 

@@ -868,7 +868,7 @@
 	.section-grey,
 	.section-white {
 		background-color: #ffffff;
-		padding:90px 0;
+		padding: 38px 0;
 		position: relative;
 		display: block;
 		z-index: 1;
@@ -2175,7 +2175,7 @@
 		color:#ffffff;
 	}
 	.form-control {
-	    background-color: #f8f7f7;
+	    background-color: #fff;
 	    background-image: none;
 	    border: 1px solid #dadadc;
 	    border-radius: 0;

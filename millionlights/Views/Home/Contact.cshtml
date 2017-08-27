@@ -227,7 +227,7 @@
                 <h3>Address</h3>
                 <ul id="aceContact-info">
                     <li><i class="ace fa fa-phone"></i> +91 9890122592</li>
-                    <li><i class="ace fa fa-envelope"></i> <a href="mailto:support@Millionlights.org"> support@Millionlights.org</a></li>
+                    <li><i class="ace fa fa-envelope"></i> <a href="mailto:support@edunetworks.com"> support@edunetworks.com</a></li>
                 </ul>
                 <hr>
             </div>
@@ -291,56 +291,56 @@
   }
 else
 {
-        <section class="section-white" style="padding:30px;">
-            <div class="container">
-                <div class="row section-container">
-                    <div class="col-md-8">
-                        <form class="row contact_form">
-                            <div class="col-md-6 col-sm-6">
-                                <input type="text" class="form-control style_2" id="name_contact" name="name_contact" placeholder="Your Name">
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <input type="email" id="email_contact" name="email_contact" class="form-control style_2" placeholder="Your Email">
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <input type="text" id="phone_contact" name="phone_contact" class="form-control style_2" placeholder="Your Phone" onkeypress="return isNumberKey(event)">
-                            </div>
-                            <div class="col-md-6 col-sm-6 allowmargin">
-                                <input type="text" class="form-control style_2" id="verify_contact" name="name_contact" placeholder="Are you human? 3 + 1 =">
-                            </div>
-                            <div class="col-md-12 col-sm-6">
-                                <textarea rows="5" id="message_contact" name="message_contact" class="form-control contact-message" placeholder="Message"></textarea>
-                            </div>
-                            <div class="col-md-12 col-sm-6">
-                                <button id="submit-contact" type="button" class="btn btn-primary btn-block" onclick="ContactUsQuery()" >Send Message</button>
-                            </div>
-                            <div class="col-md-12 col-sm-6" style="margin-top: 15px;text-align: center;">
-                                @Html.ValidationMessageFor(m => m.PhoneNo, "", new { id = "successMessage" })
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="contact-widget">
-                            <h4>Contact Information :</h4>
-                            @*<i class="fa fa-envelope"></i>
-                            <small>- 7oroof@7oroof.com</small>*@
-                            <i class="fa fa-phone"></i>
-                            <small> 011 025 0089 / 011 795 3771</small>
-                        </div><!-- end contact-widget -->
-                        <div class="contact-widget">
-                            <h4>Business Hours :</h4>
-                            <i class="fa fa-clock-o"></i>
-                            <p>
-                                Monday – Friday : 9am to 20 pm<br>
-                                Saturday : 9am to 17 pm<br>
-                                Sunday : day off
-                            </p>
-                        </div><!-- end contact-widget -->
-                    </div><!-- end col -->
-                </div>
-            </div><!-- end container -->
-        </section><!-- end section-white -->
+  <section class="section-white" style="padding:30px;">
+      <div class="container">
+          <div class="row section-container">
+              <div class="col-md-8">
+                  <form class="row contact_form">
+                      <div class="col-md-6 col-sm-6">
+                          <input type="text" class="form-control style_2" id="name_contact" name="name_contact" placeholder="Name">
+                      </div>
+                      <div class="col-md-6 col-sm-6">
+                          <input type="email" id="email_contact" name="email_contact" class="form-control style_2" placeholder="Email">
+                      </div>
+                      <div class="col-md-6 col-sm-6">
+                          <input type="text" id="phone_contact" name="phone_contact" class="form-control style_2" placeholder="Phone" onkeypress="return isNumberKey(event)">
+                      </div>
+                      <div class="col-md-6 col-sm-6 allowmargin">
+                          <input type="text" class="form-control style_2" id="verify_contact" name="name_contact" placeholder="Are you human? 3 + 1 =">
+                      </div>
+                      <div class="col-md-12 col-sm-6">
+                          <textarea rows="5" id="message_contact" name="message_contact" class="form-control contact-message" placeholder="Message"></textarea>
+                      </div>
+                      <div class="col-md-12 col-sm-6">
+                          <button id="submit-contact" type="button" class="btn btn-primary btn-block" onclick="ContactUsQuery()" >Send Message</button>
+                      </div>
+                      <div class="col-md-12 col-sm-6" style="margin-top: 15px;text-align: center;">
+                          @Html.ValidationMessageFor(m => m.PhoneNo, "", new { id = "successMessage" })
+                      </div>
+                  </form>
+              </div>
+ 
+              <div class="col-md-4">
+                  <div class="contact-widget">
+                      <h4>Contact Information :</h4>
+                      @*<i class="fa fa-envelope"></i>
+                      <small>- 7oroof@7oroof.com</small>*@
+                      <i class="fa fa-phone"></i>
+                      <small> 011 025 0089 / 011 795 3771</small>
+                  </div><!-- end contact-widget -->
+                  <div class="contact-widget">
+                      <h4>Business Hours :</h4>
+                      <i class="fa fa-clock-o"></i>
+                      <p>
+                          Monday – Friday : 9am to 20 pm<br>
+                          Saturday : 9am to 17 pm<br>
+                          Sunday : day off
+                      </p>
+                  </div><!-- end contact-widget -->
+              </div><!-- end col -->
+          </div>
+      </div><!-- end container -->
+  </section><!-- end section-white -->
 }
 
   

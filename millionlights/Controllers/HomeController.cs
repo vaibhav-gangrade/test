@@ -256,12 +256,12 @@ namespace Millionlights.Controllers
             if (isCourseEnrolled.Count() > 0)
             {
                 emailText = "Hello, I have enrolled for the online course " + courseName +
-                    " , from Millionlights. This course might interest you too. Please have a look on Millionlights.org";
+                    " , from Edunetworks. This course might interest you too. Please have a look on Edunetworks.com";
             }
             else
             {
                 emailText = "Hello, I came across the online course " + courseName +
-                    " , from Millionlights. This course might interest you. Please have a look on Milionlights.org";
+                    " , from Edunetworks. This course might interest you. Please have a look on Edunetworks.com";
             }
 
             return Json(emailText, JsonRequestBehavior.AllowGet);
@@ -401,7 +401,7 @@ namespace Millionlights.Controllers
                                CourseRatings = course.CourseRatings,
                                //Below values are default
                                IsCourseEnrolled = false,
-                               EmailCourseName = "Hello, I have came across the online course " + course.CourseName.Trim() + " , from Millionlights. This course might interest you too. Please have a look on Millionlights.org"
+                               EmailCourseName = "Hello, I have came across the online course " + course.CourseName.Trim() + " , from Edunetworks. This course might interest you too. Please have a look on Edunetworks.com"
                            }).ToList();
             return courses;
         }
@@ -660,8 +660,8 @@ namespace Millionlights.Controllers
                     name = "User";
                 }
                 //Send Feeback Email Message To User & ML Support Team
-                string subject = "Thank you for submitting the feedback to Millionlights, we'll get back to you soon!";
-                string txtMessage = "Dear " + name + "," + "<br/> " + " We have submitted your feedback and will get back to you soon, Thank you!" + "<br/> " + "Warm Regards," + "<br/> " + "MillionLights Team" + "<br/> " + "Telephone:+91 9890122592" + "<br/> " + "Email:support@millionlights.org";
+                string subject = "Thank you for submitting the feedback to Edunetworks, we'll get back to you soon!";
+                string txtMessage = "Dear " + name + "," + "<br/> " + " We have submitted your feedback and will get back to you soon, Thank you!" + "<br/> " + "Warm Regards," + "<br/> " + "Edunetworks Team" + "<br/> " + "Telephone:+91 9890122592" + "<br/> " + "Email:support@edunetworks.com";
                 string senderEmail = ConfigurationManager.AppSettings["SenderEmail"];
                 string senderName = ConfigurationManager.AppSettings["SenderName"];
                 MandrillEmailService.EmailService.SendFormattedEmail(senderEmail, senderName, subject, recipients, txtMessage);

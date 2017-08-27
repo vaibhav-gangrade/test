@@ -1,9 +1,11 @@
+
 .rating {
     color: #FC0;
 }
+
 .btnExternal {
     border-radius: 5px;
-    background: rgb(102, 102, 255);
+    /*background: rgb(102, 102, 255);*/
     color: white;
     width: 40px;
     height: 30px;
@@ -27,7 +29,7 @@
     line-height: 32px;
     -moz-border-radius: 30px;
     border-radius: 16.2px;
-    background-color: #0f1a9a;
+    background-color: #df4a43;
     color: white;
     text-align: center;
     font-size: 1.3em;
@@ -37,4 +39,16 @@
     color: white;
     background: transparent;
     -webkit-text-stroke: 1px #f5f5f5;
+}
+
+#login {
+    background-color: white;
+}
+.rightAlign {
+    text-align: right !important;
+    margin-bottom: 14px;
+    margin-top: -12px;
+}
+.section-white {
+    padding: 38px;
 }

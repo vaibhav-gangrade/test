@@ -24,6 +24,7 @@ using Millionlights.Models;
 using System.Security.Cryptography;
 using System.IO;
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Millionlights
 {
@@ -257,9 +258,10 @@ namespace Millionlights
         {
             var x = new FacebookAuthenticationOptions();
             x.Scope.Add("email");
-            x.AppId = "806929762735402";
-            x.AppSecret = "94b03bf511f168f95b646db2b8c86c95";
-
+            x.AppId = "1704814389826228";
+            x.AppSecret = "c74fc3bb490c5334bb9ee89fc73184fd";
+            x.BackchannelHttpHandler = new HttpClientHandler();
+            x.UserInformationEndpoint = "https://graph.facebook.com/v2.8/me?fields=id,name,email,first_name,last_name";
             // Facebook Deveoper account: Archana
             //x.AppId = "389441631447093";
             //x.AppSecret = "d176c5e04afebdf4e02886d9003bb839";
@@ -276,7 +278,6 @@ namespace Millionlights
                         if (!context.Identity.HasClaim(claimType, claimValue))
                             context.Identity.AddClaim(new System.Security.Claims.Claim(claimType, claimValue, "XmlSchemaString", "Facebook"));
                     }
-
                 }
             };
             x.SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie;
@@ -287,8 +288,8 @@ namespace Millionlights
         {
             var y = new GoogleOAuth2AuthenticationOptions();
             y.Scope.Add("email");
-            y.ClientId = "30381212514-f34hvmcfetehk0m2tinhebh5vd7g395b.apps.googleusercontent.com";
-            y.ClientSecret = "ut3M0wSoVaImB0Mp8BpP0xUD";
+            y.ClientId = "220411177158-tnjrdamkaq64n44772pn53pfamf9anja.apps.googleusercontent.com";
+            y.ClientSecret = "k0LHEZYuKhjpKafHHGqNIeFO";
             y.Provider = new GoogleOAuth2AuthenticationProvider()
             {
                 OnAuthenticated = async context =>
@@ -339,8 +340,8 @@ namespace Millionlights
         private static void LinkedInAuthOptions(IAppBuilder app)
         {
             var l = new LinkedInAuthenticationOptions();
-            l.ClientId = "75cxqdj7v4gd8f";
-            l.ClientSecret = "0p9lbQyKIjdfV6mp";
+            l.ClientId = "785xb6c6vwm3ww";
+            l.ClientSecret = "1Yn6sh46wxwtHYyp";
             l.Provider = new LinkedInAuthenticationProvider()
             {
                 OnAuthenticated = async context =>

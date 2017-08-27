@@ -309,9 +309,10 @@
                 self.$clear = $clr;
                 return;
             }
-            self._addContent('clear',
-                //'<div class="' + css + '" title="' + self.clearButtonTitle + '">' + self.clearButton + '</div>');
-                 '<div class="' + css + '" title="' + self.clearButtonTitle + '"style="margin-top: 5px;">' + self.clearButton + '</div>');
+            //self._addContent('clear',
+            //    //'<div class="' + css + '" title="' + self.clearButtonTitle + '">' + self.clearButton + '</div>');
+            //    '<div class="' + css + '" title="' + self.clearButtonTitle + '"style="margin-top: 5px;">' + self.clearButton + '</div>'
+            //);
             self.$clear = self.$container.find('.' + self.clearButtonBaseClass);
         },
         _getClearClass: function () {
@@ -536,7 +537,7 @@
             5: 'label label-success'
         },
         //clearButton: '<i class="glyphicon glyphicon-minus-sign"></i>',
-        clearButton: '<i class="icon-minus-circled-1" style="font-size: 25px;"></i>',
+        //clearButton: '<i class="icon-minus-circled-1" style="font-size: 25px;"></i>',
         clearButtonBaseClass: 'clear-rating',
         clearButtonActiveClass: 'clear-rating-active',
         clearCaptionClass: 'label label-default',
@@ -563,7 +564,7 @@
             4.5: 'Four & Half Stars',
             5: 'Five Stars'
         },
-        clearButtonTitle: 'Clear',
+        //clearButtonTitle: 'Clear',
         clearCaption: 'Not Rated'
     };
 

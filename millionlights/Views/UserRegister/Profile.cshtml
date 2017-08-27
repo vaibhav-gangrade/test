@@ -48,473 +48,453 @@
 <section id="main_content">
     <div class="container">
         <div class="row">
-            @if (roleID == 2)
-            {
-                <section class="section-white">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="widget about-widget">
-                                    <div class="accordion-toggle-2">
-                                        <div class="panel-group" id="accordion">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <div class="panel-title active" id="ProfileId">
-                                                        <a class="accordion-toggle" href="#profile" data-toggle="collapse" data-parent="#accordion1">
-                                                            <h3><i class="indicator fa fa-minus"></i>Profile</h3>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div id="profile" class="panel-collapse collapse in">
-                                                    <div class="panel-body">
-                                                        <div class="row">
-                                                            <aside class="col-md-12">
-                                                                <div class=" box_style_1 profile" id="profile1">
-                                                                    @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
-                                                                    @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
-                                                                    <form id="files" method="post" enctype="multipart/form-data">
-                                                                        <p class="text-center">
-                                                                            <span class="profile-pictures">
-                                                                                @if (Model.ImageURL != null)
-                                                                                {
-                                                                                    <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
-                                                                                }
-                                                                            </span>
-                                                                        </p>
-                                                                    </form>
-                                                                    <div style="margin-bottom: 20px !important;height: 50px;width: 246px;display:inline-flex;border: aliceblue solid 1px;">
-                                                                        <div>
-                                                                            <p>
-                                                                                @{
-                                                                                    string totalWalletAmount = null;
-                                                                                    if (WalletAmount != null)
-                                                                                    {
-                                                                                        totalWalletAmount = WalletAmount;
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        totalWalletAmount = "0.00";
-                                                                                    }
-                                                                                }
-                                                                                <b><span id="finalWalletAmt">Rs. @totalWalletAmount </span></b>
-                                                                                <br />
-                                                                                Your Wallet Balance
-                                                                            </p>
-                                                                        </div>
+        @if (roleID == 2)
+        {
+        <section class="section-white" style="padding: 60px 0px;">
+            <div class="container">
+                <div class="row">
+                    <div class="widget about-widget">
+                        <div class="accordion-toggle-2">
+                            <div class="panel-group" id="accordion">
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="panel-title active" id="ProfileId">
+                                                <a class="accordion-toggle" href="#profile" data-toggle="collapse" data-parent="#accordion1">
+                                                    <h3><i class="indicator fa fa-minus"></i>Profile</h3>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div id="profile" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <aside class="col-md-12">
+                                                        <div class=" box_style_1 profile" id="profile1" style="display">
+                                                            @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
+                                                            @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
+                                                            <form id="files" method="post" enctype="multipart/form-data">
+                                                                <p class="text-center">
+                                                                    <span class="profile-pictures">
+                                                                        @if (Model.ImageURL != null)
+                                                                        {
+                                                                            <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
+                                                                        }
+                                                                    </span>
+                                                                </p>
+                                                            </form>
+                                                            <div style="height: 36px;background-color: #F5F8F9;margin-bottom: 7px;padding-left: 4px;">
+                                                                <p style="padding-top: 9px;font-size: 16px;font-weight: 800;text-align:center;">My Account</p>
+                                                            </div>
+                                                            <ul class="">
+                                                                <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
+                                                                <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
+                                                                <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
+                                                                <li>Country<strong class="pull-right">@Model.Country</strong></li>
+                                                                <li>City<strong class="pull-right">@Model.City</strong></li>
+                                                            </ul>
+                                                            <div id="profile">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <a class="btn btn-block btn-primary btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
                                                                     </div>
-                                                                    <div style="height: 32px;text-align: right;margin-top: -20px;">
-                                                                        <a href="#" onclick="ShowReferralCodePopup()">Have a Referral Code?</a>
+                                                                    <div class="col-md-6">
+                                                                        <a class="btn btn-block btn-primary" id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
                                                                     </div>
-                                                                    <div style="height: 36px;background-color: #F5F8F9;margin-bottom: 7px;padding-left: 4px;">
-                                                                        <p style="padding-top: 9px;font-size: 16px;font-weight: 800;text-align:center;">My Account</p>
-                                                                    </div>
-                                                                    <ul class="">
-                                                                        <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
-                                                                        <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
-                                                                        <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
-                                                                        <li>Country<strong class="pull-right">@Model.Country</strong></li>
-                                                                        <li>City<strong class="pull-right">@Model.City</strong></li>
-                                                                        <li id="profile">
-                                                                            <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
-
-                                                                            <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
-                                                                            <div>
-                                                                                <a class="actCoupon" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
-                                                                            </div>
-
-                                                                        </li>
-                                                                    </ul>
-                                                                </div><!-- End box-sidebar -->
-                                                            </aside><!-- End aside -->
-                                                            <div class="col-md-12">
-                                                                <div id="EditProfileUser">
-                                                                    @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
-                                                                    {
-                                                                        @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
-                                                                        <div class="box_style_2">
-
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginTxt ">
-                                                                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
-                                                                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginTxt ">
-                                                                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
-                                                                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginTxt ">
-                                                                                        @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
-                                                                                        @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginTxt  ">
-                                                                                        @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
-                                                                                        @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginTxt ">
-                                                                                        @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
-                                                                                        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group  marginTxt">
-                                                                                        @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
-                                                                                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginTxt ">
-                                                                                        @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
-                                                                                        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginTxt ">
-                                                                                        @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
-                                                                                        @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginloginpwdTxt ">
-                                                                                        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
-                                                                                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                                <div class="col-md-8 col-sm-8">
-                                                                                    <div class="form-group marginloginpwdTxt ">
-                                                                                        @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
-                                                                                        @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-2 col-sm-2"></div>
-                                                                            </div>
-                                                                            <div class="Partner-btn-div marginTxt">
-                                                                                <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus" />
-                                                                                <input type="submit" value="Save" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
-                                                                            </div>
-                                                                        </div>
-                                                                    }
                                                                 </div>
-                                                            </div><!-- End col-md-12 -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <div class="panel-title" id="MycourseId">
-                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" id="AnchorMycourseId" href="#courses">
-                                                            <h3> <i class="indicator fa fa-plus"></i> Courses</h3>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div id="courses" class="panel-collapse collapse">
-                                                    <div class="panel-body"  style="height:250px;overflow-y:auto;">
-                                                        <div class="col-md-12 studentView">
-                                                            @{Html.RenderAction("AllCourseTab", "UserRegister");}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br>
-
-                                        </div>
-                                    </div><!-- accordion -->
-                                </div><!-- end widget -->
-                            </div><!-- end col -->
-                            <div class="col-md-6">
-                                <div class="widget about-widget">
-                                    <div class="accordion-toggle-2">
-                                        <div class="panel-group" id="accordion">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <div class="panel-title" id="MyNoteId">
-                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#note">
-                                                            <h3><i class="indicator fa fa-plus"></i> Notifications</h3>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div id="note" class="panel-collapse collapse">
-                                                    <div class="panel-body" style="height:250px;overflow-y:auto;">
-                                                        <div class="row" id="notification">
-                                                            <div class="col-md-12 studentView" style="width: 150%;">
-                                                                @{Html.RenderAction("AllNotification", "Notification");}
+                                                                <a class="actCoupon btn btn-block btn-primary" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <div class="panel-title" id="MyCertId">
-                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#certificate">
-                                                            <h3><i class="indicator fa fa-plus"></i> Certificate</h3>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                        </div><!-- End box-sidebar -->
+                                                    </aside><!-- End aside -->
+                                                    <div class="col-md-12">
+                                                        <div id="EditProfileUser">
+                                                            @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                                                            {
+                                                                @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
+                                                                <div class="box_style_2">
 
-                                                <div id="certificate" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        <div class="row" id="notification">
-                                                            <div class="col-md-12 studentView">
-                                                                @{Html.RenderAction("CertificateTab", "UserRegister");}
-                                                            </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginTxt ">
+                                                                                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
+                                                                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginTxt ">
+                                                                                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
+                                                                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginTxt ">
+                                                                                @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
+                                                                                @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginTxt  ">
+                                                                                @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
+                                                                                @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginTxt ">
+                                                                                @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
+                                                                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group  marginTxt">
+                                                                                @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
+                                                                                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginTxt ">
+                                                                                @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
+                                                                                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginTxt ">
+                                                                                @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
+                                                                                @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginloginpwdTxt ">
+                                                                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
+                                                                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-8 col-sm-8">
+                                                                            <div class="form-group marginloginpwdTxt ">
+                                                                                @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
+                                                                                @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                    <div class="Partner-btn-div marginTxt row">
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <input type="button" value="Cancel" id="cancelbtn" style="margin:0px 0px;" class="btnCancel btmMarTop btnFocus btn btn-block btn-primary" />
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4">
+                                                                            <input type="submit" value="Save" style="padding:0px 0px; margin:0px 0px" class="btnRegister btmMarTop btnFocus btn btn-block btn-primary" onclick="return ValidateProfileData();" />
+                                                                        </div>
+                                                                        <div class="col-md-2 col-sm-2"></div>
+                                                                    </div>
+                                                                </div>
+                                                            }
                                                         </div>
-                                                    </div>
+                                                    </div><!-- End col-md-12 -->
                                                 </div>
                                             </div>
-                                            <br>
                                         </div>
                                     </div>
+                                    <br>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="widget about-widget">
-                                    <div class="accordion-toggle-2">
-                                        <div class="panel-group" id="accordion" style="margin-top: -20px;">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <div class="panel-title" id="MyordersId">
-                                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#orders">
-                                                            <h3><i class="indicator fa fa-plus"></i> Orders</h3>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div id="orders" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        @{Html.RenderAction("OrderTab", "UserRegister");}
-                                                    </div>
-                                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="panel-title" id="MyNoteId">
+                                                <a class="accordion-toggle" href="#note" data-toggle="collapse" data-parent="#accordion1">
+                                                    <h3><i class="indicator fa fa-plus"></i> Notifications</h3>
+                                                </a>
                                             </div>
-                                            <br>
+                                        </div>
+                                        <div id="note" class="panel-collapse collapse">
+                                            <div class="panel-body" style="height:250px;overflow-y:auto;overflow-x: hidden;">
+                                                <div class="row" id="notification">
+                                                    <div class="col-md-12 studentView">
+                                                        @{Html.RenderAction("AllNotification", "Notification");}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <br>
                                 </div>
-                               </div><!-- end row -->
-                           </div><!-- end container -->
-             </section><!-- end section-white -->
-           }
-           else
-           {
-                <div class="col-md-6">
-                    <!--  Tabs -->
-                    <ul class="nav nav-tabs custom-tabs" id="mytabs">
-                        <li class="active" id="ProfileId"><a href="#profile" data-toggle="tab">Profile</a></li>
-                    </ul>
-                    <div class="tab-content Profilepages-tabs">
-                        <div class="tab-pane fade in active">
-                            <div class="row">
-                                <aside class="col-md-12">
-                                    <div class=" box_style_1 profile" id="profile1"> 
-                                        @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
-                                        @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
-                                        <!-- #section:pages/profile.picture -->
-                                        <form id="files" method="post" enctype="multipart/form-data">
-                                            <p class="text-center">
-                                                <span class="profile-pictures">
-                                                    @if (Model.ImageURL != null)
-                                                    {
-                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
-                                                    }
-                                                    else
-                                                    {
-                                                        <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
-                                                    }
-                                                </span>
-                                            </p>
-                                        </form>
-                                        <ul>
-                                            <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
-                                            <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
-                                            <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
-                                            <li>Country<strong class="pull-right">@Model.Country</strong></li>
-                                            <li>City<strong class="pull-right">@Model.City</strong></li>
-                                            <li id="profile">
-                                                <img src="~/Content/learn/img/edit-profile.jpg" alt="">
-                                                <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
-
-                                                <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
-                                                <div style="text-align:center;">
-                                                    <a class="actCoupon" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div><!-- End box-sidebar -->
-                                </aside><!-- End aside -->
                                 <div class="col-md-12">
-                                    <div id="EditProfileUser">
-                                        @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
-                                        {
-                                            @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
-                                            <div class="box_style_2">
-
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
-                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
-                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
-                                                            @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt  ">
-                                                            @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
-                                                            @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
-                                                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group  marginTxt">
-                                                            @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
-                                                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
-                                                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginTxt ">
-                                                            @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
-                                                            @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginloginpwdTxt ">
-                                                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
-                                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                    <div class="col-md-8 col-sm-8">
-                                                        <div class="form-group marginloginpwdTxt ">
-                                                            @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
-                                                            @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2 col-sm-2"></div>
-                                                </div>
-                                                <div class="Partner-btn-div marginTxt">
-                                                    <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus" />
-                                                    <input type="submit" value="Save" class="btnRegister btmMarTop btnFocus" onclick="return ValidateProfileData();" />
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="panel-title" id="MycourseId">
+                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" id="AnchorMycourseId" href="#courses">
+                                                    <h3> <i class="indicator fa fa-plus"></i> Courses</h3>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div id="courses" class="panel-collapse collapse">
+                                            <div class="panel-body" style="height:250px;overflow-y:auto;">
+                                                <div class="col-md-12 studentView">
+                                                    @{Html.RenderAction("AllCourseTab", "UserRegister");}
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
                                     </div>
-                                </div><!-- End col-md-8 -->
-                            </div><!-- End row -->
-                        </div><!-- End tab-pane -->
-                    </div><!-- End col-md-8-->
-                </div>
-            }
+                                    <br>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="panel-title" id="MyCertId">
+                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#certificate">
+                                                    <h3><i class="indicator fa fa-plus"></i> Certificate</h3>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div id="certificate" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="row" id="notification">
+                                                    <div class="col-md-12 studentView">
+                                                        @{Html.RenderAction("CertificateTab", "UserRegister");}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <div class="panel-title" id="MyordersId">
+                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#orders">
+                                                    <h3><i class="indicator fa fa-plus"></i> Orders</h3>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div id="orders" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                @{Html.RenderAction("OrderTab", "UserRegister");}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div><!-- accordion -->
+                        </div><!-- end widget -->
+                    </div><!-- end col -->
+                </div><!-- end row -->
+            </div><!-- end container -->
+        </section><!-- end section-white -->
+       }
+       else
+       {
+           <div class="col-md-6">
+               <!--  Tabs -->
+               <ul class="nav nav-tabs custom-tabs" id="mytabs">
+                   <li class="active" id="ProfileId"><a href="#profile" data-toggle="tab">Profile</a></li>
+               </ul>
+               <div class="tab-content Profilepages-tabs">
+                   <div class="tab-pane fade in active">
+                       <div class="row">
+                           <aside class="col-md-12">
+                               <div class=" box_style_1 profile" id="profile1">
+                                   @Html.HiddenFor(model => model.PhoneNumber, new { id = "hiddenMobile" })
+                                   @Html.HiddenFor(model => model.EmailId, new { id = "hiddenEmail" })
+                                   <!-- #section:pages/profile.picture -->
+                                   <form id="files" method="post" enctype="multipart/form-data">
+                                       <p class="text-center">
+                                           <span class="profile-pictures">
+                                               @if (Model.ImageURL != null)
+                                               {
+                                                   <img id="avatar" class="editable img-responsive img-circle styled profImg" style="width: 120px !important;" alt="Profile Image Not Found" src="@String.Format("/Images/UsersImg/{0}", Model.ImageURL)">
+                                               }
+                                               else
+                                               {
+                                                   <img id="avatar" class="editable img-responsive img-circle styled profImg" alt="Profile Image Not Found" src="~/Content/assets/avatars/ProfileImage.png">
+                                               }
+                                           </span>
+                                       </p>
+                                   </form>
+                                   <ul>
+                                       <li>Name <strong class="pull-right"> @Model.FullName </strong> </li>
+                                       <li>Email <strong class="pull-right">@Model.EmailId</strong></li>
+                                       <li>Phone<strong class="pull-right">@Model.PhoneNumber</strong></li>
+                                       <li>Country<strong class="pull-right">@Model.Country</strong></li>
+                                       <li>City<strong class="pull-right">@Model.City</strong></li>
+                                       <li id="profile">
+                                           <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
+
+                                           <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
+                                           <a class="actCoupon btn btn-block btn-primary" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
+                                       </li>
+                                   </ul>
+                               </div><!-- End box-sidebar -->
+                           </aside><!-- End aside -->
+                           <div class="col-md-12">
+                               <div id="EditProfileUser">
+                                   @using (Html.BeginForm("SaveProfile", "UserRegister", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                                   {
+                                       @Html.HiddenFor(model => model.UserId)  @Html.HiddenFor(model => model.UserName)  @Html.ValidationSummary(true)
+                                       <div class="box_style_2">
+
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginTxt ">
+                                                       @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control style_2", id = "FirstNameTxt", name = "FirstNameTxt", placeholder = "Enter First Name" })
+                                                       @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger errorFirstName" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginTxt ">
+                                                       @Html.TextBoxFor(model => model.LastName, new { @class = "form-control style_2", id = "LastNameTxt", name = "LastNameTxt", placeholder = "Enter Last Name" })
+                                                       @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger errorLastName" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginTxt ">
+                                                       @Html.TextBoxFor(model => model.AddressLine1, new { @class = "form-control style_2", id = "AddressLine1Txt", name = "AddressLine1Txt", placeholder = "Enter Address Line 1" })
+                                                       @Html.ValidationMessageFor(model => model.AddressLine1, "", new { @class = "text-danger errorAddressLine1" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginTxt  ">
+                                                       @Html.TextBoxFor(model => model.AddressLine2, new { @class = "form-control style_2", id = "AddressLine2Txt", name = "AddressLine2Txt", placeholder = "Enter Address Line 2" })
+                                                       @Html.ValidationMessageFor(model => model.AddressLine2, "", new { @class = "text-danger errorAddressLine2" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginTxt ">
+                                                       @Html.TextBoxFor(model => model.City, new { @class = "form-control style_2", id = "CityTxt", name = "CityTxt", placeholder = "Enter City" })
+                                                       @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger errorCity" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group  marginTxt">
+                                                       @Html.TextBoxFor(model => model.State, new { @class = "form-control style_2", id = "StateTxt", name = "StateTxt", placeholder = "Enter State" })
+                                                       @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger errorState" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginTxt ">
+                                                       @Html.TextBoxFor(model => model.Country, new { @class = "form-control style_2", id = "CountryTxt", name = "CountryTxt", placeholder = "Enter Country" })
+                                                       @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger errorCountry" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginTxt ">
+                                                       @Html.TextBoxFor(model => model.ZipCode, new { @class = "form-control style_2", id = "ZipCodeTxt", name = "ZipCodeTxt", placeholder = "Enter Zip Code" })
+                                                       @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger errorZipCode" })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginloginpwdTxt ">
+                                                       @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
+                                                       @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-8 col-sm-8">
+                                                   <div class="form-group marginloginpwdTxt ">
+                                                       @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control style_2", id = "EmailTxt", name = "EmailTxt", placeholder = "Enter Email ID", @readonly = "readonly" })
+                                                       @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger errorEmailTxt " })
+                                                   </div>
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                           <div class="Partner-btn-div marginTxt row">
+                                               <div class="col-md-2 col-sm-2"></div>
+                                               <div class="col-md-4 col-sm-4">
+                                                   <input type="button" value="Cancel" id="cancelbtn" style="margin:0px 0px;" class="btnCancel btmMarTop btnFocus btn btn-block btn-primary" />
+                                               </div>
+                                               <div class="col-md-4 col-sm-4">
+                                                   <input type="submit" value="Save" style="padding:0px 0px; margin:0px 0px" class="btnRegister btmMarTop btnFocus btn btn-block btn-primary" onclick="return ValidateProfileData();" />
+                                               </div>
+                                               <div class="col-md-2 col-sm-2"></div>
+                                           </div>
+                                       </div>
+                                   }
+                               </div>
+                           </div><!-- End col-md-8 -->
+                       </div><!-- End row -->
+                   </div><!-- End tab-pane -->
+               </div><!-- End col-md-8-->
+           </div>
+       }
         </div><!-- End row-->
     </div><!-- End container -->
 </section>
@@ -523,19 +503,18 @@
         <div class="">
             <div class="container">
                 <div class="row">
-                    <div class="">
                         <div id="login" class="col-sm-5">
                             <div class="form-group retiveEmldiv"><label class="retiveEmlLbl">Reset Password</label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
                             <div class="hideDiv">
-                                <input id="oldPwd" type="password" class=" form-control" placeholder="Old Password">
+                                <input id="oldPwd" type="password" class=" form-control" placeholder="Old Password" style="background-color:white;">
                             </div>
                             <div class="hideDiv"><label id="oldPwdErrorLbl" class="colorRed"></label></div>
                             <div class="hideDiv">
-                                <input id="newPwd" type="password" class=" form-control " placeholder="New Password">
+                                <input id="newPwd" type="password" class=" form-control " placeholder="New Password" style="background-color:white;">
                             </div>
                             <div class="hideDiv"><label id="newPwdErrorLbl" class="colorRed"></label></div>
                             <div class="hideDiv">
-                                <input id="confirmPwd" type="password" class=" form-control " placeholder="Confirm password">
+                                <input id="confirmPwd" type="password" class=" form-control " placeholder="Confirm password" style="background-color:white;">
                             </div>
                             <div class="hideDiv"><label id="confirmPwdErrorLbl" class="colorRed"></label></div>
 
@@ -543,7 +522,6 @@
                             <div id="ResetBtnDiv" class="rightAlign"><input type="button" value="Reset" id="Regbtn" class="btnRegister btnForword" onclick="ResetPwdBtn()" /></div>
                             <div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -559,7 +537,7 @@
                             <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Are you sure you want to deactivate your account?</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
                             <div class="hideDiv">
                                 <p>
-                                    Deactivating your account will disable your profile and you will no longer be able to login to the MillionLights Portal.
+                                    Deactivating your account will disable your profile and you will no longer be able to login to the Edunetworks Portal.
                                 </p>
                             </div>
                             <div id="DeactivateAccount" class="rightAlign">
@@ -581,8 +559,8 @@
                     <div class="">
                         <div id="login" class="col-sm-5">
                             <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Please submit valid referral code to get rewards</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
-                            <div class="hideDiv aligntextcenter" >
-                                <input type="text" id="ReferralCode" placeholder="Enter Referral Code"/><br />
+                            <div class="hideDiv aligntextcenter">
+                                <input type="text" id="ReferralCode" placeholder="Enter Referral Code" /><br />
                                 <label id="errorReferralCode" class="errorReferralCode text-danger"></label>
                             </div>
                             <br />
@@ -613,13 +591,13 @@
                             </div>
                             <div class="hideDiv aligntextcenter">
                                 <label id="errorShareCode" class="errorShareCode text-danger"></label>
-                             </div>
+                            </div>
                             <br />
                             <div id="DeactivateAccount" class="aligntextcenter">
                                 <input type="button" value="Cancel" id="CancelShareCodeBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelShareCode()" />
                                 <input type="button" value="Share Code" id="ShareCodeBtn" class="btnRegister btnForword" onclick="return ShareCode()" />
                             </div>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -638,7 +616,7 @@
                                 <p>
                                     Your account has been deactivated.
                                     <br />
-                                    To reactivate your account, drop us a mail on <a href="mailto:support@Millionlights.org">support@millionlights.org</a>.
+                                    To reactivate your account, drop us a mail on <a href="mailto:support@edunetworks.com">support@edunetworks.com</a>.
                                     We will activate your account and you will then be able to use the site as before.
                                     We hope you come back soon.
                                 </p>
@@ -661,8 +639,8 @@
                             <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Account Deactivation Fails</b></label></div>
                             <div class="hideDiv">
                                 <p>
-                                    Your account deactivation request is failed. Please try again or drop us a mail on <a href="mailto:support@Millionlights.org">support@millionlights.org</a>.
-                                    We will deactivate your account and you will no longer be able to login to MillionLights Portal.
+                                    Your account deactivation request is failed. Please try again or drop us a mail on <a href="mailto:support@edunetworks.com">support@edunetworks.com</a>.
+                                    We will deactivate your account and you will no longer be able to login to Edunetworks Portal.
                                     Sorry for the Inconvenience.
                                 </p>
                             </div>
@@ -723,12 +701,13 @@
             });
         }
         $("#editProfile").click(function () {
-            $("#profile1").replaceWith($("#EditProfileUser").html());
+            $('#profile1').hide();
+            $('#EditProfileUser').show();
         });
 
         $("#cancelbtn").click(function () {
-            $("#profile1").show();
-            //$("#EditProfileUser").replaceWith($("#profile1").show());
+            $('#EditProfileUser').hide();
+            $('#profile1').show();
         });
         $('#OrdersGridview').DataTable();
         //$('#CouponsGridview').DataTable();
@@ -1422,7 +1401,7 @@
                         else{
                             successMsg="Congratulations! The referral code " + codeToShare + " has been shared with: Email/Phone - "+shareCodeEmailId+"/"+shareCodePhoneNo;
                         }
-                        
+
                         $('#ShowSearchCodeModel').modal('hide');
                         $('.errorShareCode')[0].innerHTML = "";
                         bootbox.dialog({
