@@ -230,12 +230,12 @@
                                                             @if (courseCatName.Length > 21)
                                                             {
                                                                 <div class="cat_row">
-                                                                    <a href="#">
+                                                                    <a href="#" class="meta">
                                                                         @tempCourseCatName<span title="@courseCatName">...</span>
                                                                     </a>
                                                                 </div>
                                                                 <div class="cat_row">
-                                                                    <span class="">
+                                                                    <span class="meta">
                                                                         <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
                                                                     </span>
                                                                 </div>
@@ -243,12 +243,12 @@
                                                             else
                                                             {
                                                                 <div class="cat_row">
-                                                                    <a href="#">
+                                                                    <a href="#" class="meta">
                                                                         @tempCourseCatName
                                                                     </a>
                                                                 </div>
                                                                 <div class="cat_row">
-                                                                    <span class="">
+                                                                    <span class="meta">
                                                                         <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
                                                                     </span>
                                                                 </div>
@@ -269,16 +269,12 @@
                                                             }
                                                             @if (courseName.Length > 32)
                                                             {
-                                                                <div>
                                                                     <h4>@tempCourseName <span title="@courseName">...</span></h4>
 
-                                                                </div>
                                                             }
                                                             else
                                                             {
-                                                                <div>
                                                                     <h4>@tempCourseName</h4>
-                                                                </div>
                                                             }
                                                         </div>
                                                         <div class="activateCoupan-shortDesc" style="height: 60px;"><p>@course.ShortDescription</p></div>
@@ -300,11 +296,11 @@
                                                             <div class="price pull-right">
                                                                 @if (course.BasePrice == 0)
                                                                 {
-                                                                    <p>Free</p>
+                                                                    <p class="meta">Free</p>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <p>Rs.@course.BasePrice</p>
+                                                                    <p class="meta">Rs.@course.BasePrice</p>
                                                                 }
                                                             </div>
 

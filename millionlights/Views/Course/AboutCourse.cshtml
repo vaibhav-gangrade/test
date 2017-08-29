@@ -122,13 +122,13 @@
                                        @if (courseCatName.Length > 21)
                                        {
                                                <a href="#">
-                                                   @tempCourseCatName<span title="@courseCatName">...</span>
+                                                   <strong>@tempCourseCatName<span title="@courseCatName">...</span></strong>
                                                </a>
                                        }
                                        else
                                        {
                                                <a href="#">
-                                                   @tempCourseCatName
+                                                   <strong>@tempCourseCatName</strong> 
                                                </a>
                                        }
                                     <li>Course Duration : <a href="#"><strong> @courseDetails.Duration (Days)</strong></a>
@@ -146,7 +146,7 @@
                                     <li>Cost :
                                      @if (courseDetails.BasePrice == 0)
                                      {
-                                         <span> Free</span>
+                                         <strong>Free</strong>
                                      }
                                      else
                                      {

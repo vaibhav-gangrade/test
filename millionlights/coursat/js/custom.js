@@ -198,20 +198,37 @@ SEARCH -->
 		$ctsearchinput = $ctsearch.find('input.dmsearch-input'),
 		$body = $('html,body'),
 		openSearch = function() {
-			$ctsearch.data('open',true).addClass('dmsearch-open');
+            $ctsearch.data('open', true).addClass('dmsearch-open');
+            $("#show1").show();
 			$ctsearchinput.focus();
 			return false;
 		},
 		closeSearch = function() {
-			$ctsearch.data('open',false).removeClass('dmsearch-open');
+            $ctsearch.data('open', false).removeClass('dmsearch-open');
+            $("#show1").hide();
 		};
 
-	$ctsearchinput.on('click',function(e) { e.stopPropagation(); $ctsearch.data('open',true); });
+    $ctsearchinput.on('click', function (e) {
+        e.stopPropagation(); $ctsearch.data('open', true);
+        //if ($("#show1").is(":visible")) {
+        //    $("#show1").hide();
+        //}
+
+        //else {
+        //    $("#show1").show()
+        //}
+    });
 
 	$ctsearch.on('click',function(e) {
 		e.stopPropagation();
 		if( !$ctsearch.data('open') ) {
+            //if ($("#show1").is(":visible")) {
+            //    $("#show1").hide();
+            //}
 
+            //else {
+            //    $("#show1").show()
+            //}
 			openSearch();
 
 			$body.off( 'click' ).on( 'click', function(e) {
@@ -220,7 +237,7 @@ SEARCH -->
 
 		}
 		else {
-			if( $ctsearchinput.val() === '' ) {
+			if( $ctsearchinput.value === '' ) {
 				closeSearch();
 				return false;
 			}
