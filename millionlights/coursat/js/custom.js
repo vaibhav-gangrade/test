@@ -199,48 +199,34 @@ SEARCH -->
 		$body = $('html,body'),
 		openSearch = function() {
             $ctsearch.data('open', true).addClass('dmsearch-open');
-            $("#show1").show();
+            $("#hideshow").show();
 			$ctsearchinput.focus();
 			return false;
 		},
 		closeSearch = function() {
             $ctsearch.data('open', false).removeClass('dmsearch-open');
-            $("#show1").hide();
+            $("#hideshow").hide();
 		};
 
     $ctsearchinput.on('click', function (e) {
-        e.stopPropagation(); $ctsearch.data('open', true);
-        //if ($("#show1").is(":visible")) {
-        //    $("#show1").hide();
-        //}
-
-        //else {
-        //    $("#show1").show()
-        //}
+        e.stopPropagation();
+        $ctsearch.data('open', true);
+        openSearch();
     });
 
 	$ctsearch.on('click',function(e) {
-		e.stopPropagation();
-		if( !$ctsearch.data('open') ) {
-            //if ($("#show1").is(":visible")) {
-            //    $("#show1").hide();
-            //}
-
-            //else {
-            //    $("#show1").show()
-            //}
-			openSearch();
+        e.stopPropagation();
+        if (!$ctsearch.data('open')) {
+            openSearch();
 
 			$body.off( 'click' ).on( 'click', function(e) {
 				closeSearch();
 			} );
-
 		}
 		else {
-			if( $ctsearchinput.value === '' ) {
-				closeSearch();
-				return false;
-			}
+            if ($ctsearchinput.value === '') {
+                closeSearch();
+            }
 		}
 	});
 

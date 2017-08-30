@@ -35,10 +35,10 @@
 
                             <div id="dmsearch" class="dmsearch">
                                 <form id="search-form" action="#" method="get">
-                                    <div id="show1" class="input-group">
-                                        <input id="search" class="dmsearch-input form-control style-2 typeahead scrollable" type="text" name="search" value="" placeholder="Search">
+                                    <div id="hideshow" class="input-group">
+                                        <input id="search" class="dmsearch-input form-control style-2 typeahead scrollable" type="text" name="search" value="" placeholder="Search" style="background-color:white;" />
                                     </div>
-                                    <input id="CourseID" class="dmsearch-submit" type="submit" value="submit">
+                                    <input id="CourseID" class="dmsearch-submit" type="submit" value="">
                                     <span class="fa fa-search" style="z-index:2;"></span>
                                 </form> <!-- end searchform -->
                             </div><!-- end search -->
@@ -228,7 +228,7 @@
 
     });
 
-    $("#show1").hide();
+    $("#hideshow").hide();
     $('#search').typeahead({
         hint: true,
         highlight: true,
