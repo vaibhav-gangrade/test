@@ -642,6 +642,7 @@
     <Content Include="Content\learn\img\favicons\apple-icon.png" />
     <Content Include="Content\learn\img\favicons\browserconfig.xml" />
     <Content Include="Content\learn\img\favicons\favicon-16x16.png" />
+    <Content Include="Content\learn\img\favicons\favicon-256x256.png" />
     <Content Include="Content\learn\img\favicons\favicon-32x32.png" />
     <Content Include="Content\learn\img\favicons\favicon-96x96.png" />
     <Content Include="Content\learn\img\favicons\favicon.ico" />

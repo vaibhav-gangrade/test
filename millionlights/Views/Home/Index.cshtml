@@ -684,21 +684,7 @@
         document.cookie = cookieName + "=" + escape(cookieValue)
         + ";expires=" + expire.toGMTString() + "; path=/";
     }
-
-    $("#CourseID").click(function () {
-    
-        var searchTextFind = $('#search')[0].value;
-        var searchTextCat = searchTextFind.split("in category");
-        var searchText = searchTextCat[0];
-    
-    
-        if (searchText != "") {
-            window.location.href = "/Course/AllCourses?id=0&type=none&courseName=" + searchText;
-            return false;
-        }
-    });
-
-         </script>
+  </script>
 
          <script type="text/javascript">   
          </script>
@@ -937,39 +923,5 @@
         });
 
     });
-
-    $('#search').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-            name: 'course',
-            displayKey: 'value',
-            source: substringMatcher(getCourse())
-        });
-    function getCourse() {
-        var bindCourseList = [];
-        $.ajax({
-            type: "POST",
-            async: true,
-            data: "",
-            contentType: 'application/json; charset=utf-8',
-            url: "/Course/GetCourses",
-            success: function (response) {
-                for (var i = 0; i < response.length; i++) {
-                    courseList.push({ cid: response[i][0].Value, cname: response[i][1].Value });
-                    var courseName = response[i][0].Value;
-                    bindCourseList.push(courseName);
-                }
-                return bindCourseList;
-            },
-            error: function (response) {
-                localStorage.clear();
-            }
-        });
-
-        return bindCourseList;
-    }
-
 
 </script>

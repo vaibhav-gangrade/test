@@ -310,7 +310,7 @@
                                             </div>
                                         </div>
                                         <div id="orders" class="panel-collapse collapse">
-                                            <div class="panel-body">
+                                            <div class="panel-body" style="height:250px;overflow-y:auto;">
                                                 @{Html.RenderAction("OrderTab", "UserRegister");}
                                             </div>
                                         </div>
@@ -654,7 +654,6 @@
 </div>
 
 
-
 <script type="text/javascript">
     $(document).ready(function () {
         debugger
@@ -709,7 +708,7 @@
             $('#EditProfileUser').hide();
             $('#profile1').show();
         });
-        $('#OrdersGridview').DataTable();
+        //$('#OrdersGridview').DataTable();
         //$('#CouponsGridview').DataTable();
 
         var coupanId = 0;

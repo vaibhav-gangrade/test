@@ -45,12 +45,12 @@
             }
         </tbody>
     </table>
-    <div id='Paging' style="text-align:center">
+    @*<div id='Paging' style="text-align:center">
         Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
         of @Model.PageCount
 
         @Html.PagedListPager(Model, page => Url.Action("OrderTab", new { page }))
-    </div>
+    </div>*@
 </div><!-- End col-md-8  -->
             @*</div><!-- End row -->
         </div>

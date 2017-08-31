@@ -98,3 +98,7 @@ input[type="text"].dmsearch-input {
     white-space: nowrap !important;
     overflow: hidden !important;
 }
+
+#search {
+    float: inherit;
+}
