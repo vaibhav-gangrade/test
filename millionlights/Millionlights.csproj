@@ -642,6 +642,7 @@
     <Content Include="Content\learn\img\favicons\apple-icon.png" />
     <Content Include="Content\learn\img\favicons\browserconfig.xml" />
     <Content Include="Content\learn\img\favicons\favicon-16x16.png" />
+    <Content Include="Content\learn\img\favicons\favicon-256x256.png" />
     <Content Include="Content\learn\img\favicons\favicon-32x32.png" />
     <Content Include="Content\learn\img\favicons\favicon-96x96.png" />
     <Content Include="Content\learn\img\favicons\favicon.ico" />
@@ -692,7 +693,9 @@
     <Content Include="coursat\fonts\font-awesome-4.3.0\css\font-awesome.min.css" />
     <Content Include="coursat\fonts\font-awesome-4.3.0\fonts\fontawesome-webfont.svg" />
     <Content Include="coursat\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="coursat\fonts\Stroke-Gap-Icons.svg" />
+    <Content Include="coursat\fonts\Stroke-Gap-Icons.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="coursat\images\apple-touch-icon-114x114.png" />
     <Content Include="coursat\images\apple-touch-icon-72x72.png" />
     <Content Include="coursat\images\apple-touch-icon.png" />
@@ -1752,9 +1755,15 @@
     <Content Include="coursat\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="coursat\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="coursat\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="coursat\fonts\Stroke-Gap-Icons.eot" />
-    <Content Include="coursat\fonts\Stroke-Gap-Icons.ttf" />
-    <Content Include="coursat\fonts\Stroke-Gap-Icons.woff" />
+    <Content Include="coursat\fonts\Stroke-Gap-Icons.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="coursat\fonts\Stroke-Gap-Icons.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="coursat\fonts\Stroke-Gap-Icons.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="coursat\js\jquery.min.map" />
     <Content Include="coursat\rs-plugin\assets\arrows.psd" />
     <Content Include="coursat\rs-plugin\assets\bullets.psd" />

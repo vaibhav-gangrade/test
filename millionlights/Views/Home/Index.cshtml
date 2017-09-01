@@ -2,6 +2,7 @@
 @using System.Linq;
 @using System.Collections;
 @{
+    ViewBag.Title = "Edunetwork";
     var freeCourses = ViewBag.FreeCourses;
     var freeCourseCounterTemp = ViewBag.FreeCoursesCounter;
     var userCount = ViewBag.UserCount;
@@ -230,12 +231,12 @@
                                                             @if (courseCatName.Length > 21)
                                                             {
                                                                 <div class="cat_row">
-                                                                    <a href="#">
+                                                                    <a href="#" class="meta">
                                                                         @tempCourseCatName<span title="@courseCatName">...</span>
                                                                     </a>
                                                                 </div>
                                                                 <div class="cat_row">
-                                                                    <span class="">
+                                                                    <span class="meta">
                                                                         <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
                                                                     </span>
                                                                 </div>
@@ -243,12 +244,12 @@
                                                             else
                                                             {
                                                                 <div class="cat_row">
-                                                                    <a href="#">
+                                                                    <a href="#" class="meta">
                                                                         @tempCourseCatName
                                                                     </a>
                                                                 </div>
                                                                 <div class="cat_row">
-                                                                    <span class="">
+                                                                    <span class="meta">
                                                                         <i class="fa fa-clock-o" aria-hidden="true"></i> @course.Duration (Days)
                                                                     </span>
                                                                 </div>
@@ -269,16 +270,12 @@
                                                             }
                                                             @if (courseName.Length > 32)
                                                             {
-                                                                <div>
                                                                     <h4>@tempCourseName <span title="@courseName">...</span></h4>
 
-                                                                </div>
                                                             }
                                                             else
                                                             {
-                                                                <div>
                                                                     <h4>@tempCourseName</h4>
-                                                                </div>
                                                             }
                                                         </div>
                                                         <div class="activateCoupan-shortDesc" style="height: 60px;"><p>@course.ShortDescription</p></div>
@@ -300,11 +297,11 @@
                                                             <div class="price pull-right">
                                                                 @if (course.BasePrice == 0)
                                                                 {
-                                                                    <p>Free</p>
+                                                                    <p class="meta">Free</p>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <p>Rs.@course.BasePrice</p>
+                                                                    <p class="meta">Rs.@course.BasePrice</p>
                                                                 }
                                                             </div>
 
@@ -687,21 +684,7 @@
         document.cookie = cookieName + "=" + escape(cookieValue)
         + ";expires=" + expire.toGMTString() + "; path=/";
     }
-
-    $("#CourseID").click(function () {
-    
-        var searchTextFind = $('#search')[0].value;
-        var searchTextCat = searchTextFind.split("in category");
-        var searchText = searchTextCat[0];
-    
-    
-        if (searchText != "") {
-            window.location.href = "/Course/AllCourses?id=0&type=none&courseName=" + searchText;
-            return false;
-        }
-    });
-
-         </script>
+  </script>
 
          <script type="text/javascript">   
          </script>
@@ -940,39 +923,5 @@
         });
 
     });
-
-    $('#search').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-    }, {
-            name: 'course',
-            displayKey: 'value',
-            source: substringMatcher(getCourse())
-        });
-    function getCourse() {
-        var bindCourseList = [];
-        $.ajax({
-            type: "POST",
-            async: true,
-            data: "",
-            contentType: 'application/json; charset=utf-8',
-            url: "/Course/GetCourses",
-            success: function (response) {
-                for (var i = 0; i < response.length; i++) {
-                    courseList.push({ cid: response[i][0].Value, cname: response[i][1].Value });
-                    var courseName = response[i][0].Value;
-                    bindCourseList.push(courseName);
-                }
-                return bindCourseList;
-            },
-            error: function (response) {
-                localStorage.clear();
-            }
-        });
-
-        return bindCourseList;
-    }
-
 
 </script>

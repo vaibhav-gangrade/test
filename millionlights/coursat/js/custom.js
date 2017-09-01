@@ -198,32 +198,35 @@ SEARCH -->
 		$ctsearchinput = $ctsearch.find('input.dmsearch-input'),
 		$body = $('html,body'),
 		openSearch = function() {
-			$ctsearch.data('open',true).addClass('dmsearch-open');
+            $ctsearch.data('open', true).addClass('dmsearch-open');
+            $("#hideshow").show();
 			$ctsearchinput.focus();
 			return false;
 		},
 		closeSearch = function() {
-			$ctsearch.data('open',false).removeClass('dmsearch-open');
+            $ctsearch.data('open', false).removeClass('dmsearch-open');
+            $("#hideshow").hide();
 		};
 
-	$ctsearchinput.on('click',function(e) { e.stopPropagation(); $ctsearch.data('open',true); });
+    $ctsearchinput.on('click', function (e) {
+        e.stopPropagation();
+        $ctsearch.data('open', true);
+        openSearch();
+    });
 
 	$ctsearch.on('click',function(e) {
-		e.stopPropagation();
-		if( !$ctsearch.data('open') ) {
-
-			openSearch();
+        e.stopPropagation();
+        if (!$ctsearch.data('open')) {
+            openSearch();
 
 			$body.off( 'click' ).on( 'click', function(e) {
 				closeSearch();
 			} );
-
 		}
 		else {
-			if( $ctsearchinput.val() === '' ) {
-				closeSearch();
-				return false;
-			}
+            if ($ctsearchinput.value === '') {
+                closeSearch();
+            }
 		}
 	});
 

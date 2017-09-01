@@ -32,13 +32,14 @@
                         <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"><a href="/Home/Contact">Contact</a></li>
                        
                         <li class="noborder">
+
                             <div id="dmsearch" class="dmsearch">
                                 <form id="search-form" action="#" method="get">
-                                    <div class="dm-search-container">
-                                        <input id="search" class="form-control style-2 typeahead scrollable" type="text" placeholder="Search">
+                                    <div id="hideshow" class="input-group">
+                                        <input id="search" class="dmsearch-input form-control style-2 typeahead scrollable" type="text" name="search" value="" placeholder="Search" style="background-color:white;" />
                                     </div>
-                                    <input id="CourseID" class="dmsearch-submit" type="submit" value="">
-                                    <span class="fa fa-search"></span>
+                                    <input id="CourseID" class="dmsearch-submit btn" type="submit" value="">
+                                    <span class="fa fa-search" style="z-index:2;"></span>
                                 </form> <!-- end searchform -->
                             </div><!-- end search -->
                         </li>
@@ -85,6 +86,31 @@
         </div><!-- end container -->
     </header><!-- end header -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript">
+    var substringMatcher = function (strs) {
+        return function findMatches(q, cb) {
+            var matches, substringRegex;
+
+            // an array that will be populated with substring matches
+            matches = [];
+
+            // regex used to determine if a string contains the substring `q`
+            substrRegex = new RegExp(q, 'i');
+
+            // iterate through the pool of strings and for any string that
+            // contains the substring `q`, add it to the `matches` array
+            $.each(strs, function (i, str) {
+                if (substrRegex.test(str)) {
+                    // the typeahead jQuery plugin expects suggestions to a
+                    // JavaScript object, refer to typeahead docs for more info
+                    matches.push({ value: str });
+                }
+            });
+
+            cb(matches);
+        }
+    }
+</script>
     <script type="text/javascript">
 
     var currentCourses = '';
@@ -202,6 +228,7 @@
 
     });
 
+    $("#hideshow").hide();
     $('#search').typeahead({
         hint: true,
         highlight: true,
