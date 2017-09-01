@@ -18,8 +18,9 @@
     {
         if (roleID == 1 || roleID == 3)
         {
-            Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            <script src="~/coursat/js/jquery.min.js"></script>
+            //Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+            //Layout = "~/Views/Shared/_Layout.cshtml";
+            //<script src="~/coursat/js/jquery.min.js"></script>
         }
         else
         {
@@ -323,14 +324,15 @@
                 </div><!-- end row -->
             </div><!-- end container -->
         </section><!-- end section-white -->
-       }
-       else
-       {
+                                                    }
+                                                    else
+                                                    {
+                                                       // @Html.Partial("~/Views/Shared/_AceMainHeader.cshtml")
            <div class="col-md-6">
                <!--  Tabs -->
-               <ul class="nav nav-tabs custom-tabs" id="mytabs">
+               @*<ul class="nav nav-tabs custom-tabs" id="mytabs">
                    <li class="active" id="ProfileId"><a href="#profile" data-toggle="tab">Profile</a></li>
-               </ul>
+               </ul>*@
                <div class="tab-content Profilepages-tabs">
                    <div class="tab-pane fade in active">
                        <div class="row">

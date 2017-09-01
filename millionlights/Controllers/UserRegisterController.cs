@@ -110,6 +110,11 @@ namespace Millionlights.Controllers
             {
                 ViewBag.ReferralCodeToShare = refCodes.ReferralCode;
             }
+            var roleID = int.Parse(Session["RoleID"].ToString());
+            if (roleID == 1 || roleID == 3)
+            {
+                return View("AdminProfile", urg);
+            }
             return View(urg);
         }
 

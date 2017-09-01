@@ -62,8 +62,8 @@ namespace Millionlights.Controllers
                 p.Duration = item.Duration;
                 p.NoOfSessions = item.NoOfSessions;
                 p.CourseCode = item.CourseCode;
-                p.EnableForCertification = item.EnableForCertification;
-                p.DisplayOnHomePage = item.DisplayOnHomePage;
+                p.EnableForCertification = item.EnableForCertification ? "Yes" : "No"; ;
+                p.DisplayOnHomePage = item.DisplayOnHomePage?"Yes":"No";
                 p.IsActive = item.IsActive;
                 p = JsonConvert.SerializeObject(p);
                 miniCourses.Add(p);
@@ -133,7 +133,7 @@ namespace Millionlights.Controllers
             ViewBag.CourseTypes = courseTypesList;
 
             List<SelectListItem> certificationList = new List<SelectListItem>();
-            IEnumerable<Certification> certifications = db.Certifications.ToList();
+            IEnumerable<Certification> certifications = db.Certifications.ToList().Where(x=>x.IsActive);
             foreach (var item in certifications)
             {
                 certificationList.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
