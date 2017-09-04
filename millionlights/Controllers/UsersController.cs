@@ -228,7 +228,7 @@ namespace Millionlights.Controllers
                     }
                     else
                     {
-                        user.UserType = "MillionLight";
+                        user.UserType = "Edunetwork";
                         user.ProviderKey = "00000";
                     }
                     db.Users.Add(user);

@@ -175,17 +175,6 @@
                                         <label class="text-danger errorphone" style="font-weight:100;"></label>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="regformPadding" style="display:inline-flex;width: 100%;">
-                                        @*<div>*@
-                                        <input class="form-control userregtxt" type="text" name="ReferralCode" id="ReferralCode" placeholder="Enter Coupon / Referral Code">
-                                        @*</div>*@
-                                        <div style="margin-top: 5px !important;margin-left: 4px !important;">
-                                            <a href="#" title="Some amount would be added to your wallet as a discount for the first time registration which you can use later."><img id="helpIcon" src="~/Images/QuestionMark_icon.png" style="border-width:0px;"></a>
-                                        </div>
-                                    </div>
-                                    <label class="text-danger errorRefCode" style="font-weight:100;"></label>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12">
@@ -225,17 +214,6 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        if ((localStorage.CouponCode != "null") && (localStorage.CouponCode != "") && (localStorage.CouponCode != "undefined") && (localStorage.CouponCode != undefined)) {
-            $('#actCoupontxt')[0].value = localStorage.CouponCode.trim();
-            $('body').addClass("signUpBgColor");
-            $('#Regbtn').click(function (e) {
-                if (ValidateReg() == false) {
-                    e.preventDefault();
-                }
-            });
-        }
-    });
     function setCookie(cookieName, cookieValue, nDays) {
 
         var today = new Date();
@@ -272,7 +250,6 @@
             var City = $("#cityTxt").val();
             var ZipCode = $("#zipcodeTxt").val();
             var PhoneNumber = $("#phoneTxt").val();
-            var refCode = $('#ReferralCode')[0].value;
             var userRegister =
             {
                 "FirstName": FirstName,
@@ -286,8 +263,7 @@
                 "City": City,
                 "ZipCode": ZipCode,
                 "PhoneNumber": PhoneNumber,
-                "data": data,
-                "RefCode": refCode
+                "data": data
             };
             var model = JSON.stringify(userRegister);
 
@@ -295,7 +271,6 @@
                 type: "POST",
                 async: false,
                 contentType: "application/json; charset=utf-8",
-                //url: "/UserRegister/UserRegister",
                 data: model,
                 success: function (response) {
 
@@ -485,14 +460,14 @@
             $('#passwordTxt')[0].value = $('#Upassword')[0].value;
             $('#confirmpassTxt')[0].value = $('#password2')[0].value;
 
-            if (localStorage.CouponCode == "undefined" || localStorage.CouponCode == undefined ||
-                localStorage.CouponCode == "null" || localStorage.CouponCode == null) {
-                $('#ReferralCode')[0].value = "";
-                localStorage.CouponCode = "";
-            }
-            else {
-                $('#ReferralCode')[0].value = localStorage.CouponCode.trim();
-            }
+            //if (localStorage.CouponCode == "undefined" || localStorage.CouponCode == undefined ||
+            //    localStorage.CouponCode == "null" || localStorage.CouponCode == null) {
+            //    $('#ReferralCode')[0].value = "";
+            //    localStorage.CouponCode = "";
+            //}
+            //else {
+            //    $('#ReferralCode')[0].value = localStorage.CouponCode.trim();
+            //}
 
             $('#RegisterModel').modal('show');
         }

@@ -737,8 +737,8 @@ namespace Millionlights.Controllers
                     fullName = "User";
                 }
                 
-                string subject = "Thank you for submitting the query to Millionlights, we'll get back to you soon!";
-                string txtMessage = "Dear " + fullName + "," + "<br/> " + " We have submitted your query and will get back to you soon, Thank you!"+ "<br/> " +"Warm Regards," + "<br/> " + "MillionLights Team" + "<br/> " + "Telephone:+91 9890122592" + "<br/> " + "Email:support@millionlights.org";
+                string subject = "Thank you for submitting the query to Edunetworks, we'll get back to you soon!";
+                string txtMessage = "Dear " + fullName + "," + "<br/> <br/> " + " We have submitted your query and will get back to you soon, Thank you!"+ "<br/> <br/>" + "Warm Regards," + "<br/> <br/> " + "Edunetworks Team" + "<br/> <br/>" + "Telephone: 011 025 0089 / 011 795 3771" + "<br/> <br/>" + "Email:support@edunetworks.com";
                 string senderEmail = ConfigurationManager.AppSettings["SenderEmail"];
                 string senderName = ConfigurationManager.AppSettings["SenderName"];
                 MandrillEmailService.EmailService.SendFormattedEmail(senderEmail, senderName, subject, recipients, txtMessage);

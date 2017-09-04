@@ -99,13 +99,13 @@
                                                             <div id="profile">
                                                                 <div class="row">
                                                                     <div class="col-md-6">
-                                                                        <a class="btn btn-block btn-primary btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
+                                                                        <a class="btn btn-block btn-primary btnSignin signUpBg btnFocus" href="#" id="editProfile" style="background: black;border-color: black;">Edit Profile</a>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <a class="btn btn-block btn-primary" id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
                                                                     </div>
                                                                 </div>
-                                                                <a class="actCoupon btn btn-block btn-primary" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
+                                                                <a class="actCoupon btn btn-block btn-primary" id="DeactivateAccountButton" style="background-color:#F66; border-color:#F66;" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
                                                             </div>
                                                         </div><!-- End box-sidebar -->
                                                     </aside><!-- End aside -->
@@ -218,12 +218,11 @@
                                                                         <div class="col-md-2 col-sm-2"></div>
                                                                     </div>
                                                                     <div class="Partner-btn-div marginTxt row">
-                                                                        <div class="col-md-2 col-sm-2"></div>
-                                                                        <div class="col-md-4 col-sm-4">
-                                                                            <input type="button" value="Cancel" id="cancelbtn" style="margin:0px 0px;" class="btnCancel btmMarTop btnFocus btn btn-block btn-primary" />
+                                                                        <div class="col-md-offset-2 col-md-4 col-sm-4">
+                                                                            <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus btn btn-block btn-primary" />
                                                                         </div>
                                                                         <div class="col-md-4 col-sm-4">
-                                                                            <input type="submit" value="Save" style="padding:0px 0px; margin:0px 0px" class="btnRegister btmMarTop btnFocus btn btn-block btn-primary" onclick="return ValidateProfileData();" />
+                                                                            <input type="submit" value="Save"  class="btnRegister btmMarTop btnFocus btn btn-block btn-primary" onclick="return ValidateProfileData();" />
                                                                         </div>
                                                                         <div class="col-md-2 col-sm-2"></div>
                                                                     </div>
@@ -519,8 +518,8 @@
                             <div class="hideDiv"><label id="confirmPwdErrorLbl" class="colorRed"></label></div>
 
                             <div><label id="ResetFPwdSuccessLbl" class="forgotEmailLbl" style="font-size: 16px!important;"></label></div>
-                            <div id="ResetBtnDiv" class="rightAlign"><input type="button" value="Reset" id="Regbtn" class="btnRegister btnForword" onclick="ResetPwdBtn()" /></div>
-                            <div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>
+                            <div id="ResetBtnDiv" class="rightAlign"><input type="button" value="Reset" id="Regbtn" class="btn btnRegister btnForword" onclick="ResetPwdBtn()" /></div>
+                            @*<div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>*@
                         </div>
                 </div>
             </div>
@@ -541,8 +540,8 @@
                                 </p>
                             </div>
                             <div id="DeactivateAccount" class="rightAlign">
-                                <input type="button" value="Cancel" id="CancelDeactivateBtn" class="actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelDeactivate()" />
-                                <input type="button" value="Deactivate Now" id="DeactivateBtn" class="btnRegister btnForword" onclick="DeactivateNow()" />
+                                <input type="button" value="Cancel" id="CancelDeactivateBtn" class="btn actCoupon" style="padding: 9px 35px 6px 35px !important;" onclick="CancelDeactivate()" />
+                                <input type="button" value="Deactivate Now" id="DeactivateBtn" class="btn btnRegister" onclick="DeactivateNow()" />
                             </div>
                         </div>
                     </div>

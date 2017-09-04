@@ -24,38 +24,20 @@
     }
     var pe = ViewBag.Pe;
     var messages = (Dictionary<string, string>)ViewBag.Messages;
-    var pageTitle = ViewBag.PageTitle;
+    //var pageTitle = ViewBag.PageTitle;
     var pageDesc = ViewBag.PageDesc;
     var pageImg = ViewBag.PageImg;
+    ViewBag.Title = "Edunetwork";
+
 }
 
 <script src="~/coursat/js/jquery.min.js"></script>
 
-<h1 itemprop="name" style="display:none;">@pageTitle</h1>
+@*<h1 itemprop="name" style="display:none;">@pageTitle</h1>*@
 @*<img itemprop="image" style="display:none;" src="https://www.gstatic.com/images/icons/gplus-64.png" />*@
 <meta property="og:image" content="@pageImg" />
 <p itemprop="description" style="display:none;">@pageDesc</p>
 
-@*<section id="course_parallax_2" class="section-white page-title-wrapper" data-stellar-background-ratio="1" data-stellar-offset-parent="true">
-    <div class="container">
-        <div class="relative">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-title text-center">
-                        <h4>Our Courses</h4>
-                        <hr>
-                        <p>Developing Mobile Apps</p>
-                        <ol class="breadcrumb">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Courses</a></li>
-                            <li class="active">Single Course</li>
-                        </ol>
-                    </div><!-- end title -->
-                </div><!-- end col -->
-            </div><!-- end row -->
-        </div><!-- end relative -->
-    </div><!-- end container -->
-</section>*@<!-- end section-white -->
 <section class="section-white">
     <div class="container">
         <div class="row">
@@ -177,12 +159,35 @@
 
                             </div><!-- end latest-course -->
                         </div><!-- end widget -->
+ 
                         <div class="widget about-widget wow fadeIn col-md-offset-3 col-md-6 col-md-offset-3" data-wow-duration="1s" data-wow-delay="0.4s">
                             <ul class="social">
-                                <li class="facebook"><a href="https://www.facebook.com/pages/Edunetworks-Consulting/200456993320125" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                                <li class="twitter"><a href="https://twitter.com/edunetworks" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                                <li class="google"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li class="linkedin"><a href="https://www.linkedin.com/company-beta/2598941/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                <li class="facebook"><a id="postToWallWithFBUiPrompt" onclick="javascript:postToWallUsingFBUi('@tempCourseCatName','@courseDetails.BasePrice','@courseDetails.ShortDescription','@courseDetails.Id', '@courseDetails.CourseImageLink');return false;" href=""><i class="fa fa-facebook"></i></a></li>
+                                <li class="twitter"><a class="twitter-share-button"
+                                                       href="https://twitter.com/share"
+                                                       data-size="large"
+                                                       data-text="('@tempCourseCatName','@courseDetails.ShortDescription')"
+                                                       data-url="https://dev.twitter.com/web/tweet-button"
+                                                       data-hashtags="example,demo"
+                                                       data-via="twitterdev"
+                                                       data-related="twitterapi,twitter"><i class="fa fa-twitter"></i></a></li>
+                                @*<li class="google"><a href="https://plus.google.com/share?url= @String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)"><i class="icon-google"></i></a>
+
+*@<li class="google"><a  href="https://plus.google.com/share?url= @String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)" class="g-interactivepost"
+                                                data-contenturl= "@String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)"
+                                                data-contentdeeplinkid="/pages"
+                                                data-clientid="220411177158-tnjrdamkaq64n44772pn53pfamf9anja.apps.googleusercontent.com"
+                                                data-cookiepolicy="single_host_origin"
+                                                data-prefilltext='@courseDetails.ShortDescription'
+                                                data-calltoactionlabel="INVITE"
+                                                data-calltoactionurl= "@String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)"
+                                                data-calltoactiondeeplinkid="/pages/create"
+                                                data-callback="signinCallback"
+                                                data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                                                  data-scope="https://www.googleapis.com/auth/plus.login"><i class="fa fa-google"></i></a>
+                                </li>
+                                <li class="linkedin"><a id="shareonLinkedIn" href="" onclick="javascript:shareOnLinkedIn('@tempCourseCatName','@courseDetails.ShortDescription');return false;"><i class="fa fa-linkedin"></i></a></li>
+
                             </ul>
                         </div>
                     </div>
@@ -199,6 +204,126 @@
      </div>
     </div>
 </section>
+<div id="fb-root"></div>
+
+<script type="text/javascript">
+    var APP_ID = "1704814389826228";
+    window.fbAsyncInit = initFacebook;
+
+    function initFacebook() {
+        FB.init({
+            appId: APP_ID,
+            status: true, // check login status
+            cookie: false, // enable cookies to allow the server to access the session
+            xfbml: true  // parse XFBML
+        });
+
+        FB.getLoginStatus(onFacebookLoginStatus);
+    };
+
+    //Callback function for FB.login
+    function onFacebookLoginStatus(response) {
+        //nothing to do
+    }
+
+    (function () {
+        var e = document.createElement('script');
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+    }());
+
+
+    function postToWallUsingFBUi(name, price, desc, courseId, imgName) {
+        var picUrl = '';
+        if (imgName != '178x100_2.png') {
+            picUrl = window.location.origin + '/Images/CourseImg/' + courseId + '/' + imgName;
+        }
+        else {
+            picUrl = window.location.origin + '/Images/noimage378X225.png';
+        }
+
+        var path = window.location.origin + '/Course/AboutCourse?id=' + courseId;
+        var link = window.location.origin;
+
+        var data =
+            {
+                method: 'feed',
+                message: "Posted using FB.ui and picture.",
+                display: 'iframe',
+                caption: desc,
+                name: name,
+                picture: picUrl,
+                link: "https://www.millionlights.org",
+                redirect_uri: path,
+                description: price,
+                actions: [{ name: 'action_links text!', link: 'http://localhost:8094' }]
+            }
+        FB.ui(data, onPostToWallCompleted);
+    }
+
+    function onPostToWallCompleted(response) {
+        if (response) {
+            if (response.error) {
+                bootbox.dialog({
+                    message: response.error.message,
+                    buttons: {
+                        "success": {
+                            "label": "OK",
+                            "className": "btn-sm btn-primary"
+                        }
+                    }
+                });
+            }
+            else {
+                if (response.id) {
+                    bootbox.dialog({
+                        message: "Shared the course successfully",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+                else if (response.post_id) {
+                    bootbox.dialog({
+                        message: "Shared the course successfully",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+                else {
+                    bootbox.dialog({
+                        message: "OOPs, Sharing failed. Please try again.",
+                        buttons: {
+                            "success": {
+                                "label": "OK",
+                                "className": "btn-sm btn-primary"
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            bootbox.dialog({
+                message: "Posting has been canceled.",
+                buttons: {
+                    "success": {
+                        "label": "OK",
+                        "className": "btn-sm btn-primary"
+                    }
+                }
+            });
+        }
+    }
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 <script type="text/javascript">
@@ -392,6 +517,64 @@
         document.cookie = cookieName + "=" + escape(cookieValue)
         + ";expires=" + expire.toGMTString() + "; path=/";
     }
+      function shareContent(pcontent) {
+        IN.API.Raw("/people/~/shares?format=json")
+      .method("POST")
+      .body(pcontent)
+      .result(onSuccess)
+        .error(onError);
+
+    }
+    // Handle the successful return from the API call
+    function onSuccess(data) {
+        console.log(data);
+        alert("Post Successful!");
+    }
+
+    // Handle an error response from the API call
+    function onError(error) {
+        console.log(error);
+        alert("Oh no, something went wrong. Check the console for an error log.");
+    }
+    function ShareOnLinkedIn() {
+        var postcontent = {
+            "comment": "Check out millionlights.org!",
+            "content": {
+                "title": "LinkedIn Developers Resources",
+                "description": "Leverage LinkedIn's APIs to maximize engagement",
+                "submitted-url": "https://www.millionlights.org",
+                "submitted-image-url": "https://example.com/logo.png"
+            },
+            "visibility": {
+                "code": "anyone"
+            }
+        }
+        postcontent = JSON.stringify(postcontent);
+        shareContent(postcontent);
+        //});
+    }
+
+    function shareOnLinkedIn(name, shortDesc) {
+        debugger
+        var shareUrl = window.location.protocol + "//" + window.location.host + "/Course/AboutCourse/" + encodeURI(name) + "/";
+        var url='https://www.linkedin.com/cws/share?mini=true&url='+shareUrl+'&title='+name+'&summary='+shortDesc+'&source=Millionlights';
+        location.href=url;
+    }
+
+    function onLinkedInLoad() {
+        IN.Event.on(IN, "auth", function() {onLinkedInLogin();});
+        IN.Event.on(IN, "logout", function() {onLinkedInLogout();});
+    }
+    function onLinkedInLogin() {
+        IN.API.Profile("me")
+          .fields(["id", "firstName", "lastName", "pictureUrl", "publicProfileUrl", "emailAddress"])
+          .result(function(result) {
+              ShareOnLinkedIn2();
+          })
+          .error(function(err) {
+              alert(err);
+          });
+    }
 </script>
 <style type="text/css">
     ul.data-lessons li a {
@@ -545,6 +728,14 @@
         }
     }
 </script>
+<script type="text/javascript" src="https://platform.linkedin.com/in.js">
+    api_key: 75cxqdj7v4gd8f
+    authorize: false
+    onLoad: onLinkedInLoad
+    scope: w_share
+</script>
+
+
 @*For Star Ratings Plugins*@
 <link href="~/StarRatingsPlugin/star-rating.css" rel="stylesheet" />
 <script src="~/StarRatingsPlugin/star-rating.js"></script>

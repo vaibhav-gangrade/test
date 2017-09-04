@@ -760,7 +760,7 @@ namespace Millionlights.Controllers
                                 //}
                                 //else
                                 //{
-                                user.UserType = "MillionLight";
+                                user.UserType = "Edunetwork";
                                 user.ProviderKey = "00000";
                                 //}
 
@@ -2745,7 +2745,7 @@ namespace Millionlights.Controllers
                                 ConfigurationManager.AppSettings["SenderEmail"],
                                  ConfigurationManager.AppSettings["Telephone"],
                                   ConfigurationManager.AppSettings["EmailId"],
-                                "Your Millionlights Registration Is Successful",
+                                "Your Edunetworks Registration Is Successful",
                                 regTemplate,
                                 firstName,
                                 email
@@ -2800,7 +2800,7 @@ namespace Millionlights.Controllers
                     }
                     else if (user.IsActive == false)
                     {
-                        exUser.Message = "Sorry, your account is deactivated. Please contact the MillionLights support team.";
+                        exUser.Message = "Sorry, your account is deactivated. Please contact the Edunetworks support team.";
                     }
                     else if (user.UserType != provider)
                     {
