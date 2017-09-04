@@ -2945,6 +2945,7 @@
     <Content Include="Views\Course\AllCourses.cshtml" />
     <Content Include="Views\Career\Career.cshtml" />
     <Content Include="Views\Career\Create.cshtml" />
+    <Content Include="Views\UserRegister\AdminProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
