@@ -171,9 +171,9 @@
                                                        data-hashtags="example,demo"
                                                        data-via="twitterdev"
                                                        data-related="twitterapi,twitter"><i class="fa fa-twitter"></i></a></li>
-                                @*<li class="google"><a href="https://plus.google.com/share?url= @String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)"><i class="icon-google"></i></a>
+                                @*<li class="google"><a href="https://plus.google.com/share?url= @String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)"><i class="icon-google"></i></a>*@
 
-*@<li class="google"><a  href="https://plus.google.com/share?url= @String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)" class="g-interactivepost"
+                                 <li class="google"><a  href="https://plus.google.com/share?url= @String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)" class="g-interactivepost"
                                                 data-contenturl= "@String.Format("{0}/Course/AboutCourse/{1}",System.Web.HttpContext.Current.Request.Url.Host, courseDetails.CourseName)"
                                                 data-contentdeeplinkid="/pages"
                                                 data-clientid="220411177158-tnjrdamkaq64n44772pn53pfamf9anja.apps.googleusercontent.com"
@@ -184,7 +184,7 @@
                                                 data-calltoactiondeeplinkid="/pages/create"
                                                 data-callback="signinCallback"
                                                 data-requestvisibleactions="http://schemas.google.com/AddActivity"
-                                                  data-scope="https://www.googleapis.com/auth/plus.login"><i class="fa fa-google"></i></a>
+                                                data-scope="https://www.googleapis.com/auth/plus.login"><i class="fa fa-google"></i></a>
                                 </li>
                                 <li class="linkedin"><a id="shareonLinkedIn" href="" onclick="javascript:shareOnLinkedIn('@tempCourseCatName','@courseDetails.ShortDescription');return false;"><i class="fa fa-linkedin"></i></a></li>
 

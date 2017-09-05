@@ -44,13 +44,13 @@
 <section class="section-white">
     <div class="container">
         <div class="row">
-            <div id="content" class="col-md-8 col-sm-12 pull-right">
+            <div id="content" class="col-md-9 col-sm-12 pull-right">
                 <div class="row courses-list">
                  @if (freeCourses.Count > 0)
                  {
                      foreach (var course in freeCourses)
                      {
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="course-item wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s">
                             <div class="owl-image" style="border: solid 1px #d8d8d9;">
                                 <a href="#">
@@ -244,15 +244,19 @@
                       <div><h4>No free course available. Please check other category.</h4></div>
                   }
                 </div><!-- end row -->
+                <hr>
+                <div id='AllCoursePaging' style="text-align:center">
+                    @Html.PagedListPager(Model, page => Url.Action("AllCourses", new { page }))
+                </div>
             </div><!-- end content -->
-            <div id="sidebar" class="col-md-4 col-sm-12 pull-right">
+            <div id="sidebar" class="col-md-3 col-sm-12 pull-left">
                 <div class="widget">
                     <div class="widget-title">
                         <h4>Categories</h4>
                     </div><!-- end widget-title -->
                     <div class="cat-widget">
                         <ul>
-                            <li><a href="/Course/AllCourses" id="active">All Courses</a></li>
+                            @*<li><a href="/Course/AllCourses" id="active">All Courses</a></li>*@
                             @foreach (var category in courseCategories)
                             {
                                 if (category.CategoryName != null)
@@ -277,23 +281,11 @@
                         }
                     </ul><!-- end latest-course -->
                 </div><!-- end widget -->
-                @*<div class="widget">
-                    <div class="widget-title">
-                        <h4>Price</h4>
-                    </div><!-- end widget-title -->
-                    <ul>
-                        <li><a href="/Course/AllCourses?type=FreeCourse">Free Courses</a></li>
-                        <li>Price in Range</li>
-                        <input type="text" style="width: 46%;" placeholder="Min" id="min" autocomplete="off"> -
-                        <input type="text" style="width: 46%;" placeholder="Max" id="max" autocomplete="off">
-                        <a href="" class="button_top btnsignin signupbg btnsignUp detailClass btn btn-block btn-primary" style="text-align:center" onclick="return CourseInRange()">Search</a>
-                    </ul>
-                </div><!-- end widget -->*@
                 <div class="widget">
                     <div class="widget-title">
                         <h4>Level</h4>
                     </div><!-- end widget-title -->
-                    <ul>
+                    <ul class="latest-course">
                         @foreach (var category in courseCategories)
                         {
                             if (category.CourseLevel != null)
@@ -307,7 +299,7 @@
                     <div class="widget-title">
                         <h4>Language</h4>
                     </div><!-- end widget-title -->
-                    <ul>
+                    <ul class="text-widget banner">
                         @foreach (var category in courseCategories)
                         {
                             if (category.CourseLanguage != null)
@@ -321,7 +313,7 @@
                     <div class="widget-title">
                         <h4>Availability</h4>
                     </div><!-- end widget-title -->
-                    <ul>
+                    <ul class="latest-tweets">
 
                         @foreach (var category in courseCategories)
                         {
@@ -334,10 +326,10 @@
                 </div><!-- end widget -->
             </div><!-- end col -->
         </div><!-- end row -->
-        <hr>
+        @*<hr>
         <div id='AllCoursePaging' style="text-align:center">
             @Html.PagedListPager(Model, page => Url.Action("AllCourses", new { page }))
-        </div>
+        </div>*@
     </div><!-- end container -->
 </section><!-- end section-white -->
 
@@ -346,8 +338,6 @@
 @*<script src="~/Content/assets/js/jquery.js"></script>*@
 <script type="text/javascript">
     var APP_ID = "806929762735402";
-    // Facebook Deveoper account: Archana
-    //var APP_ID = "389441631447093";
     window.fbAsyncInit = initFacebook;
 
     function initFacebook() {

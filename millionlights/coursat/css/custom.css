@@ -49,9 +49,9 @@
     margin-bottom: 14px;
     margin-top: -12px;
 }
-.section-white {
-    padding: 38px;
-}
+/*.section-white {
+    padding: 38px 0px;
+}*/
 .h4 {
     font-size: 18px;
     font-weight: bold;
@@ -102,10 +102,6 @@ input[type="text"].dmsearch-input {
 #search {
     float: inherit;
 }
-
-/*.col-xs-12 {
-    width: 100% ;
-}*/
 
 .service-absolute .icon-normal i {
     color: #ffffff !important;
@@ -187,3 +183,23 @@ input[type="text"].dmsearch-input {
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
 }
+
+/*#sidebar {
+    width: 375px;
+    overflow: hidden;
+}*/
+
+/*.widget {
+    font-size: 15px;
+}*/
+
+/*.icon {
+    font-family: 'Stroke-Gap-Icons';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}*/

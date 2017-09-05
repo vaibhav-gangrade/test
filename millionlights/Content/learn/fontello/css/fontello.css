@@ -18,8 +18,8 @@
   }
 }
 */
- 
- [class^="icon-"]:before, [class*=" icon-"]:before {
+ /*change class name, it applied font family as fontello to every class start with icon-. */
+ [class^="ello-icon-"]:before, [class*=" ello-icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -1414,7 +1414,7 @@
 .icon-airfield:before { content: '\ed51'; } /* '' */
 .icon-airport:before { content: '\ed52'; } /* '' */
 .icon-art-gallery:before { content: '\ed53'; } /* '' */
-.icon-bar:before { content: '\ed54'; } /* '' */
+/*.icon-bar:before { content: '\ed54'; }*/ /* '' */
 .icon-baseball:before { content: '\ed55'; } /* '' */
 .icon-basketball:before { content: '\ed56'; } /* '' */
 .icon-beer-2:before { content: '\ed57'; } /* '' */
