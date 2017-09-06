@@ -197,7 +197,7 @@
                             </div>*@
                             <div class="form-group formGroupCustom">
                                 <div class="col-md-4 col-md-offset-4 btmMarTop" style="margin-bottom:17px;">
-                                    <input type="submit" class="button_fullwidth btn-block btn-primary" value="REGISTER" onclick="RegisterUser();" />
+                                    <input type="submit" class="button_fullwidth btn-block btn-primary" value="REGISTER" onclick="RegisterUser();"  />
                                 </div>
                             </div>
                             @*}*@
@@ -226,10 +226,8 @@
         + ";expires=" + expire.toGMTString() + "; path=/";
     }
     function RegisterUser() {
-        debugger
         var data = null;
         if (ValidateUserRegister()) {
-            debugger
             if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
                 currentCourses = JSON.parse(window.localStorage[cartName]);
             }
@@ -281,11 +279,9 @@
 
                         var resp = JSON.parse(response);
                         //if (localStorage.CouponCode != null) {
-                        debugger
                         if ((localStorage.CouponCode != "null") && (localStorage.CouponCode != "") && (localStorage.CouponCode != "undefined") && (localStorage.CouponCode != undefined))
                             if (localStorage.CouponCode.length == 8) { // For Referral code done by Archana 28.11.2016
-                                debugger
-                              
+                                                              
                                 localStorage.value = "MyProfile";
                                 var userid = resp.userId;
                                 window.location.href = "/UserRegister/Profile/" + userid;
@@ -379,7 +375,7 @@
 
 
     function Validate(e) {
-        debugger
+        
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) { //Enter keycode
             if (ValidateReg()) {
@@ -393,7 +389,6 @@
     }
 
     function ValidateReg() {
-        debugger
         var emailid = $('#UEmail')[0].value;
         var pwd = $('#Upassword')[0].value;
         var confrmpwd = $('#password2')[0].value;
@@ -417,7 +412,6 @@
                 contentType: 'application/json; charset=utf-8',
                 url: "/UserRegister/CheckEmailNPhoneExist",
                 success: function (response) {
-                    debugger
                     var resp = JSON.parse(response);
                     if (resp.EmailExist == true) {
                         $('.errorCheckEmailId')[0].innerHTML = "Email Id already Exists.";
@@ -462,7 +456,8 @@
 
             //if (localStorage.CouponCode == "undefined" || localStorage.CouponCode == undefined ||
             //    localStorage.CouponCode == "null" || localStorage.CouponCode == null) {
-            //    $('#ReferralCode')[0].value = "";
+            //    $('#ReferralCode')[0].val
+            ue = "";
             //    localStorage.CouponCode = "";
             //}
             //else {

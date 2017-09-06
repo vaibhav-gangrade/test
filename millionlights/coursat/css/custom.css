@@ -116,10 +116,10 @@ input[type="text"].dmsearch-input {
     opacity: .5 !important;
 }*/
 
-/*.modal-backdrop {
+.modal-backdrop {
     position: initial !important;
-    opacity: 0.5 !important;
-    border: 1px solid black;*/
+    opacity: 0.8 !important;
+    border: 1px solid black !important;
     /*top: 0;
     right: 0;
     bottom: 0;
@@ -127,7 +127,7 @@ input[type="text"].dmsearch-input {
     z-index: 1040 !important;
     background-color: #d4d4d4 !important;
     opacity: 0.8 !important;*/
-/*}*/
+}
 
 
 /*.fade.in {
@@ -183,15 +183,6 @@ input[type="text"].dmsearch-input {
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
 }
-
-/*#sidebar {
-    width: 375px;
-    overflow: hidden;
-}*/
-
-/*.widget {
-    font-size: 15px;
-}*/
 
 /*.icon {
     font-family: 'Stroke-Gap-Icons';
