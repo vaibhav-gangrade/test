@@ -16,6 +16,7 @@ using System.Security.Claims;
 //using EdxIntegration;
 using System.Web;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Millionlights.Controllers
 {
@@ -139,6 +140,11 @@ namespace Millionlights.Controllers
                 throw e;
             }
             var test = result;
+            foreach(var res in result)
+            {
+                var regTime = res.RegisteredDatetime;
+                res.RegisteredDatetimeString = regTime.Day + "/" + regTime.Month + "/" + regTime.Year + " " + regTime.Hour+":"+regTime.Minute+" "+ regTime.ToString("tt", CultureInfo.InvariantCulture); ;
+            }
             //return Json(result, JsonRequestBehavior.AllowGet);
             var resultSet = Json(result, JsonRequestBehavior.AllowGet);
             resultSet.MaxJsonLength = int.MaxValue;
