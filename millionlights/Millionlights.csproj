@@ -862,6 +862,7 @@
     <Content Include="coursat\upload\infra.jpg" />
     <Content Include="coursat\upload\latest_blog_01.png" />
     <Content Include="coursat\upload\latest_blog_02.png" />
+    <Content Include="coursat\upload\leadership.jpg" />
     <Content Include="coursat\upload\login_parallax.jpg" />
     <Content Include="coursat\upload\notfound.jpg" />
     <Content Include="coursat\upload\not_foundparallax.jpg" />
@@ -899,6 +900,7 @@
     <Content Include="coursat\upload\testi_03.png" />
     <Content Include="coursat\upload\testi_04.png" />
     <Content Include="coursat\upload\testi_parallax.jpg" />
+    <Content Include="coursat\upload\transport.jpg" />
     <Content Include="EmailTemplates\ApplyCodeEmailToReceiver.htm" />
     <Content Include="EmailTemplates\ApplyCodeEmailToReferrer.htm" />
     <Content Include="EmailTemplates\CouponAssigment.htm" />
