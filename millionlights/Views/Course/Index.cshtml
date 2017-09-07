@@ -135,7 +135,7 @@
                 datatype: "local",
                 height: 250,
                 //colNames: ['Action', 'Id', 'CourseName', 'StartDate', 'EndDate', 'BasePrice', 'Duration', 'NoOfSessions', 'CourseCode', 'EnableForCertification', 'DisplayOnHomePage'],
-                colNames: ['Action', 'Id', 'CourseName', 'BasePrice', 'Duration', 'NoOfSessions', 'CourseCode', 'EnableForCertification', 'DisplayOnHomePage'],
+                colNames: ['Action', 'Id', 'Course Name', 'Base Price', 'Duration', 'No Of Sessions', 'Course Code', 'Enable For Certification', 'Display On HomePage'],
                 colModel: [
                     { name: 'Action', index: 'Action', sortable: false, formatter: displayButtons },
                     { name: 'Id', index: 'Id', width: 60, sorttype: "int", hidden: true },
@@ -146,7 +146,7 @@
                     { name: 'Duration', index: 'Duration', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'NoOfSessions', index: 'NoOfSessions', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
                     { name: 'CourseCode', index: 'CourseCode', width: 150, editable: true, editoptions: { size: "20", maxlength: "30" } },
-                    { name: 'EnableForCertification', index: 'EnableForCertification', width: 150, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No" }, unformat: aceSwitch },
+                    { name: 'EnableForCertification', index: 'EnableForCertification', width: 200, editable: true, edittype: "checkbox", editoptions: { value: "Yes:No" }, unformat: aceSwitch },
                     { name: 'DisplayOnHomePage', index: 'DisplayOnHomePage', editable: true, edittype: "checkbox", editoptions: { value: "Yes:No" }, unformat: aceSwitch }
                 ],
 

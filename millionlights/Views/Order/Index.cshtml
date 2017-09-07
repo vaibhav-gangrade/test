@@ -67,12 +67,12 @@
         </div>
 
         @*done by Archana 19.01.2017*@
-        @using (Html.BeginForm("ExportCouponData", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @*@using (Html.BeginForm("ExportCouponData", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <button type="submit" id="btnExportCouponData" title="Export To CSV" class="pull-right ui-state-default ui-corner-all fm-button-icon-right ui-reset btn btn-sm btn-pink exportPartner">
                 <i class="ace-icon fa fa-file-excel-o nav-search-icon"></i>Export Coupon Data
             </button>
-        }
+        }*@
         <div class="row">
             <div class="col-md-2 col-sm-2">
                 <div class="form-group ">
@@ -309,7 +309,7 @@
             data: grid_data,
             datatype: "local",
             height: 250,
-            colNames: ['Cancel / Refund', 'OrderNumber', 'Ordered Date', 'Ordered By', 'TotalItems', 'Courses Ordered', 'TotalPrice', 'OrderStatus', 'CouponCode', 'CouponPartnerName'],
+            colNames: ['Cancel / Refund', 'OrderNumber', 'Ordered Date', 'Ordered By', 'TotalItems', 'Courses Ordered', 'TotalPrice', 'OrderStatus'/*, 'CouponCode', 'CouponPartnerName'*/],
             colModel: [
                 { name: 'Action', index: 'Action', width: 200, sortable: false, formatter: displayButtons },
                 { name: 'OrderNumber', index: 'OrderNumber', width: 200, sorttype: "int" },
@@ -319,8 +319,8 @@
                 { name: 'CourseName', index: 'CourseName', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } },
                 { name: 'TotalPrice', index: 'TotalPrice', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } },
                 { name: 'OrderStatus', index: 'OrderStatus', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" }, unformat: aceSwitch },
-                { name: 'CouponCode', index: 'CouponCode', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } },
-                { name: 'CouponPartnerName', index: 'CouponPartnerName', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } }
+                //{ name: 'CouponCode', index: 'CouponCode', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } },
+                //{ name: 'CouponPartnerName', index: 'CouponPartnerName', width: 200, editable: true, editoptions: { size: "20", maxlength: "30" } }
             ],
             viewrecords: true,
             rowNum: 10,
