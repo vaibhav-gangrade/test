@@ -16,7 +16,7 @@
         if (roleID == 1 || roleID == 3)
         {
             Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            <script src="~/Content/assets/js/jquery.js"></script>
+            @*<script src="~/Content/assets/js/jquery.js"></script>*@
         }
         else
         {
@@ -71,7 +71,7 @@
                             </div>
                             <div class="pull-right" style="width: 100%;"><b><span class="pull-right">Total amount to pay is: Rs. <span id="calcDiv"></span><span id="finalAmt"></span></span></b></div>
                         </div>
-                        <div class="col-md-12" style="text-align:right;padding-right:0px;">
+                        <div class="col-md-12" style="text-align:right;padding-right:0px;margin-bottom:20px;">
                             <input type="button" value="Remove All" class="btn btn-primary" onclick="return clearCart();" />
                             <input type="button" value="Add More" class="btn btn-primary" onclick="location.href = '/Course/AllCourses'" />
                             <input type="submit" class="btn btn-primary" value="Order" onclick="return PlaceOrder();" />
@@ -82,48 +82,6 @@
                             <input type="hidden" id="UpdateMyWallet" name="UpdateMyWallet" />
                         </div>
                     </div><!-- end col -->
-
-
-
-
-                @*<div class="col-md-10 studentView">
-                    <div class="panel panel-info filterable add_bottom_45">
-                        <div class="">
-                            <h3 class="panel-title">Order Details</h3>
-                        </div>
-                        <table id="orderTable" class="table table-responsive table-striped gridPadding">
-                            <thead class="theadColor">
-                                <tr>
-                                    <th class="removeChk">Remove</th>
-                                    <th class="courseImg">Course Image</th>
-                                    <th class="CoursDetails">Course(s)</th>
-                                    <th class="coursePrice">Price (Rs.)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        <div class="col-md-10" style="display:inline-flex; width: 100% !important;background-color: turquoise;margin-left: -1px;padding-top: 10px;padding-bottom: 10px;">
-                            <div style="width: 60%;">
-                                <input id="WalletCheckbox" type="checkbox" />
-                                <span>Apply my wallet Rs. @WalletAmount</span>
-                                <span id="WalletBalance"></span>
-                            </div>
-                            <div style="width: 40%;"><b><span class="pull-right">Total amount to pay is: Rs. <span id="calcDiv"></span><span id="finalAmt"></span></span></b></div>
-                        </div>
-                        <div class="pull-right">
-                            <input type="button" value="Remove All" class="btnSignin" onclick="return clearCart();" />
-                            <input type="button" value="Add More" class="actCoupon" onclick="location.href = '/Course/AllCourses'" />
-                            <input type="submit" class="btnsignUp" value="Order" onclick="return PlaceOrder();" />
-                            <input type="hidden" id="CheckCourse" name="CheckCourse" />
-                            <input type="hidden" id="UserId" name="UserId" />
-                            <input type="hidden" id="TotalAmount" name="TotalAmount" />
-                            <input type="hidden" id="WalletUpdatedAmount" name="WalletUpdatedAmount" />
-                            <input type="hidden" id="UpdateMyWallet" name="UpdateMyWallet" />
-                        </div>
-                    </div>
-                 
-                </div>*@
             </div>
         </div>
     </section>
@@ -131,7 +89,6 @@
     
 }
  
-@*<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>*@
 <script src="~/Scripts/ProgressBar/jquery.blockUI.js"></script>
 <script type="text/javascript">
     $('#wallet').hide();
