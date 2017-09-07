@@ -118,8 +118,8 @@ input[type="text"].dmsearch-input {
 
 .modal-backdrop {
     position: initial !important;
-    opacity: 0.5 !important;
-    border: 1px solid black;
+    opacity: 0.8 !important;
+    border: 1px solid black !important;
     /*top: 0;
     right: 0;
     bottom: 0;
@@ -184,15 +184,6 @@ input[type="text"].dmsearch-input {
     -webkit-font-smoothing: antialiased;
 }
 
-/*#sidebar {
-    width: 375px;
-    overflow: hidden;
-}*/
-
-/*.widget {
-    font-size: 15px;
-}*/
-
 /*.icon {
     font-family: 'Stroke-Gap-Icons';
     speak: none;
@@ -203,3 +194,49 @@ input[type="text"].dmsearch-input {
     line-height: 1;
     -webkit-font-smoothing: antialiased;
 }*/
+
+.fa-minus-circle {
+    color: red !important;
+    margin-left: 22px;
+}
+.courseVal {
+    padding-left: 10px;
+}
+
+.imgOrderDetails {
+    width: 45%;
+    height: 35%;
+}
+
+[class^="fa-"]:before, [class*=" fa-"]:before {
+    font-family: "FontAwesome" !important;
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+}
+
+.btnSignin {
+    border: none;
+    margin-top: 5px;
+    background: #000;
+    color: #fff;
+    font-size: 11px;
+    padding: 6px 16px 3px 16px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+}

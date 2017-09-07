@@ -89,7 +89,7 @@
 .icon-plus-squared:before { content: '\e823'; } /* '' */
 .icon-plus-squared-small:before { content: '\e824'; } /* '' */
 .icon-minus:before { content: '\e825'; } /* '' */
-.icon-minus-circled:before { content: '\e826'; } /* '' */
+/*.icon-minus-circled:before { content: '\e826'; }*/ /* '' */
 .icon-minus-squared:before { content: '\e828'; } /* '' */
 .icon-minus-squared-alt:before { content: '\e829'; } /* '' */
 .icon-minus-squared-small:before { content: '\e82a'; } /* '' */
@@ -449,7 +449,7 @@
 .icon-plus-circled-1:before { content: '\e98c'; } /* '' */
 .icon-plus-squared-1:before { content: '\e98d'; } /* '' */
 .icon-minus-1:before { content: '\e98e'; } /* '' */
-.icon-minus-circled-1:before { content: '\e98f'; } /* '' */
+/*.icon-minus-circled-1:before { content: '\e98f'; }*/ /* '' */
 .icon-minus-squared-1:before { content: '\e990'; } /* '' */
 .icon-help-1:before { content: '\e991'; } /* '' */
 .icon-help-circled-1:before { content: '\e992'; } /* '' */
@@ -1652,7 +1652,7 @@
 .icon-plus-6:before { content: '\ee95'; } /* '' */
 .icon-plus-circled-2:before { content: '\ee96'; } /* '' */
 .icon-minus-4:before { content: '\ee97'; } /* '' */
-.icon-minus-circled-2:before { content: '\ee98'; } /* '' */
+/*.icon-minus-circled-2:before { content: '\ee98'; }*/ /* '' */
 .icon-help-3:before { content: '\ee99'; } /* '' */
 .icon-help-circled-3:before { content: '\ee9a'; } /* '' */
 .icon-info-circled-3:before { content: '\ee9b'; } /* '' */

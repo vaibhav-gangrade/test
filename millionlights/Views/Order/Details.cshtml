@@ -33,16 +33,62 @@
         WalletAmount = ViewBag.WalletAmount;
     }
 }
-<link href="~/Content/Custom/CustomStyle.css" rel="stylesheet" />
-<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/coursat/style.css">
+<link rel="stylesheet" type="text/css" href="~/coursat/css/custom.css">
+
 @using (Html.BeginForm("PostProcessPayment", "Order", FormMethod.Post, new { role = "form", enctype = "multipart/form-data", @class = "form-horizontal",id="PostProcess" }))
 { 
     <section id="main_content">
         <div class="container">
             <div class="row">
-                <div class="col-md-10 studentView">
+                    <div class="col-md-12">
+                        <h3 style="text-align: center;">Order Details</h3>
+                        <table id="orderTable" class="table table-striped" style="margin-bottom:0px;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Remove
+                                    </th>
+                                    <th>
+                                        Course Image
+                                    </th>
+                                    <th>
+                                        Course(s)
+                                    </th>
+                                    <th>
+                                        Price (Rs.)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <div class="col-md-12" style="display:inline-flex; width: 100% !important;background-color: lightgray;margin-left: -1px;padding-top: 10px;padding-bottom: 10px;    margin-bottom: 10px;">
+                            <div style="width: 60%;" id="wallet">
+                                <input id="WalletCheckbox" type="checkbox" />
+                                <span>Apply my wallet Rs. @WalletAmount</span>
+                                <span id="WalletBalance"></span>
+                            </div>
+                            <div class="pull-right" style="width: 100%;"><b><span class="pull-right">Total amount to pay is: Rs. <span id="calcDiv"></span><span id="finalAmt"></span></span></b></div>
+                        </div>
+                        <div class="col-md-12" style="text-align:right;padding-right:0px;">
+                            <input type="button" value="Remove All" class="btn btn-primary" onclick="return clearCart();" />
+                            <input type="button" value="Add More" class="btn btn-primary" onclick="location.href = '/Course/AllCourses'" />
+                            <input type="submit" class="btn btn-primary" value="Order" onclick="return PlaceOrder();" />
+                            <input type="hidden" id="CheckCourse" name="CheckCourse" />
+                            <input type="hidden" id="UserId" name="UserId" />
+                            <input type="hidden" id="TotalAmount" name="TotalAmount" />
+                            <input type="hidden" id="WalletUpdatedAmount" name="WalletUpdatedAmount" />
+                            <input type="hidden" id="UpdateMyWallet" name="UpdateMyWallet" />
+                        </div>
+                    </div><!-- end col -->
+
+
+
+
+                @*<div class="col-md-10 studentView">
                     <div class="panel panel-info filterable add_bottom_45">
-                        <div class="panel-heading">
+                        <div class="">
                             <h3 class="panel-title">Order Details</h3>
                         </div>
                         <table id="orderTable" class="table table-responsive table-striped gridPadding">
@@ -77,7 +123,7 @@
                         </div>
                     </div>
                  
-                </div>
+                </div>*@
             </div>
         </div>
     </section>
@@ -88,7 +134,7 @@
 @*<script src="~/Content/learn/js/jquery-1.10.2.min.js"></script>*@
 <script src="~/Scripts/ProgressBar/jquery.blockUI.js"></script>
 <script type="text/javascript">
-
+    $('#wallet').hide();
     var cartName = "CourseDetails";
     var currentCourses = '';
     Array.prototype.containsCourse = function (v) {
@@ -184,7 +230,7 @@
 
 
         bindTable(JSON.parse(model));
-        $('.icon-minus-circled').click(function () {
+        $('.fa-minus-circle').click(function () {
             var courseId = $(this)[0].id;
             currentCourses = removeItem(currentCourses, courseId);
             bindTable(currentCourses);
@@ -257,7 +303,7 @@
                 if ($('#cartItemCount')[0] != undefined) {
                     $('#cartItemCount')[0].innerHTML = "My Cart (" + cartCount + ")";
                 }
-                var courseIdTD = "<td style='vertical-align:middle;'><a href='' class='icon-minus-circled' id='" + currentCourses[i].CourseId + "'></a></td>";
+                var courseIdTD = "<td style='vertical-align:middle;'><a href='' class='fa-minus-circle' id='" + currentCourses[i].CourseId + "'></a></td>";
                 var courseImageTD = "<td class='courseVal'><img src='" + currentCourses[i].CourseImage + "' class='imgOrderDetails' alt=''></td>";
                 var titleDescriptionTD = "<td class='courseVal'><label>" + currentCourses[i].CourseName + "</label> <br />" + currentCourses[i].CourseDescription + "</td>";
                 var basePriceTD = "<td class='prceValueTD'><label id='lblPrice'>" + orderAmt + "</label></td>";
@@ -282,7 +328,7 @@
             //
             var courseVal = '';
             process = true;
-            courseRow = $('#orderTable').find('.icon-minus-circled').map(function () {
+            courseRow = $('#orderTable').find('.fa-minus-circle').map(function () {
                 courseVal = $(this)[0].id + ',' + courseVal;
                 if ($(this).parent().parent().find('#lblPrice').length > 0) {
                     if ($(this).parent().parent().find('#lblPrice')[0].innerHTML == "Free") {

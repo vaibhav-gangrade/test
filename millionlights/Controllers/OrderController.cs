@@ -614,11 +614,11 @@ namespace Millionlights.Controllers
                     ConfigurationManager.AppSettings["SenderEmail"],
                      ConfigurationManager.AppSettings["Telephone"],
                     ConfigurationManager.AppSettings["EmailId"],
-                    "MillionLights Course order Payment details",
+                    "Edunetworks Course order Payment details",
                     new List<string> { recipientsEmail },
                     regTemplate,
                     UserName,
-                    Path.Combine(Server.MapPath("~/Content/assets/img/slider/Logo.png")), orderNo, orderDate, totalPrice, cNameForEmail, unitPrice);
+                    Path.Combine(Server.MapPath("~/coursat/images/edulogo.jpg")), orderNo, orderDate, totalPrice, cNameForEmail, unitPrice);
 
 
                     //email notification
