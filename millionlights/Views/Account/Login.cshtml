@@ -64,7 +64,7 @@
                             </div>
                             <div><label id="emailValMsg" class="colorRed"></label></div>
                             <div><label id="FPwdSuccessLbl" class="colorRed" style="font-size:small !important;"></label></div>
-                            <div class="rightAlign dispalyNo col-md-3 pull-right"><input type="button" value="Resend" id="Regbtn" class="btn btn-block btn-primary btnRegister btnForword pull-right" onclick="forgotPWDResend()" /></div>
+                            <div class="rightAlign dispalyNo col-md-3 pull-right"><input type="button" value="Reset" id="Regbtn" class="btn btn-block btn-primary btnRegister btnForword pull-right" onclick="forgotPWDResend()" /></div>
                         </div>
                     </div>
                 </div>
@@ -373,18 +373,7 @@
                                         callback: function () {
                                             location.href = '/Home/Index';
                                         }
-                                    },
-                                    "fail": {
-                                        "label": "Cancel",
-                                        "className": "btn-sm btn-primary",
-                                        callback: function () {
-                                            //ML Changes
-                                            location.href = '/UserRegister/Profile/'+ resp.userId;;
-                                            //location.href = '/Course/AllCourses';
-                                        }
-
-                                    },
-
+                                    }
                                 }
                             });
                         }

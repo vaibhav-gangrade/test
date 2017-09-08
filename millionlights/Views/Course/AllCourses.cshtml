@@ -243,17 +243,15 @@
                                   </div><!-- end desc -->
                         </div><!-- end item -->
                     </div>
-                  }
-                  }
+
+                          }
+                      }
                   else
                   {
                       <div><h4>No free course available. Please check other category.</h4></div>
                   }
                 </div><!-- end row -->
-                <hr>
-                <div id='AllCoursePaging' style="text-align:center">
-                    @Html.PagedListPager(Model, page => Url.Action("AllCourses", new { page }))
-                </div>
+
             </div><!-- end content -->
             <div id="sidebar" class="col-md-3 col-sm-12 pull-left">
                 <div class="widget">
@@ -332,10 +330,10 @@
                 </div><!-- end widget -->
             </div><!-- end col -->
         </div><!-- end row -->
-        @*<hr>
-        <div id='AllCoursePaging' style="text-align:center">
+        <hr>
+        <div class="row" id='AllCoursePaging' style="text-align:center">
             @Html.PagedListPager(Model, page => Url.Action("AllCourses", new { page }))
-        </div>*@
+        </div>
     </div><!-- end container -->
 </section><!-- end section-white -->
 

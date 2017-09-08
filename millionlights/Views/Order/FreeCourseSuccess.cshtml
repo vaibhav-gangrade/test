@@ -12,7 +12,7 @@
         if (roleID == 1 || roleID == 3)
         {
             Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            <script src="~/Content/assets/js/jquery.js"></script>
+            @*<script src="~/Content/assets/js/jquery.js"></script>*@
         }
         else
         {
@@ -26,7 +26,7 @@
 }
 @*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />*@
 <div class="row">
-    <div class="col-md-12 col-sm-12" style="padding-left:120px !important;">
+    <div class="col-md-12 col-sm-12" style="text-align: center;">
         <h3>Thank you! We have submitted your order successfully.Please go to your dashboard to start learning. </h3><br />
         <p>(To avoid sending duplicate orders, please do not click the browser Back button.)</p>
     </div>
@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-md-12 studentView">
                 <div class="panel panel-info filterable add_bottom_45" style="overflow-x: scroll;">
-                    <div class="panel-heading">
+                    <div class="panel-heading" style="background-color: lightgray !important;color:lightgray !important;border-color:lightgray !important;">
                         <h3 class="panel-title">Order Status</h3>
                     </div>
                     @foreach (var freeCourses in FreeCourses)

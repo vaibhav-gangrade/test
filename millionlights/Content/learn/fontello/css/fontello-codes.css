@@ -11,9 +11,9 @@
 .icon-heart:before { content: '\e809'; } /* '' */
 .icon-heart-empty:before { content: '\e80a'; } /* '' */
 .icon-star:before { content: '\e80b'; } /* '' */
-.icon-star-empty:before { content: '\e80c'; } /* '' */
-.icon-star-half:before { content: '\e80d'; } /* '' */
-.icon-star-half-alt:before { content: '\e80e'; } /* '' */
+/*.icon-star-empty:before { content: '\e80c'; }*/ /* '' */
+/*.icon-star-half:before { content: '\e80d'; }*/ /* '' */
+/*.icon-star-half-alt:before { content: '\e80e'; }*/ /* '' */
 .icon-user:before { content: '\e80f'; } /* '' */
 .icon-users:before { content: '\e827'; } /* '' */
 .icon-male:before { content: '\e810'; } /* '' */
