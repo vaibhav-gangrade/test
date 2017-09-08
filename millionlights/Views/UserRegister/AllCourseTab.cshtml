@@ -76,7 +76,7 @@
 
 <div id="CourseRatingsModel" class="modal fade" data-keyboard="false" data-backdrop="static" >
     <div class="modal-dialog">
-        <div class="">
+        <div class="">  
             <div class="container">
                 <div class="row">
                     <div class="">
@@ -84,7 +84,7 @@
                             <div class="form-group retiveEmldiv">
                                 <label class="retiveEmlLbl"><b>Submit Course Ratings</b></label>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <hr />
+                                <hr style="margin-top: 4px;">
                             </div>
 
                             <div class="hideDiv aligntextcenter">
@@ -100,15 +100,15 @@
                             </div>
                             <div class="form-group hideDiv aligntextcenter" style="margin:4px 0px 4px 0px;">
                                 <div style="font-weight: 700;">Comments</div>
-                                <textarea id="rating-comments" rows="4" cols="50" style="resize:none;"></textarea>
+                                <textarea id="rating-comments" rows="4" cols="50" style="width:100% !important;height:100% !important;border-top: 1px solid !important;"></textarea>
                                 <label class="text-danger errorRatingsComments"></label>
                                 <br />
                             </div>
                             <br />
                             <div id="ButtonsId" class="aligntextcenter" style="text-align: center;margin-bottom: 15px;">
                                 <input type="hidden" name="CourseIdHidden" id="CourseIdHidden" />
-                                <input type="button" value="Cancel" id="CancelRatingsBtn" class="actCoupon btn" style="padding: 9px 35px 6px 35px !important;background: #F66;" onclick="CancelRatingsButton()" />
-                                <input type="button" value="Save" id="SaveRatingsBtn" class="btnRegister btnForword btn" style="padding: 9px 35px 6px 35px !important;background: #30d9a4 !important;" onclick="SubmitRatingsButton()" />
+                                <input type="button" value="Save" id="SaveRatingsBtn" class="btn btn-block btn-primary" onclick="SubmitRatingsButton()" />
+                                <input type="button" value="Cancel" id="CancelRatingsBtn" class="btn btn-block btn-primary" onclick="CancelRatingsButton()" />
                             </div>
                         </div>
                     </div>

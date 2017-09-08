@@ -240,3 +240,25 @@ input[type="text"].dmsearch-input {
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
 }
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    padding: 8px;
+    line-height: 2 !important;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+.studentView {
+    width: 95%;
+    margin-left: -1%;
+}
+
+.modal {
+    background-color: rgba(85, 85, 85, 0.49) !important;
+}
+
+.img-responsive
+ {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}

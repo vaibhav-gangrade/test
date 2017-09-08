@@ -331,7 +331,11 @@
             </div><!-- end col -->
         </div><!-- end row -->
         <hr>
-        <div class="row" id='AllCoursePaging' style="text-align:center">
+
+        @*<nav id='AllCoursePaging'>
+            @Html.PagedListPager(Model, page => Url.Action("AllCourses", new { page }))
+        </nav>*@
+        <div id='AllCoursePaging' style="text-align:center">
             @Html.PagedListPager(Model, page => Url.Action("AllCourses", new { page }))
         </div>
     </div><!-- end container -->

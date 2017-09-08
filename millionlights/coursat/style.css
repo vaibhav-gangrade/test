@@ -2155,7 +2155,7 @@
 	OTHERS	
 ------------------------------------------------------- */ 
 
-	.pagination > li > a, 
+	/*.pagination > li > a, 
 	.pagination > li > span {
 	    background-color: #f0f0f1;
 	    border: 1px solid #f0f0f1;
@@ -2168,7 +2168,7 @@
 	    padding: 7px 15px;
 	    position: relative;
 	    text-decoration: none;
-	}
+	}*/
 
 	.pagination > li > a:hover, 
 	.pagination > li > span:hover {

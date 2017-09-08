@@ -103,7 +103,7 @@
                                                                         <a class="btn btn-block btn-primary btnSignin signUpBg btnFocus" href="#" id="editProfile" style="background: black;border-color: black;">Edit Profile</a>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <a class="btn btn-block btn-primary" id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
+                                                                        <a class="btn btn-block btn-primary" id="ResetpwdBtnDiv" href="#" onclick="ResetPwd()">Reset Password</a>
                                                                     </div>
                                                                 </div>
                                                                 <a class="actCoupon btn btn-block btn-primary" id="DeactivateAccountButton" style="background-color:#F66; border-color:#F66;" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
@@ -220,10 +220,10 @@
                                                                     </div>
                                                                     <div class="Partner-btn-div marginTxt row">
                                                                         <div class="col-md-offset-2 col-md-4 col-sm-4">
-                                                                            <input type="button" value="Cancel" id="cancelbtn" class="btnCancel btmMarTop btnFocus btn btn-block btn-primary" />
+                                                                            <input type="button" value="Cancel" id="cancelbtn" class="btn btn-block btn-primary" />
                                                                         </div>
                                                                         <div class="col-md-4 col-sm-4">
-                                                                            <input type="submit" value="Save"  class="btnRegister btmMarTop btnFocus btn btn-block btn-primary" onclick="return ValidateProfileData();" />
+                                                                            <input type="submit" value="Save"  class="btn btn-block btn-primary" onclick="return ValidateProfileData();" />
                                                                         </div>
                                                                         <div class="col-md-2 col-sm-2"></div>
                                                                     </div>
@@ -323,9 +323,9 @@
                 </div><!-- end row -->
             </div><!-- end container -->
         </section><!-- end section-white -->
-                                                    }
-                                                    else
-                                                    {
+      }
+      else
+      {
                                                        // @Html.Partial("~/Views/Shared/_AceMainHeader.cshtml")
            <div class="col-md-6">
                <!--  Tabs -->
@@ -362,8 +362,7 @@
                                        <li>City<strong class="pull-right">@Model.City</strong></li>
                                        <li id="profile">
                                            <a class="button_top btnSignin signUpBg btnFocus" href="#" id="editProfile">Edit Profile</a>
-
-                                           <a id="ResetpwdBtnDiv" href="#" style="margin-left: 1%;" onclick="ResetPwd()">Reset Password</a>
+                                           <a id="ResetpwdBtnDiv" href="#" onclick="ResetPwd()">Reset Password</a>
                                            <a class="actCoupon btn btn-block btn-primary" id="DeactivateAccountButton" href="#" onclick="DeactivateAccountButtonClick()">Deactivate My Account</a>
                                        </li>
                                    </ul>
@@ -480,10 +479,10 @@
                                            <div class="Partner-btn-div marginTxt row">
                                                <div class="col-md-2 col-sm-2"></div>
                                                <div class="col-md-4 col-sm-4">
-                                                   <input type="button" value="Cancel" id="cancelbtn" style="margin:0px 0px;" class="btnCancel btmMarTop btnFocus btn btn-block btn-primary" />
+                                                   <input type="button" value="Cancel" id="cancelbtn" style="margin:0px 0px;" class="btn btn-block btn-primary" />
                                                </div>
                                                <div class="col-md-4 col-sm-4">
-                                                   <input type="submit" value="Save" style="padding:0px 0px; margin:0px 0px" class="btnRegister btmMarTop btnFocus btn btn-block btn-primary" onclick="return ValidateProfileData();" />
+                                                   <input type="submit" value="Save" style="padding:0px 0px; margin:0px 0px" class="btn btn-block btn-primary" onclick="return ValidateProfileData();" />
                                                </div>
                                                <div class="col-md-2 col-sm-2"></div>
                                            </div>
@@ -535,7 +534,7 @@
                 <div class="row">
                     <div class="">
                         <div id="login" class="col-sm-5">
-                            <div class="form-group retiveEmldiv"><label class="retiveEmlLbl"><b>Are you sure you want to deactivate your account?</b></label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
+                            <div class="form-group retiveEmldiv"><button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</button><label class="retiveEmlLbl pull-left"><b>Are you sure you want to deactivate your account?</b></label></div>
                             <div class="hideDiv">
                                 <p>
                                     Deactivating your account will disable your profile and you will no longer be able to login to the Edunetworks Portal.
