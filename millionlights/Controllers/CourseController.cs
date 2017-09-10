@@ -2494,6 +2494,7 @@ namespace Millionlights.Controllers
                 courseModel = db.Courses.Where(x => x.Id == course.Id).FirstOrDefault();
                 //courseModel.IsActive = false;
                 //db.Entry(courseModel).State = EntityState.Modified;
+
                 db.Courses.Remove(courseModel);
                 db.SaveChanges();
             }

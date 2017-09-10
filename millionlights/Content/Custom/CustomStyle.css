@@ -1459,10 +1459,11 @@ lblMsg {
 .breadCrumbAlign{
     margin-left: -20px !important;
     margin-top: -8px !important;
-    width: 1148px !important;
+    /*width: 1148px !important;*/
 }
-.breadCrumbWd{
-    width: 1165px !important;
+.breadCrumbWd {
+    /*width: 1165px !important;*/
+    width: inherit !important;
 }
 .registerMsg {
     padding:25px!important;
@@ -1606,3 +1607,7 @@ padding: 6px 14px !important;
     width:190px !important
 }
 
+.dynamicTile
+{
+    width: inherit !important;
+}

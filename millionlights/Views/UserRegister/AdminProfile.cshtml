@@ -14,10 +14,11 @@
     {
         roleID = int.Parse(Session["RoleID"].ToString());
     }
-   // Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
-            //Layout = "~/Views/Shared/_Layout.cshtml";
-            //<script src="~/coursat/js/jquery.min.js"></script>
-       
+    Layout = "";
+    // Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    //<script src="~/coursat/js/jquery.min.js"></script>
+
     var WalletAmount = ViewBag.WalletAmount;
     var ReferralCodeToShare = ViewBag.ReferralCodeToShare;
 }
@@ -360,7 +361,23 @@
     </div>
 </div>
 
+<script src="~/coursat/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<script src="~/coursat/js/bootstrap.js"></script>
+<script src="~/coursat/js/bootstrap.min.js"></script>
+<script src="~/coursat/js/retina.js"></script>
+<script src="~/coursat/js/wow.js"></script>
+<script src="~/coursat/js/carousel.js"></script>
+<script src="~/coursat/js/progress.js"></script>
+<script src="~/coursat/js/parallax.js"></script>
+<script src="~/coursat/js/jquery.prettyPhoto.js"></script>
+<script src="~/coursat/js/custom.js"></script>
 
+<!-- SLIDER REV -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+<script src="~/coursat/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script src="~/coursat/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script src="~/Content/learn/js/jquery.autocomplete.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -416,7 +433,7 @@
             $('#EditProfileUser').hide();
             $('#profile1').show();
         });
-        $('#OrdersGridview').DataTable();
+        //$('#OrdersGridview').DataTable();
         //$('#CouponsGridview').DataTable();
 
         var coupanId = 0;
@@ -614,7 +631,7 @@
 
      
 </script>
-    @*
+    
 <script>
     function ResetPwd() {
         $('#ResetFPwdSuccessLbl')[0].innerHTML = $('#oldPwdErrorLbl')[0].innerHTML = "";
@@ -1125,4 +1142,4 @@
         }
         return isValid;
     }
-</script>*@
+</script>
