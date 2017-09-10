@@ -54,7 +54,7 @@
                     @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml")
                     @using (Html.BeginForm())
                     {
-                        <form action="/Account/ExternalLogin" method="post">
+                        <form action="/Account/ExternalLogin" method="post" onsubmit="return RegisterDialog()">
                             <div class="form-group marginloginpwdTxt">
                                 @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control ", id = "UEmail", @placeholder = "Email", onkeypress = "return Validate(event)" })
                                 @Html.ValidationMessageFor(m => m.EmailId, "", new { @class = "text-danger errorCheckEmailId" })
@@ -197,7 +197,7 @@
                             </div>*@
                             <div class="form-group formGroupCustom">
                                 <div class="col-md-4 col-md-offset-4 btmMarTop" style="margin-bottom:17px;">
-                                    <input type="submit" class="button_fullwidth btn-block btn-primary" value="REGISTER" onclick="RegisterUser();"  />
+                                    <input type="submit" id="reg" class="btn btn-block btn-primary" value="REGISTER" onclick="RegisterUser();"  />
                                 </div>
                             </div>
                             @*}*@
@@ -213,6 +213,17 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.cookie/1.3.1/jquery.cookie.js"></script>
 
 <script type="text/javascript">
+        $(document).ready(function () {
+        if ((localStorage.CouponCode != "null") && (localStorage.CouponCode != "") && (localStorage.CouponCode != "undefined") && (localStorage.CouponCode != undefined)) {
+            $('#actCoupontxt')[0].value = localStorage.CouponCode.trim();
+            $('body').addClass("signUpBgColor");
+            $('#Regbtn').click(function (e) {
+                if (ValidateReg() == false) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
 
     function setCookie(cookieName, cookieValue, nDays) {
 
@@ -227,6 +238,7 @@
     }
     function RegisterUser() {
         var data = null;
+            $('#reg').prop('disabled', true);
         if (ValidateUserRegister()) {
             if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
                 currentCourses = JSON.parse(window.localStorage[cartName]);
