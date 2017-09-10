@@ -763,7 +763,7 @@
                                                 Prev
                                             </button>
 
-                                            <button class="btn btn-success btn-next" data-last="Finish">
+                                            <button class="btn btn-success btn-next" data-last="Finish" id="nextButton">
                                                 Next
                                                 <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                             </button>
@@ -1057,7 +1057,8 @@
                 if (!$('#validation-form5').valid()) e.preventDefault();
             }
         })
-        .on('finished.fu.wizard', function (e) {
+            .on('finished.fu.wizard', function (e) {
+                $("#nextButton").prop('disabled', true);
             //Get Text Long Desc
             var html = CKEDITOR.instances.LongDescription.getSnapshot();
             var dom = document.createElement("DIV");
