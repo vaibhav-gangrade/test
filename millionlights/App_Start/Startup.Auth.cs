@@ -290,11 +290,18 @@ namespace Millionlights
             y.Scope.Add("email");
             y.ClientId = "220411177158-tnjrdamkaq64n44772pn53pfamf9anja.apps.googleusercontent.com";
             y.ClientSecret = "k0LHEZYuKhjpKafHHGqNIeFO";
+            //y.ClientId = "1033934793083-mldrbqovntjvl9kbd4cqeuafb13rirb1.apps.googleusercontent.com";
+            //y.ClientSecret = "UDi1c-BVpCfYIul_xDUy0WTq";
             y.Provider = new GoogleOAuth2AuthenticationProvider()
             {
                 OnAuthenticated = async context =>
                 {
-                    context.Identity.AddClaim(new System.Security.Claims.Claim("urn:tokens:googleplus:accesstoken", context.AccessToken));
+                    context.Identity.AddClaim(new System.Security.Claims.Claim("urn:tokens:google:accesstoken", context.AccessToken));
+                   //context.Identity.AddClaim(new Claim("urn:google:name", context.Identity.FindFirstValue(ClaimTypes.Name)));
+                 //   context.Identity.AddClaim(new Claim("urn:google:email", context.Identity.FindFirstValue(ClaimTypes.Email)));
+                    //This following line is need to retrieve the profile image
+                    //context.Identity.AddClaim(new System.Security.Claims.Claim("urn:google:accesstoken", context.AccessToken, ClaimValueTypes.String, "Google"));
+
                     foreach (var claim in context.User)
                     {
                         var claimType = string.Format("urn:Google:{0}", claim.Key);

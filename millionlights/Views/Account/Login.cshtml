@@ -117,7 +117,7 @@
             });
         }
         if (externalUserAlreadyExist == "true") {
-            var finalMessage = "Sorry, the credentials you entered is already registered with your" + " " + '@extProviderName' + " " + "account";
+            var finalMessage = "Sorry, the credentials you entered is already registered with your" + " " + 'Edunteworks' + " " + "account";
             bootbox.dialog({
                 message: finalMessage,
                 buttons: {
@@ -249,7 +249,7 @@
                     if (response == "true") {
                         $('#emailValMsg')[0].innerHTML = "";
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["SendPassword"]'
-                        $('.dispalyNo').addClass('displayNone');
+                        $('.dispalyNo').css('display', 'none');
                         $('#FPwdSuccessLbl').removeClass('displayNone');
                         localStorage.clear();
                         window.localStorage.removeItem(cartName);
