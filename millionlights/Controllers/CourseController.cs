@@ -2496,7 +2496,15 @@ namespace Millionlights.Controllers
                 //db.Entry(courseModel).State = EntityState.Modified;
 
                 db.Courses.Remove(courseModel);
+                
+                var userWithCourse = db.UsersCourses.Where(x => x.CourseID == courseModel.Id).ToList();
+
+                foreach(var user in userWithCourse)
+                {
+                    db.UsersCourses.Remove(user);
+                }
                 db.SaveChanges();
+
             }
             return RedirectToAction("Index", "Course");
         }
