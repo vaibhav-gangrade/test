@@ -57,7 +57,7 @@
                     <div class="">
                         <div id="login" class="col-sm-5">
                             <div class="form-group retiveEmldiv"><label class="retiveEmlLbl">Retrieve Password</label><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>
-                            <hr style="margin-top: -13px;">
+                            @*<hr style="margin-top: -13px;">*@
                             <div class="dispalyNo"><label class="forgotEmailLbl">Enter your Email</label></div>
                             <div class="form-group dispalyNo">
                                 <input id="forgotEmail" type="text" class=" form-control " placeholder="Email-Id" style="background-color:white;">
@@ -117,7 +117,7 @@
             });
         }
         if (externalUserAlreadyExist == "true") {
-            var finalMessage = "Sorry, the credentials you entered is already registered with your" + " " + '@extProviderName' + " " + "account";
+            var finalMessage = "Sorry, the credentials you entered is already registered with your" + " " + 'Edunteworks' + " " + "account";
             bootbox.dialog({
                 message: finalMessage,
                 buttons: {
@@ -249,7 +249,7 @@
                     if (response == "true") {
                         $('#emailValMsg')[0].innerHTML = "";
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["SendPassword"]'
-                        $('.dispalyNo').addClass('displayNone');
+                        $('.dispalyNo').css('display', 'none');
                         $('#FPwdSuccessLbl').removeClass('displayNone');
                         localStorage.clear();
                         window.localStorage.removeItem(cartName);

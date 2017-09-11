@@ -532,7 +532,15 @@ namespace Millionlights.Controllers
                     //
 
                     //Session["UserName"] = loginInfo.DefaultUserName;
-                    Session["UserName"] = firstName;
+                    
+                    if(firstName == null)
+                    {
+                        Session["UserName"] = email;
+                    }
+                    else
+                    {
+                        Session["UserName"] = firstName;
+                    }
                     //Session["FirstName"] = firstName;
                     Session["UserID"] = user.UserId;
                     Session["RoleID"] = 2;

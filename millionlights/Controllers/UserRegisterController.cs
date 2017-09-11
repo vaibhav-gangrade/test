@@ -736,7 +736,7 @@ namespace Millionlights.Controllers
                         ConfigurationManager.AppSettings["SenderEmail"],
                          ConfigurationManager.AppSettings["Telephone"],
                           ConfigurationManager.AppSettings["EmailId"],
-                        "Your Millionlights Registration Successful",
+                        "Your Edunetworks Registration Successful",
                         regTemplate,
                         userName,
                         user.EmailId
@@ -940,7 +940,7 @@ namespace Millionlights.Controllers
                             ConfigurationManager.AppSettings["SenderEmail"],
                             ConfigurationManager.AppSettings["Telephone"],
                             ConfigurationManager.AppSettings["EmailId"],
-                            "Reset your Millionlights.org password",
+                            "Reset your Edunetworks.com password",
                             regTemplate,
                             userName,
                             recipientsEmail,
