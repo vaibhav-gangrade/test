@@ -238,7 +238,6 @@
     }
     function RegisterUser() {
         var data = null;
-            $('#reg').prop('disabled', true);
         if (ValidateUserRegister()) {
             if (window.localStorage[cartName] != null || window.localStorage[cartName] != undefined) {
                 currentCourses = JSON.parse(window.localStorage[cartName]);
@@ -248,7 +247,11 @@
                 data = $.cookie("CourseID");
                 $.removeCookie("CourseID");
             }
-
+            //var mob = /^[1-9]{1}[0-9]{9}$/;
+            //if (mob.test($.trim($('#phoneTxt').val())) == false) {
+            //    alert("Please enter valid mobile number.");
+            //    return false;
+            //}
             var FirstName = $("#firstnameTxt").val();
             var LastName = $("#lastnameTxt").val();
             var EmailId = $("#emailIdTxt").val();
@@ -260,6 +263,8 @@
             var City = $("#cityTxt").val();
             var ZipCode = $("#zipcodeTxt").val();
             var PhoneNumber = $("#phoneTxt").val();
+            $('#reg').prop('disabled', false);
+
             var userRegister =
             {
                 "FirstName": FirstName,
@@ -276,6 +281,7 @@
                 "data": data
             };
             var model = JSON.stringify(userRegister);
+            $('#reg').prop('disabled', true);
 
             $.ajax({
                 type: "POST",
