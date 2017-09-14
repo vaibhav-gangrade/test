@@ -408,6 +408,9 @@ namespace Millionlights.Controllers
                     {
                         firstName = givenNameClaim.Value;
                     }
+                    else{
+                        firstName = emailClaim.Value;
+                    }
                     if (lastNameClaim != null && lastNameClaim.Value != null)
                     {
                         lastName = lastNameClaim.Value;
