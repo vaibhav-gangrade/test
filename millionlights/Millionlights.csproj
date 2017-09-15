@@ -1776,6 +1776,8 @@
     <Content Include="coursat\rs-plugin\font\revicons.woff" />
     <Content Include="coursat\rs-plugin\images\.DS_Store" />
     <Content Include="coursat\rs-plugin\js\.DS_Store" />
+    <None Include="Properties\PublishProfiles\Edunetworks - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\Edunetworks - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %2810%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %2811%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlights-beta %2812%29.pubxml" />
@@ -1843,6 +1845,8 @@
     <None Include="Properties\PublishProfiles\millionlightsTest - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\millionlightsTest - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MillionlightsTest.pubxml" />
+    <None Include="Properties\PublishProfiles\ml-dev2 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ml-dev2 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ml-dev3 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ml-dev3 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ml-dev4 - FTP.pubxml" />
