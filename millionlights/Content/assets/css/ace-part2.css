@@ -3309,9 +3309,9 @@ th[aria-selected=true] .ui-jqgrid-sortable {
   border-top-width: 0;
   border-bottom: 1px solid #E1E1E1;
 }
-.ui-jqgrid .ui-sgcollapsed > a:hover {
+/*.ui-jqgrid .ui-sgcollapsed > a:hover {
   text-decoration: none;
-}
+}*/
 @media only screen and (max-width: 767px) {
   .ui-jqgrid .ui-jqgrid-pager {
     height: 90px;

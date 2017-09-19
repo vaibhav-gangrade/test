@@ -2,6 +2,8 @@
     ViewBag.Title = "Transaction completed successfuly!!";
     //Layout = "~/Views/Shared/_Layout.cshtml";
     var FreeCourses = ViewBag.FreeCourse;
+    var userid = Session["UserID"];
+
     int roleID = 0;
     if (Session["RoleID"] != null)
     {
@@ -24,10 +26,11 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 }
-@*<link href="~/Content/learn/css/color_scheme.css" rel="stylesheet" />*@
 <div class="row">
     <div class="col-md-12 col-sm-12" style="text-align: center;">
-        <h3>Thank you! We have submitted your order successfully.Please go to your dashboard to start learning. </h3><br />
+        <h3 id="courselist">
+    Thank you! We have submitted your order successfully.Please go to your <span style="font-weight:bold; text-decoration: underline;"><a href="@Url.Action("Profile", "UserRegister", new { id = userid})">dashboard</a></span> to start learning.
+</h3><br />
         <p>(To avoid sending duplicate orders, please do not click the browser Back button.)</p>
     </div>
 </div>
@@ -35,33 +38,22 @@
 <section id="main_content">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 studentView">
-                <div class="panel panel-info filterable add_bottom_45" style="overflow-x: scroll;">
-                    <div class="panel-heading" style="background-color: lightgray !important;color:lightgray !important;border-color:lightgray !important;">
+            <div class="col-md-12">
+                <div class="panel panel-info filterable add_bottom_45">
+                    @*<div class="panel-heading" style="background-color: lightgray !important;color:lightgray !important;border-color:lightgray !important;">
                         <h3 class="panel-title">Order Status</h3>
-                    </div>
+                    </div>*@
                     @foreach (var freeCourses in FreeCourses)
                     {
                         <table id="CourseOrderSuccess" class="table table-responsive table-striped gridPadding">
                             <thead class="theadColor">
                                 <tr>
-
-                                    <th class="courseImg successMag"> Order number</th>
-                                    <th class="CoursDetails successMag">Transaction ID</th>
                                     <th class="coursePrice successMag">Course Name</th>
-                                    @*<th class="coursePrice successMag">Curency</th>*@
-                                    <th class="coursePrice successMag">Price (Rs.)</th>
-                                    <th class="orderCouponHead successMag">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="courseVal">@freeCourses.OrderNumber</td>
-                                    <td class="courseVal">@freeCourses.TransactionId</td>
-                                    <td class="succcessMargLeft">@Html.Raw(freeCourses.CheckoutCourses)</td>
-                                    @*<td class="succcessMargLeft">@freeCourses.Currency</td>*@
-                                    <td class="succcessMargLeft">@freeCourses.OrderPrice</td>
-                                    <td class="succcessMargLeft">@freeCourses.Status</td>
+                                    <td class=""><p>@Html.Raw(freeCourses.CheckoutCourses)</p></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -78,7 +70,6 @@
         var cartName = "CourseDetails";
         window.localStorage.removeItem(cartName);
         localStorage.removeItem('CourseId');
-        //Suraj to fix My Coupon Issue
         window.localStorage.removeItem('CouponCode');
         localStorage.removeItem('CouponCode');
         lwindow.localStorage.clear();

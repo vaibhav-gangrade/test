@@ -701,6 +701,7 @@
     <Content Include="coursat\images\dummy.png" />
     <Content Include="coursat\images\edulogo.jpg" />
     <Content Include="coursat\images\favicon.ico" />
+    <Content Include="coursat\images\finalstart.png" />
     <Content Include="coursat\images\logo%402x.png" />
     <Content Include="coursat\images\logo.png" />
     <Content Include="coursat\images\logo1.png" />
@@ -744,6 +745,7 @@
     <Content Include="coursat\images\prettyPhoto\light_square\sprite.png" />
     <Content Include="coursat\images\small.png" />
     <Content Include="coursat\images\smalllogo.png" />
+    <Content Include="coursat\images\start.jpg" />
     <Content Include="coursat\js\bootstrap-select.min.js" />
     <Content Include="coursat\js\bootstrap.js" />
     <Content Include="coursat\js\bootstrap.min.js" />

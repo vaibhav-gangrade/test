@@ -10,7 +10,33 @@
 }
 <link rel="stylesheet" type="text/css" href="~/coursat/css/custom.css">
 <link rel="stylesheet" type="text/css" href="~/coursat/rs-plugin/css/settings.css" media="screen" />
-
+<div class="topbar clearfix">
+    <div class="container">
+        <div class="clearfix">
+            <div class="pull-left">
+                <div class="contactwrap text-left">
+                    <ul class="list-inline">
+                        <li><i class="fa fa-phone"></i> Call Us : 002 0106 5370701</li>
+                        <li><i class="fa fa-envelope"></i> Email Us : 002 0106 5370701</li>                        
+                    </ul>
+                </div><!-- end contactwrap -->
+            </div><!-- end col -->
+            <div class="pull-right">
+                <ul class="social">
+                    <li class="facebook"><a href="https://www.facebook.com/pages/Edunetworks-Consulting/200456993320125"><i class="fa fa-facebook"></i></a></li>
+                    <li class="twitter"><a href="https://twitter.com/edunetworks"><i class="fa fa-twitter"></i></a></li>
+                    <li class="google"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li class="pinterest"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                    <li class="vimeo"><a href="#"><i class="fa fa-vimeo-square"></i></a></li>
+                    <li class="linkedin"><a href="https://www.linkedin.com/company-beta/2598941/"><i class="fa fa-linkedin"></i></a></li>
+                    <li class="dribbble"><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                    <li class="youtube"><a href="#"><i class="fa fa-youtube"></i></a></li>
+                    <li class="rss"><a href="#"><i class="fa fa-rss"></i></a></li>
+                </ul>
+            </div><!-- end col -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end topbar -->
     <header class="header clearfix">
         <div class="container">
             <nav class="yamm navbar navbar-default">
@@ -31,7 +57,7 @@
                             <a href="/PressRelease/Press" id="AboutUsId">About Us</a>
                         </li>             
                         <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Contact" ? "active" : "")"><a href="/Home/Contact">Contact</a></li>
-                       
+                        <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "FAQ" ? "active" : "")"><a href="/Home/FAQ">FAQ</a></li>
                         <li class="noborder">
 
                             <div id="dmsearch" class="dmsearch">
@@ -57,16 +83,16 @@
                                     </a>
                                     <ul class="dropdown-menu" style="top:66px;">
                                         <li style="text-align: center;">
-                                            <i class="fa fa-sort-up icon-cog" style="position:fixed;top: 58px; right:71px; font-size: 1.8em;opacity: 1;"></i>
+                                            @*<i class="fa fa-sort-up icon-cog" style="position:fixed;top: 58px; right:71px; font-size: 1.8em;opacity: 1;"></i>*@
                                             <div class="yamm-content" style="border: 2px solid #f5f5f5;">
                                                 <div class="box" style="left:-117px;display:block" id="log">
                                                     <label class="lblUserName" style="text-align:center;text-decoration:underline;">@userName</label>
                                                     <span id="courselist">
                                                         <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">Dashboard</a>
                                                     </span>
-                                                    <span id="courselist">
+                                                    @*<span id="courselist">
                                                         <a href="@Url.Action("Profile", "UserRegister", new { id = userid})">My Account</a>
-                                                    </span>
+                                                    </span>*@
                                                     <span id="Cart">
                                                         <a href="/Order/Details" id="cartItemCount"></a>
                                                     </span>
