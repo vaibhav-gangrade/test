@@ -516,7 +516,7 @@
 
                             <div><label id="ResetFPwdSuccessLbl" class="forgotEmailLbl" style="font-size: 16px!important;"></label></div>
                             <div id="ResetBtnDiv" class="rightAlign"><input type="button" value="Reset" id="Regbtn" class="btn btnRegister btnForword" onclick="ResetPwdBtn()" /></div>
-                            @*<div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>*@
+                            <div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>
                         </div>
                 </div>
             </div>
@@ -717,7 +717,7 @@ else
             window.location.href = url;
         }
 
-        $('#CloseBtnDiv').addClass('displayNone');
+        $('#CloseBtnDiv').css('display', 'none');
         var mobileNumber = $("#hiddenMobile").val();
         var EmailAddress = $("#hiddenEmail").val();
         if (EmailAddress == null || EmailAddress == '') {
@@ -949,7 +949,7 @@ else
         $('#ResetFPwdSuccessLbl')[0].innerHTML = $('#oldPwdErrorLbl')[0].innerHTML = "";
         $('#oldPwd')[0].value = $('#newPwd')[0].value = $('#confirmPwd')[0].value = "";
         $('.hideDiv').removeClass('displayNone');
-        $('#CloseBtnDiv').addClass('displayNone');
+        $('#CloseBtnDiv').css('display', 'none');
         $('#ResetBtnDiv').removeClass('displayNone');
         $('#ResetPwdModel').modal('show');
     }
@@ -969,9 +969,9 @@ else
                 success: function (response) {
 
                     if (response == true) {
-                        $('.hideDiv').addClass('displayNone');
+                        $('.hideDiv').css('display', 'none');
                         $('#CloseBtnDiv').removeClass('displayNone');
-                        $('#ResetBtnDiv').addClass('displayNone');
+                        $('#ResetBtnDiv').css('display', 'none');
                         $('#oldPwd')[0].value = $('#newPwd')[0].value = $('#confirmPwd')[0].value = "";
                         $('#oldPwdErrorLbl')[0].innerHTML = "";
                         $('#ResetFPwdSuccessLbl')[0].innerHTML = "Password reset successfully";
