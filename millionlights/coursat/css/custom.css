@@ -270,3 +270,11 @@ input[type="text"].dmsearch-input {
 #faqs_parallax {
     background-image: none !important;
 }
+
+.colorRed {
+    color: red;
+}
+
+.displayNone {
+    display: none;
+}

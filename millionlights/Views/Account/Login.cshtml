@@ -65,7 +65,7 @@
                             </div>
                             <div><label id="emailValMsg" class="colorRed"></label></div>
                             <div><label id="FPwdSuccessLbl" class="colorRed" style="font-size:small !important;"></label></div>
-                            <div class="dispalyNo rightAlign col-md-3 pull-right"><input type="button" value="Reset" id="Regbtn" style="margin-top: -28px !important;" class="btn btn-block btn-primary" onclick="forgotPWDResend()" /></div>
+                            <div class="dispalyNo rightAlign col-md-3 pull-right"><input type="button" value="Reset" id="Regbtn" style="margin-top: -9px !important;" class="btn btn-block btn-primary" onclick="forgotPWDResend()" /></div>
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,7 @@
                     if (response == "true") {
                         $('#emailValMsg')[0].innerHTML = "";
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["SendPassword"]'
-                        $('.dispalyNo').css('display', 'none');
+                        $('.dispalyNo').addClass('displayNone');
                         $('#FPwdSuccessLbl').removeClass('displayNone');
                         localStorage.clear();
                         window.localStorage.removeItem(cartName);

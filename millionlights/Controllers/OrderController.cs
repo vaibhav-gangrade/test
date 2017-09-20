@@ -1258,7 +1258,7 @@ namespace Millionlights.Controllers
                 {
                     Int32 cID = Convert.ToInt32(course);
                     Course crs = db.Courses.Where(x => x.Id == cID).FirstOrDefault();
-                    string viewCourse = "<span style='float:right'><a href=" + crs.EDXCourseLink + " target='_blank'><img src='http://localhost:8094/coursat/images/finalstart.png'></img></a></span><br/><hr>";
+                    string viewCourse = "<span style='float:right'><a href=" + crs.EDXCourseLink + " target='_blank'><img src='http://edunetworks.azurewebsites.net/coursat/images/finalstart.png'></img></a></span><br/><hr>";
                     viewcourse = viewCourse;
                     if (!string.IsNullOrEmpty(cName))
                     {

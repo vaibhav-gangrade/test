@@ -949,7 +949,7 @@ else
         $('#ResetFPwdSuccessLbl')[0].innerHTML = $('#oldPwdErrorLbl')[0].innerHTML = "";
         $('#oldPwd')[0].value = $('#newPwd')[0].value = $('#confirmPwd')[0].value = "";
         $('.hideDiv').removeClass('displayNone');
-        $('#CloseBtnDiv').css('display', 'none');
+        $('#CloseBtnDiv').addClass('displayNone');
         $('#ResetBtnDiv').removeClass('displayNone');
         $('#ResetPwdModel').modal('show');
     }
@@ -969,9 +969,9 @@ else
                 success: function (response) {
 
                     if (response == true) {
-                        $('.hideDiv').css('display', 'none');
+                        $('.hideDiv').addClass('displayNone');
                         $('#CloseBtnDiv').removeClass('displayNone');
-                        $('#ResetBtnDiv').css('display', 'none');
+                        $('#ResetBtnDiv').addClass('displayNone');
                         $('#oldPwd')[0].value = $('#newPwd')[0].value = $('#confirmPwd')[0].value = "";
                         $('#oldPwdErrorLbl')[0].innerHTML = "";
                         $('#ResetFPwdSuccessLbl')[0].innerHTML = "Password reset successfully";
