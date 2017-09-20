@@ -88,8 +88,8 @@
 
     function ForgotPwd() {
 
-        $('.dispalyNo').removeClass('displayNone');
-        $('#FPwdSuccessLbl').addClass('displayNone');
+        $('.dispalyNo').removeClass('displayNone1');
+        $('#FPwdSuccessLbl').addClass('displayNone1');
         $('#forgotModel').modal('show');
         return false;
     }
@@ -249,20 +249,20 @@
                     if (response == "true") {
                         $('#emailValMsg')[0].innerHTML = "";
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["SendPassword"]'
-                        $('.dispalyNo').addClass('displayNone');
-                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                        $('.dispalyNo').addClass('displayNone1');
+                        $('#FPwdSuccessLbl').removeClass('displayNone1');
                         localStorage.clear();
                         window.localStorage.removeItem(cartName);
                     }
                     else if (response == "externalUser") {
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["ifExternalUser"]';
                         $('#emailValMsg')[0].innerHTML = " ";
-                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                        $('#FPwdSuccessLbl').removeClass('displayNone1');
                     }
                     else {
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["ValidRegEmailId"]'
                         $('#emailValMsg')[0].innerHTML = " "
-                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                        $('#FPwdSuccessLbl').removeClass('displayNone1');
                     }
                 },
                 error: function (response) { }
