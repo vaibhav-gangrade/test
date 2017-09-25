@@ -703,7 +703,6 @@
     <Content Include="coursat\images\favicon.ico" />
     <Content Include="coursat\images\logo%402x.png" />
     <Content Include="coursat\images\logo.png" />
-    <Content Include="coursat\images\logo1.png" />
     <Content Include="coursat\images\prettyPhoto\dark_rounded\btnNext.png" />
     <Content Include="coursat\images\prettyPhoto\dark_rounded\btnPrevious.png" />
     <Content Include="coursat\images\prettyPhoto\dark_rounded\contentPattern.png" />
@@ -2811,7 +2810,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -2864,9 +2862,6 @@
     <Content Include="Views\VoucherCode\VoucherList.cshtml" />
     <Content Include="Views\VoucherCode\Create.cshtml" />
     <Content Include="Views\VoucherCode\Edit.cshtml" />
-    <Content Include="Views\Student\Partner\Create.cshtml" />
-    <Content Include="Views\Student\Partner\Edit.cshtml" />
-    <Content Include="Views\Student\Partner\Index.cshtml" />
     <Content Include="Views\VoucherCode\ActivateVoucher.cshtml" />
     <Content Include="Views\VoucherCode\VoucherStatus.cshtml" />
     <Content Include="Views\Certification\Delete.cshtml" />
@@ -2952,6 +2947,7 @@
     <Content Include="Views\Career\Career.cshtml" />
     <Content Include="Views\Career\Create.cshtml" />
     <Content Include="Views\UserRegister\AdminProfile.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
