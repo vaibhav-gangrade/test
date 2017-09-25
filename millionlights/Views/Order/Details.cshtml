@@ -280,8 +280,8 @@
         var ordAmount = 0;
         if (confirm("Please confirm the order?") == true) {
             //Block the background to prevent the duplicate orders
-           // $.blockUI();
-           // setTimeout($.unblockUI, 50000);
+            $.blockUI();
+            setTimeout($.unblockUI, 50000);
             //
             var courseVal = '';
             process = true;

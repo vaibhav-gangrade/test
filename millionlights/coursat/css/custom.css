@@ -49,9 +49,7 @@
     margin-bottom: 14px;
     margin-top: -12px;
 }
-/*.section-white {
-    padding: 38px 0px;
-}*/
+
 .h4 {
     font-size: 18px;
     font-weight: bold;
@@ -107,14 +105,6 @@ input[type="text"].dmsearch-input {
     color: #ffffff !important;
 }
 
-.profImg {
-    width: 120px !important;
-    margin: 0 auto;
-}
-/*.modal-backdrop.in {
-    filter: alpha(opacity=50) !important;
-    opacity: .5 !important;
-}*/
 
 .modal-backdrop {
     position: initial !important;
@@ -129,14 +119,6 @@ input[type="text"].dmsearch-input {
     opacity: 0.8 !important;*/
 }
 
-
-/*.fade.in {
-    opacity: 0.5 !important;
-}*/
-    /*.modal-backdrop.in {
-        opacity: 0.8;
-        filter: alpha(opacity=50);
-    }*/
 
 .btnRegister {
     height: 32px;
@@ -183,17 +165,6 @@ input[type="text"].dmsearch-input {
     text-transform: uppercase;
     -webkit-font-smoothing: antialiased;
 }
-
-/*.icon {
-    font-family: 'Stroke-Gap-Icons';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-}*/
 
 .fa-minus-circle {
     color: red !important;
@@ -263,13 +234,47 @@ input[type="text"].dmsearch-input {
     height: auto;
 }
 
-/*@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800');
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900');
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower');*/
-
 
 .retiveEmldiv {
     border-bottom: 1px solid rgba(0, 0, 0, 0.29) !important;
+}
+
+.profile-pictures {
+    padding: 4px;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.profile-pictures1 {
+    padding: 17px;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.succcessMargLeft {
+    padding-left: 1%;
+}
+
+.img-circle.styled {
+    background-color: #ededed;
+    -moz-box-shadow: 0px 0px 0px 5px #ededed;
+    -webkit-box-shadow: 0px 0px 0px 5px #ededed;
+    box-shadow: 0px 0px 0px 5px #ededed;
+    margin: auto;
+}
+
+
+.profImg {
+    width: 120px !important;
+}
+#faqs_parallax {
+    background-image: none !important;
+}
+
+.colorRed {
+    color: red;
+}
+
+.displayNone1 {
+    display: none;
 }

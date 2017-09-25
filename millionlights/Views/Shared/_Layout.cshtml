@@ -31,41 +31,7 @@
 
     <!-- Favicons-->
     <link rel="shortcut icon" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon">
-    @*<link rel="shortcut icon" sizes="16x16" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" sizes="32x32" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" sizes="96x96" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" sizes="72x72" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="~/Content/learn/img/mlIcon.png" type="image/png" sizes="16x16" />*@
-    @*rel="apple-icon" to rel="apple-touch-icon"*@
-    @*<link rel="apple-touch-icon" type="image/x-icon" href="~/Content/learn/img/favicons/apple-icon.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="57x57" href="~/Content/learn/img/favicons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="60x60" href="~/Content/learn/img/favicons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="~/Content/learn/img/favicons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="76x76" href="~/Content/learn/img/favicons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="~/Content/learn/img/favicons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="120x120" href="~/Content/learn/img/favicons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="~/Content/learn/img/favicons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="152x152" href="~/Content/learn/img/favicons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="180x180" href="~/Content/learn/img/favicons/apple-icon-180x180.png">
-    <link rel="apple-touch-icon" type="image/x-icon" href="~/Content/learn/img/favicons/apple-icon-precomposed.png">*@
-
-    <!--MSIE Favicons -->
-    <!--rel="ms-icon" to rel="shortcut icon"-->
-    @*<link rel="shortcut icon" type="image/x-icon" sizes="70x70" href="~/Content/learn/img/favicons/ms-icon-70x70.png">
-    <link rel="shortcut icon" type="image/x-icon" sizes="150x150" href="~/Content/learn/img/favicons/ms-icon-150x150.png">
-    <link rel="shortcut icon" type="image/x-icon" sizes="310x310" href="~/Content/learn/img/favicons/ms-icon-310x310.png">
-    <link rel="shortcut icon" type="image/x-icon" sizes="144x144" href="~/Content/learn/img/favicons/ms-icon-144x144.png">*@
-
-    <!--Android Favicons -->
-    <!--rel="android-icon" to rel="icon"-->
-    @*<link rel="icon" type="image/x-icon" sizes="36x36" href="~/Content/learn/img/favicons/android-icon-36x36.png">
-    <link rel="icon" type="image/x-icon" sizes="48x48" href="~/Content/learn/img/favicons/android-icon-48x48.png">
-    <link rel="icon" type="image/x-icon" sizes="72x72" href="~/Content/learn/img/favicons/android-icon-72x72.png">
-    <link rel="icon" type="image/x-icon" sizes="96x96" href="~/Content/learn/img/favicons/android-icon-96x96.png">
-    <link rel="icon" type="image/x-icon" sizes="144x144" href="~/Content/learn/img/favicons/android-icon-144x144.png">
-    <link rel="icon" type="image/x-icon" sizes="192x192" href="~/Content/learn/img/favicons/android-icon-192x192.png">*@
-     
+    <link rel="icon" href="~/Content/learn/img/favicons/favicon.ico" type="image/x-icon">    
     <link rel="apple-touch-icon" href="~/coursat/images/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="72x72" href="~/coursat/images/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon" sizes="114x114" href="~/coursat/images/apple-touch-icon-114x114.png">
@@ -79,8 +45,6 @@
     <link rel="stylesheet" type="text/css" href="~/coursat/css/carousel.css">
     <link rel="stylesheet" type="text/css" href="~/coursat/css/prettyPhoto.css">
     <link rel="stylesheet" type="text/css" href="~/coursat/style.css">
-    <link rel="stylesheet" type="text/css" href="/Content/assets/css/bootstrap-editable.css" />
-
 
     <!-- COLORS -->
     <link rel="stylesheet" type="text/css" href="~/coursat/css/custom.css">
@@ -110,6 +74,9 @@
 
 
     </script>
+    <script src="~/coursat/js/jquery.min.js"></script>
+    @*<script src="~/coursat/js/bootstrap.js"></script>*@
+    <script src="~/coursat/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -119,10 +86,8 @@
     @RenderSection("scripts", required: false)
 
     @*//JS Files*@
-    <script src="~/coursat/js/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="~/coursat/js/bootstrap.js"></script>
-    <script src="~/coursat/js/bootstrap.min.js"></script>
+
     <script src="~/coursat/js/retina.js"></script>
     <script src="~/coursat/js/wow.js"></script>
     <script src="~/coursat/js/carousel.js"></script>
@@ -130,6 +95,7 @@
     <script src="~/coursat/js/parallax.js"></script>
     <script src="~/coursat/js/jquery.prettyPhoto.js"></script>
     <script src="~/coursat/js/custom.js"></script>
+
 
     <!-- SLIDER REV -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>

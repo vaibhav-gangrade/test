@@ -1239,6 +1239,7 @@ namespace Millionlights.Controllers
             List<dynamic> freeCourses = new List<dynamic>();
             dynamic fc = new ExpandoObject();
             string cName = string.Empty;
+            string viewcourse = string.Empty;
             string tempTotal = TempData["totalAmount"].ToString();
             string tempcheckCourse = TempData["CheckCourse"].ToString().Trim(new char[] { ',' });
 
@@ -1257,10 +1258,12 @@ namespace Millionlights.Controllers
                 {
                     Int32 cID = Convert.ToInt32(course);
                     Course crs = db.Courses.Where(x => x.Id == cID).FirstOrDefault();
-                    string viewCourse = "<br />(<a href=" + crs.EDXCourseLink + " target='_blank'> View Course </a>)<br />";
+                    string viewCourse = "<span style='float:right'><a href=" + crs.EDXCourseLink + " target='_blank'><img src='http://edunetworks.azurewebsites.net/coursat/images/finalstart.png'></img></a></span><br/><hr>";
+                    viewcourse = viewCourse;
                     if (!string.IsNullOrEmpty(cName))
                     {
-                        cName = crs.CourseName + viewCourse + ' ' + ',' + ' ' + cName;
+                        cName = crs.CourseName + viewCourse + ' ' + '\n' + ' ' + cName;
+                        //cName = crs.CourseName + cName;
                     }
                     else
                     {
@@ -1306,6 +1309,7 @@ namespace Millionlights.Controllers
                 }
             }
             string orderNumber = TempData["orderNumber"].ToString();
+            //fc.viewCourse = viewcourse;
             fc.OrderPrice = tempTotal;
             fc.CheckoutCourses = cName;
             fc.OrderNumber = orderNumber;

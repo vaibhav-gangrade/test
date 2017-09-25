@@ -36,15 +36,11 @@
 
 
 }
-<link rel="stylesheet" type="text/css" href="~/coursat/fonts/font-awesome-4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/css/stroke.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/css/animate.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/css/carousel.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/css/prettyPhoto.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/style.css">
-<link rel="stylesheet" type="text/css" href="~/coursat/css/custom.css">
+@*<link rel="stylesheet" href="~/Content/learn/css/jquery.switch.css">*@
+@*<link rel="stylesheet" href="~/Content/assets/css/font-awesome.css" />*@
+<link rel="stylesheet" href="~/Content/assets/css/jquery.gritter.css" />
+<link rel="stylesheet" href="~/Content/assets/css/bootstrap-editable.css" />
+<link rel="stylesheet" href="~/Content/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
 
 <section id="main_content">
     <div class="container">
@@ -61,12 +57,12 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <div class="panel-title active" id="ProfileId">
-                                                <a class="accordion-toggle" href="#profile" data-toggle="collapse" data-parent="#accordion1">
+                                                <a class="accordion-toggle" href="#ml-profile" data-toggle="collapse" data-parent="#accordion1">
                                                     <h3><i class="indicator fa fa-minus"></i>Profile</h3>
                                                 </a>
                                             </div>
                                         </div>
-                                        <div id="profile" class="panel-collapse collapse in">
+                                        <div id="ml-profile" class="panel-collapse collapse in">
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <aside class="col-md-12">
@@ -100,7 +96,7 @@
                                                             <div id="profile">
                                                                 <div class="row">
                                                                     <div class="col-md-6">
-                                                                        <a class="btn btn-block btn-primary btnSignin signUpBg btnFocus" href="#" id="editProfile" style="background: black;border-color: black;">Edit Profile</a>
+                                                                        <a class="btn btn-block btn-primary" href="#" id="editProfile" style="background: black;border-color: black;">Edit Profile</a>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <a class="btn btn-block btn-primary" id="ResetpwdBtnDiv" href="#" onclick="ResetPwd()">Reset Password</a>
@@ -202,7 +198,7 @@
                                                                         <div class="col-md-2 col-sm-2"></div>
                                                                         <div class="col-md-8 col-sm-8">
                                                                             <div class="form-group marginloginpwdTxt ">
-                                                                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @type = "number" })
+                                                                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control style_2", id = "PhoneNoTxt", name = "PhoneNoTxt", placeholder = "Enter Phone Number", @min = "10", @max = "10" })
                                                                                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger errorPhoneNo " })
                                                                             </div>
                                                                         </div>
@@ -250,7 +246,7 @@
                                         <div id="note" class="panel-collapse collapse">
                                             <div class="panel-body" style="height:250px;overflow-y:auto;overflow-x: hidden;">
                                                 <div class="row" id="notification">
-                                                    <div class="col-md-12 studentView">
+                                                    <div class="col-md-12">
                                                         @{Html.RenderAction("AllNotification", "Notification");}
                                                     </div>
                                                 </div>
@@ -270,7 +266,7 @@
                                         </div>
                                         <div id="courses" class="panel-collapse collapse">
                                             <div class="panel-body" style="height:250px;overflow-y:auto;">
-                                                <div class="col-md-12 studentView">
+                                                <div class="col-md-12">
                                                     @{Html.RenderAction("AllCourseTab", "UserRegister");}
                                                 </div>
                                             </div>
@@ -283,7 +279,7 @@
                                         <div class="panel-heading">
                                             <div class="panel-title" id="MyCertId">
                                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#certificate">
-                                                    <h3><i class="indicator fa fa-plus"></i> Certificate</h3>
+                                                    <h3><i class="indicator fa fa-plus"></i> Certificates</h3>
                                                 </a>
                                             </div>
                                         </div>
@@ -291,7 +287,7 @@
                                         <div id="certificate" class="panel-collapse collapse">
                                             <div class="panel-body">
                                                 <div class="row" id="notification">
-                                                    <div class="col-md-12 studentView">
+                                                    <div class="col-md-12">
                                                         @{Html.RenderAction("CertificateTab", "UserRegister");}
                                                     </div>
                                                 </div>
@@ -520,7 +516,7 @@
 
                             <div><label id="ResetFPwdSuccessLbl" class="forgotEmailLbl" style="font-size: 16px!important;"></label></div>
                             <div id="ResetBtnDiv" class="rightAlign"><input type="button" value="Reset" id="Regbtn" class="btn btnRegister btnForword" onclick="ResetPwdBtn()" /></div>
-                            @*<div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>*@
+                            <div id="CloseBtnDiv" class="rightAlign"><button type="button" class="btnRegister btnForword" data-dismiss="modal" value="Close" aria-hidden="true">Close</button></div>
                         </div>
                 </div>
             </div>
@@ -655,10 +651,52 @@
     </div>
 </div>
 
+@if (roleID != 0)
+{
+    if (roleID == 1 || roleID == 3)
+    {
+        Layout = "~/Views/Shared/_AceLandingLayout.cshtml";
+        <!-- ace scripts - for user profile photo -->
+        <script src="~/Content/assets/js/jquery.gritter.js"></script>
+        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+        //added by suraj to fix sidebar menu issue
+        <script src="~/coursat/js/bootstrap.min.js"></script>
+        <script src="~/Content/assets/js/jquery.gritter.js"></script>
+        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+        <script src="~/Content/assets/js/ace/ace.js"></script>
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        <!-- ace scripts - for user profile photo -->
+        <script src="~/Content/assets/js/jquery.gritter.js"></script>
+        <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+        <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+        <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+        <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+        <script src="~/Content/assets/js/ace/ace.js"></script>
+    }
+}
+else
+{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    <script src="~/Content/assets/js/jquery.gritter.js"></script>
+    <script src="~/Content/assets/js/x-editable/bootstrap-editable.js"></script>
+    <script src="~/Content/assets/js/x-editable/ace-editable.js"></script>
+    <script src="~/Content/assets/js/ace/elements.fileinput.js"></script>
+    <script src="~/Content/assets/js/ace/elements.aside.js"></script>
+    <script src="~/Content/assets/js/ace/ace.js"></script>
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        debugger
         var reCode = '@ReferralCodeToShare';
         if (reCode == "") {
             $("#ShareCode").attr('disabled', true);
@@ -679,7 +717,7 @@
             window.location.href = url;
         }
 
-        $('#CloseBtnDiv').addClass('displayNone');
+        $('#CloseBtnDiv').css('display', 'none');
         var mobileNumber = $("#hiddenMobile").val();
         var EmailAddress = $("#hiddenEmail").val();
         if (EmailAddress == null || EmailAddress == '') {
@@ -691,7 +729,7 @@
 
         if (mobileNumber == null || mobileNumber == '') {
             bootbox.dialog({
-                message: "Please click Edit Profile button and add your Email/phone number.",
+                message: "Please click Edit Profile button and add your phone number.",
                 buttons: {
                     "success": {
                         "label": "OK",
@@ -812,7 +850,7 @@
                 Image.prototype.appendChild = function (el) { }
             }
 
-            var last_gritter
+            var last_gritter;
             $('#avatar').editable({
                 type: 'image',
                 name: 'avatar',
@@ -1002,6 +1040,7 @@
         var PhoneNo = $('#PhoneNoTxt')[0].value;
         var email = $('#EmailTxt')[0].value;
         var phonenoRegx = /^\d{10}$/;
+
         var isValid = true;
         if (FirstName.length == 0) {
             $('.errorFirstName')[0].innerHTML = "Please Enter First Name";
@@ -1017,7 +1056,7 @@
         else {
             $('.errorLastName')[0].innerHTML = "";
         }
-        if (Zipcode.length > 0 && Zipcode.length != 6) {
+        if (Zipcode.length >= 0 && Zipcode.length != 6) {
             $('.errorZipCode')[0].innerHTML = "Zipcode must be 6 digits.";
             isValid = false;
 
@@ -1036,6 +1075,15 @@
         else {
             $('.errorEmailTxt')[0].innerHTML = "";
         }
+        if (PhoneNo.length == 0) {
+            $('.errorPhoneNo')[0].innerHTML = "Please enter Number";
+            isValid = false;
+        } else if (validatePhone(PhoneNo) == false) {
+            $('.errorPhoneNo')[0].innerHTML = "Please enter valid Number.";
+            isValid = false;
+        } else {
+            $('.errorPhoneNo')[0].innerHTML = "";
+        }
         if (email.length > 0 || PhoneNo.length > 0) {
             if (email.length > 0) {
                 var isEmailDisabled = $('#EmailTxt').is('[readonly]');
@@ -1043,7 +1091,7 @@
             if (PhoneNo.length > 0) {
                 var isPhoneDisabled = $('#PhoneNoTxt').is('[readonly]');
             }
-            debugger;
+            
             $.ajax({
                 type: "POST",
                 async: false,
@@ -1073,6 +1121,15 @@
         }
         return isValid;
 
+    }
+    function validatePhone(PhoneNo) {
+        var filter = /^[0-9-+]+$/;
+        if (filter.test(PhoneNo)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     function isEmail(emailid) {
         var emailRegex = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";

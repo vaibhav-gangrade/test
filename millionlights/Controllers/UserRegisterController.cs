@@ -100,16 +100,16 @@ namespace Millionlights.Controllers
             ViewBag.urg = urg;
 
             //Calculate and Bind Total Amounts in Wallet
-            var walletAmount = db.UserWallets.Where(x => x.UserId == id && x.IsActive == true).FirstOrDefault();
-            if (walletAmount != null)
-            {
-                ViewBag.WalletAmount = walletAmount.FinalAmountInWallet.ToString();
-            }
-            var refCodes = db.ReferralCodes.Where(x => x.Referrer == id && x.IsActive == true).FirstOrDefault();
-            if (refCodes != null)
-            {
-                ViewBag.ReferralCodeToShare = refCodes.ReferralCode;
-            }
+            //var walletAmount = db.UserWallets.Where(x => x.UserId == id && x.IsActive == true).FirstOrDefault();
+            //if (walletAmount != null)
+            //{
+            //    ViewBag.WalletAmount = walletAmount.FinalAmountInWallet.ToString();
+            //}
+            //var refCodes = db.ReferralCodes.Where(x => x.Referrer == id && x.IsActive == true).FirstOrDefault();
+            //if (refCodes != null)
+            //{
+            //    ViewBag.ReferralCodeToShare = refCodes.ReferralCode;
+            //}
             var roleID = int.Parse(Session["RoleID"].ToString());
             if (roleID == 1 || roleID == 3)
             {

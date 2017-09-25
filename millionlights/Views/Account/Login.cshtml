@@ -65,7 +65,7 @@
                             </div>
                             <div><label id="emailValMsg" class="colorRed"></label></div>
                             <div><label id="FPwdSuccessLbl" class="colorRed" style="font-size:small !important;"></label></div>
-                            <div class="dispalyNo rightAlign col-md-3 pull-right"><input type="button" value="Reset" id="Regbtn" style="margin-top: -28px !important;" class="btn btn-block btn-primary" onclick="forgotPWDResend()" /></div>
+                            <div class="dispalyNo rightAlign col-md-3 pull-right"><input type="button" value="Reset" id="Regbtn" style="margin-top: -9px !important;" class="btn btn-block btn-primary" onclick="forgotPWDResend()" /></div>
                         </div>
                     </div>
                 </div>
@@ -88,8 +88,8 @@
 
     function ForgotPwd() {
 
-        $('.dispalyNo').removeClass('displayNone');
-        $('#FPwdSuccessLbl').addClass('displayNone');
+        $('.dispalyNo').removeClass('displayNone1');
+        $('#FPwdSuccessLbl').addClass('displayNone1');
         $('#forgotModel').modal('show');
         return false;
     }
@@ -249,20 +249,20 @@
                     if (response == "true") {
                         $('#emailValMsg')[0].innerHTML = "";
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["SendPassword"]'
-                        $('.dispalyNo').css('display', 'none');
-                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                        $('.dispalyNo').addClass('displayNone1');
+                        $('#FPwdSuccessLbl').removeClass('displayNone1');
                         localStorage.clear();
                         window.localStorage.removeItem(cartName);
                     }
                     else if (response == "externalUser") {
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["ifExternalUser"]';
                         $('#emailValMsg')[0].innerHTML = " ";
-                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                        $('#FPwdSuccessLbl').removeClass('displayNone1');
                     }
                     else {
                         $('#FPwdSuccessLbl')[0].innerHTML = '@messages["ValidRegEmailId"]'
                         $('#emailValMsg')[0].innerHTML = " "
-                        $('#FPwdSuccessLbl').removeClass('displayNone');
+                        $('#FPwdSuccessLbl').removeClass('displayNone1');
                     }
                 },
                 error: function (response) { }
