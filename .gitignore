@@ -8,4 +8,5 @@ MillionLightsServices/obj/
 MandrillEmailService/bin/
 MandrillEmailService/obj/
 packages/Newtonsoft.Json.8.0.1/
+AppSettingsSecrets.xml
 *.cache
