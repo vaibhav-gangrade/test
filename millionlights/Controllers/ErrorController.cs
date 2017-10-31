@@ -16,7 +16,7 @@ namespace Millionlights.Controllers
         }
         public ActionResult NotFound()
         {
-            //Response.StatusCode = 404;  //you may want to set this to 200
+            Response.StatusCode = 500;  //you may want to set this to 200
             return View();
         }
 	}
