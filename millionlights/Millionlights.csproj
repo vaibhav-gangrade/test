@@ -331,6 +331,7 @@
     <Content Include="Content\assets\css\ace-skins.css" />
     <Content Include="Content\assets\css\ace.css" />
     <Content Include="Content\assets\css\ace.onpage-help.css" />
+    <Content Include="Content\assets\css\ace1.css" />
     <Content Include="Content\assets\css\bootstrap-datetimepicker.css" />
     <Content Include="Content\assets\css\bootstrap-duallistbox.css" />
     <Content Include="Content\assets\css\bootstrap-editable.css" />
