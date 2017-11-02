@@ -746,7 +746,6 @@
     <Content Include="coursat\images\prettyPhoto\light_square\sprite.png" />
     <Content Include="coursat\images\small.png" />
     <Content Include="coursat\images\smalllogo.png" />
-    <Content Include="coursat\images\start.jpg" />
     <Content Include="coursat\js\bootstrap-select.min.js" />
     <Content Include="coursat\js\bootstrap.js" />
     <Content Include="coursat\js\bootstrap.min.js" />
@@ -1857,6 +1856,8 @@
     <None Include="Properties\PublishProfiles\ml-dev5 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MLAzure.pubxml" />
     <None Include="Properties\PublishProfiles\MLProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\numinotesting - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\numinotesting - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
